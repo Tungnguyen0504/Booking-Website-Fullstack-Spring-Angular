@@ -1,5 +1,6 @@
 package com.springboot.booking.configure;
 
+import com.springboot.booking.service.JwtService;
 import com.springboot.booking.util.AbstractConstant;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -13,7 +14,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;

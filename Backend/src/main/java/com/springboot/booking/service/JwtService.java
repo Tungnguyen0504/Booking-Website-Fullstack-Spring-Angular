@@ -1,4 +1,4 @@
-package com.springboot.booking.configure;
+package com.springboot.booking.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

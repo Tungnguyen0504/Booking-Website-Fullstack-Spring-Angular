@@ -1,14 +1,15 @@
 package com.springboot.booking.model;
 
-import lombok.*;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Builder
@@ -19,7 +20,7 @@ import java.util.Set;
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String firstName;

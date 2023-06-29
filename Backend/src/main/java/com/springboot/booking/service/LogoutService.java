@@ -1,4 +1,4 @@
-package com.springboot.booking.configure;
+package com.springboot.booking.service;
 
 import com.springboot.booking.util.AbstractConstant;
 import jakarta.servlet.http.HttpServletRequest;
