@@ -1,0 +1,16 @@
+#search-hotel-input input {
+  width: 100%;
+  height: 46px;
+  background-color: transparent;
+  border: 2px solid #cb8670;
+  padding: 0 15px;
+  color: #ffffff;
+}
+
+.book-now-form input[type="text"]::placeholder {
+  color: #ffffff;
+}
+
+#search-hotel-input input::placeholder {
+  font-size: 15px;
+}

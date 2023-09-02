@@ -1,0 +1,41 @@
+- AIT Interview
+Phân biệt arraylist và vector
+Phân biệt list và arraylist
+khái niệm oauth2
+spring gồm những thành phần gì
+đa luồng là gì? cách xử lý bất đồng bộ đa luồng
+các loại grant types trong OAuth 2.0
+Spring security?
+Phân biệt các loại cơ sở dữ liệu mySQL, SQL Server, PostgreSQL? Khi nào dùng?
+Trình bày vai trò của e trong dự án, làm gì, bao lâu
+
+- Collections
+Collections Framework trong Java là gì? Tại sao nó quan trọng?
+Các interface chính trong Java Collections Framework là gì?
+Sự khác biệt giữa ArrayList và LinkedList là gì?
+HashSet và TreeSet khác nhau như thế nào?
+HashMap và TreeMap khác nhau như thế nào?
+Cách sử dụng Iterator để duyệt qua một Collection?
+Khi nào bạn nên sử dụng ArrayList và khi nào bạn nên sử dụng LinkedList?
+Cách thêm, xóa và tìm kiếm phần tử trong một ArrayList?
+Tại sao cần sử dụng interface Set trong Java Collections Framework?
+Sự khác biệt giữa ArrayList và Vector là gì?
+Sự khác biệt giữa List và Set là gì?
+Cách sử dụng interface Map trong Java Collections Framework?
+Sự khác biệt giữa HashMap và Hashtable là gì?
+Làm thế nào để sắp xếp một danh sách các đối tượng trong Java?
+Cách sử dụng Comparator và Comparable để sắp xếp các đối tượng?
+Giải thích khái niệm "fail-fast" trong Java Collections Framework.
+Cách sử dụng interface Queue và Deque trong Java Collections Framework?
+Làm thế nào để sao chép một Collection sang một Collection khác?
+Làm thế nào để tìm kiếm một phần tử trong một danh sách?
+Cách sử dụng interface Iterator và ListIterator trong Java Collections Framework?
+Sự khác biệt giữa ArrayList và LinkedList là gì?
+Cách sử dụng interface Set và các lớp cài đặt của nó trong Java Collections Framework?
+Làm thế nào để tạo một bản sao không thay đổi của một Collection?
+Sự khác biệt giữa Iterator và ListIterator là gì?
+Giải thích khái niệm "unmodifiable collection" và cách sử dụng nó.
+Làm thế nào để tìm kiếm một phần tử duy nhất trong một Set?
+Cách sử dụng interface SortedSet trong Java Collections Framework.
+Làm thế nào để xóa một phần tử khỏi một Collection?
+Sự khác biệt giữa ConcurrentHashMap và HashMap là gì?

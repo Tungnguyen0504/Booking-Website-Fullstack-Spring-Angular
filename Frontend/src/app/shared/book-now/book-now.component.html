@@ -1,0 +1,56 @@
+<div class="book-now-area" style="height: 70px">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-10">
+        <div class="book-now-form">
+          <form #formSearch="ngForm" (ngSubmit)="search()">
+            <div
+              class="form-group col-6"
+              id="search-hotel-input"
+              style="min-width: 40%; flex: none"
+            >
+              <label for="select3">Điểm đến:</label>
+              <input
+                type="text"
+                name="keyword"
+                placeholder="Nhập Tên chỗ nghỉ / điểm đến ..."
+                id="select3"
+                value=""
+                ngModel
+              />
+            </div>
+
+            <!-- Form Group -->
+            <div class="form-group col-3">
+              <label for="dateFrom">Ngày nhận phòng</label>
+              <input
+                id="dateFrom"
+                type="text"
+                name="dateFrom"
+                class="form-control"
+                placeholder="Nhận phòng"
+                ngModel
+              />
+            </div>
+
+            <!-- Form Group -->
+            <div class="form-group col-3">
+              <label for="select2">Ngày trả phòng</label>
+              <input
+                id="dateTo"
+                type="text"
+                name="dateTo"
+                class="form-control"
+                placeholder="Trả phòng"
+                ngModel
+              />
+            </div>
+
+            <!-- Button -->
+            <button type="submit">Tìm Kiếm</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

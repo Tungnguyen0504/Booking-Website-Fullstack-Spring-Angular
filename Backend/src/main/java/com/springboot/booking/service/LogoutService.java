@@ -1,6 +1,5 @@
 package com.springboot.booking.service;
 
-import com.springboot.booking.util.AbstractConstant;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +17,6 @@ public class LogoutService implements LogoutHandler {
             HttpServletResponse response,
             Authentication authentication
     ) {
-        request.getSession().removeAttribute(AbstractConstant.SESSION_TOKEN);
+//        request.getSession().removeAttribute(AbstractConstant.SESSION_TOKEN);
     }
 }

@@ -1,0 +1,54 @@
+1. Spring là gì? Các thành phần của Spring?
+- Spring là framework của Java giúp cho việc xây dựng ứng dụng trở nên dễ dàng, giảm thiểu độ phức tạp và tăng khả năng mở rộng
+- Các thành phần của Spring:
++ Spring Core: Cung cấp DI và IoC để quản lý thành phần và sự phụ thuộc trong ứng dụng giúp giảm thiểu sự phụ thuộc giữa các đối tượng, làm cho code trở nên dễ dàng bảo trì và nâng cấp hơn
++ Spring Security: Spring Security cung cấp tính năng xác thực và ủy quyền trong các ứng dụng. 
++ Spring MVC: Spring MVC giúp xây dựng các ứng dụng web theo mô hình MVC (Model-View-Controller)
++ Spring Boot: Tạo các ứng dụng độc lập mà không cần cấu hình phức tạp
++ Spring Data: Cung cấp tiện ích cho phép làm việc trực tiếp với CSDL, truy vấn linh hoạt, xử lý CRUD 1 cách dễ dàng
+2. DI và IoC là gì? Cơ chế load bean của IoC Container?
+- DI(Dependency Injection) là kỹ thuật giúp giảm thiểu sự phụ thuộc giữa các đối tượng với nhau, giúp cho code trở nên dễ dàng hơn trong việc bảo trì và nâng cấp
+- Có 3 cách chính để thực hiện DI:
++ Thông qua constructor
++ Thông qua phương thức setter
++ Thông qua interface injection
+- IoC (Inversion of Control) là nguyên tắc thiết kế đảo ngược quyền điều khiển giữa các đối tượng so với lập trình hướng thủ tục. IoC giúp làm giảm sự ràng buộc, tạo ra 1 cách linh hoạt để quản lý đối tượng
+- Cơ chế load bean của IoC Container sẽ sử dụng các file metadata như là XML, Java Configuration,...để định nghĩa các bean trong ứng dụng
+Quét và đọc metadata -> Tạo và cấu hình bean -> Quản lý vòng đời của các bean -> Đưa bean vào sử dụng
+3. Có bao nhiêu cách inject bean?
+Có 3 cách để inject bean:
++ Constructor injection: Các dependency được truyền qua tham số của constructor
++ Setter injection: Các dependency được truyền vào phương thức Setter
++ Field injection: Các dependency được khởi tạo trực tiếp trên các field của bean
+4. Bean scope là gì? Có bao nhiêu loại bean scope?
+- Bean scope là phạm vi tồn tại và sử dụng của các bean
+- Có 5 loại bean scope:
++ Singleton: Chỉ có 1 instance duy nhất của bean được tạo và sử dụng trong toàn bộ ứng dụng
++ Prototype: Mỗi lần yêu cầu tạo bean, Spring sẽ tạo instance mới
++ Request: Với mỗi request HTTP , mỗi request sẽ có 1 instance riêng
++ Session: Session scope chỉ có hiệu lực trong 1 phiên làm việc (session)
++ Global session: Tương tự như session, nhưng áp dụng cho ứng dụng web sử dụng cơ chế global session
+5. Các loại FetchType trong Hibernate?
+Trong Hibernate có 2 loại FetchType đó là EAGER và LAZY
+- FetchType.EAGER: Hibernate sẽ tự động tải lên tất cả những dữ liệu liên quan ngay lập tức khi truy vấn đối tượng gốc -> Thường dùng khi muốn truy xuất ngay lập tức và không muốn gặp vấn đề về lazy loading
+- FetchType.LAZY: Hibernate sẽ không tự động tải lên dữ liệu liên quan ngay lập tức, thay vào đó dữ liệu chỉ được tải khi nào bạn truy cập trực tiếp vào các thuộc tính liên quan -> Thường dùng khi muốn trì hoãn việc tải dữ liệu không cần thiết và tối ưu hóa hiệu năng
+6. So sánh các cache level của JPA Hibernate
+- Entity-level Cache: Cache này lưu trữ các thực thể được truy vấn từ CSDL, giúp giảm số lần truy cập khi truy vấn vào cùng 1 thực thể
+- Relationship-level Cache: Cache này lưu trữ các mối quan hệ giữa các thực thể, giúp giảm số lượng truy vấn liên quan đến mối quan hệ 
+- Query-level Cache: Cache này lưu trữ kết quả của câu truy vấn mà kết quả ít thay đổi
+7. So sánh sự khác nhau giữa heap và stack
+- Heap là bộ nhớ dùng để lưu trữ các đối tượng và các biến instance
+- Stack là bộ nhớ dùng để lưu trữ các biến local, các biến tham chiếu trong hàm và là 1 phần trong bộ nhớ lưu trữ phương thức
+8. OAuth2 là gì? Có bao nhiêu loại grant types?
+- OAuth2 là giao thức xác thực và ủy quyền phổ biến cho phép người dùng truy cập vào tài nguyên của dịch vụ và ứng dụng bên thứ 3 mà không cần chia sẻ trực tiếp thông tin đăng nhập.
+- Cơ chế xác thực của OAuth2:
++ Resource Owner: Người dùng sở hữu tài nguyên mà client muốn truy cập
++ Resource Server: Máy chủ lưu trữ dữ liệu do người dùng chia sẻ
++ Client: Ứng dụng muốn truy cập tài nguyên của người dùng
++ Authentication Server: Máy chủ cung cấp dịch vụ ủy quyền và xác thực bằng cách tạo ra các mã token
+- Các loại grant types của OAuth2:
++ Authorization Code Grant: Client yêu cầu người dùng xác thực và cấp quyền truy cập, client nhận mã ủy quyền để đổi lấy mã token từ máy chủ ủy quyền
++ Implicit Grant: Client nhận trực tiếp mã token từ máy chủ ủy quyền thông qua phản hồi người dùng
++ Resource Owner Password Credentials Grant: Yêu cầu người dùng đăng nhập trực tiếp trên client để đổi lấy mã truy cập từ máy chủ ủy quyền
++ Client Credentials Grant: Lấy mã truy cập từ máy chủ ủy quyền bằng cách xác thực thông tind đăng nhập của chính client
++ Refresh Token Grant: Dùng mã làm mới để đổi lấy mã truy cập từ máy chủ ủy quyền

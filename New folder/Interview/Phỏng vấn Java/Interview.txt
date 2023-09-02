@@ -1,0 +1,22 @@
+Em chào anh ạ,
+Em là Nguyễn Quốc Khánh, em sinh năm 2000. Em tốt nghiệp trường đại học FPT chuyên ngành Kỹ thuật phần mềm. Mặc dù vừa mới ra trường nhưng em đã có 1 năm kinh nghiệm làm việc với ngôn ngữ Java tại công ty CMC Global
+Tại đây em được làm việc với dự án thực tế cũng những học hỏi được những kỹ năng bổ ích. Em tin rằng với những kinh nghiệm trên, em có thể đáp ứng yêu cầu mà công ty đang tìm kiếm về một lập trình 
+
+- Câu hỏi hỏi nhà tuyển dụng:
+Anh chị có thể giới thiệu về môi trường làm việc được không?
+Anh chị có thể chia sẻ với em về lộ trình thăng tiến tại công ty được không ạ?
+Anh chị có thể mô tả ngắn gọn về dự án em sẽ tham gia không? Sử dụng công nghệ gì được kh ạ?
+Sau bao lâu thì bên mình có kết quả phỏng vấn ạ?
+Nếu được nhận thì em cần chuẩn bị những gì trước khi đi làm ạ?
+
+- Mô tả dự án IOPS:
+Từ màn hình chính sẽ vào phần SR ( Service request ) để tạo SR. 
+Trong tạo SR sẽ 3 step, step 1 có nhiều service group và sr catalog 
+để có thể tuỳ theo mục đích mà lựa chọn. 
+Step 2 là phần input info mà theo catelog đã quy định 
+như nhập device management, account management, eams,… 
+Step 3 là input người approver or noti. 
+Khi người dùng bấm save thì sr sẽ được tạo và một mail approver 
+và noti sẽ được gửi đến người được chọn. 
+ới trường hợp approver thì khi người dùng approver thì trạng thái của SR sẽ được chuyển thành waiting for receipt.
+
