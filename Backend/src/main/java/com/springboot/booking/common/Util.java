@@ -10,7 +10,7 @@ public class Util {
         return baseUrl;
     }
 
-    private static String generateVerificationCode() {
+    public static String generateVerificationCode() {
         Random random = new Random();
         int number = random.nextInt(999999);
 

@@ -110,7 +110,6 @@
               type="submit"
               class="btn palatin-btn btn-block w-100"
               style="height: 48px; line-height: 48px"
-              data-toggle="modal"
               data-target="#verifyCodeModal"
               disabled
               [disabled]="loginOrRegisterButtonDisable"
@@ -124,87 +123,8 @@
   </div>
 </div>
 
-<div
-  class="modal fade"
-  id="verifyCodeModal"
-  tabindex="-1"
-  role="dialog"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-body d-column justify-content-center">
-        <div class="text-center mb-3">
-          <h4 class="text-center text-bold">Kiểm tra hộp thư email</h4>
-          Chúng tôi đã gửi một mã xác nhận tới địa chỉ email
-          {{ form.value.email }}. <br />
-          Vui lòng nhập mã xác nhận để tiếp tục.
-        </div>
-
-        <form #formVerifyCode="ngForm" (ngSubmit)="verifyCode()">
-          <div
-            class="form-group d-flex justify-content-center align-items-start"
-          >
-            <div class="input-group flex-column col-md-8 mr-3">
-              <input
-                type="text"
-                class="form-control d-inline w-100"
-                name="verificationCode"
-                id="verificationCode"
-                placeholder="Nhập mã xác nhận ..."
-                ngModel
-              />
-              <div
-                *ngIf="
-                  formVerifyCode.controls['verificationCode']?.invalid &&
-                  (formVerifyCode.controls['verificationCode']?.dirty ||
-                    formVerifyCode.controls['verificationCode']?.touched)
-                "
-                class="d-flex align-item-center"
-              >
-                <div
-                  *ngIf="
-                    formVerifyCode.controls['verificationCode'].hasError(
-                      'required'
-                    )
-                  "
-                >
-                  <i
-                    class="fa-solid fa-circle-exclamation text-danger mr-2"
-                    style="padding-top: 2px"
-                  ></i>
-                  <small class="text-danger">Vui lòng nhập mã xác nhận.</small>
-                </div>
-                <div
-                  *ngIf="
-                    formVerifyCode.controls['verificationCode'].hasError(
-                      'minlength'
-                    ) ||
-                    formVerifyCode.controls['verificationCode'].hasError(
-                      'maxlength'
-                    )
-                  "
-                >
-                  <i
-                    class="fa-solid fa-circle-exclamation text-danger mr-2"
-                    style="padding-top: 2px"
-                  ></i>
-                  <small class="text-danger"
-                    >Mã xác nhận phải bao gồm 6 ký tự.</small
-                  >
-                </div>
-              </div>
-            </div>
-
-            <input
-              type="submit"
-              class="btn-2 palatin-btn btn-block col-md-3 p-0"
-              style="height: 38px; line-height: 43px"
-              value="Xác nhận"
-            />
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+<app-verification-code
+  [formLogin]="this.form"
+  [verifyCode]="verificationCode"
+  [email]="this.form.value.email"
+></app-verification-code>

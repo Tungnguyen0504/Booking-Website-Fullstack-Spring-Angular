@@ -14,12 +14,13 @@ public enum ERole {
     GUEST(Collections.emptySet()),
     USER(Collections.emptySet()),
     ADMIN(
-            Set.of(
-                    Permission.ADMIN_READ,
-                    Permission.ADMIN_UPDATE,
-                    Permission.ADMIN_DELETE,
-                    Permission.ADMIN_CREATE
-            )
+//            Set.of(
+//                    Permission.ADMIN_READ,
+//                    Permission.ADMIN_UPDATE,
+//                    Permission.ADMIN_DELETE,
+//                    Permission.ADMIN_CREATE
+//            )
+            Collections.emptySet()
     );
 
     @Getter

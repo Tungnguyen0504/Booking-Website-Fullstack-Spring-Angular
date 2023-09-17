@@ -19,6 +19,7 @@ import static com.springboot.booking.common.AbstractConstant.PATH_V1;
 @RequestMapping(PATH_V1 + PATH_USER)
 @RequiredArgsConstructor
 public class HotelTypeController {
+
     private final HotelTypeSerive hotelTypeSerive;
 
     @GetMapping("/get-all-hotel-type")

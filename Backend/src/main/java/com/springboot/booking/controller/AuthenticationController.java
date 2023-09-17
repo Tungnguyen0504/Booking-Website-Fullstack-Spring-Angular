@@ -1,16 +1,17 @@
 package com.springboot.booking.controller;
 
+import com.springboot.booking.common.SuccessResult;
 import com.springboot.booking.dto.request.LoginRequest;
 import com.springboot.booking.dto.request.RegisterRequest;
-import com.springboot.booking.dto.request.SendVerificationCodeRequest;
+import com.springboot.booking.dto.request.VerificationRequest;
 import com.springboot.booking.dto.response.AuthenticationResponse;
+import com.springboot.booking.model.BSuccess;
+import com.springboot.booking.model.entity.City;
 import com.springboot.booking.model.entity.User;
 import com.springboot.booking.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
 
 import static com.springboot.booking.common.AbstractConstant.PATH_AUTH;
 import static com.springboot.booking.common.AbstractConstant.PATH_V1;
@@ -23,9 +24,9 @@ public class AuthenticationController {
 
     private final AuthenticationService service;
 
-    @PostMapping("/send-verification-code")
-    public void sendVerificationCode(@RequestBody SendVerificationCodeRequest request) {
-        service.sendVerificationCode(request);
+    @PostMapping("/verification")
+    public ResponseEntity<String> verification(@RequestBody VerificationRequest request) {
+        return ResponseEntity.ok(service.verification(request));
     }
 
     @PostMapping("/register")
@@ -34,8 +35,14 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> login(@RequestBody LoginRequest request) {
-        return ResponseEntity.ok(service.login(request));
+    public ResponseEntity<AuthenticationResponse> login(@RequestBody LoginRequest loginRequest) {
+        return ResponseEntity.ok(service.login(loginRequest));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<BSuccess> login(@RequestBody String jwt) {
+        service.logout(jwt);
+        return ResponseEntity.ok(new BSuccess(SuccessResult.LOGOUT_SUCCESS));
     }
 
     @GetMapping("/get-current-user")

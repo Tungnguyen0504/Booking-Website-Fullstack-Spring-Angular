@@ -1,13 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import {
-  AbstractControl,
-  NgForm,
-  ValidationErrors,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
-import { Router } from '@angular/router';
-import { AuthenticationResponse } from 'src/app/model/response/AuthenticationResponse.model';
+import { NgForm, Validators } from '@angular/forms';
 import { AlertService } from 'src/app/service/alert.service';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 
@@ -20,15 +12,11 @@ declare var $: any;
 })
 export class LoginComponent {
   @ViewChild('form', { static: false }) form!: NgForm;
-  @ViewChild('formVerifyCode', { static: false }) formVerifyCode!: NgForm;
-
-  readonly VERIFICATION_CODE = 'VERIFICATION_CODE';
-  readonly JWT_TOKEN = 'JWT_TOKEN';
 
   emailSent: boolean = false;
+  verificationCode: string = '';
 
   constructor(
-    private router: Router,
     private alertService: AlertService,
     private authService: AuthenticationService
   ) {}
@@ -49,13 +37,6 @@ export class LoginComponent {
         Validators.maxLength(16),
       ]);
       this.form.controls['password'].updateValueAndValidity();
-
-      this.formVerifyCode.controls['verificationCode'].addValidators([
-        Validators.required,
-        Validators.minLength(6),
-        Validators.maxLength(6),
-      ]);
-      this.formVerifyCode.controls['verificationCode'].updateValueAndValidity();
     }, 0);
   }
 
@@ -64,51 +45,25 @@ export class LoginComponent {
   }
 
   login() {
-    const randomVerificationNumber = Math.floor(
-      100000 + Math.random() * 900000
-    );
-    localStorage.setItem(
-      this.VERIFICATION_CODE,
-      randomVerificationNumber.toString()
-    );
-
     this.authService
-      .sendVerificationCode(
-        this.form.value.email,
-        randomVerificationNumber.toString()
-      )
+      .verification(this.form.value.email, this.form.value.password)
       .subscribe(
-        (data) => {},
+        (data) => {
+          this.verificationCode = data;
+          this.openModal();
+          console.log(this.verificationCode);
+        },
         (error) => {
-          console.log(error);
-          this.alertService.error(error.error);
+          this.alertService.error(error.error.errorMessage);
         }
       );
   }
 
-  verifyCode() {
-    if (
-      localStorage.getItem(this.VERIFICATION_CODE) !==
-      this.formVerifyCode.value.verificationCode
-    ) {
-      this.alertService.error('Mã xác nhận không đúng');
-      return;
-    }
-
-    this.authService.login(this.form.value).subscribe(
-      (response) => {
-        const authenticatedResponse = response as AuthenticationResponse;
-        localStorage.setItem(this.JWT_TOKEN, authenticatedResponse.accessToken);
-        this.navigateToHomePage();
-      },
-      (error) => {
-        this.alertService.error(error.error);
-      }
-    );
+  openModal(): void {
+    $('#verifyCodeModal').modal('show');
   }
 
-  navigateToHomePage() {
+  closeModal(): void {
     $('#verifyCodeModal').modal('hide');
-    this.router.navigate(['/user/home']);
   }
 }

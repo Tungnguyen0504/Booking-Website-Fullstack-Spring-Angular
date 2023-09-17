@@ -95,18 +95,18 @@ export class RegisterComponent implements AfterViewInit, OnInit {
 
     console.log(localStorage.getItem(this.VERIFICATION_CODE));
 
-    this.authService
-      .sendVerificationCode(
-        this.form.value.email,
-        randomVerificationNumber.toString()
-      )
-      .subscribe(
-        (data) => {},
-        (error) => {
-          console.log(error);
-          this.alertService.error(error);
-        }
-      );
+    // this.authService
+    //   .sendVerificationCode(
+    //     this.form.value.email,
+    //     randomVerificationNumber.toString()
+    //   )
+    //   .subscribe(
+    //     (data) => {},
+    //     (error) => {
+    //       console.log(error);
+    //       this.alertService.error(error);
+    //     }
+    //   );
   }
 
   verifyCode() {
@@ -124,7 +124,7 @@ export class RegisterComponent implements AfterViewInit, OnInit {
         this.alertService.success('Đăng ký thành công');
       },
       (error) => {
-        this.alertService.error(error.error);
+        this.alertService.error(error.errorMessage);
       }
     );
   }

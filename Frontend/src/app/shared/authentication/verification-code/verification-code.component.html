@@ -7,15 +7,15 @@
 >
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
-      <div class="modal-body d-column justify-content-center">
+      <div class="modal-body d-column justify-content-center p-4">
         <div class="text-center mb-3">
           <h4 class="text-center text-bold">Kiểm tra hộp thư email</h4>
           Chúng tôi đã gửi một mã xác nhận tới địa chỉ email
-          . <br />
+          {{ email }}. <br />
           Vui lòng nhập mã xác nhận để tiếp tục.
         </div>
 
-        <form #formVerifyCode="ngForm" (ngSubmit)="verifyCode()">
+        <form #formVerifyCode="ngForm" (ngSubmit)="verifyCodeAction()">
           <div
             class="form-group d-flex justify-content-center align-items-start"
           >

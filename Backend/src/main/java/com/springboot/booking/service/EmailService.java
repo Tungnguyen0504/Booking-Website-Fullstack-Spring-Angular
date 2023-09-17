@@ -1,6 +1,7 @@
 package com.springboot.booking.service;
 
-import com.springboot.booking.exeption.HandlerException;
+import com.springboot.booking.common.ExceptionResult;
+import com.springboot.booking.model.BException;
 import com.springboot.booking.model.EmailDetail;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -32,7 +33,7 @@ public class EmailService {
 
             javaMailSender.send(mailMessage);
         } catch (MailException e) {
-            throw new HandlerException(e.getMessage());
+            throw new BException(ExceptionResult.SEND_EMAIL_ERROR, e);
         }
     }
 
@@ -47,7 +48,7 @@ public class EmailService {
 
             javaMailSender.send(message);
         } catch (MailException | MessagingException e) {
-            throw new HandlerException(e.getMessage());
+            throw new BException(ExceptionResult.SEND_EMAIL_ERROR, e);
         }
     }
 }

@@ -1,6 +1,13 @@
-<router-outlet></router-outlet>
-<!-- <ng-container *ngIf="user?.role === 'undifined' || user?.role === 'USER'"> -->
+<ng-container *ngIf="!isLogined || user?.role === 'USER'">
+  <app-user-assets></app-user-assets>
   <app-css-loading></app-css-loading>
-  <app-alert></app-alert>
-<!-- </ng-container> -->
-<!-- <ng-container *ngIf="user?.role === 'ADMIN'"></ng-container> -->
+</ng-container>
+
+<ng-container *ngIf="user?.role === 'ADMIN'">
+  <app-admin-assets></app-admin-assets>
+  <app-admin-header-sidebar></app-admin-header-sidebar>
+</ng-container>
+
+<app-alert></app-alert>
+
+<router-outlet></router-outlet>

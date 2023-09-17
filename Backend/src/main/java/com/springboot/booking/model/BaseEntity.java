@@ -5,8 +5,11 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @MappedSuperclass
@@ -19,9 +22,11 @@ public class BaseEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "created_at", insertable = false, updatable = false, nullable = false, columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP")
-    private Date createdAt;
+    @Column(name = "created_at", insertable = false, updatable = false, nullable = false)
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
-    @Column(name = "modified_at", insertable = false, updatable = false, nullable = false, columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
-    private Date modifiedAt;
+    @Column(name = "modified_at", insertable = false, updatable = false, nullable = false)
+    @UpdateTimestamp
+    private LocalDateTime modifiedAt;
 }

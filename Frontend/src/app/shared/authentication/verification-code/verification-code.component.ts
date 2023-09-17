@@ -1,7 +1,11 @@
 import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 import { NgForm, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { JWT_TOKEN } from 'src/app/constant/Abstract.constant';
 import { AlertService } from 'src/app/service/alert.service';
 import { AuthenticationService } from 'src/app/service/authentication.service';
+
+declare var $: any;
 
 @Component({
   selector: 'app-verification-code',
@@ -10,16 +14,17 @@ import { AuthenticationService } from 'src/app/service/authentication.service';
 })
 export class VerificationCodeComponent implements AfterViewInit {
   @ViewChild('formVerifyCode', { static: false }) formVerifyCode!: NgForm;
-  @Input() form: any;
+  @Input() formLogin!: NgForm;
+  @Input() verifyCode: string = '';
+  @Input() email: string = '';
 
   readonly VERIFICATION_CODE = 'VERIFICATION_CODE';
 
   constructor(
+    private router: Router,
     private alertService: AlertService,
     private authService: AuthenticationService
-  ) {
-    console.log(this.form)
-  }
+  ) {}
 
   ngAfterViewInit(): void {
     setTimeout(() => {
@@ -30,23 +35,33 @@ export class VerificationCodeComponent implements AfterViewInit {
       ]);
       this.formVerifyCode.controls['verificationCode'].updateValueAndValidity();
     }, 0);
-    console.log(this.form)
   }
 
-  verifyCode() {
-    if (
-      localStorage.getItem(this.VERIFICATION_CODE) !==
-      this.formVerifyCode.value.verificationCode
-    ) {
+  verifyCodeAction() {
+    console.log(this.verifyCode);
+    console.log(this.email);
+    console.log(this.formLogin.value);
+    
+    if (this.verifyCode != this.formVerifyCode.value.verificationCode) {
       this.alertService.error('Mã xác nhận không đúng');
       return;
     }
 
-    this.authService.register(this.form.value).subscribe(
-      (response) => {},
+    this.authService.login(this.formLogin.value).subscribe(
+      (response) => {
+        localStorage.setItem(JWT_TOKEN, response.accessToken.toString());
+        this.navigateToHomePage();
+        console.log(localStorage.getItem(JWT_TOKEN));
+      },
       (error) => {
-        this.alertService.error(error.error);
+        console.log(error);
+        this.alertService.error(error.error.errorMessage);
       }
     );
+  }
+
+  navigateToHomePage() {
+    $('#verifyCodeModal').modal('hide');
+    this.router.navigate(['/user/home']).then(() => window.location.reload());
   }
 }
