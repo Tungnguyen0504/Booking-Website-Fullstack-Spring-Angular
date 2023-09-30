@@ -2,13 +2,14 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { City } from '../model/City.model';
-import { BASE_URL, PATH_USER, PATH_V1 } from '../constant/Abstract.constant';
+import { PATH_USER, PATH_V1 } from '../constant/Abstract.constant';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CityService {
-  URL = BASE_URL + PATH_V1 + PATH_USER;
+  URL = environment.apiUrl + PATH_V1 + PATH_USER;
 
   constructor(private httpClient: HttpClient) {}
 

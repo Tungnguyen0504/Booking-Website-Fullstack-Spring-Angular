@@ -37,28 +37,20 @@ public class SecurityConfiguration {
                 .requestMatchers(
                         "/v1/api/auth/**",
                         "/v1/api/user/**",
-                        "/v2/api-docs",
-                        "/v3/api-docs",
-                        "/v3/api-docs/**",
-                        "/swagger-resources",
-                        "/swagger-resources/**",
-                        "/configuration/ui",
-                        "/configuration/security",
-                        "/swagger-ui/**",
-                        "/webjars/**",
-                        "/swagger-ui.html",
-                        "/api/v1/test"
+                        "/v1/api/admin/**",
+                        "/swagger-ui.html"
                 )
                 .permitAll()
 
+//                .requestMatchers("/api/v1/admin/**").hasAnyRole(ERole.ADMIN.name())
 
-                .requestMatchers("/api/v1/management/**").hasAnyRole(ERole.ADMIN.name())
-
-
-                .requestMatchers(GET, "/api/v1/management/**").hasAnyAuthority(Permission.ADMIN_READ.name())
-                .requestMatchers(POST, "/api/v1/management/**").hasAnyAuthority(Permission.ADMIN_CREATE.name())
-                .requestMatchers(PUT, "/api/v1/management/**").hasAnyAuthority(Permission.ADMIN_UPDATE.name())
-                .requestMatchers(DELETE, "/api/v1/management/**").hasAnyAuthority(Permission.ADMIN_DELETE.name())
+//                .requestMatchers(GET, "/api/v1/admin/**").hasAnyAuthority(Permission.ADMIN_READ.name())
+//                .requestMatchers(POST, "/api/v1/admin/**")
+//                .hasAnyAuthority(Permission.ADMIN_CREATE.name())
+//                .requestMatchers(PUT, "/api/v1/admin/**")
+//                .hasAnyAuthority(Permission.ADMIN_UPDATE.name())
+//                .requestMatchers(DELETE, "/api/v1/admin/**")
+//                .hasAnyAuthority(Permission.ADMIN_DELETE.name())
 
                 .anyRequest()
                 .authenticated()
@@ -68,7 +60,8 @@ public class SecurityConfiguration {
                 .logout()
                 .logoutUrl("/api/v1/auth/logout")
                 .addLogoutHandler(logoutHandler)
-                .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
+                .logoutSuccessHandler(
+                        (request, response, authentication) -> SecurityContextHolder.clearContext())
         ;
 
         return http.build();

@@ -28,7 +28,7 @@ $(function () {
 });
 $(document).ready(function () {
   // ---------home-page
-  $("#type-hotel").owlCarousel({
+  $("#type-accommodation").owlCarousel({
     loop: true,
     margin: 10,
     nav: true,
@@ -46,7 +46,7 @@ $(document).ready(function () {
     },
   });
 
-  $("#random-hotel1").owlCarousel({
+  $("#random-accommodation1").owlCarousel({
     loop: true,
     margin: 10,
     nav: true,
@@ -65,7 +65,7 @@ $(document).ready(function () {
     },
   });
 
-  $("#random-hotel2").owlCarousel({
+  $("#random-accommodation2").owlCarousel({
     loop: true,
     margin: 10,
     nav: true,
@@ -198,12 +198,12 @@ $(document).ready(function () {
     } else {
       removeItemOnce(filterCheck, $(this).val());
     }
-    filterSearchHotelAPI(filterCheck, filterSort, "");
+    filterSearchAccommodationAPI(filterCheck, filterSort, "");
   });
 
   $(".filter-sort").on("change", function () {
     filterSort = $(".filter-sort :checked").val();
-    filterSearchHotelAPI(filterCheck, filterSort, "");
+    filterSearchAccommodationAPI(filterCheck, filterSort, "");
   });
 
   $(document).on("click", ".search-result-pagination .page-link", function () {
@@ -213,12 +213,12 @@ $(document).ready(function () {
       filterCheck = JSON.parse(filterCheck);
       localStorage.removeItem("filterCheck");
     }
-    filterSearchHotelAPI(filterCheck, filterSort, index);
+    filterSearchAccommodationAPI(filterCheck, filterSort, index);
   });
 
-  //home hotel-type-btn
-  $(".hotel-type-btn").on("click", function () {
-    filterCheck.push($(this).parent().find('input[name="hotelTypeId"]').val());
+  //home accommodation-type-btn
+  $(".accommodation-type-btn").on("click", function () {
+    filterCheck.push($(this).parent().find('input[name="accommodationTypeId"]').val());
     storeValue("filterCheck", filterCheck);
   });
 
@@ -260,7 +260,7 @@ $(document).ready(function () {
     return arr;
   }
 
-  function filterSearchHotelAPI(filterCheck, filterSort, index) {
+  function filterSearchAccommodationAPI(filterCheck, filterSort, index) {
     $.ajax({
       url: "filter-search",
       type: "post",

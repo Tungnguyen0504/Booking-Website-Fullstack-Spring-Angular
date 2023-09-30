@@ -168,14 +168,14 @@
               <img
                 class="image-fluid rounded w-100 h-100"
                 style="object-fit: cover"
-                src="assets/uploads/city/{{ city.imageUrl }}"
+                src=""
               />
               <div
                 class="position-absolute text-white"
                 style="top: 15px; left: 35px"
               >
                 <span class="font-weight-bold" style="font-size: 24px">{{
-                  city.name
+                  city.cityName
                 }}</span>
                 <img
                   style="
@@ -211,14 +211,14 @@
               <img
                 class="image-fluid rounded w-100 h-100"
                 style="object-fit: cover"
-                src="assets/uploads/city/{{ city.imageUrl }}"
+                src=""
               />
               <div
                 class="position-absolute text-white"
                 style="top: 15px; left: 35px"
               >
                 <span class="font-weight-bold" style="font-size: 24px">{{
-                  city.name
+                  city.cityName
                 }}</span>
                 <img
                   style="
@@ -255,7 +255,7 @@
 </section>
 <!-- ##### Rooms Area End ##### -->
 <style>
-  #type-hotel .owl-nav {
+  #type-accommodation .owl-nav {
   display: none;
 }
 </style>
@@ -264,17 +264,17 @@
     <div class="px-3">
       <h5 class="font-weight-bold mb-3">Tìm theo loại chỗ nghỉ</h5>
 
-      <div class="owl-carousel owl-theme" id="type-hotel">
-        <ng-container *ngFor="let hotelType of lstHotelType; index as i">
+      <div class="owl-carousel owl-theme" id="type-accommodation">
+        <ng-container *ngFor="let accommodationType of lstAccommodationType; index as i">
           <div class="item">
-            <input type="hidden" value="" name="hotelTypeId" />
-            <a class="hotel-type-btn" href="">
+            <input type="hidden" value="" name="accommodationTypeId" />
+            <a class="accommodation-type-btn" href="">
               <div>
-                <img src="assets/uploads/hotel-type/{{ hotelType.imageUrl }}" />
+                <img src="assets/uploads/accommodation-type/{{ accommodationType.imageUrl }}" />
               </div>
               <div class="pt-3">
                 <a class="font-weight-bold" style="font-size: 16px" href="">{{
-                  hotelType.name
+                  accommodationType.name
                 }}</a>
                 <p class="mb-0"></p>
               </div>
@@ -298,7 +298,7 @@
           </div>
           <p>
             Làm sao để trước mỗi chuyến đi, bạn không cần phải ngồi hàng giờ để
-            tìm kiếm thông tin, gọi điện từng phòng vé, từng khách sạn để so
+            tìm kiếm thông tin, gọi điện từng phòng vé, từng chỗ ở để so
             sánh, thủ tục lôi thôi, thời gian chờ đợi mệt mỏi? Đó là câu hỏi
             thôi thúc những nhà sáng lập đã gây dựng và phát triển nên ứng dụng
             du lịch trực tuyến The Palatin, với mong muốn mang lại cho khách
@@ -307,7 +307,7 @@
           </p>
           <div class="about-key-text">
             <h6>
-              <span class="fa fa-check"></span> Đặt khách sạn RẺ HƠN GIÁ RẺ NHẤT
+              <span class="fa fa-check"></span> Đặt chỗ ở RẺ HƠN GIÁ RẺ NHẤT
             </h6>
             <h6>
               <span class="fa fa-check"></span> THANH TOÁN LINH HOẠT, BẢO MẬT
@@ -345,18 +345,18 @@
       Các chỗ trống có thể bạn muốn xem
     </h5>
 
-    <div id="relate-hotel" class="carousel slide" data-ride="carousel">
+    <div id="relate-accommodation" class="carousel slide" data-ride="carousel">
       <div class="carousel-inner">
-        <div class="owl-carousel owl-theme" id="random-hotel1">
+        <div class="owl-carousel owl-theme" id="random-accommodation1">
           <!-- <c:forEach items="${listTop9}" var="o" varStatus="loop"> -->
           <!-- Single Rooms Area -->
           <div class="col item">
             <a href="">
               <div class="single-rooms-area mb-5" data-wow-delay="200ms">
-                <!-- <c:forTokens items="${o.hotelImage}" delims="|" var="splitImage" begin="0"
+                <!-- <c:forTokens items="${o.accommodationImage}" delims="|" var="splitImage" begin="0"
                                                  end="0">
                                         <div class="bg-thumbnail bg-img"
-                                             style="background-image: url(assets/uploads/hotel/${splitImage});"></div>
+                                             style="background-image: url(assets/uploads/accommodation/${splitImage});"></div>
                                     </c:forTokens> -->
                 <div class="rooms-text text-left">
                   <div class="line"></div>
@@ -365,7 +365,7 @@
                   </div>
                   <h4 class="text-truncate text-white mb-1"></h4>
 
-                  <!-- <c:set value="${RoomDAO.getRoomMinPriceByHotelId(o.hotelId)}" var="r"/> -->
+                  <!-- <c:set value="${RoomDAO.getRoomMinPriceByAccommodationId(o.accommodationId)}" var="r"/> -->
                   <div>
                     <p class="text-white mb-0" style="font-size: 15px">
                       Bắt đầu từ<strong class="ml-2" style="font-size: 16px"
@@ -375,9 +375,9 @@
                   </div>
 
                   <!-- <c:set var="countRate"
-                                               value="${FunctionUtil.countRating(RatingDAO.getAllListRatingByHotelId(o.hotelId))}"/>
+                                               value="${FunctionUtil.countRating(RatingDAO.getAllListRatingByAccommodationId(o.accommodationId))}"/>
                                         <c:set var="ratingPoint"
-                                               value="${FunctionUtil.countRatingPoint(RatingDAO.getAllListRatingByHotelId(o.hotelId))}"/> -->
+                                               value="${FunctionUtil.countRatingPoint(RatingDAO.getAllListRatingByAccommodationId(o.accommodationId))}"/> -->
 
                   <div class="d-flex align-items-center text-white">
                     <div
@@ -443,7 +443,7 @@
               Với những tính năng và kết cấu như những bể bơi thông thường với
               phần thành bể được thiết kế không nhìn thấy tạo cảm giác hồ nước
               kéo dài tới vô cực . Những bể bơi này thường được xây dựng ngoài
-              trời tại các khu nghỉ dưỡng , khách sạn sang trọng gần biển hoặc
+              trời tại các khu nghỉ dưỡng , chỗ ở sang trọng gần biển hoặc
               núi non tăng cảm giác mênh mông , rộng lớn . Du khách đến ngoài
               việc bơi lội giải trí còn để chụp những bức hình đẹp bên cạnh hồ.
             </p>

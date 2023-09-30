@@ -1,4 +1,4 @@
-#search-hotel-input input {
+#search-accommodation-input input {
   width: 100%;
   height: 46px;
   background-color: transparent;
@@ -11,6 +11,6 @@
   color: #ffffff;
 }
 
-#search-hotel-input input::placeholder {
+#search-accommodation-input input::placeholder {
   font-size: 15px;
 }

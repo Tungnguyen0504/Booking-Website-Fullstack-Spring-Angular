@@ -19,7 +19,7 @@
 :: 8.0 Pool Area CSS
 :: 9.0 Rooms Area CSS
 :: 10.0 Services Area CSS
-:: 11.0 Our Hotel Area CSS
+:: 11.0 Our Accommodation Area CSS
 :: 12.0 Testimonial Area CSS
 :: 13.0 Footer Area CSS
 :: 14.0 Breadcumb Area CSS
@@ -1611,20 +1611,20 @@ img {
   background-color: rgba(0, 0, 0, 0.63);
 }
 
-/* :: 11.0 Our Hotel Area CSS */
+/* :: 11.0 Our Accommodation Area CSS */
 
-.single-hotel-info {
+.single-accommodation-info {
   position: relative;
   z-index: 1;
 }
 
-.single-hotel-info .hotel-info-text {
+.single-accommodation-info .accommodation-info-text {
   position: relative;
   z-index: 1;
   margin-bottom: 45px;
 }
 
-.single-hotel-info .hotel-info-text h6 {
+.single-accommodation-info .accommodation-info-text h6 {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1636,7 +1636,7 @@ img {
   font-size: 16px;
 }
 
-.single-hotel-info .hotel-info-text h6 span {
+.single-accommodation-info .accommodation-info-text h6 span {
   -webkit-box-flex: 0;
   -ms-flex: 0 0 30px;
   flex: 0 0 30px;
@@ -2367,7 +2367,7 @@ img {
 
 /*# sourceMappingURL=style.css.map */
 
-/* search hotel */
+/* search accommodation */
 #filter .filter-option {
   margin-bottom: 0.75rem;
 }
@@ -2435,6 +2435,6 @@ img {
   background: #555;
 }
 
-#type-hotel .owl-nav {
+#type-accommodation .owl-nav {
   display: none;
 }

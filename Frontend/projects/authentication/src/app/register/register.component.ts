@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ACTION_REGISTER } from 'src/app/constant/Abstract.constant';
 import { AlertService } from 'src/app/service/alert.service';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 
@@ -17,20 +18,17 @@ declare var $: any;
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
 })
-export class RegisterComponent implements AfterViewInit, OnInit {
+export class RegisterComponent implements AfterViewInit {
   @ViewChild('form', { static: false }) form!: NgForm;
-  @ViewChild('formVerifyCode', { static: false }) formVerifyCode!: NgForm;
 
-  readonly VERIFICATION_CODE = 'VERIFICATION_CODE';
   emailSent: boolean = false;
+  verificationCode: string = '';
+  action: string = "";
 
   constructor(
-    private router: Router,
     private alertService: AlertService,
     private authService: AuthenticationService
   ) {}
-
-  ngOnInit(): void {}
 
   ngAfterViewInit(): void {
     setTimeout(() => {
@@ -70,62 +68,40 @@ export class RegisterComponent implements AfterViewInit, OnInit {
         validator(),
       ]);
       this.form.controls['rePassword'].updateValueAndValidity();
-
-      this.formVerifyCode.controls['verificationCode'].addValidators([
-        Validators.required,
-        Validators.minLength(6),
-        Validators.maxLength(6),
-      ]);
-      this.formVerifyCode.controls['verificationCode'].updateValueAndValidity();
     }, 0);
+
+    this.action = ACTION_REGISTER;
   }
 
   get loginOrRegisterButtonDisable(): boolean {
     return !!this.form?.invalid;
   }
 
-  register() {
-    const randomVerificationNumber = Math.floor(
-      100000 + Math.random() * 900000
-    );
-    localStorage.setItem(
-      this.VERIFICATION_CODE,
-      randomVerificationNumber.toString()
-    );
-
-    console.log(localStorage.getItem(this.VERIFICATION_CODE));
-
-    // this.authService
-    //   .sendVerificationCode(
-    //     this.form.value.email,
-    //     randomVerificationNumber.toString()
-    //   )
-    //   .subscribe(
-    //     (data) => {},
-    //     (error) => {
-    //       console.log(error);
-    //       this.alertService.error(error);
-    //     }
-    //   );
+  verifiy() {
+    const registerRequest = {
+      email: this.form.value.email,
+      phoneNumber: this.form.value.phoneNumber,
+      password: this.form.value.password
+    };
+    this.authService
+      .verifyRegister(registerRequest)
+      .subscribe(
+        (data) => {
+          this.verificationCode = data;
+          this.openModal();
+          console.log(this.verificationCode);
+        },
+        (error) => {
+          this.alertService.error(error.error.errorMessage);
+        }
+      );
   }
 
-  verifyCode() {
-    if (
-      localStorage.getItem(this.VERIFICATION_CODE) !==
-      this.formVerifyCode.value.verificationCode
-    ) {
-      this.alertService.error('Mã xác nhận không đúng');
-      return;
-    }
+  openModal(): void {
+    $('#verifyCodeModal').modal('show');
+  }
 
-    this.authService.register(this.form.value).subscribe(
-      (response) => {
-        $('#verifyCodeModal').modal('hide');
-        this.alertService.success('Đăng ký thành công');
-      },
-      (error) => {
-        this.alertService.error(error.errorMessage);
-      }
-    );
+  closeModal(): void {
+    $('#verifyCodeModal').modal('hide');
   }
 }

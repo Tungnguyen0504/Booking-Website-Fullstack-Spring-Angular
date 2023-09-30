@@ -1,20 +1,23 @@
 package com.springboot.booking.controller;
 
+import static com.springboot.booking.common.AbstractConstant.PATH_AUTH;
+import static com.springboot.booking.common.AbstractConstant.PATH_V1;
+
 import com.springboot.booking.common.SuccessResult;
 import com.springboot.booking.dto.request.LoginRequest;
 import com.springboot.booking.dto.request.RegisterRequest;
-import com.springboot.booking.dto.request.VerificationRequest;
 import com.springboot.booking.dto.response.AuthenticationResponse;
 import com.springboot.booking.model.BSuccess;
-import com.springboot.booking.model.entity.City;
 import com.springboot.booking.model.entity.User;
 import com.springboot.booking.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import static com.springboot.booking.common.AbstractConstant.PATH_AUTH;
-import static com.springboot.booking.common.AbstractConstant.PATH_V1;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -24,14 +27,20 @@ public class AuthenticationController {
 
     private final AuthenticationService service;
 
-    @PostMapping("/verification")
-    public ResponseEntity<String> verification(@RequestBody VerificationRequest request) {
-        return ResponseEntity.ok(service.verification(request));
+    @PostMapping("/verification/register")
+    public ResponseEntity<String> verifyRegister(@RequestBody RegisterRequest request) {
+        return ResponseEntity.ok(service.verifyRegister(request));
     }
 
     @PostMapping("/register")
-    public void register(@RequestBody RegisterRequest request) {
+    public ResponseEntity<BSuccess> register(@RequestBody RegisterRequest request) {
         service.register(request);
+        return ResponseEntity.ok(new BSuccess(SuccessResult.CREATED));
+    }
+
+    @PostMapping("/verification/login")
+    public ResponseEntity<String> verifyLogin(@RequestBody LoginRequest request) {
+        return ResponseEntity.ok(service.verifyLogin(request));
     }
 
     @PostMapping("/login")

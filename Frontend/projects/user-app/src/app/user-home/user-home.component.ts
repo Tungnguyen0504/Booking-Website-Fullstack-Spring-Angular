@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { City } from 'src/app/model/City.model';
-import { HotelType } from 'src/app/model/HotelType.model';
+import { AccommodationType } from 'src/app/model/AccommodationType.model';
 import { CityService } from 'src/app/service/city.service';
-import { HotelTypeService } from 'src/app/service/hotel-type.service';
+import { AccommodationTypeService } from 'src/app/service/accommodation-type.service';
 
 @Component({
   selector: 'app-user-home',
@@ -11,11 +11,11 @@ import { HotelTypeService } from 'src/app/service/hotel-type.service';
 })
 export class UserHomeComponent implements OnInit {
   lstCity: City[] = [];
-  lstHotelType: HotelType[] = [];
+  lstAccommodationType: AccommodationType[] = [];
 
   constructor(
     private $cityService: CityService,
-    private $hotelTypeService: HotelTypeService
+    private $accommodationTypeService: AccommodationTypeService
     ) {}
 
   ngOnInit(): void {
@@ -23,8 +23,8 @@ export class UserHomeComponent implements OnInit {
       this.lstCity = response;
     });
 
-    this.$hotelTypeService.getAllHotelType().subscribe((response) => {
-      this.lstHotelType = response;
+    this.$accommodationTypeService.getAllAccommodationType().subscribe((response) => {
+      this.lstAccommodationType = response;
     });
   }
 }

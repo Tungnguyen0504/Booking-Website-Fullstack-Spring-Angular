@@ -25,7 +25,7 @@
 :: 8.0 Pool Area CSS
 :: 9.0 Rooms Area CSS
 :: 10.0 Services Area CSS
-:: 11.0 Our Hotel Area CSS
+:: 11.0 Our Accommodation Area CSS
 :: 12.0 Testimonial Area CSS
 :: 13.0 Footer Area CSS
 :: 14.0 Breadcumb Area CSS
@@ -1249,12 +1249,12 @@ img {
 }
 
 
-/* :: 11.0 Our Hotel Area CSS */
+/* :: 11.0 Our Accommodation Area CSS */
 
-.single-hotel-info {
+.single-accommodation-info {
     position: relative;
     z-index: 1;
-    .hotel-info-text {
+    .accommodation-info-text {
         position: relative;
         z-index: 1;
         margin-bottom: 45px;

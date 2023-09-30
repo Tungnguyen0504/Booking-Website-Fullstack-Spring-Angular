@@ -1,0 +1,47 @@
+Giới thiệu bản thân
+Mô tả kinh nghiệm
+Dùng những framework nào? Công cụ gì?
+Japser, ApachePOI,  ApacheCamel, 
+Hỏi về message broker JMS, RabbitMQ
+Dùng Java mấy, springboot mấy. Nên dùng Springboot 3.5 mới nhất, đi với Java 17
+RestAPI là gì? HttpMethod? HttpStatus
+Unit Test và implement UnitTest
+Làm sao để design đc 1 testcase. Ví dụ chức năng CRUD sản phẩm
+Hỏi về cách cấu hình Spring Security? Cách để tự tay cấu hình
+Luồng chạy SpringBoot (Filter -> Serverless dispatcher)
+Trình bày Vòng đời của một bean (bean lifecycle) [liên quan tới @PostContruct và @Predestroy] 
+Những biểu hiện auto configuration của spring boot , annotation kích hoạt autoConfiguration
+Cấu hình Datasoure trong spring boot [url, username, password, dialect, ddl]
+Connection pool, các thư viện implement connection pool [c3p0, hikari], Các cấu hình liên quan hikari
+
+Spring boot
+Giới thiệu về Spring boot
+Ưu điểm của Spring boot
+Các annotation thường sử dụng
+Giải thích annotation @RestController và @Controller trong Spring Boot
+Các annotation thường sử dụng trong lớp controller: @PathVariable, @RequestParam, @RequestBody
+Phân biệt giữa @Service, @Component và @Repository
+Sự khác biệt chính giữa RequestMapping và GetMapping là gì?
+Có những cách nào để lấy giá trị config trong application.properties
+Depedency inject, iOC trong spring boot
+Có bao nhiêu cách định nghĩa 1 class là bean
+Có bao nhiêu cách để thực hiện Dependency Injection?
+Tại sao nên sử dụng ‘constructor injection’ cho injecting bean?
+Giả sử có nhiều bean cùng implement một interface, làm sao để sử dụng một bean cụ thể
+Bean trong Spring là gì? Liệt kê các Scopes của Spring Bean
+JPA là gì? Phân biệt JPA và hibernate
+Cách viết native query
+Các hàm findAll có trả ra null khi truy vấn không trả ra kết quả hay không?
+Java core
+Có những cách nào khởi tạo một String? Phân biệt các cách khởi tạo đó? String pool là gì?
+Có những vùng nhớ nào trong java. Phần stack và heap
+Các collection thường sử dụng trong java
+Phân biệt Set và Map
+Phân biệt array và ArrayList
+Phân biệt Abtract và Interface
+Khi nào thì sử dụng Interface Class trong Java
+Stream api: map, filter …
+Lập trình đa luồng là gì? Ưu nhược điểm
+Phân biệt wait và sleep
+Làm sao để chờ thread 1 chạy xong thì threa 2 mới được chạy
+Deadlock là gì? Xảy ra khi nào? Cách khắc phục

@@ -7,6 +7,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Builder
 @NoArgsConstructor
@@ -19,9 +22,8 @@ public class SpecialAround extends BaseEntity {
     @Column(name = "description", unique = true)
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "hotel_id")
-    private Hotel hotel;
+    @ManyToMany(mappedBy = "specialArounds")
+    private Set<Accommodation> accommodations = new HashSet<>();
 
     public SpecialAround(String description) {
         this.description = description;

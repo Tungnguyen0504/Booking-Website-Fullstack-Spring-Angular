@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from './service/authentication.service';
 import { User } from './model/User.model';
-import * as $ from 'jquery';
-import 'owl.carousel';
 import { AlertService } from './service/alert.service';
+import 'owl.carousel';
 
 @Component({
   selector: 'app-user-root',
@@ -30,9 +29,10 @@ export class AppComponent implements OnInit {
       this.authService.getCurrentUser().subscribe(
         (response) => {
           this.user = response;
-          console.log(this.user);
+          console.log('token: ' + this.authService.getJwtToken());
         },
         (error) => {
+          this.isLogined = false;
           this.alertService.error(error.error.errorMessage);
         }
       );

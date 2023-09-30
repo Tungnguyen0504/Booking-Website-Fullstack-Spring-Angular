@@ -20,33 +20,18 @@ export class AdminAssetsComponent implements OnInit {
     this.renderer.appendChild(document.head, link);
 
     const scriptAdmin = [
-      'https://code.jquery.com/jquery-3.5.1.js',
       'assets/admin/js/vendor-all.min.js',
-      'assets/admin/js/plugins/bootstrap.min.js',
       'assets/admin/js/pcoded.min.js',
 
       'assets/admin/js/plugins/apexcharts.min.js',
 
-      'https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js',
-      'https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js',
-
-      'https://unpkg.com/sweetalert/dist/sweetalert.min.js',
-
-      'https://cdn.jsdelivr.net/npm/flatpickr',
-      'https://npmcdn.com/flatpickr/dist/l10n/vn.js',
-      'https://unpkg.com/flatpickr@4.6.11/dist/plugins/rangePlugin.js',
-
-      'https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.5/js/plugins/piexif.min.js',
-      'https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.5/js/plugins/sortable.min.js',
-      'https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.5/js/fileinput.min.js',
-
-      'assets/admin/js/star-rating/starrr.js',
-
       'assets/admin/js/tag-input/tagsinput.js',
 
-      'assets/admin/js/validation/bs4-form-validation.js',
-
       'https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js',
+      
+      "assets/global/js/star-rating/starrr.js",
+
+      "assets/global/js/multi-select/jquery.multiselect.js"
     ];
 
     scriptAdmin.forEach((script) => {

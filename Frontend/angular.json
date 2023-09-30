@@ -16,12 +16,30 @@
             "outputPath": "dist/frontend",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": ["zone.js"],
+            "polyfills": [
+              "zone.js"
+            ],
             "tsConfig": "tsconfig.app.json",
-            "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.css"],
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/styles.css",
+              "src/assets/global/css/multi-select/jquery.multiselect.css"
+            ],
             "scripts": [
-              "src/assets/authentication/js/jquery/jquery-2.2.4.min.js"
+              "src/assets/global/js/jquery/jquery-3.5.1.js",
+              "src/assets/global/js/bootstrap4/popper.min.js",
+              "src/assets/global/js/bootstrap4/bootstrap.bundle.min.js",
+              "src/assets/global/js/bootstrap4/bootstrap.min.js",
+              "src/assets/global/js/file-input/fileinput.min.js",
+              "src/assets/global/js/file-input/fileinput_piexif.min.js",
+              "src/assets/global/js/file-input/fileinput_sortable.min.js",
+              "src/assets/global/js/datatable/dataTables.bootstrap4.min.js",
+              "src/assets/global/js/datatable/dataTables.min.js"
             ]
           },
           "configurations": {
@@ -46,7 +64,13 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -72,10 +96,18 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": ["zone.js", "zone.js/testing"],
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
             "tsConfig": "tsconfig.spec.json",
-            "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.css"],
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "src/styles.css"
+            ],
             "scripts": []
           }
         }
@@ -94,13 +126,17 @@
             "outputPath": "dist/user-app",
             "index": "projects/user-app/src/index.html",
             "main": "projects/user-app/src/main.ts",
-            "polyfills": ["zone.js"],
+            "polyfills": [
+              "zone.js"
+            ],
             "tsConfig": "projects/user-app/tsconfig.app.json",
             "assets": [
               "projects/user-app/src/favicon.ico",
               "projects/user-app/src/assets"
             ],
-            "styles": ["projects/user-app/src/styles.css"],
+            "styles": [
+              "projects/user-app/src/styles.css"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -154,13 +190,18 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": ["zone.js", "zone.js/testing"],
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
             "tsConfig": "projects/user-app/tsconfig.spec.json",
             "assets": [
               "projects/user-app/src/favicon.ico",
               "projects/user-app/src/assets"
             ],
-            "styles": ["projects/user-app/src/styles.css"],
+            "styles": [
+              "projects/user-app/src/styles.css"
+            ],
             "scripts": []
           }
         }
@@ -179,13 +220,17 @@
             "outputPath": "dist/admin-app",
             "index": "projects/admin-app/src/index.html",
             "main": "projects/admin-app/src/main.ts",
-            "polyfills": ["zone.js"],
+            "polyfills": [
+              "zone.js"
+            ],
             "tsConfig": "projects/admin-app/tsconfig.app.json",
             "assets": [
               "projects/admin-app/src/favicon.ico",
               "projects/admin-app/src/assets"
             ],
-            "styles": ["projects/admin-app/src/styles.css"],
+            "styles": [
+              "projects/admin-app/src/styles.css"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -239,13 +284,18 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": ["zone.js", "zone.js/testing"],
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
             "tsConfig": "projects/admin-app/tsconfig.spec.json",
             "assets": [
               "projects/admin-app/src/favicon.ico",
               "projects/admin-app/src/assets"
             ],
-            "styles": ["projects/admin-app/src/styles.css"],
+            "styles": [
+              "projects/admin-app/src/styles.css"
+            ],
             "scripts": []
           }
         }
@@ -264,13 +314,17 @@
             "outputPath": "dist/authentication",
             "index": "projects/authentication/src/index.html",
             "main": "projects/authentication/src/main.ts",
-            "polyfills": ["zone.js"],
+            "polyfills": [
+              "zone.js"
+            ],
             "tsConfig": "projects/authentication/tsconfig.app.json",
             "assets": [
               "projects/authentication/src/assets/img/core-img/favicon.ico",
               "projects/authentication/src/assets"
             ],
-            "styles": ["projects/authentication/src/styles.css"],
+            "styles": [
+              "projects/authentication/src/styles.css"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -324,13 +378,18 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": ["zone.js", "zone.js/testing"],
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
             "tsConfig": "projects/authentication/tsconfig.spec.json",
             "assets": [
               "projects/authentication/src/favicon.ico",
               "projects/authentication/src/assets"
             ],
-            "styles": ["projects/authentication/src/styles.css"],
+            "styles": [
+              "projects/authentication/src/styles.css"
+            ],
             "scripts": []
           }
         }

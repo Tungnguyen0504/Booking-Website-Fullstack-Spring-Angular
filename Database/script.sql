@@ -1,12 +1,12 @@
-INSERT INTO `city` (name, image_url) VALUES('Hà Nội','1.jpg');
-INSERT INTO `city` (name, image_url) VALUES('TP. Hồ Chí Minh','2.jpg');
-INSERT INTO `city` (name, image_url) VALUES('Hội An ','3.jpg');
-INSERT INTO `city` (name, image_url) VALUES('Huế','4.jpg');
-INSERT INTO `city` (name, image_url) VALUES('Nha Trang','5.jpg');
+INSERT INTO `city` (city_name) VALUES('Hà Nội');
+INSERT INTO `city` (city_name) VALUES('TP. Hồ Chí Minh');
+INSERT INTO `city` (city_name) VALUES('Hội An ');
+INSERT INTO `city` (city_name) VALUES('Huế');
+INSERT INTO `city` (city_name) VALUES('Nha Trang');
 
-INSERT INTO `hotel_type` (name, image_url) VALUES('Khách sạn','1.jpg');
-INSERT INTO `hotel_type` (name, image_url) VALUES('Căn hộ','2.jpg');
-INSERT INTO `hotel_type` (name, image_url) VALUES('Resort','3.jpg');
-INSERT INTO `hotel_type` (name, image_url) VALUES('Biệt thự','4.jpg');
-INSERT INTO `hotel_type` (name, image_url) VALUES('Homestay','5.jpg');
-INSERT INTO `hotel_type` (name, image_url) VALUES('Nhà nghỉ B&B','6.jpg');
+INSERT INTO `accommodation_type` (accommodation_type_name) VALUES('Khách sạn');
+INSERT INTO `accommodation_type` (accommodation_type_name) VALUES('Căn hộ');
+INSERT INTO `accommodation_type` (accommodation_type_name) VALUES('Resort');
+INSERT INTO `accommodation_type` (accommodation_type_name) VALUES('Biệt thự');
+INSERT INTO `accommodation_type` (accommodation_type_name) VALUES('Homestay');
+INSERT INTO `accommodation_type` (accommodation_type_name) VALUES('Nhà nghỉ B&B');

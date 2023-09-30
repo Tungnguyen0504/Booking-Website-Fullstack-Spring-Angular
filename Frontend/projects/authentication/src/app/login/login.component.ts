@@ -1,5 +1,6 @@
-import { Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { NgForm, Validators } from '@angular/forms';
+import { ACTION_LOGIN } from 'src/app/constant/Abstract.constant';
 import { AlertService } from 'src/app/service/alert.service';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 
@@ -10,11 +11,12 @@ declare var $: any;
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent {
+export class LoginComponent implements AfterViewInit {
   @ViewChild('form', { static: false }) form!: NgForm;
 
   emailSent: boolean = false;
   verificationCode: string = '';
+  action: string = "";
 
   constructor(
     private alertService: AlertService,
@@ -38,15 +40,21 @@ export class LoginComponent {
       ]);
       this.form.controls['password'].updateValueAndValidity();
     }, 0);
+
+    this.action = ACTION_LOGIN;
   }
 
   get loginOrRegisterButtonDisable(): boolean {
     return !!this.form?.invalid;
   }
 
-  login() {
+  verifiy() {
+    const loginRequest = {
+      email: this.form.value.email,
+      password: this.form.value.password
+    };
     this.authService
-      .verification(this.form.value.email, this.form.value.password)
+      .verifyLogin(loginRequest)
       .subscribe(
         (data) => {
           this.verificationCode = data;

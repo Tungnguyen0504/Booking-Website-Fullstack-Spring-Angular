@@ -22,5 +22,4 @@ public class CityController {
     public ResponseEntity<List<City>> getListCity(@RequestParam int range) {
         return ResponseEntity.ok(cityService.getTopCity(range));
     }
-
 }

@@ -24,7 +24,7 @@
         </h4>
       </div>
 
-      <form #form="ngForm" (ngSubmit)="login()">
+      <form #form="ngForm" (ngSubmit)="verifiy()">
         <div>
           <div class="mb-3 input-group flex-column">
             <input
@@ -110,7 +110,6 @@
               type="submit"
               class="btn palatin-btn btn-block w-100"
               style="height: 48px; line-height: 48px"
-              data-target="#verifyCodeModal"
               disabled
               [disabled]="loginOrRegisterButtonDisable"
             >
@@ -127,4 +126,5 @@
   [formLogin]="this.form"
   [verifyCode]="verificationCode"
   [email]="this.form.value.email"
+  [action]="action"
 ></app-verification-code>

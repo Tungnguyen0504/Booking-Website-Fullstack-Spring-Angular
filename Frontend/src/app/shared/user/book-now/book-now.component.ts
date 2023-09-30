@@ -1,5 +1,4 @@
-import { formatDate } from '@angular/common';
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import flatpickr from 'flatpickr';
 import rangePlugin from 'flatpickr/dist/plugins/rangePlugin';
@@ -15,8 +14,7 @@ export class BookNowComponent implements AfterViewInit {
   @ViewChild('formSearch', {static: false}) formSearch!: NgForm;
 
   constructor(
-    private $elementRef: ElementRef,
-    private $cdr: ChangeDetectorRef
+    private $elementRef: ElementRef
   ) {}
 
   ngAfterViewInit(): void {

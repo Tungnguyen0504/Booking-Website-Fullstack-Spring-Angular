@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CreateHotelComponent } from 'projects/admin-app/src/app/hotel-management/create-hotel/create-hotel.component';
+import { CreateAccommodationComponent } from 'projects/admin-app/src/app/accommodation-management/create-accommodation/create-accommodation.component';
 import { AppAuthenticationRoutingModule } from 'projects/authentication/src/app/app-authentication-routing.module';
 import { LoginComponent } from 'projects/authentication/src/app/login/login.component';
 import { LogoutComponent } from 'projects/authentication/src/app/logout/logout.component';
@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: 'logout', component: LogoutComponent },
   { path: 'user', component: UserHomeComponent },
   { path: 'user/home', component: UserHomeComponent },
-  { path: 'admin/create-hotel', component: CreateHotelComponent },
+  { path: 'admin/create-accommodation', component: CreateAccommodationComponent },
 ];
 
 @NgModule({

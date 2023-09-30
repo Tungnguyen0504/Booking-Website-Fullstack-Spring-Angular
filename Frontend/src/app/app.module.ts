@@ -8,12 +8,12 @@ import { RegisterComponent } from 'projects/authentication/src/app/register/regi
 import { AppAuthenticationModule } from 'projects/authentication/src/app/app-authentication.module';
 import { LoginComponent } from 'projects/authentication/src/app/login/login.component';
 import { VerificationCodeComponent } from './shared/authentication/verification-code/verification-code.component';
-import { AlertComponent } from './shared/user/alert/alert.component';
+import { AlertComponent } from './shared/generic/alert/alert.component';
 import { AppUserModule } from 'projects/user-app/src/app/app-user.module';
 import { AppUserRoutingModule } from 'projects/user-app/src/app/app-user-routing.module';
 import { UserHomeComponent } from 'projects/user-app/src/app/user-home/user-home.component';
-import { HotelManagementComponent } from 'projects/admin-app/src/app/hotel-management/hotel-management.component';
-import { CreateHotelComponent } from 'projects/admin-app/src/app/hotel-management/create-hotel/create-hotel.component';
+import { AccommodationManagementComponent } from 'projects/admin-app/src/app/accommodation-management/accommodation-management.component';
+import { CreateAccommodationComponent } from 'projects/admin-app/src/app/accommodation-management/create-accommodation/create-accommodation.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './service/token.interceptor';
 import { UserAssetsComponent } from './common/user-assets/user-assets.component';
@@ -23,6 +23,8 @@ import { UserHeaderComponent } from './shared/user/user-header/user-header.compo
 import { BookNowComponent } from './shared/user/book-now/book-now.component';
 import { AdminHeaderSidebarComponent } from './shared/admin/admin-header-sidebar/admin-header-sidebar.component';
 import { AdminWidgetComponent } from './shared/admin/admin-widget/admin-widget.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -35,8 +37,8 @@ import { AdminWidgetComponent } from './shared/admin/admin-widget/admin-widget.c
     UserHomeComponent,
     UserHeaderComponent,
     BookNowComponent,
-    HotelManagementComponent,
-    CreateHotelComponent,
+    AccommodationManagementComponent,
+    CreateAccommodationComponent,
     AdminHeaderSidebarComponent,
     UserAssetsComponent,
     AdminAssetsComponent,
@@ -49,6 +51,8 @@ import { AdminWidgetComponent } from './shared/admin/admin-widget/admin-widget.c
     AppAuthenticationModule,
     AppUserRoutingModule,
     AppUserModule,
+    NgMultiSelectDropDownModule.forRoot(),
+    NgbModule,
   ],
   providers: [
     {

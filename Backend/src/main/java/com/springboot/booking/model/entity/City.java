@@ -22,5 +22,5 @@ public class City extends BaseEntity {
     private String cityName;
 
     @OneToMany(mappedBy = "city", cascade = CascadeType.ALL)
-    private List<Hotel> hotel;
+    private List<Accommodation> accommodations;
 }

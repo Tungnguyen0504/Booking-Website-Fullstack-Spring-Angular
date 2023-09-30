@@ -1,0 +1,244 @@
+<section class="pcoded-main-container">
+  <div class="pcoded-content">
+    <!-- [ breadcrumb ] start -->
+    <div class="page-header">
+      <div class="page-block">
+        <div class="row align-items-center">
+          <div class="col-md-12">
+            <div class="page-header-title">
+              <h5 class="m-b-10">Thêm thông tin chỗ ở</h5>
+            </div>
+            <ul class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a href=""><i class="feather icon-home"></i></a>
+              </li>
+              <li class="breadcrumb-item">
+                <a href="">Quản lý chỗ ở</a>
+              </li>
+              <li class="breadcrumb-item active">Thêm thông tin chỗ ở</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-header">
+            <h5>Thêm thông tin</h5>
+          </div>
+          <div class="card-body">
+            <form #form="ngForm" (ngSubmit)="create()">
+              <ul class="nav nav-tabs mb-3" role="tablist">
+                <li class="nav-item">
+                  <a
+                    class="nav-link active text-uppercase"
+                    data-toggle="tab"
+                    href="#accommodation"
+                    role="tab"
+                    aria-selected="true"
+                    >Thông tin chỗ ở</a
+                  >
+                </li>
+              </ul>
+              <div class="tab-content">
+                <div
+                  class="tab-pane fade show active"
+                  id="accommodation"
+                  role="tabpanel"
+                >
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label>Tên chỗ ở</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="accommodationName"
+                          placeholder="Nhập tên chỗ ở ..."
+                        />
+                        <div class="invalid-feedback">
+                          Vui lòng nhập tên chỗ ở!
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label>Thành phố</label>
+                        <select class="form-control" name="cityId">
+                          <option selected disabled value="">
+                            Vui lòng chọn ...
+                          </option>
+                          <!-- <c:forEach
+                            items="${CityDAO.all}"
+                            var="o"
+                            varStatus="loop"
+                          >
+                            <option value="${o.cityId}">${o.cityName}</option>
+                          </c:forEach> -->
+                        </select>
+                        <div class="invalid-feedback">
+                          Vui lòng chọn thành phố!
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label>Loại chỗ ở</label>
+                        <select class="form-control" name="accommodationTypeId">
+                          <option selected disabled value="">
+                            Vui lòng chọn ...
+                          </option>
+                          <!-- <c:forEach
+                            items="${AccommodationTypeDAO.all}"
+                            var="o"
+                            varStatus="loop"
+                          >
+                            <option value="${o.typeId}">${o.typeName}</option>
+                          </c:forEach> -->
+                        </select>
+                        <div class="invalid-feedback">
+                          Vui lòng chọn loại chỗ ở
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label>Địa chỉ</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="address"
+                          placeholder="Nhập địa chỉ ..."
+                          required
+                        />
+                        <div class="invalid-feedback">
+                          Vui lòng nhập địa chỉ!
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label>Số điện thoại</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="phone"
+                          placeholder="Nhập số điện thoại ..."
+                          required
+                        />
+                        <div class="invalid-feedback">
+                          Vui lòng nhập số điện thoại!
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label>Địa chỉ email</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="email"
+                          placeholder="Nhập địa chỉ email ..."
+                          required
+                        />
+                        <div class="invalid-feedback">
+                          Vui lòng nhập địa chỉ email!
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label>Mô tả chỗ ở</label>
+                        <textarea
+                          class="form-control"
+                          rows="5"
+                          name="description"
+                          placeholder="Nhập mô tả (dùng dấu | để xuống dòng) ..."
+                          required
+                          style="height: 135px"
+                          ngModel
+                        ></textarea>
+                      </div>
+                      <div class="form-group">
+                        <label>Giờ checkin</label>
+                        <input
+                          type="text"
+                          name="checkin"
+                          class="date-input form-control"
+                          placeholder="Nhập giờ checkin ..."
+                          autocomplete="off"
+                          required
+                        />
+                        <div class="invalid-feedback">
+                          Vui lòng chọn giờ checkin!
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label>Giờ checkout</label>
+                        <input
+                          type="text"
+                          name="checkout"
+                          class="date-input form-control"
+                          placeholder="Nhập giờ checkout ..."
+                          autocomplete="off"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="form-group">
+                        <label>Xếp hạng sao</label><br />
+                        <ngb-rating
+                          [max]="5"
+                          [(ngModel)]="accommodation.star"
+                          [ngModelOptions]="{ standalone: true }"
+                        >
+                          <ng-template let-fill="fill" let-index="index">
+                            <i
+                              class="bi-star{{ fill === 100 ? '-fill' : '' }}"
+                              [class.filled]="fill === 100"
+                            ></i>
+                          </ng-template>
+                        </ngb-rating>
+                        <!-- <input type="hidden" name="starRating" value="0" /> -->
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="form-group">
+                        <label class="control-label">Địa điểm xung quanh</label>
+                        <ng-multiselect-dropdown
+                          #multiSelect
+                          [placeholder]="'Chọn thành phố'"
+                          [settings]="settings"
+                          [data]="cities"
+                          [disabled]="false"
+                          (onFilterChange)="onFilterChange($event)"
+                          (onDropDownClose)="onDropDownClose($event)"
+                          (onSelect)="onItemSelect($event)"
+                          (onDeSelect)="onDeSelect($event)"
+                          (onSelectAll)="onSelectAll($event)"
+                          (onDeSelectAll)="onDeSelectAll($event)"
+                          [(ngModel)]="accommodation.specialArounds"
+                        >
+                        </ng-multiselect-dropdown>
+                      </div>
+                    </div>
+                    <div class="col-12 mb-3">
+                      <label class="control-label">Thêm ảnh chỗ ở</label>
+                      <div class="file-loading">
+                        <input
+                          name="image"
+                          type="file"
+                          class="file"
+                          data-browse-on-zone-click="true"
+                          multiple
+                        />
+                      </div>
+                      <div class="invalid-feedback">
+                        Vui lòng thêm ảnh chỗ ở!
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary px-5">
+                  Cập nhật
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

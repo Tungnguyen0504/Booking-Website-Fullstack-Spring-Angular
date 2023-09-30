@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SpecialAroundRepository extends JpaRepository<SpecialAround, Long> {
+
+    SpecialAround findSpecialAroundByDescription(String description);
 }
