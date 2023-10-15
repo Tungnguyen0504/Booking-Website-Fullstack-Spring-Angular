@@ -197,21 +197,6 @@
                     <div class="col-12">
                       <div class="form-group">
                         <label class="control-label">Địa điểm xung quanh</label>
-                        <ng-multiselect-dropdown
-                          #multiSelect
-                          [placeholder]="'Chọn thành phố'"
-                          [settings]="settings"
-                          [data]="cities"
-                          [disabled]="false"
-                          (onFilterChange)="onFilterChange($event)"
-                          (onDropDownClose)="onDropDownClose($event)"
-                          (onSelect)="onItemSelect($event)"
-                          (onDeSelect)="onDeSelect($event)"
-                          (onSelectAll)="onSelectAll($event)"
-                          (onDeSelectAll)="onDeSelectAll($event)"
-                          [(ngModel)]="accommodation.specialArounds"
-                        >
-                        </ng-multiselect-dropdown>
                       </div>
                     </div>
                     <div class="col-12 mb-3">

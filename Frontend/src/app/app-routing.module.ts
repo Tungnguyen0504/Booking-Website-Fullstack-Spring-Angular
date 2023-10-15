@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CreateAccommodationComponent } from 'projects/admin-app/src/app/accommodation-management/create-accommodation/create-accommodation.component';
+import { TestComponent } from 'projects/admin-app/src/app/test/test.component';
 import { AppAuthenticationRoutingModule } from 'projects/authentication/src/app/app-authentication-routing.module';
 import { LoginComponent } from 'projects/authentication/src/app/login/login.component';
 import { LogoutComponent } from 'projects/authentication/src/app/logout/logout.component';
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'user', component: UserHomeComponent },
   { path: 'user/home', component: UserHomeComponent },
   { path: 'admin/create-accommodation', component: CreateAccommodationComponent },
+  { path: 'admin/test', component: TestComponent },
 ];
 
 @NgModule({

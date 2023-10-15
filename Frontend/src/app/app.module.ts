@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -25,6 +25,12 @@ import { AdminHeaderSidebarComponent } from './shared/admin/admin-header-sidebar
 import { AdminWidgetComponent } from './shared/admin/admin-widget/admin-widget.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { TestComponent } from 'projects/admin-app/src/app/test/test.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -43,6 +49,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     UserAssetsComponent,
     AdminAssetsComponent,
     AdminWidgetComponent,
+    TestComponent,
   ],
   imports: [
     FormsModule,
@@ -53,6 +60,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     AppUserModule,
     NgMultiSelectDropDownModule.forRoot(),
     NgbModule,
+    BrowserAnimationsModule,
+    MatChipsModule,
+    MatIconModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
   ],
   providers: [
     {

@@ -21,6 +21,6 @@ public class City extends BaseEntity {
     @Column(name = "city_name", unique = true)
     private String cityName;
 
-    @OneToMany(mappedBy = "city", cascade = CascadeType.ALL)
-    private List<Accommodation> accommodations;
+    @OneToMany(mappedBy = "city")
+    private List<District> districts;
 }

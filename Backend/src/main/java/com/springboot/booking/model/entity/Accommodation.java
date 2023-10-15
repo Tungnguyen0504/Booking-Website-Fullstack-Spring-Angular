@@ -22,9 +22,6 @@ public class Accommodation extends BaseEntity {
     @Column(name = "accommodation_name")
     private String accommodationName;
 
-    @Column(name = "address")
-    private String address;
-
     @Column(name = "phone")
     private String phone;
 
@@ -43,9 +40,9 @@ public class Accommodation extends BaseEntity {
     @Column(name = "checkout")
     private String checkout;
 
-    @ManyToOne
-    @JoinColumn(name = "city_id")
-    private City city;
+    @OneToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
 
     @ManyToOne
     @JoinColumn(name = "accommodation_type_id")

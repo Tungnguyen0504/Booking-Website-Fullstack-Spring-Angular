@@ -22,6 +22,6 @@ public class AccommodationType extends BaseEntity {
     @Column(name = "accommodation_type_name", unique = true)
     private String accommodationTypeName;
 
-    @OneToMany(mappedBy = "accommodationType", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "accommodationType")
     private List<Accommodation> accommodations = new ArrayList<>();
 }

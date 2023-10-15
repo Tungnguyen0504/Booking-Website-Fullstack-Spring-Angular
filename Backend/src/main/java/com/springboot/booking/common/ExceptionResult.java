@@ -29,6 +29,9 @@ public enum ExceptionResult {
     LOCKED_ACCOUNT(402, "Tài khoản của bạn đã bị khóa."),
 
     SEND_EMAIL_ERROR(404, "Không gửi được email."),
+
+    RESOUCE_NOT_FOUND(404, "không tìm thấy dữ liệu trong db.")
+
     ;
 
     private Integer code;
