@@ -53,12 +53,14 @@ public class AuthenticationService {
         }
 
         String verifyCode = Util.generateVerificationCode();
-        EmailDetail emailDetail = EmailDetail.builder()
+        boolean result = emailService.sendHtmlEmail(EmailDetail.builder()
                 .recipient(request.getEmail())
                 .subject(AbstractConstant.MAIL_DETAIL_SUBJECT)
                 .msgBody(AbstractConstant.getMsgBodySimple(verifyCode))
-                .build();
-        emailService.sendHtmlEmail(emailDetail);
+                .build());
+        if (!result) {
+            throw new BException(ExceptionResult.SEND_EMAIL_ERROR);
+        }
 
         return verifyCode;
     }
@@ -85,13 +87,14 @@ public class AuthenticationService {
         }
 
         String verifyCode = Util.generateVerificationCode();
-
-        EmailDetail emailDetail = EmailDetail.builder()
+        boolean result = emailService.sendHtmlEmail(EmailDetail.builder()
                 .recipient(request.getEmail())
                 .subject(AbstractConstant.MAIL_DETAIL_SUBJECT)
                 .msgBody(AbstractConstant.getMsgBodySimple(verifyCode))
-                .build();
-        emailService.sendHtmlEmail(emailDetail);
+                .build());
+        if (!result) {
+            throw new BException(ExceptionResult.SEND_EMAIL_ERROR);
+        }
 
         return verifyCode;
     }

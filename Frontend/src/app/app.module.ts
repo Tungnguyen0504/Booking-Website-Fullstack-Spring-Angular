@@ -14,7 +14,7 @@ import { AppUserRoutingModule } from 'projects/user-app/src/app/app-user-routing
 import { UserHomeComponent } from 'projects/user-app/src/app/user-home/user-home.component';
 import { AccommodationManagementComponent } from 'projects/admin-app/src/app/accommodation-management/accommodation-management.component';
 import { CreateAccommodationComponent } from 'projects/admin-app/src/app/accommodation-management/create-accommodation/create-accommodation.component';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { TokenInterceptor } from './service/token.interceptor';
 import { UserAssetsComponent } from './common/user-assets/user-assets.component';
 import { AdminAssetsComponent } from './common/admin-assets/admin-assets.component';
@@ -52,6 +52,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     TestComponent,
   ],
   imports: [
+    HttpClientModule,
     FormsModule,
     BrowserModule,
     AppRoutingModule,
