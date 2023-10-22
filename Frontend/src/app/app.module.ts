@@ -14,7 +14,7 @@ import { AppUserRoutingModule } from 'projects/user-app/src/app/app-user-routing
 import { UserHomeComponent } from 'projects/user-app/src/app/user-home/user-home.component';
 import { AccommodationManagementComponent } from 'projects/admin-app/src/app/accommodation-management/accommodation-management.component';
 import { CreateAccommodationComponent } from 'projects/admin-app/src/app/accommodation-management/create-accommodation/create-accommodation.component';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { TokenInterceptor } from './service/token.interceptor';
 import { UserAssetsComponent } from './common/user-assets/user-assets.component';
 import { AdminAssetsComponent } from './common/admin-assets/admin-assets.component';
@@ -31,6 +31,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     TestComponent,
   ],
   imports: [
+    HttpClientModule,
     FormsModule,
     BrowserModule,
     AppRoutingModule,
@@ -66,6 +68,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatAutocompleteModule,
     ReactiveFormsModule,
     MatFormFieldModule,
+    MatSelectModule
   ],
   providers: [
     {
@@ -76,4 +79,4 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

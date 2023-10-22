@@ -38,7 +38,7 @@ public class AccommodationService {
 
         Set<SpecialAround> specialArounds = request.getSpecialArounds().stream()
                 .filter(s -> specialAroundRepository.findSpecialAroundByDescription(s) != null)
-                .map(s -> SpecialAround.create(s)).collect(Collectors.toSet());
+                .map(SpecialAround::create).collect(Collectors.toSet());
 
         Accommodation accommodation = Accommodation.builder()
                 .accommodationName(request.getAccommodationName())
