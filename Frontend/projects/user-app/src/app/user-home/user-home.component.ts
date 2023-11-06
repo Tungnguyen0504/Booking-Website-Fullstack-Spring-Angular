@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { City } from 'src/app/model/City.model';
 import { AccommodationType } from 'src/app/model/AccommodationType.model';
-import { CityService } from 'src/app/service/city.service';
+import { Province } from 'src/app/model/Province.model';
 import { AccommodationTypeService } from 'src/app/service/accommodation-type.service';
 
 @Component({
@@ -10,21 +9,20 @@ import { AccommodationTypeService } from 'src/app/service/accommodation-type.ser
   styleUrls: ['./user-home.component.css'],
 })
 export class UserHomeComponent implements OnInit {
-  lstCity: City[] = [];
+  lstProvince: Province[] = [];
   lstAccommodationType: AccommodationType[] = [];
 
   constructor(
-    private $cityService: CityService,
     private $accommodationTypeService: AccommodationTypeService
     ) {}
 
   ngOnInit(): void {
-    this.$cityService.getTopCity(5).subscribe((response) => {
-      this.lstCity = response;
-    });
+    // this.$cityService.getTopProvince(5).subscribe((response) => {
+    //   this.lstProvince = response;
+    // });
 
-    this.$accommodationTypeService.getAllAccommodationType().subscribe((response) => {
-      this.lstAccommodationType = response;
-    });
+    // this.$accommodationTypeService.getAllAccommodationType().subscribe((response) => {
+    //   this.lstAccommodationType = response;
+    // });
   }
 }

@@ -32,6 +32,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSelectModule } from '@angular/material/select';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { FormAddressComponent } from './shared/admin/form-address/form-address.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { FormAddressDialogComponent } from './shared/admin/form-address/form-address-dialog/form-address-dialog.component';
+import { GenericAssetsComponent } from './common/generic-assets/generic-assets.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -51,6 +59,9 @@ import { MatSelectModule } from '@angular/material/select';
     AdminAssetsComponent,
     AdminWidgetComponent,
     TestComponent,
+    FormAddressComponent,
+    FormAddressDialogComponent,
+    GenericAssetsComponent,
   ],
   imports: [
     HttpClientModule,
@@ -63,12 +74,17 @@ import { MatSelectModule } from '@angular/material/select';
     NgMultiSelectDropDownModule.forRoot(),
     NgbModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
     MatChipsModule,
     MatIconModule,
     MatAutocompleteModule,
-    ReactiveFormsModule,
     MatFormFieldModule,
-    MatSelectModule
+    MatSelectModule,
+    MatStepperModule,
+    MatInputModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatExpansionModule,
   ],
   providers: [
     {
@@ -79,4 +95,4 @@ import { MatSelectModule } from '@angular/material/select';
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

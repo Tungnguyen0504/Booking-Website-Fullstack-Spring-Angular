@@ -1,6 +1,6 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Observable, startWith, map } from 'rxjs';
@@ -25,6 +25,16 @@ export class TestComponent implements OnInit {
   @ViewChild('fruitInput') fruitInput!: ElementRef<HTMLInputElement>;
 
   announcer = inject(LiveAnnouncer);
+
+
+  firstFormGroup = this.$formBuilder.group({
+    firstCtrl: ['', Validators.required],
+  });
+  secondFormGroup = this.$formBuilder.group({
+    secondCtrl: ['', Validators.required],
+  });
+  isEditable = false;
+
 
   constructor(
     private $formBuilder: FormBuilder,

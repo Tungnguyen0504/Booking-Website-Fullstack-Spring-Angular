@@ -46,8 +46,8 @@ public class AdminController {
 //        return "DELETE:: admin controller";
 //    }
 
-    @PostMapping("/save-image-file")
-    public ResponseEntity<BSuccess> getListCity(@RequestParam("image") MultipartFile file) {
-        return ResponseEntity.ok(new BSuccess(SuccessResult.CREATED));
-    }
+//    @PostMapping("/save-image-file")
+//    public ResponseEntity<BSuccess> getListCity(@RequestParam("image") MultipartFile file) {
+//        return ResponseEntity.ok(new BSuccess(SuccessResult.CREATED));
+//    }
 }

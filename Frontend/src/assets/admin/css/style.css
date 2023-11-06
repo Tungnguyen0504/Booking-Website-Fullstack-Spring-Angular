@@ -21229,6 +21229,7 @@ pre[class*=language-]:before {
     transition: all 0.3s ease-in-out;
     width: 235px;
     height: calc(100% - 56px);
+    min-height: 100vh;
     margin-top: 56px;
     top: 0;
     background: #2c3e50;

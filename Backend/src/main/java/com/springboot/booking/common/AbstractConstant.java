@@ -16,7 +16,7 @@ public class AbstractConstant {
     public static final String PORT_FE_ADMIN = "5300";
     public static final String PASSWORD_USER = "User123@";
     public static final String PASSWORD_ADMIN = "Admin123@";
-    public static final String FILE_PREFIX_CITY = "city/";
+    public static final String FILE_PREFIX_PROVINCE = "province/";
     public static final String FILE_PREFIX_ACCOMMODATION = "accommodation/";
     public static final String FILE_PREFIX_ACCOMMODATION_TYPE = "accommodation-type/";
     public static final String FILE_PREFIX_ROOM = "room/";

@@ -28,8 +28,7 @@
               "src/custom-theme.scss",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/styles.css",
-              "src/assets/global/css/multi-select/jquery.multiselect.css"
+              "src/styles.css"
             ],
             "scripts": [
               "src/assets/global/js/jquery/jquery-3.5.1.js",

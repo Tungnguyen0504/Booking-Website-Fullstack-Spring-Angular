@@ -1,9 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { Accommodation } from 'src/app/model/Accommodation.model';
-import { CityService } from 'src/app/service/city.service';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 
 declare var $: any;
+
+interface Accommodation {
+  wardId: number;
+  specificAddress: string;
+}
 
 @Component({
   selector: 'app-create-accommodation',
@@ -11,18 +14,22 @@ declare var $: any;
   styleUrls: ['./create-accommodation.component.css'],
 })
 export class CreateAccommodationComponent implements OnInit {
-  @ViewChild('form', { static: false }) form: NgForm = {} as NgForm;
+  form: FormGroup = {} as FormGroup;
 
   accommodation: Accommodation = {} as Accommodation;
 
-  constructor(private cityService: CityService) {
+  constructor(
+    private $formBuilder: FormBuilder
+    ) {
     // this.cityService.getTopCity(100).subscribe((response) => {
     //   this.cities = response;
     // });
     // console.log(this.cities);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.form = this.$formBuilder.group({});
+  }
 
   initComponentJquery() {
     $('input[name="image"]').fileinput({
@@ -31,6 +38,13 @@ export class CreateAccommodationComponent implements OnInit {
       showUpload: false,
       showCancel: false,
     });
+  }
+
+  buildFormGroup() {
+    this.form = this.$formBuilder.group({
+      // wardId: [this.accommodation.wardId, null],
+      // specificAddress: [this.accommodation.specificAddress, null]
+    })
   }
 
   create() {
