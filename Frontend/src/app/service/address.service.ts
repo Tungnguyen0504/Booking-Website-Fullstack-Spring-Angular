@@ -4,7 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
 import { PATH_USER, PATH_V1 } from '../constant/Abstract.constant';
 
-const URL = environment.apiUrl + PATH_V1 + PATH_USER;
+const URL = environment.apiUrl + PATH_V1 + '/address';
 
 @Injectable({
   providedIn: 'root',

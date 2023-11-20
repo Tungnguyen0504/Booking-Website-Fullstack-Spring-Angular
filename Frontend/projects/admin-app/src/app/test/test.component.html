@@ -45,8 +45,8 @@
         <button type="submit">test</button>
       </form>
 
-
-      <mat-stepper linear #stepper>
+      
+        <mat-stepper linear #stepper>
         <mat-step [stepControl]="firstFormGroup" [editable]="isEditable">
           <form [formGroup]="firstFormGroup">
             <ng-template matStepLabel>Fill out your name</ng-template>
@@ -80,7 +80,7 @@
             <button mat-button (click)="stepper.reset()">Reset</button>
           </div>
         </mat-step>
-      </mat-stepper>
+      </mat-stepper> -->
 
     </div>
   </div>

@@ -6,6 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatSelect } from '@angular/material/select';
 import { MatStepper } from '@angular/material/stepper';
 import { AddressService } from 'src/app/service/address.service';
 
@@ -15,7 +16,10 @@ export interface DialogData {
   action: string;
   address: string;
   specificAddress: string;
+  provinceId: number;
+  districtId: number;
   wardId: number;
+  isCompleted: boolean;
 }
 
 @Component({
@@ -25,7 +29,6 @@ export interface DialogData {
 })
 export class FormAddressDialogComponent implements OnInit {
   @ViewChild('stepper') private stepper!: MatStepper;
-  // @Input() data: any;
 
   listProvince: any[] = [];
   listDistrict: any[] = [];
@@ -144,25 +147,25 @@ export class FormAddressDialogComponent implements OnInit {
     $('#collapseAddress').removeClass('show');
   }
 
-  update() {}
+  update() {
+    if (this.dialogForm.valid) {
+      const provinceName = this.listProvince.filter(
+        (p) => p.provinceId == this.provinceForm.get('selectedProvince')?.value
+      )[0].provinceName;
+      const districtName = this.listDistrict.filter(
+        (p) => p.districtId == this.districtForm.get('selectedDistrict')?.value
+      )[0].districtName;
+      const wardName = this.listWard.filter(
+        (p) => p.wardId == this.wardForm.get('selectedWard')?.value
+      )[0].wardName;
 
-  test() {
-    this.data.address = this.dialogForm.get('address')?.value;
-    this.data.specificAddress = this.dialogForm.get('specificAddress')?.value;
-    this.data.wardId = this.wardForm.get('selectedWard')?.value;
-    if (
-      this.data.address !== '' ||
-      this.data.specificAddress !== '' ||
-      this.data.wardId != 0
-    ) {
+      this.data.specificAddress = this.dialogForm.get('specificAddress')?.value;
+      this.data.wardId = this.wardForm.get('selectedWard')?.value;
+      this.data.address = `${this.data.specificAddress}, ${wardName}, ${districtName}, ${provinceName}`;
+      this.data.isCompleted = true;
+      console.log(this.data);
+
       this.dialogRef.close(this.data);
     }
-    // if (this.areAllStepsCompleted()) {
-    //   console.log('completed');
-    // } else {
-    //   console.log('not completed');
-    // }
-    // if (this.dialogForm.valid) {
-    // }
   }
 }

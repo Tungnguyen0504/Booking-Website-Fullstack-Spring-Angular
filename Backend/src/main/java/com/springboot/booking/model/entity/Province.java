@@ -1,21 +1,17 @@
 package com.springboot.booking.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.springboot.booking.model.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
+@Getter
+@Setter
 @Entity
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @Table(name = "province")
 @AttributeOverride(name = "id", column = @Column(name = "province_id"))
 public class Province extends BaseEntity {

@@ -35,10 +35,11 @@ public class SecurityConfiguration {
 
                 .authorizeHttpRequests()
                 .requestMatchers(
-                        "/v1/api/auth/**",
-                        "/v1/api/user/**",
-                        "/v1/api/admin/**",
-                        "/swagger-ui.html"
+                        "/rest/api/v1/**"
+//                        "/v1/api/auth/**",
+//                        "/v1/api/user/**",
+//                        "/v1/api/admin/**",
+//                        "/swagger-ui.html"
                 )
                 .permitAll()
 
@@ -57,11 +58,11 @@ public class SecurityConfiguration {
                 .and()
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                .logout()
-                .logoutUrl("/api/v1/auth/logout")
-                .addLogoutHandler(logoutHandler)
-                .logoutSuccessHandler(
-                        (request, response, authentication) -> SecurityContextHolder.clearContext())
+//                .logout()
+//                .logoutUrl("/api/v1/auth/logout")
+//                .addLogoutHandler(logoutHandler)
+//                .logoutSuccessHandler(
+//                        (request, response, authentication) -> SecurityContextHolder.clearContext())
         ;
 
         return http.build();

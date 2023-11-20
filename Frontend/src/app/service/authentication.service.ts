@@ -45,10 +45,6 @@ export class AuthenticationService {
     this.router.navigate(['/login']);
   }
 
-  getCurrentUser(): Observable<User> {
-    return this.httpClient.get<User>(URL + '/get-current-user');
-  }
-
   isLoggedIn(): boolean {
     return this.getJwtToken() ? true : false;
   }

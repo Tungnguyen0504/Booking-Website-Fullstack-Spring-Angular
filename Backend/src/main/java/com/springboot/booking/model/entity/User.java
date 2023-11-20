@@ -1,6 +1,6 @@
 package com.springboot.booking.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.springboot.booking.model.BaseEntity;
 import com.springboot.booking.model.ERole;
 import jakarta.persistence.*;
@@ -47,8 +47,8 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "role")
     private ERole role;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Token> tokens;
 
     @Override

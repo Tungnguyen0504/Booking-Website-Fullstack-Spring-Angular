@@ -53,9 +53,4 @@ public class AuthenticationController {
         service.logout(jwt);
         return ResponseEntity.ok(new BSuccess(SuccessResult.LOGOUT_SUCCESS));
     }
-
-    @GetMapping("/get-current-user")
-    public ResponseEntity<User> getCurrentUser() {
-        return ResponseEntity.ok(service.getCurrentUser());
-    }
 }

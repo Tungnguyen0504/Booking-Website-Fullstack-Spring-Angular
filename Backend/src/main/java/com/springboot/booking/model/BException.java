@@ -2,6 +2,7 @@ package com.springboot.booking.model;
 
 import com.springboot.booking.common.ExceptionResult;
 import lombok.Data;
+import org.springframework.http.HttpStatus;
 
 @Data
 public class BException extends RuntimeException {
@@ -9,6 +10,12 @@ public class BException extends RuntimeException {
 
     int errorCode;
     String errorMessage;
+
+    public BException(final String message) {
+        super();
+        this.errorCode = HttpStatus.BAD_REQUEST.value();
+        this.errorMessage = message;
+    }
 
     public BException(final ExceptionResult result) {
         super();

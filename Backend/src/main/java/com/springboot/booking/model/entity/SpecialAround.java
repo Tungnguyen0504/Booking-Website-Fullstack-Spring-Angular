@@ -2,19 +2,18 @@ package com.springboot.booking.model.entity;
 
 import com.springboot.booking.model.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
+@Getter
+@Setter
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 @Table(name = "special_around")
 @AttributeOverride(name = "id", column = @Column(name = "special_around_id"))
 public class SpecialAround extends BaseEntity {
@@ -25,11 +24,8 @@ public class SpecialAround extends BaseEntity {
     @ManyToMany(mappedBy = "specialArounds")
     private Set<Accommodation> accommodations = new HashSet<>();
 
-    public SpecialAround(String description) {
-        this.description = description;
-    }
-
-    public static SpecialAround create(String description) {
-        return new SpecialAround(description);
+    @Override
+    public int hashCode() {
+        return Objects.hash(description);
     }
 }

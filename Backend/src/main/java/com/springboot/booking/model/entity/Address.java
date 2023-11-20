@@ -2,18 +2,16 @@ package com.springboot.booking.model.entity;
 
 import com.springboot.booking.model.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
+@Getter
+@Setter
 @Entity
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @Table(name = "address")
 @AttributeOverride(name = "id", column = @Column(name = "address_id"))
 public class Address extends BaseEntity {

@@ -3,6 +3,7 @@ import { AuthenticationService } from './service/authentication.service';
 import { User } from './model/User.model';
 import { AlertService } from './service/alert.service';
 import 'owl.carousel';
+import { UserService } from './service/user.service';
 
 @Component({
   selector: 'app-user-root',
@@ -15,27 +16,27 @@ export class AppComponent implements OnInit {
   isLogined: boolean = false;
 
   constructor(
-    private authService: AuthenticationService,
-    private alertService: AlertService
+    private $authService: AuthenticationService,
+    private $userService: UserService,
+    private $alertService: AlertService
   ) {}
 
   ngOnInit(): void {
-    this.isLogined = this.authService.isLoggedIn();
+    this.isLogined = this.$authService.isLoggedIn();
     this.getCurrentUser();
   }
 
   getCurrentUser() {
     if (this.isLogined) {
-      this.authService.getCurrentUser().subscribe(
-        (response) => {
+      this.$userService.getCurrentUser().subscribe({
+        next: (response) => {
           this.user = response;
-          console.log('token: ' + this.authService.getJwtToken());
         },
-        (error) => {
+        error: (error) => {
           this.isLogined = false;
-          this.alertService.error(error.error.errorMessage);
-        }
-      );
+          this.$alertService.error(error.error.errorMessage);
+        },
+      });
     }
   }
 }

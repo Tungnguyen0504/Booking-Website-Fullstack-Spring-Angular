@@ -1,7 +1,11 @@
 import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 import { NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ACTION_LOGIN, ACTION_REGISTER, JWT_TOKEN } from 'src/app/constant/Abstract.constant';
+import {
+  ACTION_LOGIN,
+  ACTION_REGISTER,
+  JWT_TOKEN,
+} from 'src/app/constant/Abstract.constant';
 import { AlertService } from 'src/app/service/alert.service';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 
@@ -45,18 +49,18 @@ export class VerificationCodeComponent implements AfterViewInit {
       return;
     }
 
-    if(this.action === ACTION_LOGIN) {
-      this.authService.login(this.formLogin.value).subscribe(
-        (response) => {
+    if (this.action === ACTION_LOGIN) {
+      this.authService.login(this.formLogin.value).subscribe({
+        next: (response) => {
           localStorage.setItem(JWT_TOKEN, response.accessToken.toString());
           this.navigateToHomePage();
-          console.log(localStorage.getItem(JWT_TOKEN));
+          console.log("a: " + localStorage.getItem(JWT_TOKEN));
         },
-        (error) => {
+        error: (error) => {
           console.log(error);
           this.alertService.error(error.error.errorMessage);
-        }
-      );
+        },
+      });
     } else if (this.action === ACTION_REGISTER) {
       this.authService.register(this.formRegister.value).subscribe(
         (response) => {
@@ -68,7 +72,6 @@ export class VerificationCodeComponent implements AfterViewInit {
         }
       );
     }
-    
   }
 
   navigateToHomePage() {

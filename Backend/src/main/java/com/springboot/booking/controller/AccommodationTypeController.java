@@ -1,7 +1,8 @@
 package com.springboot.booking.controller;
 
+import com.springboot.booking.dto.response.AccommodationTypeResponse;
 import com.springboot.booking.model.entity.AccommodationType;
-import com.springboot.booking.service.AccommodationTypeSerive;
+import com.springboot.booking.service.AccommodationTypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,14 +17,14 @@ import static com.springboot.booking.common.AbstractConstant.PATH_V1;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping(PATH_V1 + PATH_USER)
+@RequestMapping(PATH_V1 + "/accommodation-type")
 @RequiredArgsConstructor
 public class AccommodationTypeController {
 
-    private final AccommodationTypeSerive accommodationTypeSerive;
+    private final AccommodationTypeService accommodationTypeSerive;
 
     @GetMapping("/get-all-accommodation-type")
-    public ResponseEntity<List<AccommodationType>> getAllAccommodationType() {
+    public ResponseEntity<List<AccommodationTypeResponse>> getAllAccommodationType() {
         return ResponseEntity.ok(accommodationTypeSerive.getAllAccommodationType());
     }
 }

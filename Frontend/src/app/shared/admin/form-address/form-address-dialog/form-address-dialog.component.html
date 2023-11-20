@@ -1,4 +1,4 @@
-<form [formGroup]="dialogForm" (ngSubmit)="test()" novalidate>
+<form [formGroup]="dialogForm" (ngSubmit)="update()" novalidate>
   <h2 mat-dialog-title>
     {{ data.action === "create" ? "Tạo mới" : "Cập nhật" }} địa chỉ
   </h2>
@@ -25,6 +25,7 @@
                 <mat-label>Vui lòng chọn</mat-label>
                 <mat-select
                   #provinceSelect
+                  class="show"
                   (selectionChange)="onProvinceChanged(provinceSelect.value)"
                   formControlName="selectedProvince"
                   required

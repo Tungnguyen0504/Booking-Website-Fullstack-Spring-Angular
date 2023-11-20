@@ -1,6 +1,5 @@
 package com.springboot.booking.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.springboot.booking.model.BaseEntity;
 import com.springboot.booking.model.ETokenType;
 import jakarta.persistence.*;
@@ -31,7 +30,6 @@ public class Token extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonBackReference
     private User user;
 
 }

@@ -6,14 +6,16 @@ import { environment } from 'src/environments/environment';
 import { AccommodationType } from '../model/AccommodationType.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AccommodationTypeService {
-  URL = environment.apiUrl + PATH_V1 + PATH_USER;
+  URL = environment.apiUrl + PATH_V1 + '/accommodation-type';
 
   constructor(private httpClient: HttpClient) {}
 
   getAllAccommodationType(): Observable<AccommodationType[]> {
-    return this.httpClient.get<AccommodationType[]>(`${this.URL}/get-all-accommodation-type`);
+    return this.httpClient.get<AccommodationType[]>(
+      `${this.URL}/get-all-accommodation-type`
+    );
   }
 }

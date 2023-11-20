@@ -3,9 +3,7 @@ package com.springboot.booking.controller;
 import com.springboot.booking.dto.response.DistrictResponse;
 import com.springboot.booking.dto.response.ProvinceResponse;
 import com.springboot.booking.dto.response.WardResponse;
-import com.springboot.booking.model.entity.District;
 import com.springboot.booking.model.entity.Province;
-import com.springboot.booking.model.entity.Ward;
 import com.springboot.booking.service.AddressService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,11 +11,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.springboot.booking.common.AbstractConstant.*;
+import static com.springboot.booking.common.AbstractConstant.PATH_USER;
+import static com.springboot.booking.common.AbstractConstant.PATH_V1;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping(PATH_V1 + PATH_USER)
+@RequestMapping(PATH_V1 + "/address")
 @RequiredArgsConstructor
 public class AddressController {
 

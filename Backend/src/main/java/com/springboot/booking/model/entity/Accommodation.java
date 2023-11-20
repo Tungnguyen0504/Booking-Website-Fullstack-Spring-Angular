@@ -2,19 +2,18 @@ package com.springboot.booking.model.entity;
 
 import com.springboot.booking.model.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
 
+@Getter
+@Setter
 @Entity
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @Table(name = "accommodation")
 @AttributeOverride(name = "id", column = @Column(name = "accommodation_id"))
 public class Accommodation extends BaseEntity {
@@ -29,16 +28,16 @@ public class Accommodation extends BaseEntity {
     private String email;
 
     @Column(name = "star")
-    private String star;
+    private int star;
 
     @Column(name = "description")
     private String description;
 
     @Column(name = "check_in")
-    private String checkin;
+    private LocalTime checkin;
 
     @Column(name = "checkout")
-    private String checkout;
+    private LocalTime checkout;
 
     @OneToOne
     @JoinColumn(name = "address_id")
@@ -48,7 +47,7 @@ public class Accommodation extends BaseEntity {
     @JoinColumn(name = "accommodation_type_id")
     private AccommodationType accommodationType;
 
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToMany
     @JoinTable(name = "accommodation_specialaround",
             joinColumns = @JoinColumn(name = "accommodation_id"),
             inverseJoinColumns = @JoinColumn(name = "special_around_id"))

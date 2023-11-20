@@ -28,10 +28,10 @@ export class TestComponent implements OnInit {
 
 
   firstFormGroup = this.$formBuilder.group({
-    firstCtrl: ['', Validators.required],
+  firstCtrl: ['', Validators.required],
   });
   secondFormGroup = this.$formBuilder.group({
-    secondCtrl: ['', Validators.required],
+  secondCtrl: ['', Validators.required],
   });
   isEditable = false;
 
@@ -53,12 +53,12 @@ export class TestComponent implements OnInit {
     );
 
     axios.get("https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json")
-      .then(response => {
-        console.log(response.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    .then(response => {
+    console.log(response.data);
+    })
+    .catch(error => {
+    console.log(error);
+    });
   }
 
   ngOnInit(): void {

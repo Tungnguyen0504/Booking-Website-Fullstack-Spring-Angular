@@ -1,5 +1,4 @@
 export interface AccommodationType {
-    id: string,
-    name: string,
-    imageUrl: string
+  accommodationTypeId: number;
+  accommodationTypeName: string;
 }

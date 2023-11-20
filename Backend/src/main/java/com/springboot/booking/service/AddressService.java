@@ -3,9 +3,7 @@ package com.springboot.booking.service;
 import com.springboot.booking.dto.response.DistrictResponse;
 import com.springboot.booking.dto.response.ProvinceResponse;
 import com.springboot.booking.dto.response.WardResponse;
-import com.springboot.booking.model.entity.District;
 import com.springboot.booking.model.entity.Province;
-import com.springboot.booking.model.entity.Ward;
 import com.springboot.booking.repository.DistrictRepository;
 import com.springboot.booking.repository.ProvinceRepository;
 import com.springboot.booking.repository.WardRepository;
@@ -13,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -54,9 +51,5 @@ public class AddressService {
                         .wardId(w.getId())
                         .wardName(w.getWardName())
                         .build()).toList();
-    }
-
-    public void saveImage(MultipartFile file) {
-        fileService.save(file);
     }
 }
