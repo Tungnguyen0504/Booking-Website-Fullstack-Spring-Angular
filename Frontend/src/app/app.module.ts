@@ -40,6 +40,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { FormAddressDialogComponent } from './shared/admin/form-address/form-address-dialog/form-address-dialog.component';
 import { GenericAssetsComponent } from './common/generic-assets/generic-assets.component';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { AdminSidebarComponent } from './shared/admin/admin-sidebar/admin-sidebar.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     FormAddressComponent,
     FormAddressDialogComponent,
     GenericAssetsComponent,
+    AdminSidebarComponent,
   ],
   imports: [
     HttpClientModule,

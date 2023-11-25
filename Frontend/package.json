@@ -22,6 +22,7 @@
     "@angular/router": "^16.1.0",
     "@ng-bootstrap/ng-bootstrap": "^15.1.1",
     "@popperjs/core": "^2.11.6",
+    "@fortawesome/fontawesome-free": "^5.5.0",
     "axios": "^1.5.1",
     "bootstrap": "^5.2.3",
     "bootstrap-fileinput": "^5.5.2",
