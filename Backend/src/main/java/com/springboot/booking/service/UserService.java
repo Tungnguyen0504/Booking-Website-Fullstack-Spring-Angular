@@ -2,7 +2,7 @@ package com.springboot.booking.service;
 
 import com.springboot.booking.common.ExceptionResult;
 import com.springboot.booking.config.AuthenticationFacade;
-import com.springboot.booking.model.BException;
+import com.springboot.booking.exeption.GlobalException;
 import com.springboot.booking.model.entity.User;
 import com.springboot.booking.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +26,6 @@ public class UserService {
             return null;
         }
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new BException(ExceptionResult.USER_NOT_FOUND));
+                .orElseThrow(() -> new GlobalException(ExceptionResult.USER_NOT_FOUND));
     }
 }

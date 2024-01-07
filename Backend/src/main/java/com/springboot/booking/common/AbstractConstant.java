@@ -22,7 +22,8 @@ public class AbstractConstant {
     public static final String FILE_PREFIX_ROOM = "room";
     public static final String FILE_PREFIX_USER = "user";
     public static final String FILE_UPLOAD_ROOT = "uploads";
-    public static final String DATETIME_ddMMyyyyHHmmss = "ddMMyyyyHHmmss";
+    public static final String TIMESTAMP_ddMMyyyyHHmmss = "ddMMyyyyHHmmss";
+    public static final String DATETIME_ddMMyyyyHHmmss = "dd-MM-yyyy HH:mm:ss";
 
     public static String getMsgBodySimple(String code) {
         return "Mã xác thực Thepalatin.com của bạn là: " + code;

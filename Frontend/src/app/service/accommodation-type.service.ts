@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PATH_USER, PATH_V1 } from '../constant/Abstract.constant';
+import { PATH_V1 } from '../constant/Abstract.constant';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';

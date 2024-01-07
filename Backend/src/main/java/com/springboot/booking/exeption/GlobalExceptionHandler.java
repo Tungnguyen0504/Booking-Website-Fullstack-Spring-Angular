@@ -6,16 +6,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.time.LocalDateTime;
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(BException.class)
-    public ResponseEntity<BException> handleResourceNotFoundBException(BException result) {
-        return new ResponseEntity<>(result, HttpStatus.valueOf(result.getErrorCode()));
+    @ExceptionHandler(GlobalException.class)
+    public ResponseEntity<BException> handleResourceNotFoundBException(GlobalException result) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST.value())
+                .body(new BException(result.getCode(), result.getMessage(), LocalDateTime.now()));
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleResourceNotFoundException(Exception ex) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
+    public ResponseEntity<BException> handleResourceNotFoundException(Exception e) {
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .body(new BException(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage(), LocalDateTime.now()));
     }
 }

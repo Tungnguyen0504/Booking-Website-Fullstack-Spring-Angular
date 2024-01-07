@@ -16,7 +16,7 @@ import java.util.List;
 @AttributeOverride(name = "id", column = @Column(name = "address_id"))
 public class Address extends BaseEntity {
 
-    @Column(name = "specific_address", unique = true)
+    @Column(name = "specific_address")
     private String specificAddress;
 
     @ManyToOne

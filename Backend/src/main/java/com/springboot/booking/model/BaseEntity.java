@@ -1,5 +1,6 @@
 package com.springboot.booking.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,10 +23,12 @@ public class BaseEntity implements Serializable {
     private Long id;
 
     @Column(name = "created_at")
+    @JsonFormat(pattern = "yyyyMMddHHmmss")
     @CreationTimestamp
     private LocalDateTime createdAt;
 
     @Column(name = "modified_at")
+    @JsonFormat(pattern = "yyyyMMddHHmmss")
     @UpdateTimestamp
     private LocalDateTime modifiedAt;
 }

@@ -1,6 +1,7 @@
 package com.springboot.booking.service;
 
 import com.springboot.booking.common.ExceptionResult;
+import com.springboot.booking.exeption.GlobalException;
 import com.springboot.booking.model.BException;
 import com.springboot.booking.model.EmailDetail;
 import jakarta.mail.MessagingException;
@@ -35,7 +36,7 @@ public class EmailService {
 
             javaMailSender.send(mailMessage);
         } catch (MailException e) {
-            throw new BException(ExceptionResult.SEND_EMAIL_ERROR, e);
+            throw new GlobalException(ExceptionResult.SEND_EMAIL_ERROR, e);
         }
     }
 

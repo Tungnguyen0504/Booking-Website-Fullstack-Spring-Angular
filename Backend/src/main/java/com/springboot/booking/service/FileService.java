@@ -3,6 +3,7 @@ package com.springboot.booking.service;
 import com.springboot.booking.common.AbstractConstant;
 import com.springboot.booking.common.DatetimeUtil;
 import com.springboot.booking.model.BException;
+import com.springboot.booking.model.entity.File;
 import com.springboot.booking.repository.FileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
@@ -13,12 +14,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.nio.file.FileAlreadyExistsException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
@@ -48,23 +47,16 @@ public class FileService {
             Path path = Paths.get(AbstractConstant.FILE_UPLOAD_ROOT, paths);
             if (!Files.exists(path))
                 Files.createDirectories(path);
-
-            StringBuilder fileNameBuilder = new StringBuilder();
-            fileNameBuilder.append(Objects.requireNonNull(file.getOriginalFilename()));
-            fileNameBuilder.append("_");
-            fileNameBuilder.append(DatetimeUtil.LocaleTimeddMMyyyyHHmmss(LocalDateTime.now()));
-            fileNameBuilder.append(getExtension(file.getOriginalFilename()).get());
-
-            Path filePath = path.resolve(fileNameBuilder.toString());
-            Files.copy(file.getInputStream(), filePath);
+            Path filePath = path.resolve(Objects.requireNonNull(file.getOriginalFilename()));
+            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
             return filePath.toString();
         } catch (Exception e) {
-            throw new BException("Error: " + e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
     public void saveMultiple(List<MultipartFile> files, String... paths) {
-        files.stream().forEach(file -> save(file, paths));
+        files.forEach(file -> save(file, paths));
     }
 
     public Resource load(String filename) {
@@ -82,6 +74,10 @@ public class FileService {
         }
     }
 
+    public List<Resource> loadMultiple(List<String> fileNames) {
+        return fileNames.stream().map(this::load).collect(Collectors.toList());
+    }
+
     public boolean delete(String filename) {
         try {
             Path file = root.resolve(filename);
@@ -97,9 +93,15 @@ public class FileService {
 
     public Stream<Path> loadAll() {
         try {
-            return Files.walk(this.root, 1).filter(path -> !path.equals(this.root)).map(this.root::relativize);
+            return Files.walk(this.root, 1)
+                    .filter(path -> !path.equals(this.root))
+                    .map(this.root::relativize);
         } catch (IOException e) {
             throw new RuntimeException("Could not load the files!");
         }
+    }
+
+    public List<File> getFilesByEntityIdAndEntityName(String entityId, String entityName) {
+        return fileRepository.findByEntityIdAndEntityName(entityId, entityName);
     }
 }

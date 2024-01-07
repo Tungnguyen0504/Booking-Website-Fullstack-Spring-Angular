@@ -1,6 +1,5 @@
 package com.springboot.booking.dto.request;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 

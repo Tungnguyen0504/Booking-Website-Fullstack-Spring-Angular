@@ -1,12 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CreateAccommodationComponent } from 'projects/admin-app/src/app/accommodation-management/create-accommodation/create-accommodation.component';
-import { TestComponent } from 'projects/admin-app/src/app/test/test.component';
-import { AppAuthenticationRoutingModule } from 'projects/authentication/src/app/app-authentication-routing.module';
-import { LoginComponent } from 'projects/authentication/src/app/login/login.component';
-import { LogoutComponent } from 'projects/authentication/src/app/logout/logout.component';
-import { RegisterComponent } from 'projects/authentication/src/app/register/register.component';
-import { UserHomeComponent } from 'projects/user-app/src/app/user-home/user-home.component';
+import { UserHomeComponent } from './page/user/user-home/user-home.component';
+import { LogoutComponent } from './page/authentication/logout/logout.component';
+import { LoginComponent } from './page/authentication/login/login.component';
+import { RegisterComponent } from './page/authentication/register/register.component';
+import { AdminComponent } from './page/admin/admin.component';
 
 const routes: Routes = [
   { path: 'register', component: RegisterComponent },
@@ -14,12 +12,14 @@ const routes: Routes = [
   { path: 'logout', component: LogoutComponent },
   { path: 'user', component: UserHomeComponent },
   { path: 'user/home', component: UserHomeComponent },
-  { path: 'admin/create-accommodation', component: CreateAccommodationComponent },
-  { path: 'admin/test', component: TestComponent },
+  {
+    path: 'admin',
+    component: AdminComponent,
+  },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes), AppAuthenticationRoutingModule],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
