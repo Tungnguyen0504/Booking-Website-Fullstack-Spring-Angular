@@ -1,13 +1,16 @@
+import { AccommodationType } from './AccommodationType.model';
+
 export interface Accommodation {
-    accommodationName: string;
-    address: string;
-    phone: string;
-    email: string;
-    star: number;
-    description: string;
-    checkin: string;
-    checkout: string;
-    cityId: string;
-    accommodationType: string;
-    specialArounds: string[];
+  accommodationId: number;
+  accommodationName: string;
+  accommodationType: AccommodationType;
+  phone: string;
+  email: string;
+  star: number;
+  description: string;
+  checkin: string;
+  checkout: string;
+  fullAddress: string;
+  specialArounds: string[];
+  filePaths: string[];
 }

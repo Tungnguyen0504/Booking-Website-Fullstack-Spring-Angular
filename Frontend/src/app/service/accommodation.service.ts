@@ -3,6 +3,7 @@ import { PATH_V1 } from '../constant/Abstract.constant';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Accommodation } from '../model/Accommodation.model';
 
 @Injectable({
   providedIn: 'root',
@@ -30,5 +31,13 @@ export class AccommodationService {
     formData.append('specialArounds', data.specialArounds);
 
     return this.httpClient.post(this.URL + '/save', formData);
+  }
+
+  getAllAccommodation(): Observable<Accommodation[]> {
+    return this.httpClient.get<Accommodation[]>(`${this.URL}/get-all`);
+  }
+
+  getById(id: number): Observable<Accommodation> {
+    return this.httpClient.get<Accommodation>(`${this.URL}/get-by-id/${id}`);
   }
 }

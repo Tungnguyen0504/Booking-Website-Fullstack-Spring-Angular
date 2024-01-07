@@ -30,7 +30,7 @@ public enum ExceptionResult {
 
     SEND_EMAIL_ERROR(404, "Không gửi được email."),
 
-    RESOUCE_NOT_FOUND(404, "không tìm thấy dữ liệu trong db.")
+    RESOURCE_NOT_FOUND(404, "không tìm thấy dữ liệu.")
 
     ;
 

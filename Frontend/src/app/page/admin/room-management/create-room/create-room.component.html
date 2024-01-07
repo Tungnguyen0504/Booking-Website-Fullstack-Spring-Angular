@@ -1,0 +1,188 @@
+<div class="row mb-3">
+  <div class="col-sm-12">
+    <div class="card card-admin">
+      <div class="card-header" style="background: none">
+        <h5>Thêm thông tin</h5>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb bg-white p-0">
+            <li class="breadcrumb-item">
+              <a href="#"
+                ><i class="fa-solid fa-house" style="font-size: 16px"></i
+              ></a>
+            </li>
+            <li class="breadcrumb-item"><a href="#">Quản lý phòng</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Thêm mới</li>
+          </ol>
+        </nav>
+      </div>
+      <div class="card-body bg-white">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="card">
+              <!-- <div class="card-header">
+                <h5>Thông tin khách sạn</h5>
+              </div> -->
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div
+                      class="btn-group-vertical d-block"
+                      role="group"
+                      aria-label="Button group with nested dropdown"
+                      style="max-height: 168px; overflow-y: auto"
+                    >
+                      <mat-selection-list
+                        #selectionList
+                        [multiple]="false"
+                        (selectionChange)="onSelectedAccom(selectionList)"
+                      >
+                        <mat-list-option
+                          *ngFor="let data of listAccommodation; let i = index"
+                          [selected]="data && i === 0"
+                          [value]="data.accommodationId"
+                          >{{ data.accommodationName }}</mat-list-option
+                        >
+                      </mat-selection-list>
+                    </div>
+                  </div>
+                  <div class="col-md-9 hotel-render">
+                    <div class="d-flex justify-content-between">
+                      <div>
+                        <div class="d-flex align-items-center mb-2">
+                          <p class="text-muted mb-0 mr-2">
+                            {{
+                              selectedAccommodation?.accommodationType
+                                ?.accommodationTypeName
+                            }}
+                          </p>
+                          <div style="color: #febb02">
+                            <i
+                              *ngFor="
+                                let data of fakeArrStar(
+                                  selectedAccommodation?.star!
+                                )
+                              "
+                              class="fa-solid fa-star"
+                            ></i>
+                          </div>
+                        </div>
+
+                        <div class="mb-2">
+                          <h3 class="mb-0">
+                            {{ selectedAccommodation?.accommodationName }}
+                          </h3>
+                        </div>
+
+                        <div class="mb-2">
+                          <p class="mb-0">
+                            {{ selectedAccommodation?.fullAddress }}
+                          </p>
+                        </div>
+
+                        <!-- <c:set var="countRate"
+                                   value="${FunctionUtil.countRating(RatingDAO.getAllListRatingByHotelId(hotel.hotelId))}"/>
+                            <c:set var="ratingPoint"
+                                   value="${FunctionUtil.countRatingPoint(RatingDAO.getAllListRatingByHotelId(hotel.hotelId))}"/> -->
+
+                        <div class="d-flex mb-2">
+                          <div
+                            class="d-flex align-items-center justify-content-center font-weight-bold mr-2"
+                            style="
+                              background: #003580;
+                              height: 28px;
+                              width: 28px;
+                              border-radius: 5.8181818182px 5.8181818182px
+                                5.8181818182px 0;
+                              color: #ffffff;
+                              font-size: 13px;
+                            "
+                          >
+                            4.5
+                          </div>
+                          <div
+                            class="d-flex align-items-center mr-2"
+                            style="font-weight: 500"
+                          >
+                            Tuyệt hảo
+                          </div>
+                          <div
+                            class="d-flex align-items-center text-muted"
+                            style="font-size: 13px"
+                          >
+                            8 đánh giá
+                          </div>
+                        </div>
+
+                        <div>
+                          <span
+                            class="rounded"
+                            style="border: 1px solid; padding: 0px 3px"
+                          >
+                            <i class="fa-solid fa-car-side mr-1"></i> Xe đưa đón
+                            sân bay
+                          </span>
+                        </div>
+                      </div>
+                      <div class="mx-3">
+                        <div
+                          id="carousel-room1"
+                          class="carousel slide"
+                          data-ride="carousel"
+                        >
+                          <div
+                            class="carousel-inner"
+                            style="width: 320px; border-radius: 0.225rem"
+                          >
+                            <div
+                              class="carousel-item {{
+                                i === 0 ? 'active' : ''
+                              }}"
+                              *ngFor="let image of imageCarousel; let i = index"
+                              style="width: 320px"
+                            >
+                              <img
+                                class="img-fluid d-block w-100"
+                                style="
+                                  height: 168px;
+                                  border-radius: 0.225rem;
+                                  object-fit: cover;
+                                "
+                                [src]="image"
+                              />
+                            </div>
+                          </div>
+                          <a
+                            class="carousel-control-prev"
+                            href="#carousel-room1"
+                            role="button"
+                            data-slide="prev"
+                            ><span
+                              class="carousel-control-prev-icon"
+                              aria-hidden="true"
+                            ></span
+                            ><span class="sr-only">Previous</span></a
+                          >
+                          <a
+                            class="carousel-control-next"
+                            href="#carousel-room1"
+                            role="button"
+                            data-slide="next"
+                            ><span
+                              class="carousel-control-next-icon"
+                              aria-hidden="true"
+                            ></span
+                            ><span class="sr-only">Next</span></a
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

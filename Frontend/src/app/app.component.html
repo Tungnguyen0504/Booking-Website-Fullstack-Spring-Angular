@@ -1,15 +1,10 @@
-<ng-container *ngIf="!isLogined || user?.role === 'USER'">
-  <!-- <app-user-assets></app-user-assets> -->
-  <app-css-loading></app-css-loading>
-</ng-container>
+<ng-container *ngIf="!isLogined || user?.role === 'USER'"> </ng-container>
 
 <ng-container *ngIf="user?.role === 'ADMIN'">
-  <app-admin-assets></app-admin-assets>
-  <!-- <app-admin-header-sidebar></app-admin-header-sidebar> -->
+  <!-- <app-admin-sidebar></app-admin-sidebar> -->
 </ng-container>
 
-<app-user-assets></app-user-assets>
-<app-admin-sidebar></app-admin-sidebar>
+<app-css-loading></app-css-loading>
 
 <app-generic-assets></app-generic-assets>
 

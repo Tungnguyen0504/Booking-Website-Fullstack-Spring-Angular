@@ -4,12 +4,14 @@ import com.springboot.booking.dto.response.DistrictResponse;
 import com.springboot.booking.dto.response.ProvinceResponse;
 import com.springboot.booking.dto.response.WardResponse;
 import com.springboot.booking.model.entity.Province;
+import com.springboot.booking.model.entity.Ward;
 import com.springboot.booking.service.AddressService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 import static com.springboot.booking.common.AbstractConstant.PATH_USER;
 import static com.springboot.booking.common.AbstractConstant.PATH_V1;
@@ -40,5 +42,10 @@ public class AddressController {
     @GetMapping("/get-wards-by-district")
     public ResponseEntity<List<WardResponse>> getWardsByDistrict(@RequestParam Long districtId) {
         return ResponseEntity.ok(addressService.getWardsByDistrict(districtId));
+    }
+
+    @GetMapping("/get-full-address")
+    public ResponseEntity<String> getFullAddress(@RequestParam Long addressId) {
+        return ResponseEntity.ok(addressService.getFullAddress(addressId));
     }
 }

@@ -1,0 +1,51 @@
+.date-input:disabled,
+.date-input[readonly] {
+  background-color: transparent;
+}
+
+/*file-input*/
+.file-drop-zone {
+  min-height: 238px;
+}
+
+.krajee-default.file-preview-frame {
+  height: 210px;
+  width: 210px;
+}
+
+.krajee-default.file-preview-frame .kv-file-content {
+  height: 100%;
+  width: 100%;
+}
+
+.file-preview-image {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+}
+
+.file-thumbnail-footer {
+  display: none;
+}
+
+.file-caption {
+  display: none;
+}
+
+.file-preview .fileinput-remove {
+  top: 10px;
+  right: 10px;
+}
+
+/*star-rating*/
+.star-acc {
+  font-size: 1.7rem;
+  color: #ffc107 !important;
+}
+
+.btn-address {
+  position: absolute;
+  top: 10px;
+  right: 25px;
+  width: fit-content !important;
+}

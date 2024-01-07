@@ -7,13 +7,12 @@ import java.util.Locale;
 
 public class DatetimeUtil {
 
-    public static String LocaleTimeHHmm(LocalTime localTime) {
+    public static String format_HHmm(LocalTime localTime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
         return formatter.format(localTime);
     }
 
-    public static String LocaleTimeddMMyyyyHHmmss(LocalDateTime localDateTime) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(AbstractConstant.DATETIME_ddMMyyyyHHmmss);
-        return formatter.format(localDateTime);
+    public static String ofPatternDateTime(LocalDateTime localDateTime, String pattern) {
+        return DateTimeFormatter.ofPattern(pattern).format(localDateTime);
     }
 }

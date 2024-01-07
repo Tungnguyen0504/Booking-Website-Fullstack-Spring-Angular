@@ -58,7 +58,7 @@ export class VerificationCodeComponent implements AfterViewInit {
         },
         error: (error) => {
           console.log(error);
-          this.alertService.error(error.error.errorMessage);
+          this.alertService.error(error.error.message);
         },
       });
     } else if (this.action === ACTION_REGISTER) {
@@ -68,7 +68,7 @@ export class VerificationCodeComponent implements AfterViewInit {
         },
         (error) => {
           console.log(error);
-          this.alertService.error(error.error.errorMessage);
+          this.alertService.error(error.error.message);
         }
       );
     }

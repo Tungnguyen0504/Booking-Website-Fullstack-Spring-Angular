@@ -1,0 +1,24 @@
+<!-- <div class="page-wrapper" [ngClass]="{ toggled: getSideBarState() }"> -->
+<div class="page-wrapper">
+  <!-- navbar -->
+  <header
+    class="navbar navbar-expand-lg navbar-light"
+    style="margin-left: 260px; background-color: #181a1c; height: 60px"
+  ></header>
+  <!-- navbar -->
+
+  <!-- sidebar -->
+  <app-admin-sidebar></app-admin-sidebar>
+  <!-- sidebar -->
+
+  <main class="page-content">
+    <div class="container-fluid">
+      <router-outlet></router-outlet>
+    </div>
+    <!-- <div
+      class="overlay"
+      (click)="toggleSidebar()"
+      [ngClass]="{ show: !getSideBarState() }"
+    ></div> -->
+  </main>
+</div>

@@ -30,7 +30,7 @@ public class Accommodation extends BaseEntity {
     @Column(name = "star")
     private int star;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 10000)
     private String description;
 
     @Column(name = "check_in")

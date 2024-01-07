@@ -4,7 +4,6 @@ import { JWT_TOKEN, PATH_AUTH, PATH_V1 } from '../constant/Abstract.constant';
 import { Observable } from 'rxjs';
 import { RegisterRequest } from '../model/request/RegisterRequest.model';
 import { LoginRequest } from '../model/request/LoginRequest.model';
-import { User } from '../model/User.model';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 

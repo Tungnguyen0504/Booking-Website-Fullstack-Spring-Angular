@@ -7,7 +7,7 @@ import com.springboot.booking.config.AuthenticationFacade;
 import com.springboot.booking.dto.request.LoginRequest;
 import com.springboot.booking.dto.request.RegisterRequest;
 import com.springboot.booking.dto.response.AuthenticationResponse;
-import com.springboot.booking.model.BException;
+import com.springboot.booking.exeption.GlobalException;
 import com.springboot.booking.model.ERole;
 import com.springboot.booking.model.ETokenType;
 import com.springboot.booking.model.EmailDetail;
@@ -44,12 +44,12 @@ public class AuthenticationService {
     public String verifyRegister(RegisterRequest request) {
         User user = userRepository.findByEmail(request.getEmail()).orElse(null);
         if (Objects.nonNull(user)) {
-            throw new BException(ExceptionResult.EXISTED_EMAIL);
+            throw new GlobalException(ExceptionResult.EXISTED_EMAIL);
         }
 
         user = userRepository.findByPhoneNumber(request.getPhoneNumber()).orElse(null);
         if (Objects.nonNull(user)) {
-            throw new BException(ExceptionResult.EXISTED_PHONE_NUMBER);
+            throw new GlobalException(ExceptionResult.EXISTED_PHONE_NUMBER);
         }
 
         String verifyCode = Util.generateVerificationCode();
@@ -59,7 +59,7 @@ public class AuthenticationService {
                 .msgBody(AbstractConstant.getMsgBodySimple(verifyCode))
                 .build());
         if (!result) {
-            throw new BException(ExceptionResult.SEND_EMAIL_ERROR);
+            throw new GlobalException(ExceptionResult.SEND_EMAIL_ERROR);
         }
 
         return verifyCode;
@@ -83,7 +83,7 @@ public class AuthenticationService {
                     )
             );
         } catch (AuthenticationException e) {
-            throw new BException(ExceptionResult.WRONG_LOGIN_INFORMATION);
+            throw new GlobalException(ExceptionResult.WRONG_LOGIN_INFORMATION);
         }
 
         String verifyCode = Util.generateVerificationCode();
@@ -93,7 +93,7 @@ public class AuthenticationService {
                 .msgBody(AbstractConstant.getMsgBodySimple(verifyCode))
                 .build());
         if (!result) {
-            throw new BException(ExceptionResult.SEND_EMAIL_ERROR);
+            throw new GlobalException(ExceptionResult.SEND_EMAIL_ERROR);
         }
 
         return verifyCode;
@@ -101,7 +101,7 @@ public class AuthenticationService {
 
     public AuthenticationResponse login(LoginRequest loginRequest) {
         User user = userRepository.findByEmail(loginRequest.getEmail())
-                .orElseThrow(() -> new BException(ExceptionResult.USER_NOT_FOUND));
+                .orElseThrow(() -> new GlobalException(ExceptionResult.USER_NOT_FOUND));
 
         try {
             Authentication authentication = authenticationManager.authenticate(
@@ -112,7 +112,7 @@ public class AuthenticationService {
             );
             authenticationFacade.setAuthentication(authentication);
         } catch (AuthenticationException e) {
-            throw new BException(ExceptionResult.WRONG_LOGIN_INFORMATION);
+            throw new GlobalException(ExceptionResult.WRONG_LOGIN_INFORMATION);
         }
 
         var jwtToken = jwtService.generateToken(user);

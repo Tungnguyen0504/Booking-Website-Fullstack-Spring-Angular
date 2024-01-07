@@ -1,16 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from './service/authentication.service';
+import { Component } from '@angular/core';
 import { User } from './model/User.model';
-import { AlertService } from './service/alert.service';
-import 'owl.carousel';
+import { AuthenticationService } from './service/authentication.service';
 import { UserService } from './service/user.service';
+import { AlertService } from './service/alert.service';
 
 @Component({
-  selector: 'app-user-root',
+  selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'Thepalatin.com';
   user?: User;
   isLogined: boolean = false;
@@ -34,7 +33,7 @@ export class AppComponent implements OnInit {
         },
         error: (error) => {
           this.isLogined = false;
-          this.$alertService.error(error.error.errorMessage);
+          this.$alertService.error(error.error.message);
         },
       });
     }
