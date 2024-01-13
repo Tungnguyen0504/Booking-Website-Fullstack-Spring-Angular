@@ -1,8 +1,10 @@
 package com.springboot.booking.common;
 
+import com.springboot.booking.exeption.GlobalException;
 import jakarta.persistence.Table;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.StringUtils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -38,5 +40,12 @@ public class Util {
             }
         }
         return "";
+    }
+
+    public static String stringFormat(String str) {
+        if(StringUtils.isEmpty(str)) {
+            throw new GlobalException(ExceptionResult.PARAMETER_INVALID);
+        }
+        return str.trim();
     }
 }

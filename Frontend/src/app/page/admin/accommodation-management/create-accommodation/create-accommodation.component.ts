@@ -1,11 +1,6 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import {
   Component,
-  ElementRef,
   OnInit,
-  ViewChild,
-  inject,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -13,9 +8,6 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatChipInputEvent } from '@angular/material/chips';
-import { Observable, map, startWith } from 'rxjs';
 import { AccommodationType } from 'src/app/model/AccommodationType.model';
 import { AccommodationTypeService } from 'src/app/service/accommodation-type.service';
 import { AccommodationService } from 'src/app/service/accommodation.service';
@@ -33,18 +25,10 @@ export class CreateAccommodationComponent implements OnInit {
   form: FormGroup = {} as FormGroup;
 
   listAccommodationType: AccommodationType[] = [];
-
-  separatorKeysCodes: number[] = [ENTER, COMMA];
-  filteredspecialArounds!: Observable<string[]>;
-  specialArounds: string[] = [];
-  listSpecialAround: string[] = [];
-
   selectedImages!: FileList;
 
-  @ViewChild('specialAroundInput')
-  specialAroundInput!: ElementRef<HTMLInputElement>;
-
-  announcer = inject(LiveAnnouncer);
+  specialArounds: string[] = [];
+  listSpecialAround: string[] = [];
 
   constructor(
     private $formBuilder: FormBuilder,
@@ -63,16 +47,11 @@ export class CreateAccommodationComponent implements OnInit {
 
     this.$specialAroundService.getAllSpecialAround().subscribe((response) => {
       this.listSpecialAround = response.map((sp) => sp.description);
-
-      this.filteredspecialArounds = this.form
-        .get('specialAroundCtrl')!
-        .valueChanges.pipe(
-          startWith(null),
-          map((fruit: string | null) =>
-            fruit ? this._filter(fruit) : this.listSpecialAround.slice()
-          )
-        );
     });
+  }
+
+  onEmitter(data: any) {
+    this.form.get('specialArounds')?.setValue(data);
   }
 
   ngOnInit(): void {
@@ -80,14 +59,12 @@ export class CreateAccommodationComponent implements OnInit {
   }
 
   initComponentJquery() {
-    $(document).ready(function () {
       $('#file-input').fileinput({
         allowedFileTypes: ['image'],
         initialPreviewAsData: true,
         showUpload: false,
         showCancel: false,
       });
-    });
   }
 
   buildFormGroup() {
@@ -103,58 +80,16 @@ export class CreateAccommodationComponent implements OnInit {
       star: new FormControl(0, Validators.required),
       checkin: new FormControl('', Validators.required),
       checkout: new FormControl('', Validators.required),
-      specialAroundCtrl: new FormControl(''),
-      specialArounds: new FormControl({}),
-      image: new FormControl(null),
+      specialArounds: new FormControl([], Validators.required),
     });
   }
-
-  //=> Mat chips autocomplete
-  add(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
-    if (value && !this.specialArounds.includes(value)) {
-      this.specialArounds.push(value);
-      this.form.get('specialArounds')!.setValue(this.specialArounds);
-    }
-    event.chipInput!.clear();
-    this.form.get('specialAroundCtrl')!.setValue(null);
-  }
-
-  remove(fruit: string): void {
-    const index = this.specialArounds.indexOf(fruit);
-    if (index >= 0) {
-      this.specialArounds.splice(index, 1);
-      this.form.get('specialArounds')!.setValue(this.specialArounds);
-      this.announcer.announce(`Removed ${fruit}`);
-    }
-  }
-
-  selected(event: MatAutocompleteSelectedEvent): void {
-    if (!this.specialArounds.includes(event.option.viewValue)) {
-      this.specialArounds.push(event.option.viewValue);
-      this.form.get('specialArounds')!.setValue(this.specialArounds);
-    }
-    this.specialAroundInput.nativeElement.value = '';
-    this.form.get('specialAroundCtrl')!.setValue(null);
-  }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.listSpecialAround.filter((fruit) =>
-      fruit.toLowerCase().includes(filterValue)
-    );
-  }
-  //=> Mat chips autocomplete
 
   onFileChange(event: any) {
     this.selectedImages = event.target.files;
   }
 
   create() {
-    console.log(this.form.get('star')?.value);
     if (this.form.valid) {
-      console.log(this.form.value);
       this.$accommodationService
         .createNewAccommodation(this.selectedImages, this.form.value)
         .subscribe({

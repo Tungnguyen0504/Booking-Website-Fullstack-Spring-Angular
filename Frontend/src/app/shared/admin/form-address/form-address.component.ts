@@ -1,10 +1,5 @@
 import { Component, Input } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  FormGroupDirective,
-  Validators,
-} from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import {
   DialogData,
@@ -20,7 +15,7 @@ export class FormAddressComponent {
   @Input() form: FormGroup = {} as FormGroup;
   @Input() action: string = '';
 
-  constructor(private $formBuilder: FormBuilder, private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog) {}
 
   openDialog() {
     const dialogRef = this.dialog.open(FormAddressDialogComponent, {
@@ -46,4 +41,3 @@ export class FormAddressComponent {
     });
   }
 }
-

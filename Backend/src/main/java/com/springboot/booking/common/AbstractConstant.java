@@ -16,30 +16,29 @@ public class AbstractConstant {
     public static final String PORT_FE_ADMIN = "5300";
     public static final String PASSWORD_USER = "User123@";
     public static final String PASSWORD_ADMIN = "Admin123@";
+
+    //file upload
     public static final String FILE_PREFIX_PROVINCE = "province";
     public static final String FILE_PREFIX_ACCOMMODATION = "accommodation";
     public static final String FILE_PREFIX_ACCOMMODATION_TYPE = "accommodation-type";
     public static final String FILE_PREFIX_ROOM = "room";
     public static final String FILE_PREFIX_USER = "user";
+    public static final String _PREFIX_USER = "user";
     public static final String FILE_UPLOAD_ROOT = "uploads";
+
+    //property config
+    public static final String PROPERTY_SPECIAL_AROUND = "special_around";
+    public static final String PROPERTY_DINNING_ROOM = "dinning_room";
+    public static final String PROPERTY_BATH_ROOM = "bath_room";
+    public static final String PROPERTY_ROOM_SERVICE = "room_service";
+    public static final String PROPERTY_VIEW = "view";
+
     public static final String TIMESTAMP_ddMMyyyyHHmmss = "ddMMyyyyHHmmss";
     public static final String DATETIME_ddMMyyyyHHmmss = "dd-MM-yyyy HH:mm:ss";
+    public static final String STATUS_ACTIVE = "ACTIVE";
+    public static final String STATUS_INACTIVE = "INACTIVE";
 
     public static String getMsgBodySimple(String code) {
         return "Mã xác thực Thepalatin.com của bạn là: " + code;
-    }
-
-    public static String getMsgBody(HttpServletRequest request, String recipient, String homeLink) {
-        String url = Util.getBaseUrl(request) + PATH_V1 + PATH_AUTH + "/verification/" + recipient;
-        return "        <h2>Verify and sign in</h2>\n" +
-                "        Hi there,\n" +
-                "        <br><br>\n" +
-                "        Verify yourself below to sign in to your Thepalatin.com account for <strong style=\"text-decoration: underline;\">"
-                + recipient + "</strong>.\n" +
-                "        <br>\n" +
-                "        The link can only be used once and expires in 10 minutes if you don’t use it.\n" +
-                "        <br>\n" +
-                "        <input type=\"hidden\" name=\"email\" value=\"" + recipient + "\">" +
-                "        <a href=\"" + url + "\" style=\"color: blue;\">Verify me.</a>\n";
     }
 }

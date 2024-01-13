@@ -1,8 +1,15 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Accommodation } from 'src/app/model/Accommodation.model';
 import { AccommodationService } from 'src/app/service/accommodation.service';
+import { AlertService } from 'src/app/service/alert.service';
 import { FileService } from 'src/app/service/file.service';
+import { RoomService } from 'src/app/service/room.service';
 
 declare var $: any;
 
@@ -15,21 +22,40 @@ export class CreateRoomComponent implements OnInit {
   selectedAccommodation?: Accommodation;
   listAccommodation: Accommodation[] = [];
   imageCarousel?: string;
+  selectedImages?: FileList;
+
+  listViewSeletection: string[] = [];
+  listDinningRoomSeletection: string[] = [];
+  listBathRoomSeletection: string[] = [];
+  listRoomServiceSeletection: string[] = [];
+
+  form: FormGroup = {} as FormGroup;
 
   constructor(
+    private $formBuilder: FormBuilder,
     private $accommodationService: AccommodationService,
-    private $fileService: FileService
-  ) {}
+    private $roomService: RoomService,
+    private $fileService: FileService,
+    private $alertService: AlertService
+  ) {
+    this.buildFormGroup();
 
-  onSelectedAccom(option: any) {
-    this.$accommodationService.getById(option._value).subscribe({
-      next: (response) => {
-        this.refreshSeletedAccom(response);
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
+    // this.listViewSeletection = ['1', '2', '3'];
+  }
+
+  initComponentJquery() {
+    setTimeout(() => {
+      if (this.imageCarousel) {
+        const test = this.imageCarousel[0];
+        $('#file-input').fileinput({
+          allowedFileTypes: ['image'],
+          initialPreviewAsData: true,
+          showUpload: false,
+          showCancel: false,
+          initialPreview: this.imageCarousel,
+        });
+      }
+    }, 500);
   }
 
   ngOnInit(): void {
@@ -37,6 +63,39 @@ export class CreateRoomComponent implements OnInit {
       next: (response) => {
         this.listAccommodation = response;
         this.refreshSeletedAccom(response[0]);
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+
+    this.initComponentJquery();
+  }
+
+  onViewEmitter(data: any) {
+    this.form.get('views')?.setValue(data);
+  }
+
+  onDinningRoomEmitter(data: any) {
+    this.form.get('dinningRooms')?.setValue(data);
+  }
+
+  onBathRoomEmitter(data: any) {
+    this.form.get('bathRooms')?.setValue(data);
+  }
+
+  onRoomServiceEmitter(data: any) {
+    this.form.get('roomServices')?.setValue(data);
+  }
+
+  onFileInputEmitter(data: any) {
+    this.selectedImages = data;
+  }
+
+  onSelectedAccom(option: any) {
+    this.$accommodationService.getById(option._value).subscribe({
+      next: (response) => {
+        this.refreshSeletedAccom(response);
       },
       error: (error) => {
         console.log(error);
@@ -59,5 +118,42 @@ export class CreateRoomComponent implements OnInit {
           );
         });
     }
+  }
+
+  create() {
+    this.form
+      .get('accommodationId')
+      ?.setValue(this.selectedAccommodation?.accommodationId);
+    if (this.form.valid && this.selectedImages) {
+      this.$roomService
+        .createNewRoom(this.selectedImages, this.form.value)
+        .subscribe({
+          next: (response) => {
+            this.$alertService.success(response.message);
+            this.form.reset();
+          },
+          error: (error) => {
+            this.$alertService.error(error.error.message);
+          },
+        });
+    }
+  }
+
+  buildFormGroup() {
+    this.form = this.$formBuilder.group({
+      accommodationId: new FormControl('', Validators.required),
+      roomType: new FormControl('', Validators.required),
+      roomArea: new FormControl('', Validators.required),
+      bed: new FormControl('', Validators.required),
+      capacity: new FormControl('', Validators.required),
+      smoke: new FormControl('', Validators.required),
+      quantity: new FormControl('', Validators.required),
+      price: new FormControl('', Validators.required),
+      discount: new FormControl('', Validators.required),
+      dinningRooms: new FormControl(''),
+      bathRooms: new FormControl(''),
+      roomServices: new FormControl(''),
+      views: new FormControl(''),
+    });
   }
 }

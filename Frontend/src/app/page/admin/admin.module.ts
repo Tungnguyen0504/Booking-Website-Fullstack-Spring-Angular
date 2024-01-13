@@ -25,15 +25,19 @@ import { AdminSidebarComponent } from 'src/app/shared/admin/admin-sidebar/admin-
 import { CreateRoomComponent } from './room-management/create-room/create-room.component';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { RatingModule } from 'ngx-bootstrap/rating';
+import { CustomFieldTagInputComponent } from 'src/app/shared/admin/custom-field-tag-input/custom-field-tag-input.component';
+import { FileInputComponent } from 'src/app/shared/generic/file-input/file-input.component';
 
 @NgModule({
   declarations: [
     AdminComponent,
     CreateAccommodationComponent,
     FormAddressComponent,
+    CustomFieldTagInputComponent,
     FormAddressDialogComponent,
     AdminSidebarComponent,
     CreateRoomComponent,
+    FileInputComponent
   ],
   imports: [
     CommonModule,
@@ -55,7 +59,7 @@ import { RatingModule } from 'ngx-bootstrap/rating';
     MatExpansionModule,
     MatListModule,
     NgxMatTimepickerModule,
-    RatingModule
+    RatingModule,
   ],
 })
 export class AdminModule {}

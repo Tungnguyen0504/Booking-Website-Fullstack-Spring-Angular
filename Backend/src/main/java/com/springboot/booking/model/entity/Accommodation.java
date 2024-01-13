@@ -5,7 +5,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -39,6 +41,9 @@ public class Accommodation extends BaseEntity {
     @Column(name = "checkout")
     private LocalTime checkout;
 
+    @Column(name = "status")
+    private String status;
+
     @OneToOne
     @JoinColumn(name = "address_id")
     private Address address;
@@ -52,4 +57,7 @@ public class Accommodation extends BaseEntity {
             joinColumns = @JoinColumn(name = "accommodation_id"),
             inverseJoinColumns = @JoinColumn(name = "special_around_id"))
     private Set<SpecialAround> specialArounds = new HashSet<>();
+
+    @OneToMany(mappedBy = "accommodation")
+    private List<Room> rooms = new ArrayList<>();
 }

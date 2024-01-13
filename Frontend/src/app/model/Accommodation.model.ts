@@ -10,6 +10,7 @@ export interface Accommodation {
   description: string;
   checkin: string;
   checkout: string;
+  status: string;
   fullAddress: string;
   specialArounds: string[];
   filePaths: string[];

@@ -15,10 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,72 +37,74 @@ public class AccommodationService {
         return transferToDto(accommodation);
     }
 
-    public List<AccommodationResponse> getAllAccommodation() {
-        List<Accommodation> accommodations = accommodationRepository.findAll();
+    public List<AccommodationResponse> getAllAccommodationActive() {
+        List<Accommodation> accommodations = accommodationRepository.findByStatus(AbstractConstant.STATUS_ACTIVE);
         if (CollectionUtils.isEmpty(accommodations)) {
             return new ArrayList<>();
         }
-
         return accommodations.stream().map(this::transferToDto).collect(Collectors.toList());
     }
 
     @Transactional
     public void createAccommodation(CreateAccommodationRequest request) {
-        try {
-            Ward ward = wardRepository.findById(request.getWardId())
-                    .orElseThrow(() -> new GlobalException(ExceptionResult.RESOURCE_NOT_FOUND));
-            Address address = addressRepository.save(Address.builder()
-                    .specificAddress(request.getSpecificAddress())
-                    .ward(ward)
-                    .build());
+        AccommodationType accommodationType = accommodationTypeRepository.findById(request.getAccommodationTypeId())
+                .orElseThrow(() -> new GlobalException(ExceptionResult.RESOURCE_NOT_FOUND, "loại chỗ ở"));
+        List<Accommodation> checkAccommodations = accommodationRepository.findByAccommodationName(request.getAccommodationName());
 
-            Accommodation accommodation = Accommodation.builder()
-                    .accommodationName(request.getAccommodationName())
-                    .phone(request.getPhone())
-                    .email(request.getEmail())
-                    .star(request.getStar())
-                    .description(request.getDescription())
-                    .checkin(request.getCheckin())
-                    .checkout(request.getCheckout())
-                    .accommodationType(accommodationTypeRepository
-                            .findById(request.getAccommodationTypeId()).orElse(null))
-                    .address(address)
-                    .build();
-            Set<SpecialAround> specialArounds = request.getSpecialArounds().stream()
-                    .map(s -> {
-                        SpecialAround specialAround = specialAroundRepository.findSpecialAroundByDescription(s).orElse(null);
-                        if (specialAround == null) {
-                            specialAround = SpecialAround.builder()
-                                    .description(s)
-                                    .accommodations(new HashSet<>())
-                                    .build();
-                        }
-                        specialAround.getAccommodations().add(accommodation);
-                        return specialAround;
-                    })
-                    .collect(Collectors.toSet());
-            accommodation.setSpecialArounds(specialArounds);
-            accommodationRepository.save(accommodation);
-            specialAroundRepository.saveAll(specialArounds);
-
-            request.getFiles().removeIf(file ->
-                    fileRepository.findByFilePath(
-                                    AbstractConstant.FILE_PREFIX_ACCOMMODATION + "/" + file.getOriginalFilename())
-                            .isPresent()
-            );
-            fileService.saveMultiple(request.getFiles(), AbstractConstant.FILE_PREFIX_ACCOMMODATION);
-            List<File> files = request.getFiles()
-                    .stream()
-                    .map(file -> File.builder()
-                            .entityId(String.valueOf(accommodation.getId()))
-                            .entityName(Util.extractTableName(Accommodation.class))
-                            .filePath(AbstractConstant.FILE_PREFIX_ACCOMMODATION + "/" + file.getOriginalFilename())
-                            .build())
-                    .collect(Collectors.toList());
-            fileRepository.saveAll(files);
-        } catch (Exception e) {
-            throw new GlobalException("Không thể tạo mới chỗ ở.");
+        if (!CollectionUtils.isEmpty(checkAccommodations)) {
+            throw new GlobalException(ExceptionResult.CUSTOM_FIELD_EXISTED, "Tên " + accommodationType.getAccommodationTypeName());
         }
+
+        Ward ward = wardRepository.findById(request.getWardId())
+                .orElseThrow(() -> new GlobalException(ExceptionResult.RESOURCE_NOT_FOUND));
+        Address address = addressRepository.save(Address.builder()
+                .specificAddress(request.getSpecificAddress())
+                .ward(ward)
+                .build());
+
+        Accommodation accommodation = Accommodation.builder()
+                .accommodationName(request.getAccommodationName())
+                .phone(request.getPhone())
+                .email(request.getEmail())
+                .star(request.getStar())
+                .description(request.getDescription())
+                .checkin(request.getCheckin())
+                .checkout(request.getCheckout())
+                .status(AbstractConstant.STATUS_ACTIVE)
+                .accommodationType(accommodationType)
+                .address(address)
+                .build();
+        Set<SpecialAround> specialArounds = request.getSpecialArounds().stream()
+                .map(s -> {
+                    SpecialAround specialAround = specialAroundRepository.findSpecialAroundByDescription(s).orElse(null);
+                    if (specialAround == null) {
+                        specialAround = SpecialAround.builder()
+                                .description(s)
+                                .accommodations(new HashSet<>())
+                                .build();
+                    }
+                    specialAround.getAccommodations().add(accommodation);
+                    return specialAround;
+                })
+                .collect(Collectors.toSet());
+        accommodation.setSpecialArounds(specialArounds);
+        accommodationRepository.save(accommodation);
+        specialAroundRepository.saveAll(specialArounds);
+
+        request.getFiles().removeIf(file ->
+                fileRepository.findByFilePath(AbstractConstant.FILE_PREFIX_ACCOMMODATION + "/" + file.getOriginalFilename())
+                        .isPresent()
+        );
+        fileService.saveMultiple(request.getFiles(), AbstractConstant.FILE_PREFIX_ACCOMMODATION);
+        List<File> files = request.getFiles()
+                .stream()
+                .map(file -> File.builder()
+                        .entityId(String.valueOf(accommodation.getId()))
+                        .entityName(Util.extractTableName(Accommodation.class))
+                        .filePath(AbstractConstant.FILE_PREFIX_ACCOMMODATION + "/" + file.getOriginalFilename())
+                        .build())
+                .collect(Collectors.toList());
+        fileRepository.saveAll(files);
     }
 
     private AccommodationResponse transferToDto(Accommodation accommodation) {

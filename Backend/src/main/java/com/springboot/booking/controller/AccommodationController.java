@@ -4,19 +4,14 @@ import com.springboot.booking.common.SuccessResult;
 import com.springboot.booking.dto.request.CreateAccommodationRequest;
 import com.springboot.booking.dto.response.AccommodationResponse;
 import com.springboot.booking.model.BSuccess;
-import com.springboot.booking.model.entity.Accommodation;
-import com.springboot.booking.model.entity.File;
 import com.springboot.booking.service.AccommodationService;
 import com.springboot.booking.service.FileService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-import static com.springboot.booking.common.AbstractConstant.PATH_USER;
 import static com.springboot.booking.common.AbstractConstant.PATH_V1;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -36,7 +31,7 @@ public class AccommodationController {
 
     @GetMapping("/get-all")
     public ResponseEntity<List<AccommodationResponse>> getAll() {
-        return ResponseEntity.ok(accommodationService.getAllAccommodation());
+        return ResponseEntity.ok(accommodationService.getAllAccommodationActive());
     }
 
     @GetMapping("/get-by-id/{id}")

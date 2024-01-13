@@ -1,0 +1,36 @@
+<form [formGroup]="form">
+  <mat-form-field class="example-chip-list w-100">
+    <mat-label>{{ txtLabel }}</mat-label>
+    <mat-chip-grid #chipGrid formControlName="responseList">
+      <mat-chip-row
+        *ngFor="let data of responseList"
+        (removed)="remove(data)"
+      >
+        {{ data }}
+        <button matChipRemove [attr.aria-label]="'remove ' + data">
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip-row>
+    </mat-chip-grid>
+    <input
+      #tagInput
+      placeholder="{{ txtPlaceHolder }}"
+      formControlName="tagInputCtrl"
+      [matChipInputFor]="chipGrid"
+      [matAutocomplete]="auto"
+      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+      (matChipInputTokenEnd)="add($event)"
+    />
+    <mat-autocomplete
+      #auto="matAutocomplete"
+      (optionSelected)="selected($event)"
+    >
+      <mat-option
+        *ngFor="let data of filteredResponse | async"
+        [value]="data"
+      >
+        {{ data }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</form>

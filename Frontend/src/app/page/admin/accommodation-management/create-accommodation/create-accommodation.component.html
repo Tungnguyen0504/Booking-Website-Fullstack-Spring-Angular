@@ -119,52 +119,20 @@
               </div>
               <div class="col-6 form-group">
                 <label>Xếp hạng sao</label><br />
-                <rating class="star-acc" [max]="5" formControlName="star"></rating>
+                <rating
+                  class="star-acc"
+                  [max]="5"
+                  formControlName="star"
+                ></rating>
               </div>
-              <div class="col-12">
-                <div class="form-group">
-                  <mat-form-field class="example-chip-list w-100">
-                    <mat-label>Địa điểm xung quanh</mat-label>
-                    <mat-chip-grid
-                      #chipGrid
-                      aria-label="Fruit selection"
-                      formControlName="specialArounds"
-                    >
-                      <mat-chip-row
-                        *ngFor="let data of specialArounds"
-                        (removed)="remove(data)"
-                      >
-                        {{ data }}
-                        <button
-                          matChipRemove
-                          [attr.aria-label]="'remove ' + data"
-                        >
-                          <mat-icon>cancel</mat-icon>
-                        </button>
-                      </mat-chip-row>
-                    </mat-chip-grid>
-                    <input
-                      placeholder="Nhập địa điểm xung quanh..."
-                      #specialAroundInput
-                      formControlName="specialAroundCtrl"
-                      [matChipInputFor]="chipGrid"
-                      [matAutocomplete]="auto"
-                      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                      (matChipInputTokenEnd)="add($event)"
-                    />
-                    <mat-autocomplete
-                      #auto="matAutocomplete"
-                      (optionSelected)="selected($event)"
-                    >
-                      <mat-option
-                        *ngFor="let data of filteredspecialArounds | async"
-                        [value]="data"
-                      >
-                        {{ data }}
-                      </mat-option>
-                    </mat-autocomplete>
-                  </mat-form-field>
-                </div>
+              <div class="col-12 form-group">
+                <app-custom-field-tag-input
+                  [requestList]="listSpecialAround"
+                  [txtLabel]="'Mô tả địa điểm xung quanh'"
+                  [txtPlaceHolder]="'Nhập địa điểm xung quanh...'"
+                  [isRequired]="false"
+                  (eventEmitter)="onEmitter($event)"
+                ></app-custom-field-tag-input>
               </div>
               <div class="col-md-12 form-group">
                 <mat-form-field class="w-100">
@@ -182,7 +150,6 @@
                 <div class="file-loading">
                   <input
                     id="file-input"
-                    formControlName="image"
                     type="file"
                     class="file"
                     data-browse-on-zone-click="true"

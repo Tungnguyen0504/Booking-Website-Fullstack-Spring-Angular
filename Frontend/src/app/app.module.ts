@@ -22,7 +22,6 @@ import { VerificationCodeComponent } from './shared/authentication/verification-
 import { UserHomeComponent } from './page/user/user-home/user-home.component';
 import { UserHeaderComponent } from './shared/user/user-header/user-header.component';
 import { BookNowComponent } from './shared/user/book-now/book-now.component';
-import { AdminHeaderSidebarComponent } from './shared/admin/admin-header-sidebar/admin-header-sidebar.component';
 import { AdminWidgetComponent } from './shared/admin/admin-widget/admin-widget.component';
 import { GenericAssetsComponent } from './common/generic-assets/generic-assets.component';
 import { MatButtonModule } from '@angular/material/button';
@@ -41,7 +40,6 @@ import { AdminModule } from './page/admin/admin.module';
     UserHomeComponent,
     UserHeaderComponent,
     BookNowComponent,
-    AdminHeaderSidebarComponent,
     AdminWidgetComponent,
     GenericAssetsComponent,
   ],
