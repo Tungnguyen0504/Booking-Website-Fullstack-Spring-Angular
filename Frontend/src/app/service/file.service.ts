@@ -13,7 +13,8 @@ export class FileService {
   constructor(private httpClient: HttpClient) {}
 
   getImage(image: string) {
-    return this.httpClient.get(`${this.URL}/load/${image}`);
+    const params = new HttpParams().set('filename', image);
+    return this.httpClient.get(`${this.URL}/load`, { params });
   }
 
   getMultipleImages(imagePaths: string[]) {

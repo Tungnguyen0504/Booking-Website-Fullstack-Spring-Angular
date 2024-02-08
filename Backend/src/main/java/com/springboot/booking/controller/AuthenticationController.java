@@ -1,19 +1,17 @@
 package com.springboot.booking.controller;
 
-import static com.springboot.booking.common.AbstractConstant.PATH_AUTH;
-import static com.springboot.booking.common.AbstractConstant.PATH_V1;
+import static com.springboot.booking.common.Constant.PATH_AUTH;
+import static com.springboot.booking.common.Constant.PATH_V1;
 
 import com.springboot.booking.common.SuccessResult;
 import com.springboot.booking.dto.request.LoginRequest;
 import com.springboot.booking.dto.request.RegisterRequest;
 import com.springboot.booking.dto.response.AuthenticationResponse;
 import com.springboot.booking.model.BSuccess;
-import com.springboot.booking.model.entity.User;
 import com.springboot.booking.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

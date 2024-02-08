@@ -19,6 +19,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
+import {MatDividerModule} from '@angular/material/divider';
 import { FormAddressComponent } from 'src/app/shared/admin/form-address/form-address.component';
 import { FormAddressDialogComponent } from 'src/app/shared/admin/form-address/form-address-dialog/form-address-dialog.component';
 import { AdminSidebarComponent } from 'src/app/shared/admin/admin-sidebar/admin-sidebar.component';
@@ -58,6 +59,7 @@ import { FileInputComponent } from 'src/app/shared/generic/file-input/file-input
     MatDialogModule,
     MatExpansionModule,
     MatListModule,
+    MatDividerModule,
     NgxMatTimepickerModule,
     RatingModule,
   ],

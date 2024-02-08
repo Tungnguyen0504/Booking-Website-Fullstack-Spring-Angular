@@ -26,22 +26,23 @@
             ],
             "styles": [
               "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
-              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/assets/css/bootstrap.min.css",
               "src/custom-theme.scss",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/bootstrap-fileinput/css/fileinput.min.css",
               "node_modules/bootstrap-icons/font/bootstrap-icons.min.css",
+              "src/assets/css/style.css",
               "src/styles.css"
             ],
             "scripts": [
               "src/assets/js/jquery/jquery-2.2.4.min.js",
-              "src/assets/js/bootstrap/popper.min.js",
               "src/assets/js/bootstrap/bootstrap.bundle.min.js",
-              "src/assets/js/bootstrap/bootstrap.min.js",
               "./node_modules/bootstrap-fileinput/js/fileinput.min.js",
               "./node_modules/bootstrap-fileinput/js/plugins/piexif.min.js",
               "./node_modules/bootstrap-fileinput/js/plugins/sortable.min.js",
-              "src/assets/js/datatable/dataTables.min.js"
+              "src/assets/js/datatable/dataTables.min.js",
+              "src/assets/js/plugins/plugins.js",
+              "src/assets/js/active.js",
+              "src/assets/js/script.js"
             ]
           },
           "configurations": {

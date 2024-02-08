@@ -1,7 +1,7 @@
 package com.springboot.booking.service;
 
+import com.springboot.booking.common.Constant;
 import com.springboot.booking.dto.response.AccommodationTypeResponse;
-import com.springboot.booking.model.entity.AccommodationType;
 import com.springboot.booking.repository.AccommodationTypeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,8 @@ public class AccommodationTypeService {
     private final AccommodationTypeRepository accommodationTypeRepository;
 
     public List<AccommodationTypeResponse> getAllAccommodationType() {
-        return accommodationTypeRepository.findAll().stream().map(accommodationType -> AccommodationTypeResponse.builder()
+        return accommodationTypeRepository.getAll().stream()
+                .map(accommodationType -> AccommodationTypeResponse.builder()
                         .accommodationTypeId(accommodationType.getId())
                         .accommodationTypeName(accommodationType.getAccommodationTypeName())
                         .build())

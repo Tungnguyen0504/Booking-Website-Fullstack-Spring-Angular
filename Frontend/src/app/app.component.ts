@@ -22,7 +22,7 @@ export class AppComponent {
 
   ngOnInit(): void {
     this.isLogined = this.$authService.isLoggedIn();
-    this.getCurrentUser();
+    // this.getCurrentUser();
   }
 
   getCurrentUser() {

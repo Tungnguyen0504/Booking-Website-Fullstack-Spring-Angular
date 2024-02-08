@@ -4,17 +4,14 @@ import com.springboot.booking.dto.response.DistrictResponse;
 import com.springboot.booking.dto.response.ProvinceResponse;
 import com.springboot.booking.dto.response.WardResponse;
 import com.springboot.booking.model.entity.Province;
-import com.springboot.booking.model.entity.Ward;
 import com.springboot.booking.service.AddressService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
-import static com.springboot.booking.common.AbstractConstant.PATH_USER;
-import static com.springboot.booking.common.AbstractConstant.PATH_V1;
+import static com.springboot.booking.common.Constant.PATH_V1;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController

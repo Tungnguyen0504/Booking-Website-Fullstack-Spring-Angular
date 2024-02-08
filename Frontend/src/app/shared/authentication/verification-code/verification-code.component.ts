@@ -52,12 +52,10 @@ export class VerificationCodeComponent implements AfterViewInit {
     if (this.action === ACTION_LOGIN) {
       this.authService.login(this.formLogin.value).subscribe({
         next: (response) => {
-          localStorage.setItem(JWT_TOKEN, response.accessToken.toString());
+          this.authService.setJwtToken(response.accessToken.toString());
           this.navigateToHomePage();
-          console.log("a: " + localStorage.getItem(JWT_TOKEN));
         },
         error: (error) => {
-          console.log(error);
           this.alertService.error(error.error.message);
         },
       });

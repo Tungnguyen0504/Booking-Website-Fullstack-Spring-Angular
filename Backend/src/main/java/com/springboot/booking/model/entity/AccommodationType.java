@@ -20,6 +20,9 @@ public class AccommodationType extends BaseEntity {
     @Column(name = "accommodation_type_name", unique = true)
     private String accommodationTypeName;
 
+    @Column(name = "status")
+    private String status;
+
     @OneToMany(mappedBy = "accommodationType")
     private List<Accommodation> accommodations = new ArrayList<>();
 }

@@ -53,6 +53,7 @@ public class EmailService {
             return true;
         } catch (MailException | MessagingException e) {
             log.error("[SERVICE] => sendSimpleMail: {}", e.getMessage());
+            e.printStackTrace();
             return false;
         }
     }

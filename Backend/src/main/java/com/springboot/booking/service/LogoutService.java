@@ -17,6 +17,6 @@ public class LogoutService implements LogoutHandler {
             HttpServletResponse response,
             Authentication authentication
     ) {
-//        request.getSession().removeAttribute(AbstractConstant.SESSION_TOKEN);
+//        request.getSession().removeAttribute(Constant.SESSION_TOKEN);
     }
 }

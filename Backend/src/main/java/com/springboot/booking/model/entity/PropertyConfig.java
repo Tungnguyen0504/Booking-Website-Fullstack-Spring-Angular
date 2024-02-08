@@ -26,7 +26,16 @@ public class PropertyConfig extends BaseEntity {
     private String description;
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PropertyConfig propertyConfig = (PropertyConfig) o;
+        return Objects.equals(property, propertyConfig.getProperty()) &&
+                Objects.equals(description, propertyConfig.getDescription());
+    }
+
+    @Override
     public int hashCode() {
-        return Objects.hash(property + "-" + description);
+        return Objects.hash(property, description);
     }
 }

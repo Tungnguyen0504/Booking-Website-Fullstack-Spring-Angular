@@ -125,15 +125,117 @@
                   formControlName="star"
                 ></rating>
               </div>
+
               <div class="col-12 form-group">
+                <mat-divider></mat-divider>
+              </div>
+
+              <!-- tag input -->
+              <div class="col-6 form-group">
                 <app-custom-field-tag-input
-                  [requestList]="listSpecialAround"
+                  [requestList]="specialAroundOptions"
                   [txtLabel]="'Mô tả địa điểm xung quanh'"
                   [txtPlaceHolder]="'Nhập địa điểm xung quanh...'"
                   [isRequired]="false"
-                  (eventEmitter)="onEmitter($event)"
+                  (eventEmitter)="onSpecialAroundEmitter($event)"
                 ></app-custom-field-tag-input>
               </div>
+              <div class="col-6 form-group">
+                <app-custom-field-tag-input
+                  [requestList]="bathRoomOptions"
+                  [txtLabel]="'Mô tả phòng tắm'"
+                  [txtPlaceHolder]="'Nhập mô tả phòng tắm...'"
+                  [isRequired]="false"
+                  (eventEmitter)="onBathRoomEmitter($event)"
+                ></app-custom-field-tag-input>
+              </div>
+              <div class="col-6 form-group">
+                <app-custom-field-tag-input
+                  [requestList]="bedRoomOptions"
+                  [txtLabel]="'Mô tả phòng ngủ'"
+                  [txtPlaceHolder]="'Nhập mô tả phòng ngủ...'"
+                  [isRequired]="false"
+                  (eventEmitter)="onBedRoomEmitter($event)"
+                ></app-custom-field-tag-input>
+              </div>
+              <div class="col-6 form-group">
+                <app-custom-field-tag-input
+                  [requestList]="dinningRoomOptions"
+                  [txtLabel]="'Mô tả phòng bếp'"
+                  [txtPlaceHolder]="'Nhập mô tả phòng bếp...'"
+                  [isRequired]="false"
+                  (eventEmitter)="onDinningRoomEmitter($event)"
+                ></app-custom-field-tag-input>
+              </div>
+              <div class="col-6 form-group">
+                <app-custom-field-tag-input
+                  [requestList]="languageOptions"
+                  [txtLabel]="'Mô tả ngôn ngữ sử dụng'"
+                  [txtPlaceHolder]="'Nhập mô tả ngôn ngữ sử dụng...'"
+                  [isRequired]="false"
+                  (eventEmitter)="onLanguageEmitter($event)"
+                ></app-custom-field-tag-input>
+              </div>
+              <div class="col-6 form-group">
+                <app-custom-field-tag-input
+                  [requestList]="internetOptions"
+                  [txtLabel]="'Mô tả intenet'"
+                  [txtPlaceHolder]="'Nhập mô tả intenet...'"
+                  [isRequired]="false"
+                  (eventEmitter)="onInternetEmitter($event)"
+                ></app-custom-field-tag-input>
+              </div>
+              <div class="col-6 form-group">
+                <app-custom-field-tag-input
+                  [requestList]="drinkAndFoodOptions"
+                  [txtLabel]="'Mô tả dịch vụ ăn uống'"
+                  [txtPlaceHolder]="'Nhập mô tả dịch vụ ăn uống...'"
+                  [isRequired]="false"
+                  (eventEmitter)="onDrinkAndFoodEmitter($event)"
+                ></app-custom-field-tag-input>
+              </div>
+              <div class="col-6 form-group">
+                <app-custom-field-tag-input
+                  [requestList]="receptionServiceOptions"
+                  [txtLabel]="'Mô tả dịch vụ lễ tân'"
+                  [txtPlaceHolder]="'Nhập mô tả dịch vụ lễ tân...'"
+                  [isRequired]="false"
+                  (eventEmitter)="onReceptionServiceEmitter($event)"
+                ></app-custom-field-tag-input>
+              </div>
+              <div class="col-6 form-group">
+                <app-custom-field-tag-input
+                  [requestList]="cleaningServiceOptions"
+                  [txtLabel]="'Mô tả dịch vụ lau dọn'"
+                  [txtPlaceHolder]="'Nhập mô tả dịch vụ lau dọn...'"
+                  [isRequired]="false"
+                  (eventEmitter)="onCleaningServiceEmitter($event)"
+                ></app-custom-field-tag-input>
+              </div>
+              <div class="col-6 form-group">
+                <app-custom-field-tag-input
+                  [requestList]="poolOptions"
+                  [txtLabel]="'Mô tả bể bơi'"
+                  [txtPlaceHolder]="'Nhập mô tả bể bơi...'"
+                  [isRequired]="false"
+                  (eventEmitter)="onPoolEmitter($event)"
+                ></app-custom-field-tag-input>
+              </div>
+              <div class="col-6 form-group">
+                <app-custom-field-tag-input
+                  [requestList]="otherOptions"
+                  [txtLabel]="'Mô tả dịch vụ khác'"
+                  [txtPlaceHolder]="'Nhập mô tả dịch vụ khác...'"
+                  [isRequired]="false"
+                  (eventEmitter)="onOtherEmitter($event)"
+                ></app-custom-field-tag-input>
+              </div>
+              <!-- tag input -->
+              
+              <div class="col-12 form-group">
+                <mat-divider></mat-divider>
+              </div>
+
               <div class="col-md-12 form-group">
                 <mat-form-field class="w-100">
                   <mat-label>Mô tả chỗ ở</mat-label>

@@ -1,7 +1,6 @@
 package com.springboot.booking.controller;
 
 import com.springboot.booking.dto.response.AccommodationTypeResponse;
-import com.springboot.booking.model.entity.AccommodationType;
 import com.springboot.booking.service.AccommodationTypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import static com.springboot.booking.common.AbstractConstant.PATH_USER;
-import static com.springboot.booking.common.AbstractConstant.PATH_V1;
+import static com.springboot.booking.common.Constant.PATH_V1;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController

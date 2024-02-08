@@ -109,21 +109,13 @@ export class CreateRoomComponent implements OnInit {
 
   refreshSeletedAccom(response: any) {
     this.selectedAccommodation = response;
-    if (this.selectedAccommodation) {
-      this.$fileService
-        .getMultipleImages(this.selectedAccommodation.filePaths)
-        .subscribe((response: any) => {
-          this.imageCarousel = response.map(
-            (res: any) => 'data:image/jpeg;base64,' + res.fileByte
-          );
-        });
-    }
   }
 
   create() {
-    this.form
-      .get('accommodationId')
-      ?.setValue(this.selectedAccommodation?.accommodationId);
+    // this.form
+    //   .get('accommodationId')
+    //   ?.setValue(this.selectedAccommodation?.accommodationId);
+    this.form.get('accommodationId')?.setValue(1);
     if (this.form.valid && this.selectedImages) {
       this.$roomService
         .createNewRoom(this.selectedImages, this.form.value)

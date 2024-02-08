@@ -43,6 +43,9 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "date_of_birth")
     private Date dateOfBirth;
 
+    @Column(name = "status")
+    private String status;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private ERole role;

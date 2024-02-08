@@ -1,0 +1,47 @@
+#carouselExampleCaptions .carousel-item img {
+  object-fit: cover;
+  width: 100%;
+  height: 425px;
+}
+
+#carouselExampleCaptions .carousel-indicators img {
+  object-fit: cover;
+  width: 100%;
+  height: 90px;
+}
+
+.modal-content .modal-header {
+  padding: 10px;
+  border-bottom: 0;
+}
+
+.carousel-indicators {
+  position: static;
+}
+
+.carousel-indicators li {
+  width: 200px;
+  height: 100%;
+  opacity: 0.8;
+  border: none;
+}
+
+.carousel-indicators li.active img {
+  /* outline: 3px solid #5bbaff; */
+  outline: 3px solid #5bbaff;
+}
+
+.carousel-indicators li img:hover {
+  opacity: 0.5;
+}
+
+.carousel-control-next,
+.carousel-control-prev {
+  bottom: 85px;
+}
+
+@media (min-width: 1200px) {
+  .mat-dialog-container {
+    max-width: 100% !important;
+  }
+}

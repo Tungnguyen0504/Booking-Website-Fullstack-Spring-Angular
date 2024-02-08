@@ -10,8 +10,9 @@ import java.util.List;
 @Repository
 public interface AccommodationRepository extends JpaRepository<Accommodation, Long> {
 
-    @Query(value = "SELECT a FROM Accommodation a WHERE LOWER(a.accommodationName) = LOWER(:accommodationName)")
-    List<Accommodation> findByAccommodationName(String accommodationName);
+    @Query(value = "SELECT a FROM Accommodation a WHERE LOWER(a.accommodationName) = LOWER(:accommodationName) AND a.status = 'ACTIVE'")
+    List<Accommodation> getByAccommodationName(String accommodationName);
 
-    List<Accommodation> findByStatus(String status);
+    @Query(value = "SELECT a FROM Accommodation a WHERE a.status = 'ACTIVE'")
+    List<Accommodation> getAll();
 }

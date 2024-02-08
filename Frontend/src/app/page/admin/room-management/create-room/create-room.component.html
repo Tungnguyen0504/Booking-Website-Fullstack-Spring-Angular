@@ -53,8 +53,8 @@
                       <div style="color: #febb02">
                         <i
                           *ngFor="
-                            let data of fakeArrStar(
-                              selectedAccommodation?.star!
+                            let data of [].constructor(
+                              selectedAccommodation?.star
                             )
                           "
                           class="fa-solid fa-star"
@@ -130,7 +130,10 @@
                       >
                         <div
                           class="carousel-item {{ i === 0 ? 'active' : '' }}"
-                          *ngFor="let image of imageCarousel; let i = index"
+                          *ngFor="
+                            let image of selectedAccommodation?.filePaths;
+                            let i = index
+                          "
                           style="width: 320px"
                         >
                           <img

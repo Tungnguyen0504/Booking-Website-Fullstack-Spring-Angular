@@ -14,34 +14,22 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RegisterComponent } from './page/authentication/register/register.component';
-import { LoginComponent } from './page/authentication/login/login.component';
 import { CssLoadingComponent } from './shared/user/css-loading/css-loading.component';
 import { AlertComponent } from './shared/generic/alert/alert.component';
-import { VerificationCodeComponent } from './shared/authentication/verification-code/verification-code.component';
-import { UserHomeComponent } from './page/user/user-home/user-home.component';
-import { UserHeaderComponent } from './shared/user/user-header/user-header.component';
-import { BookNowComponent } from './shared/user/book-now/book-now.component';
 import { AdminWidgetComponent } from './shared/admin/admin-widget/admin-widget.component';
-import { GenericAssetsComponent } from './common/generic-assets/generic-assets.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { AdminModule } from './page/admin/admin.module';
+import { AuthenticationModule } from './page/authentication/authentication.module';
+import { UserModule } from './page/user/user.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    RegisterComponent,
-    LoginComponent,
     CssLoadingComponent,
     AlertComponent,
-    VerificationCodeComponent,
-    UserHomeComponent,
-    UserHeaderComponent,
-    BookNowComponent,
     AdminWidgetComponent,
-    GenericAssetsComponent,
   ],
   imports: [
     HttpClientModule,
@@ -60,6 +48,8 @@ import { AdminModule } from './page/admin/admin.module';
     MatButtonModule,
     MatDialogModule,
     MatExpansionModule,
+    AuthenticationModule,
+    UserModule,
     AdminModule,
   ],
   providers: [

@@ -4,5 +4,9 @@ export const PATH_ADMIN = '/admin';
 export const PATH_USER = '/user';
 
 export const JWT_TOKEN = 'JWT_TOKEN';
+export const JWT_EXPIRED = 86400000;
+
 export const ACTION_LOGIN = 'login';
 export const ACTION_REGISTER = 'register';
+
+export const DATETIME_FORMAT1 = 'dd-MM-yyyy HH:mm:ss';

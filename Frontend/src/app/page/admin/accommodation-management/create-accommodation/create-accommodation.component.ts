@@ -1,7 +1,4 @@
-import {
-  Component,
-  OnInit,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -12,7 +9,6 @@ import { AccommodationType } from 'src/app/model/AccommodationType.model';
 import { AccommodationTypeService } from 'src/app/service/accommodation-type.service';
 import { AccommodationService } from 'src/app/service/accommodation.service';
 import { AlertService } from 'src/app/service/alert.service';
-import { SpecialAroundService } from 'src/app/service/special-around.service';
 
 declare var $: any;
 
@@ -28,13 +24,32 @@ export class CreateAccommodationComponent implements OnInit {
   selectedImages!: FileList;
 
   specialArounds: string[] = [];
-  listSpecialAround: string[] = [];
+  specialAroundOptions: string[] = [];
+  bathRooms: string[] = [];
+  bathRoomOptions: string[] = [];
+  bedRooms: string[] = [];
+  bedRoomOptions: string[] = [];
+  dinningRooms: string[] = [];
+  dinningRoomOptions: string[] = [];
+  languages: string[] = [];
+  languageOptions: string[] = [];
+  internets: string[] = [];
+  internetOptions: string[] = [];
+  drinkAndFoods: string[] = [];
+  drinkAndFoodOptions: string[] = [];
+  receptionServices: string[] = [];
+  receptionServiceOptions: string[] = [];
+  cleaningServices: string[] = [];
+  cleaningServiceOptions: string[] = [];
+  pools: string[] = [];
+  poolOptions: string[] = [];
+  others: string[] = [];
+  otherOptions: string[] = [];
 
   constructor(
     private $formBuilder: FormBuilder,
     private $accommodationService: AccommodationService,
     private $accommodationTypeService: AccommodationTypeService,
-    private $specialAroundService: SpecialAroundService,
     private $alertService: AlertService
   ) {
     this.buildFormGroup();
@@ -44,14 +59,50 @@ export class CreateAccommodationComponent implements OnInit {
       .subscribe((response) => {
         this.listAccommodationType = response;
       });
-
-    this.$specialAroundService.getAllSpecialAround().subscribe((response) => {
-      this.listSpecialAround = response.map((sp) => sp.description);
-    });
   }
 
-  onEmitter(data: any) {
+  onSpecialAroundEmitter(data: any) {
     this.form.get('specialArounds')?.setValue(data);
+  }
+
+  onBathRoomEmitter(data: any) {
+    this.form.get('bathRooms')?.setValue(data);
+  }
+  
+  onBedRoomEmitter(data: any) {
+    this.form.get('bedRooms')?.setValue(data);
+  }
+
+  onDinningRoomEmitter(data: any) {
+    this.form.get('dinningRooms')?.setValue(data);
+  }
+
+  onLanguageEmitter(data: any) {
+    this.form.get('languages')?.setValue(data);
+  }
+
+  onInternetEmitter(data: any) {
+    this.form.get('internets')?.setValue(data);
+  }
+
+  onDrinkAndFoodEmitter(data: any) {
+    this.form.get('drinkAndFoods')?.setValue(data);
+  }
+  
+  onReceptionServiceEmitter(data: any) {
+    this.form.get('receptionServices')?.setValue(data);
+  }
+
+  onCleaningServiceEmitter(data: any) {
+    this.form.get('cleaningServices')?.setValue(data);
+  }
+
+  onPoolEmitter(data: any) {
+    this.form.get('pools')?.setValue(data);
+  }
+
+  onOtherEmitter(data: any) {
+    this.form.get('others')?.setValue(data);
   }
 
   ngOnInit(): void {
@@ -59,12 +110,12 @@ export class CreateAccommodationComponent implements OnInit {
   }
 
   initComponentJquery() {
-      $('#file-input').fileinput({
-        allowedFileTypes: ['image'],
-        initialPreviewAsData: true,
-        showUpload: false,
-        showCancel: false,
-      });
+    $('#file-input').fileinput({
+      allowedFileTypes: ['image'],
+      initialPreviewAsData: true,
+      showUpload: false,
+      showCancel: false,
+    });
   }
 
   buildFormGroup() {
@@ -81,17 +132,28 @@ export class CreateAccommodationComponent implements OnInit {
       checkin: new FormControl('', Validators.required),
       checkout: new FormControl('', Validators.required),
       specialArounds: new FormControl([], Validators.required),
+      bathRooms: new FormControl([]),
+      bedRooms: new FormControl([]),
+      dinningRooms: new FormControl([]),
+      languages: new FormControl([]),
+      internets: new FormControl([]),
+      drinkAndFoods: new FormControl([]),
+      receptionServices: new FormControl([]),
+      cleaningServices: new FormControl([]),
+      pools: new FormControl([]),
+      others: new FormControl([]),
+      images: new FormControl([]),
     });
   }
 
   onFileChange(event: any) {
-    this.selectedImages = event.target.files;
+    this.form.get('images')?.setValue(event.target.files);
   }
 
   create() {
     if (this.form.valid) {
       this.$accommodationService
-        .createNewAccommodation(this.selectedImages, this.form.value)
+        .createNewAccommodation(this.form.value)
         .subscribe({
           next: (response) => {
             this.$alertService.error(response.message);

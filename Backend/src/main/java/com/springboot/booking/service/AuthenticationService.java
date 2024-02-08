@@ -1,6 +1,6 @@
 package com.springboot.booking.service;
 
-import com.springboot.booking.common.AbstractConstant;
+import com.springboot.booking.common.Constant;
 import com.springboot.booking.common.ExceptionResult;
 import com.springboot.booking.common.Util;
 import com.springboot.booking.config.AuthenticationFacade;
@@ -55,8 +55,8 @@ public class AuthenticationService {
         String verifyCode = Util.generateVerificationCode();
         boolean result = emailService.sendHtmlEmail(EmailDetail.builder()
                 .recipient(request.getEmail())
-                .subject(AbstractConstant.MAIL_DETAIL_SUBJECT)
-                .msgBody(AbstractConstant.getMsgBodySimple(verifyCode))
+                .subject(Constant.MAIL_DETAIL_SUBJECT)
+                .msgBody(Constant.getMsgBodySimple(verifyCode))
                 .build());
         if (!result) {
             throw new GlobalException(ExceptionResult.SEND_EMAIL_ERROR);
@@ -71,6 +71,7 @@ public class AuthenticationService {
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(ERole.USER)
+                .status(Constant.STATUS_ACTIVE)
                 .build());
     }
 
@@ -89,8 +90,8 @@ public class AuthenticationService {
         String verifyCode = Util.generateVerificationCode();
         boolean result = emailService.sendHtmlEmail(EmailDetail.builder()
                 .recipient(request.getEmail())
-                .subject(AbstractConstant.MAIL_DETAIL_SUBJECT)
-                .msgBody(AbstractConstant.getMsgBodySimple(verifyCode))
+                .subject(Constant.MAIL_DETAIL_SUBJECT)
+                .msgBody(Constant.getMsgBodySimple(verifyCode))
                 .build());
         if (!result) {
             throw new GlobalException(ExceptionResult.SEND_EMAIL_ERROR);
@@ -116,10 +117,8 @@ public class AuthenticationService {
         }
 
         var jwtToken = jwtService.generateToken(user);
-
         revokeAllUserTokens(user);
         saveUserToken(user, jwtToken);
-
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .build();

@@ -1,4 +1,5 @@
 import { AccommodationType } from './AccommodationType.model';
+import { Room } from './Room.model';
 
 export interface Accommodation {
   accommodationId: number;
@@ -12,6 +13,19 @@ export interface Accommodation {
   checkout: string;
   status: string;
   fullAddress: string;
+  createdAt: Date;
+  modifiedAt: Date;
   specialArounds: string[];
+  bathRooms: string[];
+  bedRooms: string[];
+  dinningRooms: string[];
+  languages: string[];
+  internets: string[];
+  drinkAndFoods: string[];
+  receptionServices: string[];
+  cleaningServices: string[];
+  pools: string[];
+  others: string[];
   filePaths: string[];
+  rooms: Room[];
 }

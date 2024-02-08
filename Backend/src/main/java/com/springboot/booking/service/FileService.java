@@ -1,8 +1,6 @@
 package com.springboot.booking.service;
 
-import com.springboot.booking.common.AbstractConstant;
-import com.springboot.booking.common.DatetimeUtil;
-import com.springboot.booking.model.BException;
+import com.springboot.booking.common.Constant;
 import com.springboot.booking.model.entity.File;
 import com.springboot.booking.repository.FileRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.*;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -26,7 +23,7 @@ public class FileService {
 
     private final FileRepository fileRepository;
 
-    private final Path root = Paths.get(AbstractConstant.FILE_UPLOAD_ROOT);
+    private final Path root = Paths.get(Constant.FILE_UPLOAD_ROOT);
 
     public void init() {
         try {
@@ -44,7 +41,7 @@ public class FileService {
 
     public String save(MultipartFile file, String... paths) {
         try {
-            Path path = Paths.get(AbstractConstant.FILE_UPLOAD_ROOT, paths);
+            Path path = Paths.get(Constant.FILE_UPLOAD_ROOT, paths);
             if (!Files.exists(path))
                 Files.createDirectories(path);
             Path filePath = path.resolve(Objects.requireNonNull(file.getOriginalFilename()));
@@ -103,5 +100,9 @@ public class FileService {
 
     public List<File> getFilesByEntityIdAndEntityName(String entityId, String entityName) {
         return fileRepository.findByEntityIdAndEntityName(entityId, entityName);
+    }
+
+    public String encodeFileToString(String fileName) throws IOException {
+        return "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(this.load(fileName).getContentAsByteArray());
     }
 }

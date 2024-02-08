@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { JWT_TOKEN, PATH_AUTH, PATH_V1 } from '../constant/Abstract.constant';
+import {
+  JWT_EXPIRED,
+  JWT_TOKEN,
+  PATH_AUTH,
+  PATH_V1,
+} from '../constant/Abstract.constant';
 import { Observable } from 'rxjs';
 import { RegisterRequest } from '../model/request/RegisterRequest.model';
 import { LoginRequest } from '../model/request/LoginRequest.model';
@@ -35,7 +40,7 @@ export class AuthenticationService {
   }
 
   logout() {
-    const jwt = localStorage.getItem(JWT_TOKEN);
+    const jwt = this.getJwtToken();
     if (jwt) {
       this.httpClient.post(URL + '/logout', jwt).subscribe(() => {
         localStorage.removeItem(JWT_TOKEN);
@@ -48,7 +53,27 @@ export class AuthenticationService {
     return this.getJwtToken() ? true : false;
   }
 
+  setJwtToken(token: string) {
+    if (token) {
+      const expirationMS = JWT_EXPIRED;
+      const item = {
+        token: token,
+        expiration: Date.now() + expirationMS,
+      };
+      localStorage.setItem(JWT_TOKEN, JSON.stringify(item));
+    }
+  }
+
   getJwtToken() {
-    return localStorage.getItem(JWT_TOKEN);
+    const item = localStorage.getItem(JWT_TOKEN);
+    if (item) {
+      const parsedItem = JSON.parse(item);
+      if (parsedItem.expiration && parsedItem.expiration < Date.now()) {
+        localStorage.removeItem(JWT_TOKEN);
+        return '';
+      }
+      return parsedItem.token;
+    }
+    return '';
   }
 }

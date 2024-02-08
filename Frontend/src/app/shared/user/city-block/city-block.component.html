@@ -1,0 +1,33 @@
+<div class="{{ classHeader }}">
+  <a class="city-btn" href="">
+    <img
+      class="image-fluid rounded w-100 h-100"
+      style="object-fit: cover"
+      [src]="image"
+    />
+    <div class="position-absolute text-white" style="top: 15px; left: 35px">
+      <span class="font-weight-bold" style="font-size: 24px">{{ name }}</span>
+      <img
+        style="margin-bottom: 8px; margin-left: 5px; border-radius: 2px"
+        width="24"
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Flag_of_Vietnam.svg/2560px-Flag_of_Vietnam.svg.png"
+      />
+      <br />
+      <span> chỗ ở</span>
+    </div>
+    <div
+      class="position-absolute rounded"
+      style="
+        background: rgba(0, 0, 0, 0.63);
+        bottom: 40px;
+        right: 35px;
+        padding: 7px;
+      "
+    >
+      <p class="mb-0 text-white" style="line-height: normal">
+        Ưu đãi bắt đầu từ<br />
+        VND
+      </p>
+    </div>
+  </a>
+</div>

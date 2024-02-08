@@ -1,0 +1,885 @@
+<app-user-header></app-user-header>
+
+<section
+  class="breadcumb-area bg-img d-flex align-items-center justify-content-center"
+  style="background-image: url(assets/img/bg-img/bg-7.jpg)"
+>
+  <div class="bradcumbContent">
+    <h2>Chi tiết chỗ ở</h2>
+  </div>
+</section>
+
+<app-book-now></app-book-now>
+
+<section class="rooms-area pb-5">
+  <div class="container bg-white shadow py-4 rounded">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+        <li class="breadcrumb-item"><a href="#">Tất cả khách sạn</a></li>
+        <li class="breadcrumb-item active" aria-current="page">
+          Ưu đãi cho {{ accommodation?.accommodationName }}
+        </li>
+      </ol>
+    </nav>
+
+    <div class="hotel-detail-header d-flex align-items-center">
+      <h3 class="font-weight-bold m-0 mr-3">
+        {{ accommodation?.accommodationName }}
+      </h3>
+      <div style="color: #febb02">
+        <!-- <c:forEach begin="1" end="${hotelService.star}">
+                    <i class="fa-solid fa-star "></i>
+                </c:forEach> -->
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star"></i>
+      </div>
+    </div>
+    <p class="mb-2">
+      {{ accommodation?.fullAddress }}
+    </p>
+
+    <div class="d-flex flex-wrap gallery-img mb-5 wow fadeInUp">
+      <lightgallery
+        class="row"
+        [settings]="settings"
+        [onBeforeSlide]="onBeforeSlide"
+        style="margin: 0 -0.25rem"
+      >
+        <ng-container
+          *ngFor="let image of accommodation?.filePaths; index as i"
+        >
+          <a
+            *ngIf="i === 0"
+            class="col-6 p-1"
+            style="width: 100%; height: 300px"
+            [href]="image"
+          >
+            <img
+              class="img-fluid rounded"
+              style="width: 100%; height: 100%; object-fit: cover"
+              [src]="image"
+            />
+          </a>
+          <a
+            *ngIf="i >= 1 && i <= 2"
+            class="col-3 p-1"
+            style="width: 100%; height: 300px"
+            href=""
+          >
+            <img
+              class="img-fluid rounded"
+              style="width: 100%; height: 100%; object-fit: cover"
+              [src]="image"
+            />
+          </a>
+          <a
+            *ngIf="i >= 3 && i <= 4"
+            class="col-3 p-1"
+            style="width: 100%; height: 150px"
+            href=""
+          >
+            <img
+              class="img-fluid rounded"
+              style="width: 100%; height: 100%; object-fit: cover"
+              [src]="image"
+            />
+          </a>
+          <a
+            *ngIf="i >= 5 && i <= 6"
+            class="col-2 p-1"
+            style="width: 100%; height: 150px"
+            href=""
+          >
+            <img
+              class="img-fluid rounded"
+              style="width: 100%; height: 100%; object-fit: cover"
+              [src]="image"
+            />
+          </a>
+
+          <a
+            *ngIf="i === 7"
+            class="d-flex position-relative col-2 p-1"
+            style="width: 100%; height: 150px"
+            href=""
+          >
+            <img
+              class="img-fluid rounded"
+              style="
+                height: 100%;
+                width: 100%;
+                opacity: 0.2;
+                background-color: rgba(0, 0, 0, 0.4);
+              "
+              [src]="image"
+            />
+            <span
+              class="font-weight-bold rounded d-flex justify-content-center align-items-center"
+              style="
+                background-color: rgba(0, 0, 0, 0.4);
+                width: 94%;
+                height: 94%;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 1.25em;
+                color: #ffffff;
+              "
+            >
+              <span *ngIf="accommodation"
+                >+ ảnh {{ accommodation.filePaths.length - 7 }}</span
+              >
+            </span>
+          </a>
+          <a
+            *ngIf="i > 7"
+            class="gallery-item invisible position-absolute"
+            data-src=""
+          >
+            <img alt="layers of blue." class="img-responsive" [src]="image" />
+          </a>
+        </ng-container>
+      </lightgallery>
+    </div>
+
+    <div class="col border py-3 mb-5">
+      <div class="row">
+        <div class="icon-diamond px-3">
+          <svg
+            fill="rgb(0, 113, 194)"
+            height="50px"
+            width="50px"
+            version="1.1"
+            id="Layer_1"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            viewBox="0 0 64 64"
+            enable-background="new 0 0 64 64"
+            xml:space="preserve"
+          >
+            <path
+              id="Diamond"
+              d="M63.6870499,18.5730648L48.7831497,4.278266c-0.1855011-0.1758003-0.4316025-0.4813001-0.6870003-0.4813001
+                H15.9037514c-0.2553005,0-0.5014,0.3054998-0.6870003,0.4813001l-14.9038,14.1908998
+                c-0.374,0.3535004-0.4184,0.9855995-0.1025,1.3917999c0.21,0.2703991,30.8237991,39.7256012,31.0517006,39.9812012
+                c0.1022987,0.1149979,0.2402992,0.2215996,0.3428001,0.266098c0.2763996,0.1206017,0.5077,0.1296997,0.7900982,0.0065002
+                c0.1025009-0.0444984,0.2404022-0.1348991,0.3428001-0.2499008c0.0151024-0.0168991,0.0377007-0.0224991,0.0517006-0.0404968
+                L63.789547,19.9121666C64.1054459,19.5058651,64.0610504,18.9265652,63.6870499,18.5730648z M15.6273508,6.4344659
+                l4.9945002,11.3625011H3.6061509L15.6273508,6.4344659z M24.0795517,17.7969666l7.9203987-11.2617006l7.9204979,11.2617006
+                H24.0795517z M40.7191467,19.7969666l-8.7191963,34.8769989l-8.719099-34.8769989H40.7191467z M33.9257507,5.7969656h12.5423012
+                l-4.8240013,10.9746008L33.9257507,5.7969656z M22.3559513,16.7715664L17.53195,5.7969656h12.5423012L22.3559513,16.7715664z
+                    M21.2191505,19.7969666l8.6596012,34.638401L2.975451,19.7969666H21.2191505z M42.7808495,19.7969666h18.2436981
+                l-26.9032974,34.638401L42.7808495,19.7969666z M43.3781471,17.7969666l4.9944992-11.3625011l12.0212021,11.3625011H43.3781471z"
+            />
+          </svg>
+        </div>
+        <div>
+          <h4 class="font-weight-bold">
+            Thường xuyên hết phòng - bạn may mắn lắm đó!
+          </h4>
+          <p class="mb-0">
+            Spring Garden Homestay thường xuyên hết phòng trên trang web của
+            chúng tôi. Đặt phòng ngay trước khi phòng được bán hết!
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <form method="post">
+      <div class="row wow fadeInUp mb-4">
+        <div class="col-8 d-flex">
+          <div class="col-8 px-0">
+            <div class="dropdown">
+              <button
+                class="btn palatin-btn dropdown-toggle btn-3 w-100"
+                type="button"
+                id="qty-people-room"
+                data-toggle="dropdown"
+                aria-expanded="false "
+              >
+                <label class="float-left">
+                  <span id="room-lbl">1</span>
+                  phòng,
+                  <span id="person-lbl">1</span>
+                  người
+                </label>
+                <label class="float-right">
+                  <i class="fa-solid fa-user-group"></i>
+                </label>
+              </button>
+              <div
+                class="dropdown-menu w-100"
+                aria-labelledby="qty-people-room"
+                id="passenger-box"
+                (click)="preventEvent($event)"
+              >
+                <div class="dropdown-item d-flex align-items-center">
+                  <div class="col-5">
+                    <span>Phòng</span>
+                  </div>
+                  <div class="col-7">
+                    <!-- <input
+                      type="number"
+                      id="room-input"
+                      name="qtyRoom"
+                      value="1"
+                      min="1"
+                      max="1"
+                    /> -->
+                    <div class="qty-container">
+                      <button
+                        class="btn palatin-btn qty-btn-minus btn-rounded mr-2"
+                        type="button"
+                      >
+                        <i class="fa fa-chevron-left"></i>
+                      </button>
+                      <input
+                        type="text"
+                        name="qty"
+                        value="0"
+                        class="input-qty input-rounded"
+                      />
+                      <button
+                        class="btn palatin-btn qty-btn-plus btn-rounded ml-2"
+                        type="button"
+                      >
+                        <i class="fa fa-chevron-right"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="dropdown-item d-flex align-items-center">
+                  <div class="col-5">
+                    <span>Người lớn</span>
+                  </div>
+                  <div class="col-7">
+                    <!-- <input
+                      type="number"
+                      id="person-input"
+                      name="qtyPassenger"
+                      value="1"
+                      min="1"
+                    /> -->
+                    <div class="qty-container">
+                      <button
+                        class="btn palatin-btn qty-btn-minus btn-rounded mr-2"
+                        type="button"
+                      >
+                        <i class="fa fa-chevron-left"></i>
+                      </button>
+                      <input
+                        type="text"
+                        name="qty"
+                        value="0"
+                        class="input-qty input-rounded"
+                      />
+                      <button
+                        class="btn palatin-btn qty-btn-plus btn-rounded ml-2"
+                        type="button"
+                      >
+                        <i class="fa fa-chevron-right"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-4 pr-0">
+            <input type="hidden" value="" name="hotelId" />
+            <button
+              type="submit"
+              class="btn palatin-btn w-100"
+              style="height: 49px"
+            >
+              Cập nhật
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+
+<section class="rooms-area pb-5">
+  <div class="container bg-white shadow py-4 rounded">
+    <div class="row justify-content-center wow fadeInUp">
+      <div class="col-12 col-lg-6">
+        <div class="section-heading text-center">
+          <div class="line-"></div>
+          <h2>Chọn phòng cho bạn</h2>
+          <p>
+            {{ accommodation?.accommodationName }} đã chào đón khách Palatin.com
+            từ {{ accommodation?.createdAt | date : "dd MMM yyyy" }} .
+          </p>
+          <p>
+            Tại đây thường xuyên hết phòng trên trang web của chúng tôi. Đặt
+            phòng ngay trước khi phòng được bán hết!
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <ng-container
+        *ngIf="!accommodation?.rooms || accommodation?.rooms?.length === 0"
+      >
+        <div class="alert alert-danger mx-auto" role="alert">
+          Tất cả các phòng trên trang của chúng tôi để đã hết. Xin lỗi quý khách
+          vì sự bất tiện này!
+        </div>
+      </ng-container>
+
+      <ng-container
+        *ngIf="accommodation?.rooms && accommodation?.rooms?.length !== 0"
+      >
+        <div
+          *ngFor="let room of accommodation?.rooms"
+          class="col-12 col-md-6 col-lg-4"
+        >
+          <div
+            class="single-rooms-area wow fadeInUp"
+            data-wow-delay="100ms"
+            style="height: 490px"
+          >
+            <a
+              type="button"
+              class="room-detail-btn"
+              (click)="openRoomDetailDialog(room)"
+            >
+              <div
+                class="bg-thumbnail bg-img"
+                style="background-image: url('{{ room.filePaths[0] }}');"
+              ></div>
+              <p class="price-from" style="width: fit-content">
+                Từ
+                {{
+                  (room.price * (100 - room.discountPercent)) / 100
+                    | number : "1.0-0"
+                }}
+                VND/đêm
+              </p>
+              <div class="rooms-text text-left" style="height: 280px">
+                <div class="line mb-2"></div>
+                <h4
+                  class="text-wrap text-truncate"
+                  style="
+                    color: burlywood;
+                    overflow: hidden;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                  "
+                >
+                  {{ room.roomType }}
+                </h4>
+                <p class="mb-2" style="color: tomato">
+                  Phù hợp cho:
+                  <ng-container *ngIf="accommodation?.star! <= 2">
+                    <i
+                      *ngFor="let data of [].constructor(accommodation?.star)"
+                      class="fa-solid fa-user ml-1"
+                    ></i>
+                  </ng-container>
+                  <ng-container *ngIf="accommodation?.star! >= 2">
+                    <span
+                      ><i class="fa-solid fa-user ml-1"></i> x
+                      {{ accommodation?.star! - 1 }}</span
+                    >
+                  </ng-container>
+                </p>
+                <p class="mb-2">
+                  <i class="fa-solid fa-bed mr-2"></i>{{ room.bed }}
+                </p>
+                <p class="mb-2">
+                  <i class="fa-solid fa-house mr-1"></i
+                  ><span class="mr-2">{{ room.roomArea }} m²</span>
+                  <i class="fa-solid fa-wifi mr-1"></i
+                  ><span class="mr-2">Wifi miễn phí</span><br />
+                  <i class="fa-solid fa-droplet mr-1"></i
+                  ><span class="mr-2">Điều hòa ...</span>
+                </p>
+                <p *ngIf="room.quantity < 5" class="text-warning">
+                  <i class="fa-solid fa-hourglass mr-2"></i>Chỉ còn
+                  {{ room.quantity }} phòng
+                </p>
+              </div>
+            </a>
+            <a class="book-room-btn btn palatin-btn">Chọn phòng</a>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</section>
+
+<section class="rooms-area pb-5">
+  <div class="container bg-white shadow py-4 rounded wow fadeInUp">
+    <h3 class="font-weight-bold mb-4">
+      Thông tin về {{ accommodation?.accommodationName }}
+    </h3>
+
+    <div class="d-flex mb-4">
+      <div class="col-3 p-0">
+        <span style="font-size: 26px">Mô tả khách sạn</span>
+      </div>
+      <div class="col-9 pt-2">
+        <div class="text-dark mb-2" style="white-space: pre-line">
+          {{ accommodation?.description }}
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex mb-4">
+      <div class="col-3 p-0">
+        <span style="font-size: 26px">Xung quanh đây</span>
+      </div>
+      <div class="service-right col-9 pt-2">
+        <div *ngFor="let data of accommodation?.specialArounds">
+          <p>{{ data }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex mb-4">
+      <div class="col-3 p-0">
+        <span style="font-size: 26px">Dịch vụ của khách sạn</span>
+      </div>
+      <div class="service-right col-9 pt-2">
+        <div class="service-detail p-0">
+          <p class="text-dark">
+            <i class="fa-solid fa-bath mr-3"></i>Phòng tắm
+          </p>
+          <ul>
+            <li *ngFor="let data of accommodation?.bathRooms">
+              <i class="fa-solid fa-check mr-4 text-success"></i>{{ data }}
+            </li>
+          </ul>
+        </div>
+        <div class="service-detail p-0">
+          <p class="text-dark"><i class="fa-solid fa-bed mr-3"></i>Phòng ngủ</p>
+          <ul>
+            <li *ngFor="let data of accommodation?.bedRooms">
+              <i class="fa-solid fa-check mr-4 text-success"></i>{{ data }}
+            </li>
+          </ul>
+        </div>
+        <div class="service-detail p-0">
+          <p class="text-dark">
+            <i class="fa-solid fa-utensils mr-3"></i>Đồ ăn & thức uống
+          </p>
+          <ul>
+            <li *ngFor="let data of accommodation?.drinkAndFoods">
+              <i class="fa-solid fa-check mr-4 text-success"></i>{{ data }}
+            </li>
+          </ul>
+        </div>
+        <div class="service-detail p-0">
+          <p class="text-dark"><i class="fa-solid fa-wifi mr-3"></i>Internet</p>
+          <ul>
+            <li *ngFor="let data of accommodation?.internets">
+              <i class="fa-solid fa-check mr-4 text-success"></i>{{ data }}
+            </li>
+          </ul>
+        </div>
+        <div class="service-detail p-0">
+          <p class="text-dark">
+            <i class="fa-solid fa-soap mr-3"></i>Dịch vụ lau dọn
+          </p>
+          <ul>
+            <li *ngFor="let data of accommodation?.cleaningServices">
+              <i class="fa-solid fa-check mr-4 text-success"></i>{{ data }}
+            </li>
+          </ul>
+        </div>
+        <div class="service-detail p-0">
+          <p class="text-dark">
+            <i class="fa-solid fa-person-swimming mr-3"></i>Bể bơi
+          </p>
+          <ul>
+            <li *ngFor="let data of accommodation?.pools">
+              <i class="fa-solid fa-check mr-4 text-success"></i>{{ data }}
+            </li>
+          </ul>
+        </div>
+        <div class="service-detail p-0">
+          <p class="text-dark">
+            <i class="fa-solid fa-language mr-3"></i>Ngôn ngữ
+          </p>
+          <ul>
+            <li *ngFor="let data of accommodation?.languages">
+              <i class="fa-solid fa-check mr-4 text-success"></i>{{ data }}
+            </li>
+          </ul>
+        </div>
+        <div class="service-detail p-0">
+          <p class="text-dark"><i class="fa-solid fa-bath mr-3"></i>Nhà bếp</p>
+          <ul>
+            <li *ngFor="let data of accommodation?.dinningRooms">
+              <i class="fa-solid fa-check mr-4 text-success"></i>{{ data }}
+            </li>
+          </ul>
+        </div>
+        <div class="service-detail p-0">
+          <p class="text-dark">
+            <i class="fa-solid fa-bell-concierge mr-3"></i>Dịch vụ lễ tân
+          </p>
+          <ul>
+            <li *ngFor="let data of accommodation?.receptionServices">
+              <i class="fa-solid fa-check mr-4 text-success"></i>{{ data }}
+            </li>
+          </ul>
+        </div>
+        <div class="service-detail p-0">
+          <p class="text-dark">
+            <i class="fa-solid fa-circle-info mr-3"></i>Dịch vụ khác
+          </p>
+          <ul>
+            <li *ngFor="let data of accommodation?.others">
+              <i class="fa-solid fa-check mr-4 text-success"></i>{{ data }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex mb-4">
+      <div class="col-3 p-0">
+        <span style="font-size: 26px">Quy tắc chung</span>
+      </div>
+      <div class="col-9 pt-2">
+        <div class="row align-items-center position-relative p-0 mb-4">
+          <div class="col-3 d-flex align-items-center">
+            <i
+              class="fa-solid fa-calendar-days mr-3"
+              style="font-size: 16px"
+            ></i>
+            <p
+              class="text-dark mb-0"
+              style="font-size: 16px; font-weight: 500; line-height: normal"
+            >
+              Checkin
+            </p>
+          </div>
+          <div class="col-9">
+            <div class="progress w-50">
+              <div
+                class="progress-bar bg-success ml-auto"
+                role="progressbar"
+                [style]="getPercentage(14)"
+              ></div>
+              <label
+                style="
+                  position: absolute;
+                  left: 29.7%;
+                  top: -8px;
+                  transform: translate(-50%, -50%);
+                "
+                >14:00</label
+              >
+            </div>
+          </div>
+        </div>
+        <div class="row align-items-center position-relative p-0 mb-4">
+          <div class="col-3 d-flex align-items-center">
+            <i
+              class="fa-solid fa-calendar-days mr-3"
+              style="font-size: 16px"
+            ></i>
+            <p
+              class="text-dark mb-0"
+              style="font-size: 16px; font-weight: 500; line-height: normal"
+            >
+              Checkout
+            </p>
+          </div>
+          <div class="col-9">
+            <div class="progress w-50">
+              <div
+                class="progress-bar bg-success"
+                role="progressbar"
+                [style]="getPercentage(12)"
+              ></div>
+              <label
+                style="
+                  position: absolute;
+                  left: 25%;
+                  top: -8px;
+                  transform: translate(-50%, -50%);
+                "
+                >12:00</label
+              >
+            </div>
+          </div>
+        </div>
+        <div class="row align-items-center position-relative p-0 mb-4">
+          <div class="col-3 d-flex align-items-center">
+            <i
+              class="fa-solid fa-scale-balanced mr-3"
+              style="font-size: 16px; margin-left: -2px"
+            ></i>
+            <p
+              class="text-dark mb-0"
+              style="font-size: 16px; font-weight: 500; line-height: normal"
+            >
+              Hủy đặt phòng/<br />Trả trước
+            </p>
+          </div>
+          <div class="col-9">
+            <p class="mb-0" style="line-height: normal">
+              Các chính sách hủy và thanh toán trước có khác biệt dựa trên loại
+              chỗ nghỉ. Vui lòng kiểm tra các
+              <a href="#" class="text-primary">điều kiện</a> có thể được áp dụng
+              cho mỗi lựa chọn của bạn.
+            </p>
+          </div>
+        </div>
+        <div class="row align-items-center position-relative p-0 mb-4">
+          <div class="col-3 d-flex align-items-center">
+            <i class="fa-solid fa-dog mr-3" style="font-size: 16px"></i>
+            <p
+              class="text-dark mb-0"
+              style="font-size: 16px; font-weight: 500; line-height: normal"
+            >
+              Vật nuôi
+            </p>
+          </div>
+          <div class="col-9">
+            <p class="mb-0 text-dark" style="line-height: normal">
+              Vật nuôi không được phép.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- <section class="section-rating mb-5">
+    <div class="container bg-white shadow py-4 rounded wow fadeInUp">
+        <h3 class="font-weight-bold mb-4">
+            Đánh giá ${hotel.hotelName} từ khách hàng
+        </h3>
+
+        <div class="container">
+            <c:set var="listRateByHotelId"
+                   value="${RatingDAO.getAllListRatingByHotelId(hotelService.hotelId)}"/>
+
+            <c:if test="${empty listRateByHotelId}">
+                <h2 class="text-center">Không có đánh giá</h2>
+            </c:if>
+            <c:if test="${not empty listRateByHotelId}">
+                <div class="row justify-content-center">
+
+
+                    <c:set var="countRate" value="${0}"/>
+                    <c:set var="countStar" value="${0}"/>
+                    <c:set var="star5" value="${0}"/>
+                    <c:set var="star4" value="${0}"/>
+                    <c:set var="star3" value="${0}"/>
+                    <c:set var="star2" value="${0}"/>
+                    <c:set var="star1" value="${0}"/>
+                    <c:forEach items="${listRateByHotelId}" var="rate" varStatus="loop">
+                        <c:if test="${rate.starRating == 5}"><c:set var="star5" value="${star5 + 1}"/></c:if>
+                        <c:if test="${rate.starRating == 4}"><c:set var="star4" value="${star4 + 1}"/></c:if>
+                        <c:if test="${rate.starRating == 3}"><c:set var="star3" value="${star3 + 1}"/></c:if>
+                        <c:if test="${rate.starRating == 2}"><c:set var="star2" value="${star2 + 1}"/></c:if>
+                        <c:if test="${rate.starRating == 1}"><c:set var="star1" value="${star1 + 1}"/></c:if>
+
+                        <c:set var="countRate" value="${loop.count}"/>
+                        <c:set var="countStar" value="${countStar + rate.starRating}"/>
+                    </c:forEach>
+
+
+                    <div class="col-sm-3">
+                        <div class="rating-block">
+                            <h4>Điểm đánh giá</h4>
+                            <h2 class="bold pb-7"><fmt:formatNumber value="${(countStar / countRate) * 2}" type="number"
+                                                                    maxFractionDigits="1"/> <small>/ 10</small></h2>
+
+                            <fmt:formatNumber value="${countStar / countRate}" maxFractionDigits="0" var="countS"/>
+                            <c:forEach begin="1" end="${countS}">
+                                <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                    <span class="fa-solid fa-star" aria-hidden="true"></span>
+                                </button>
+                            </c:forEach>
+                            <c:forEach begin="${countS + 1}" end="5">
+                                <button type="button" class="btn btn-default btn-grey btn-sm" aria-label="Left Align">
+                                    <span class="fa-solid fa-star" aria-hidden="true"></span>
+                                </button>
+                            </c:forEach>
+                        </div>
+                    </div>
+
+                    <style>
+                        .progress-bar {
+                            background: #cb8670;
+                        }
+                    </style>
+
+                    <div class="col-sm-3" style="margin: auto 0">
+                        <div class="d-flex align-items-center">
+                            <div class="float-left" style="width:70px; line-height:1;">
+                                Rất tốt
+                            </div>
+                            <div class="float-left" style="width:180px;">
+                                <div class="progress" style="height:9px; margin:8px 0;">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="5"
+                                         aria-valuemin="0" aria-valuemax="5" style="width: 100%">
+                                        <span class="sr-only">80% Complete (danger)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="float-right" style="margin-left:10px;">${star5}</div>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <div class="float-left" style="width:70px; line-height:1;">
+                                Tốt
+                            </div>
+                            <div class="float-left" style="width:180px;">
+                                <div class="progress" style="height:9px; margin:8px 0;">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="5"
+                                         aria-valuemin="0" aria-valuemax="5" style="width: 80%">
+                                        <span class="sr-only">80% Complete (danger)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="float-right" style="margin-left:10px;">${star4}</div>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <div class="float-left" style="width:70px; line-height:1;">
+                                Hài Lòng
+                            </div>
+                            <div class="float-left" style="width:180px;">
+                                <div class="progress" style="height:9px; margin:8px 0;">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="5" aria-valuemin="0"
+                                         aria-valuemax="5" style="width: 60%">
+                                        <span class="sr-only">80% Complete (danger)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="float-right" style="margin-left:10px;">${star3}</div>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <div class="float-left" style="width:70px; line-height:1;">
+                                Kém
+                            </div>
+                            <div class="float-left" style="width:180px;">
+                                <div class="progress" style="height:9px; margin:8px 0;">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="5"
+                                         aria-valuemin="0" aria-valuemax="5" style="width: 40%">
+                                        <span class="sr-only">80% Complete (danger)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="float-right" style="margin-left:10px;">${star2}</div>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <div class="float-left" style="width:70px; line-height:1;">
+                                Rất kém
+                            </div>
+                            <div class="float-left" style="width:180px;">
+                                <div class="progress" style="height:9px; margin:8px 0;">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="5"
+                                         aria-valuemin="0" aria-valuemax="5" style="width: 20%">
+                                        <span class="sr-only">80% Complete (danger)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="float-right" style="margin-left:10px;">${star1}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr/>
+                <div class="review-block">
+                    <div class="render-rating mb-3">
+                        <c:forEach items="${ratingList}" var="rating">
+                            <c:set value="${AccountDAO.getAccountById(BookingDAO.getBookingById(rating.bookingId).accountId)}"
+                                   var="acc"/>
+                            <div class="row mb-4">
+                                <div class="d-flex align-items-center col-sm-3">
+                                    <img style="border-radius: 10px;"
+                                         width="85"
+                                         src="<c:url value="/uploads/accounts/${acc.image}"/>"
+                                         class="img-rounded">
+                                    <div class="ml-3">
+                                        <div class="review-block-name"><a style="font-size: 16px;">${acc.fullName}</a>
+                                        </div>
+                                        <div class="review-block-date">${rating.createdDateFormat}</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-9">
+                                    <div class="review-block-rate">
+                                        <c:forEach begin="1" end="${rating.starRating}">
+                                            <i class="bi bi-star-fill" style="color: #febb02; font-size: 22px;"></i>
+                                        </c:forEach>
+                                        <c:forEach begin="${rating.starRating + 1}" end="5">
+                                            <i class="bi bi-star" style="color: #febb02; font-size: 22px;"></i>
+                                        </c:forEach>
+                                    </div>
+                                    <div class="review-block-title">${rating.title}</div>
+                                    <div class="review-block-description">
+                                            ${rating.description}
+                                    </div>
+                                </div>
+                            </div>
+                        </c:forEach>
+                    </div>
+
+                    <div class="col-12 ">
+                        <div id="result-pagination">
+                            <div class="pagination-area wow fadeInUp rating-pagination" data-wow-delay="400ms ">
+                                <nav>
+                                    <ul class="pagination">
+                                        <c:if test="${lastPage<1 || lastPage < index }">
+                                            <h1>Not found</h1>
+                                        </c:if>
+                                        <c:if test="${lastPage>=1}">
+                                            <c:forEach begin="1" end="${lastPage}" var="i">
+                                                <li class="page-item ${i == index ? "active" : ""} ">
+                                                    <input type="hidden" name="index" value="${i}">
+                                                    <input type="hidden" name="hotelId" value="${hotelService.hotelId}">
+                                                    <a class="page-link " href="#">0${i}.</a>
+                                                </li>
+                                            </c:forEach>
+                                        </c:if>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <script>
+                        $(".rating-pagination .page-link").on('click', function () {
+                            var index = $(this).parent().find('input[name="index"]').val();
+                            var hotelId = $(this).parent().find('input[name="hotelId"]').val();
+
+                            $.ajax({
+                                url: "room",
+                                type: "get",
+                                dataType: 'json',
+                                data: {
+                                    index: index,
+                                    hotelId: hotelId,
+                                    action: 'paginateRating'
+                                },
+                                success: function (result) {
+                                    $('.render-rating').html(result);
+                                }, error: function (e) {
+                                    console.log(e);
+                                }
+                            });
+                        });
+
+                    </script>
+
+
+                </div>
+            </c:if>
+        </div>
+    </div>
+</section> -->

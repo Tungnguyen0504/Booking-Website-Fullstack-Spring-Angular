@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Log4j2
 public class Util {
@@ -47,5 +48,9 @@ public class Util {
             throw new GlobalException(ExceptionResult.PARAMETER_INVALID);
         }
         return str.trim();
+    }
+
+    public static String appendLastSplit(AtomicInteger index, int size) {
+        return index.incrementAndGet() == size ? "" : "|";
     }
 }

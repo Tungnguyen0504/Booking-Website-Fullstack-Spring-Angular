@@ -70,9 +70,11 @@ export class CustomFieldTagInputComponent implements OnInit {
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim().split('|');
+    console.log(value);
     for (let i = 0; i < value.length; i++) {
-      if (value[i] && !this.responseList.includes(value[i])) {
-        this.responseList.push(value[i]);
+      const strTemp = value[i].trim(); 
+      if (strTemp && !this.responseList.includes(strTemp)) {
+        this.responseList.push(strTemp);
         this.eventEmitter.emit(this.responseList);
       }
       event.chipInput!.clear();

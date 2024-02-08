@@ -19,8 +19,18 @@ public class CreateAccommodationRequest {
     private String description;
     private LocalTime checkin;
     private LocalTime checkout;
+    private Set<String> specialArounds;
+    private Set<String> bathRooms;
+    private Set<String> bedRooms;
+    private Set<String> dinningRooms;
+    private Set<String> languages;
+    private Set<String> internets;
+    private Set<String> drinkAndFoods;
+    private Set<String> receptionServices;
+    private Set<String> cleaningServices;
+    private Set<String> pools;
+    private Set<String> others;
     private long wardId;
     private String specificAddress;
-    private Set<String> specialArounds;
     private List<MultipartFile> files;
 }

@@ -1,17 +1,8 @@
 package com.springboot.booking.controller;
 
-import com.springboot.booking.common.SuccessResult;
-import com.springboot.booking.model.BSuccess;
-import io.swagger.v3.oas.annotations.Hidden;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.util.List;
-
-import static com.springboot.booking.common.AbstractConstant.*;
+import static com.springboot.booking.common.Constant.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController

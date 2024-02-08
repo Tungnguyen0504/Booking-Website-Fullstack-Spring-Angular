@@ -32,7 +32,7 @@ public class Accommodation extends BaseEntity {
     @Column(name = "star")
     private int star;
 
-    @Column(name = "description", length = 10000)
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
     @Column(name = "check_in")
@@ -40,6 +40,39 @@ public class Accommodation extends BaseEntity {
 
     @Column(name = "checkout")
     private LocalTime checkout;
+
+    @Column(name = "special_around", columnDefinition = "TEXT")
+    private String specialAround;
+
+    @Column(name = "bath_room", columnDefinition = "TEXT")
+    private String bathRoom;
+
+    @Column(name = "bed_room", columnDefinition = "TEXT")
+    private String bedRoom;
+
+    @Column(name = "dinning_room", columnDefinition = "TEXT")
+    private String dinningRoom;
+
+    @Column(name = "language")
+    private String language;
+
+    @Column(name = "internet")
+    private String internet;
+
+    @Column(name = "drink_and_food", columnDefinition = "TEXT")
+    private String drinkAndFood;
+
+    @Column(name = "reception_service", columnDefinition = "TEXT")
+    private String receptionService;
+
+    @Column(name = "cleaning_service", columnDefinition = "TEXT")
+    private String cleaningService;
+
+    @Column(name = "pool", columnDefinition = "TEXT")
+    private String pool;
+
+    @Column(name = "other", columnDefinition = "TEXT")
+    private String other;
 
     @Column(name = "status")
     private String status;
@@ -51,12 +84,6 @@ public class Accommodation extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "accommodation_type_id")
     private AccommodationType accommodationType;
-
-    @ManyToMany
-    @JoinTable(name = "accommodation_specialaround",
-            joinColumns = @JoinColumn(name = "accommodation_id"),
-            inverseJoinColumns = @JoinColumn(name = "special_around_id"))
-    private Set<SpecialAround> specialArounds = new HashSet<>();
 
     @OneToMany(mappedBy = "accommodation")
     private List<Room> rooms = new ArrayList<>();

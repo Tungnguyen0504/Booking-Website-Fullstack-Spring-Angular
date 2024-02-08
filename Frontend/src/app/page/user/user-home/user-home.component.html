@@ -161,22 +161,34 @@
     </div>
 
     <div>
-      <!-- <div class="row city-row pb-3">
-        <ng-container *ngFor="let city of lstProvince; index as i">
+      <div class="row city-row pb-3">
+        <ng-container *ngFor="let data of cityList; index as i">
+          <!-- <app-city-block
+            *ngIf="i >= 0 && i <= 1"
+            [classHeader]="'col-6 city-block pb-3'"
+            [name]="data.name"
+            [image]="data.image"
+          ></app-city-block>
+          <app-city-block
+            *ngIf="i >= 2 && i <= 4"
+            [classHeader]="'col-4 city-block'"
+            [name]="data.name"
+            [image]="data.image"
+          ></app-city-block> -->
           <div *ngIf="i >= 0 && i <= 1" class="col-6 city-block pb-3">
             <a class="city-btn" href="">
               <img
                 class="image-fluid rounded w-100 h-100"
                 style="object-fit: cover"
-                src=""
+                [src]="data.image"
               />
               <div
                 class="position-absolute text-white"
                 style="top: 15px; left: 35px"
               >
-                <span class="font-weight-bold" style="font-size: 24px">{{
-                  city.cityName
-                }}</span>
+                <span class="font-weight-bold" style="font-size: 24px">
+                  {{ data.name }}
+                </span>
                 <img
                   style="
                     margin-bottom: 8px;
@@ -211,14 +223,14 @@
               <img
                 class="image-fluid rounded w-100 h-100"
                 style="object-fit: cover"
-                src=""
+                [src]="data.image"
               />
               <div
                 class="position-absolute text-white"
                 style="top: 15px; left: 35px"
               >
                 <span class="font-weight-bold" style="font-size: 24px">{{
-                  city.cityName
+                  data.name
                 }}</span>
                 <img
                   style="
@@ -249,15 +261,15 @@
             </a>
           </div>
         </ng-container>
-      </div> -->
+      </div>
     </div>
   </div>
 </section>
 <!-- ##### Rooms Area End ##### -->
 <style>
   #type-accommodation .owl-nav {
-  display: none;
-}
+    display: none;
+  }
 </style>
 <section class="rooms-area pb-5">
   <div class="container bg-white px-3 py-4 shadow rounded wow fadeInUp">
@@ -265,7 +277,9 @@
       <h5 class="font-weight-bold mb-3">Tìm theo loại chỗ nghỉ</h5>
 
       <div class="owl-carousel owl-theme" id="type-accommodation">
-        <ng-container *ngFor="let accommodationType of lstAccommodationType; index as i">
+        <ng-container
+          *ngFor="let accommodationType of lstAccommodationType; index as i"
+        >
           <div class="item">
             <input type="hidden" value="" name="accommodationTypeId" />
             <a class="accommodation-type-btn" href="">
@@ -298,12 +312,12 @@
           </div>
           <p>
             Làm sao để trước mỗi chuyến đi, bạn không cần phải ngồi hàng giờ để
-            tìm kiếm thông tin, gọi điện từng phòng vé, từng chỗ ở để so
-            sánh, thủ tục lôi thôi, thời gian chờ đợi mệt mỏi? Đó là câu hỏi
-            thôi thúc những nhà sáng lập đã gây dựng và phát triển nên ứng dụng
-            du lịch trực tuyến The Palatin, với mong muốn mang lại cho khách
-            hàng trải nghiệm toàn diện và dễ chịu nhất với mức giá tiết kiệm
-            nhất, tất cả trên 1 cú nhấp chuột: Thepalatin.vn.
+            tìm kiếm thông tin, gọi điện từng phòng vé, từng chỗ ở để so sánh,
+            thủ tục lôi thôi, thời gian chờ đợi mệt mỏi? Đó là câu hỏi thôi thúc
+            những nhà sáng lập đã gây dựng và phát triển nên ứng dụng du lịch
+            trực tuyến The Palatin, với mong muốn mang lại cho khách hàng trải
+            nghiệm toàn diện và dễ chịu nhất với mức giá tiết kiệm nhất, tất cả
+            trên 1 cú nhấp chuột: Thepalatin.vn.
           </p>
           <div class="about-key-text">
             <h6>
@@ -424,10 +438,7 @@
 <!-- ##### Pool Area Start ##### -->
 <section
   class="pool-area section-padding-100 bg-img bg-fixed"
-  style="
-    background-image: url(assets/img/bg-img/4.png);
-    margin-bottom: 100px;
-  "
+  style="background-image: url(assets/img/bg-img/4.png); margin-bottom: 100px"
 >
   <div class="container">
     <div class="row justify-content-end">
@@ -443,9 +454,9 @@
               Với những tính năng và kết cấu như những bể bơi thông thường với
               phần thành bể được thiết kế không nhìn thấy tạo cảm giác hồ nước
               kéo dài tới vô cực . Những bể bơi này thường được xây dựng ngoài
-              trời tại các khu nghỉ dưỡng , chỗ ở sang trọng gần biển hoặc
-              núi non tăng cảm giác mênh mông , rộng lớn . Du khách đến ngoài
-              việc bơi lội giải trí còn để chụp những bức hình đẹp bên cạnh hồ.
+              trời tại các khu nghỉ dưỡng , chỗ ở sang trọng gần biển hoặc núi
+              non tăng cảm giác mênh mông , rộng lớn . Du khách đến ngoài việc
+              bơi lội giải trí còn để chụp những bức hình đẹp bên cạnh hồ.
             </p>
           </div>
 

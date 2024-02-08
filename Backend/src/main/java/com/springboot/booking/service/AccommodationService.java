@@ -1,6 +1,9 @@
 package com.springboot.booking.service;
 
-import com.springboot.booking.common.AbstractConstant;
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.springboot.booking.common.Constant;
 import com.springboot.booking.common.ExceptionResult;
 import com.springboot.booking.common.Util;
 import com.springboot.booking.dto.request.CreateAccommodationRequest;
@@ -11,10 +14,12 @@ import com.springboot.booking.mapper.AutoMapper;
 import com.springboot.booking.model.entity.*;
 import com.springboot.booking.repository.*;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -24,12 +29,14 @@ public class AccommodationService {
 
     private final FileService fileService;
     private final AddressService addressService;
+    private final RoomService roomService;
     private final AccommodationRepository accommodationRepository;
     private final AccommodationTypeRepository accommodationTypeRepository;
-    private final SpecialAroundRepository specialAroundRepository;
     private final WardRepository wardRepository;
     private final AddressRepository addressRepository;
     private final FileRepository fileRepository;
+
+    private final ObjectMapper mapper;
 
     public AccommodationResponse getById(Long id) {
         Accommodation accommodation = accommodationRepository.findById(id)
@@ -38,7 +45,7 @@ public class AccommodationService {
     }
 
     public List<AccommodationResponse> getAllAccommodationActive() {
-        List<Accommodation> accommodations = accommodationRepository.findByStatus(AbstractConstant.STATUS_ACTIVE);
+        List<Accommodation> accommodations = accommodationRepository.getAll();
         if (CollectionUtils.isEmpty(accommodations)) {
             return new ArrayList<>();
         }
@@ -46,10 +53,10 @@ public class AccommodationService {
     }
 
     @Transactional
-    public void createAccommodation(CreateAccommodationRequest request) {
+    public void createAccommodation(CreateAccommodationRequest request) throws JsonProcessingException {
         AccommodationType accommodationType = accommodationTypeRepository.findById(request.getAccommodationTypeId())
                 .orElseThrow(() -> new GlobalException(ExceptionResult.RESOURCE_NOT_FOUND, "loại chỗ ở"));
-        List<Accommodation> checkAccommodations = accommodationRepository.findByAccommodationName(request.getAccommodationName());
+        List<Accommodation> checkAccommodations = accommodationRepository.getByAccommodationName(request.getAccommodationName());
 
         if (!CollectionUtils.isEmpty(checkAccommodations)) {
             throw new GlobalException(ExceptionResult.CUSTOM_FIELD_EXISTED, "Tên " + accommodationType.getAccommodationTypeName());
@@ -70,59 +77,77 @@ public class AccommodationService {
                 .description(request.getDescription())
                 .checkin(request.getCheckin())
                 .checkout(request.getCheckout())
-                .status(AbstractConstant.STATUS_ACTIVE)
+                .specialAround(mapper.writeValueAsString(request.getSpecialArounds()))
+                .bathRoom(mapper.writeValueAsString(request.getBathRooms()))
+                .bedRoom(mapper.writeValueAsString(request.getBedRooms()))
+                .dinningRoom(mapper.writeValueAsString(request.getDinningRooms()))
+                .language(mapper.writeValueAsString(request.getLanguages()))
+                .internet(mapper.writeValueAsString(request.getInternets()))
+                .drinkAndFood(mapper.writeValueAsString(request.getDrinkAndFoods()))
+                .receptionService(mapper.writeValueAsString(request.getReceptionServices()))
+                .cleaningService(mapper.writeValueAsString(request.getCleaningServices()))
+                .pool(mapper.writeValueAsString(request.getPools()))
+                .other(mapper.writeValueAsString(request.getOthers()))
+                .status(Constant.STATUS_ACTIVE)
                 .accommodationType(accommodationType)
                 .address(address)
                 .build();
-        Set<SpecialAround> specialArounds = request.getSpecialArounds().stream()
-                .map(s -> {
-                    SpecialAround specialAround = specialAroundRepository.findSpecialAroundByDescription(s).orElse(null);
-                    if (specialAround == null) {
-                        specialAround = SpecialAround.builder()
-                                .description(s)
-                                .accommodations(new HashSet<>())
-                                .build();
-                    }
-                    specialAround.getAccommodations().add(accommodation);
-                    return specialAround;
-                })
-                .collect(Collectors.toSet());
-        accommodation.setSpecialArounds(specialArounds);
         accommodationRepository.save(accommodation);
-        specialAroundRepository.saveAll(specialArounds);
 
         request.getFiles().removeIf(file ->
-                fileRepository.findByFilePath(AbstractConstant.FILE_PREFIX_ACCOMMODATION + "/" + file.getOriginalFilename())
+                fileRepository.findByFilePath(Constant.FILE_PREFIX_ACCOMMODATION + "/" + file.getOriginalFilename())
                         .isPresent()
         );
-        fileService.saveMultiple(request.getFiles(), AbstractConstant.FILE_PREFIX_ACCOMMODATION);
+        fileService.saveMultiple(request.getFiles(), Constant.FILE_PREFIX_ACCOMMODATION);
         List<File> files = request.getFiles()
                 .stream()
                 .map(file -> File.builder()
                         .entityId(String.valueOf(accommodation.getId()))
                         .entityName(Util.extractTableName(Accommodation.class))
-                        .filePath(AbstractConstant.FILE_PREFIX_ACCOMMODATION + "/" + file.getOriginalFilename())
+                        .filePath(Constant.FILE_PREFIX_ACCOMMODATION + "/" + file.getOriginalFilename())
                         .build())
                 .collect(Collectors.toList());
         fileRepository.saveAll(files);
     }
 
+    @SneakyThrows(JsonProcessingException.class)
     private AccommodationResponse transferToDto(Accommodation accommodation) {
         List<File> files = fileService.getFilesByEntityIdAndEntityName(String.valueOf(accommodation.getId()), Util.extractTableName(Accommodation.class));
+        List<String> fileBytes = files.stream()
+                .map(file -> {
+                    try {
+                        return fileService.encodeFileToString(file.getFilePath());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .toList();
 
         AccommodationResponse response = AutoMapper.MAPPER.mapToAccommodationResponse(accommodation);
-        response.setAccommodationType(AccommodationTypeResponse.builder()
-                .accommodationTypeId(accommodation.getAccommodationType().getId())
-                .accommodationTypeName(accommodation.getAccommodationType().getAccommodationTypeName())
-                .build());
+        response.setAccommodationType(
+                AccommodationTypeResponse.builder()
+                        .accommodationTypeId(accommodation.getAccommodationType().getId())
+                        .accommodationTypeName(accommodation.getAccommodationType().getAccommodationTypeName())
+                        .build()
+        );
         response.setFullAddress(addressService.getFullAddress(accommodation.getAddress().getId()));
-        response.setSpecialArounds(accommodation.getSpecialArounds()
-                .stream()
-                .map(SpecialAround::getDescription)
-                .collect(Collectors.toList()));
-        response.setFilePaths(files.stream()
-                .map(File::getFilePath)
-                .collect(Collectors.toList()));
+        response.setSpecialArounds(mapper.readValue(accommodation.getSpecialAround(), Set.class));
+        response.setBathRooms(mapper.readValue(accommodation.getBathRoom(), Set.class));
+        response.setBedRooms(mapper.readValue(accommodation.getBedRoom(), Set.class));
+        response.setDinningRooms(mapper.readValue(accommodation.getDinningRoom(), Set.class));
+        response.setLanguages(mapper.readValue(accommodation.getLanguage(), Set.class));
+        response.setInternets(mapper.readValue(accommodation.getInternet(), Set.class));
+        response.setDrinkAndFoods(mapper.readValue(accommodation.getDrinkAndFood(), Set.class));
+        response.setReceptionServices(mapper.readValue(accommodation.getReceptionService(), Set.class));
+        response.setCleaningServices(mapper.readValue(accommodation.getCleaningService(), Set.class));
+        response.setPools(mapper.readValue(accommodation.getPool(), Set.class));
+        response.setOthers(mapper.readValue(accommodation.getOther(), Set.class));
+        response.setFilePaths(fileBytes);
+        response.setRooms(
+                accommodation.getRooms().stream()
+                        .map(roomService::transferToObject)
+                        .collect(Collectors.toList())
+        );
         return response;
     }
 }

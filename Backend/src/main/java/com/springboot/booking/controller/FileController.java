@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
-import static com.springboot.booking.common.AbstractConstant.PATH_V1;
+import static com.springboot.booking.common.Constant.PATH_V1;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -40,8 +40,8 @@ public class FileController {
         return ResponseEntity.ok(files);
     }
 
-    @GetMapping("/load/{filename}")
-    public ResponseEntity<FileResponse> getFile(@PathVariable String filename) throws IOException {
+    @GetMapping("/load")
+    public ResponseEntity<FileResponse> getFile(@RequestParam String filename) throws IOException {
         Resource file = fileService.load(filename);
         return ResponseEntity.ok(FileResponse.builder()
                 .name(file.getFilename())
