@@ -40,8 +40,29 @@
   bottom: 85px;
 }
 
-@media (min-width: 1200px) {
-  .mat-dialog-container {
-    max-width: 100% !important;
+.dialog-body {
+  height: 690px;
+  overflow-y: auto;
+}
+
+.dialog-body::-webkit-scrollbar {
+  display: none;
+}
+
+@media screen and (min-width: 1200px) {
+  #room-dialog {
+    max-width: 1240px !important;
+    max-height: calc(100% - 3.5rem);
   }
+}
+
+.service-box {
+  display: inline-flex;
+  margin-bottom: 3px;
+}
+
+.service-box span {
+  padding: 0px 2px;
+  border: 1px solid #949494;
+  border-radius: 2px;
 }

@@ -17,6 +17,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { RoomDetailDialogComponent } from './accommodation-detail/room-detail-dialog/room-detail-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { CheckoutComponent } from './checkout/checkout.component';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { BookingDetailLeftComponent } from 'src/app/shared/admin/booking-detail-left/booking-detail-left.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +33,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     UserHomeComponent,
     AccommodationDetailComponent,
     RoomDetailDialogComponent,
+    CheckoutComponent,
+    BookingDetailLeftComponent,
   ],
   imports: [
     CommonModule,
@@ -39,6 +46,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatButtonModule,
     MatListModule,
     MatDialogModule,
+    MatStepperModule,
+    MatFormFieldModule,
+    MatInputModule,
     LightgalleryModule,
   ],
 })

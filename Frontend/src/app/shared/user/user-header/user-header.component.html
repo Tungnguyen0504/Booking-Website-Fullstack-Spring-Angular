@@ -1,32 +1,25 @@
 <header class="header-area">
-  <!-- Navbar Area -->
   <div class="palatin-main-menu">
     <div class="classy-nav-container breakpoint-off">
       <div class="container">
-        <!-- Menu -->
         <nav class="classy-navbar justify-content-between" id="palatinNav">
-          <!-- Nav brand -->
           <a href="" class="nav-brand"
             ><img src="assets/img/core-img/logo.png" alt=""
           /></a>
 
-          <!-- Navbar Toggler -->
           <div class="classy-navbar-toggler">
             <span class="navbarToggler"
               ><span></span><span></span><span></span
             ></span>
           </div>
 
-          <!-- Menu -->
           <div class="classy-menu">
-            <!-- close btn -->
             <div class="classycloseIcon">
               <div class="cross-wrap">
                 <span class="top"></span><span class="bottom"></span>
               </div>
             </div>
 
-            <!-- Nav Start -->
             <div class="classynav">
               <ul>
                 <li class="active"><a href="">Trang chủ</a></li>
@@ -36,140 +29,147 @@
                 <li><a href="">Liên hệ</a></li>
               </ul>
 
-              <!-- Button -->
-              <!-- <c:if test="${sessionScope.account == null}"> -->
-              <div class="menu-btn">
+              <div *ngIf="!user" class="menu-btn">
                 <a
-                  href="register"
+                  href=""
                   class="btn palatin-btn btn-3 bg-transparent text-white"
                   >Đăng ký</a
                 >
                 <a
-                  href="login"
+                  href=""
                   class="btn palatin-btn btn-3 bg-transparent text-white"
                   >Đăng nhập</a
                 >
               </div>
-              <!-- </c:if> -->
-              <!-- <c:if test="${sessionScope.account != null}">
-                                <style>
-                                    .menu-btn .dropdown-toggle::after {
-                                        margin-left: 1em;
-                                    }
+              <ng-container *ngIf="user">
+                <div class="menu-btn">
+                  <div class="dropdown">
+                    <a
+                      class="btn btn-secondary dropdown-toggle bg-transparent d-flex align-items-center border-0"
+                      href="#"
+                      role="button"
+                      id="ddl-account"
+                      data-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      <img
+                        class="rounded-circle"
+                        width="45"
+                        height="45"
+                        [src]="user.filePath"
+                      />
+                      <div class="ml-3">
+                        <span class="text-truncate">Nguyen Van A</span><br />
+                        <small class="float-left text-warning font-weight-light"
+                          >Xem chi tiết</small
+                        >
+                      </div>
+                    </a>
+                    <div
+                      class="dropdown-menu dropdown-menu-right"
+                      aria-labelledby="ddl-account"
+                    >
+                      <a class="dropdown-item text-dark" href=""
+                        >Thông tin cá nhân</a
+                      >
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item text-dark" href="">Logout</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="ml-3">
+                  <a
+                    type="button"
+                    class="cart js-menu-toggle menu-toggle text-white position-relative"
+                  >
+                    <i
+                      class="fa-solid fa-cart-shopping"
+                      style="font-size: 24px"
+                    ></i>
+                    <span class="count-cart">0</span>
+                  </a>
+                </div>
 
-                                    #ddl-account:hover {
-                                        background-color: rgba(192, 192, 192, 0.3) !important;
-                                    }
-                                </style>
-                                <div class="menu-btn">
-                                    <div class="dropdown">
-                                        <a class="btn btn-secondary dropdown-toggle bg-transparent d-flex align-items-center border-0"
-                                           href="#" role="button" id="ddl-account" data-toggle="dropdown"
-                                           aria-expanded="false">
-                                            <img class="rounded-circle" width="45" height="45"
-                                                 src="<c:url value="/uploads/accounts/${sessionScope.account.image}"/>">
-                                            <div class="ml-3">
-                                                <span class="text-truncate">${sessionScope.account.fullName}</span><br>
-                                                <small class="float-left text-warning font-weight-light">Xem chi
-                                                    tiết</small>
-                                            </div>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="ddl-account">
-                                            <a class="dropdown-item text-dark"
-                                               href="<%=request.getContextPath()%>/my-account?action=loadInfor">Thông
-                                                tin cá nhân</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item text-dark" href="login?action=logout">Logout</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="ml-3">
-                                    <a type="button"
-                                       class="cart js-menu-toggle menu-toggle text-white position-relative">
-                                        <i class="fa-solid fa-cart-shopping" style="font-size: 24px;"></i>
-                                        <span class="count-cart">${sessionScope.items eq null ? "0" : sessionScope.items.size()}</span>
-                                    </a>
-                                </div>
+                <!-- $(".cart").on("click", function () {
+                    $.ajax({
+                      url: "booking-cart",
+                      type: "get",
+                      dataType: "json",
+                      data: {
+                        action: "openCart",
+                      },
+                      success: function (result) {
+                        $("#list-cart").html(result);
+                        $('#list-cart input[type="number"]').inputSpinner({
+                          buttonsOnly: true,
+                          autoInterval: undefined,
+                        });
+                      },
+                    });
+                  });
 
-                                <script>
-                                    $('.cart').on('click', function () {
-                                        $.ajax({
-                                            url: "booking-cart",
-                                            type: "get",
-                                            dataType: 'json',
-                                            data: {
-                                                action: 'openCart'
-                                            },
-                                            success: function (result) {
-                                                $('#list-cart').html(result);
-                                                $('#list-cart input[type="number"]').inputSpinner({
-                                                    buttonsOnly: true,
-                                                    autoInterval: undefined
-                                                });
-                                            }
-                                        });
-                                    });
+                  $(document).on("click", ".btn-remove-cart", function () {
+                    var roomId = $(this)
+                      .closest(".list-cart")
+                      .find('input[name="roomId"]')
+                      .val();
 
-                                    // failed
-                                    $(document).on('click', ".btn-remove-cart", function () {
-                                        var roomId = $(this).closest('.list-cart').find('input[name="roomId"]').val();
+                    $.ajax({
+                      url: "booking-cart",
+                      type: "get",
+                      dataType: "json",
+                      data: {
+                        action: "removeCart",
+                        roomId: roomId,
+                      },
+                      success: function (result) {
+                        if (result == "0") {
+                          swal("Failed!", "", "error");
+                        } else {
+                          $("#list-cart").html(result);
+                          $('#list-cart input[type="number"]').inputSpinner({
+                            buttonsOnly: true,
+                            autoInterval: undefined,
+                          });
+                          const a = $(".count-cart").text();
+                          $(".count-cart").html(a - 1);
+                        }
+                      },
+                    });
+                  });
 
-                                        $.ajax({
-                                            url: "booking-cart",
-                                            type: "get",
-                                            dataType: 'json',
-                                            data: {
-                                                action: 'removeCart',
-                                                roomId: roomId
-                                            },
-                                            success: function (result) {
-                                                if (result == '0') {
-                                                    swal("Failed!", "", "error");
-                                                } else {
-                                                    $('#list-cart').html(result);
-                                                    $('#list-cart input[type="number"]').inputSpinner({
-                                                        buttonsOnly: true,
-                                                        autoInterval: undefined
-                                                    });
-                                                    const a = $('.count-cart').text();
-                                                    $('.count-cart').html(a - 1);
-                                                }
-                                            }
-                                        });
-                                    });
+                  $(document).on("change", ".qty-room-cart", function (e) {
+                    var roomId = $(this)
+                      .closest(".list-cart")
+                      .find('input[name="roomId"]')
+                      .val();
+                    console.log(roomId);
+                    var qtyRoom = $(e.target).val();
 
-                                    $(document).on('change', '.qty-room-cart', function (e) {
-                                        var roomId = $(this).closest('.list-cart').find('input[name="roomId"]').val();
-                                        console.log(roomId)
-                                        var qtyRoom = $(e.target).val();
-
-                                        $.ajax({
-                                            url: "booking-cart",
-                                            type: "get",
-                                            dataType: 'json',
-                                            data: {
-                                                action: 'changeQtyOfRoom',
-                                                roomId: roomId,
-                                                qtyRoom: qtyRoom
-                                            },
-                                            success: function (result) {
-                                                if (result == '0') {
-                                                    swal("Failed!", "", "error");
-                                                } else {
-                                                    $('#list-cart').html(result);
-                                                    $('#list-cart input[type="number"]').inputSpinner({
-                                                        buttonsOnly: true,
-                                                        autoInterval: undefined
-                                                    });
-                                                }
-                                            }
-                                        });
-                                    });
-                                </script>
-
-                            </c:if> -->
+                    $.ajax({
+                      url: "booking-cart",
+                      type: "get",
+                      dataType: "json",
+                      data: {
+                        action: "changeQtyOfRoom",
+                        roomId: roomId,
+                        qtyRoom: qtyRoom,
+                      },
+                      success: function (result) {
+                        if (result == "0") {
+                          swal("Failed!", "", "error");
+                        } else {
+                          $("#list-cart").html(result);
+                          $('#list-cart input[type="number"]').inputSpinner({
+                            buttonsOnly: true,
+                            autoInterval: undefined,
+                          });
+                        }
+                      },
+                    });
+                  }); -->
+              </ng-container>
             </div>
-            <!-- Nav End -->
           </div>
         </nav>
       </div>

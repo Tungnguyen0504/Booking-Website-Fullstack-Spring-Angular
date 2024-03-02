@@ -13,6 +13,7 @@ interface DialogData {
   styleUrls: ['./room-detail-dialog.component.css'],
 })
 export class RoomDetailDialogComponent implements OnInit {
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private dialogRef: MatDialogRef<RoomDetailDialogComponent>,

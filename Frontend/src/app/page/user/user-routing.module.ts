@@ -4,6 +4,7 @@ import { UserComponent } from './user.component';
 import { UserHomeComponent } from './user-home/user-home.component';
 import { SearchAccommodationComponent } from './search-accommodation/search-accommodation.component';
 import { AccommodationDetailComponent } from './accommodation-detail/accommodation-detail.component';
+import { CheckoutComponent } from './checkout/checkout.component';
 
 const routes: Routes = [
   {
@@ -14,6 +15,7 @@ const routes: Routes = [
       { path: 'home', component: UserHomeComponent },
       { path: 'search-accommodation', component: SearchAccommodationComponent },
       { path: 'accommodation-detail/:accommodationId', component: AccommodationDetailComponent },
+      { path: 'checkout', component: CheckoutComponent },
     ],
   },
 ];

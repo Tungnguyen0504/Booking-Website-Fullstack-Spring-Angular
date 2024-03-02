@@ -1,4 +1,5 @@
 export interface User {
+    id: number;
     firstName: string;
     lastName: string;
     email: string;
@@ -6,6 +7,9 @@ export interface User {
     address: string;
     phoneNumber: string;
     dateOfBirth: string;
-    image: string;
+    status: string;
     role: string;
+    filePath: string;
+    createdAt: string;
+    modifiedAt: string;
 }

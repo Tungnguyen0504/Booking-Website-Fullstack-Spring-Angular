@@ -15,15 +15,13 @@ import com.springboot.booking.repository.AccommodationRepository;
 import com.springboot.booking.repository.FileRepository;
 import com.springboot.booking.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,7 +37,8 @@ public class RoomService {
     @Transactional
     public void createRoom(CreateRoomRequest request) throws JsonProcessingException {
         Accommodation accommodation = accommodationRepository.findById(Long.valueOf(request.getAccommodationId()))
-                .orElseThrow(() -> new GlobalException(ExceptionResult.RESOURCE_NOT_FOUND, Util.extractTableName(Accommodation.class)));
+                .orElseThrow(() -> new GlobalException(ExceptionResult.RESOURCE_NOT_FOUND,
+                        String.format("File %s", Util.extractTableName(Accommodation.class))));
 
         List<Room> checkRooms = roomRepository.findByAccommodationIdAndRoomType(Long.valueOf(request.getAccommodationId()), request.getRoomType());
         if (!CollectionUtils.isEmpty(checkRooms)) {
@@ -82,7 +81,8 @@ public class RoomService {
 
     public RoomResponse getById(Long id) {
         Room room = roomRepository.findById(id)
-                .orElseThrow(() -> new GlobalException(ExceptionResult.RESOURCE_NOT_FOUND, Util.extractTableName(Room.class)));
+                .orElseThrow(() -> new GlobalException(ExceptionResult.RESOURCE_NOT_FOUND,
+                        String.format("File %s", Util.extractTableName(Room.class))));
         return transferToObject(room);
     }
 
@@ -94,16 +94,11 @@ public class RoomService {
         return rooms.stream().map(this::transferToObject).collect(Collectors.toList());
     }
 
+    @SneakyThrows(JsonProcessingException.class)
     public RoomResponse transferToObject(Room room) {
         List<File> files = fileService.getFilesByEntityIdAndEntityName(String.valueOf(room.getId()), Util.extractTableName(Room.class));
         List<String> fileBytes = files.stream()
-                .map(file -> {
-                    try {
-                        return fileService.encodeFileToString(file.getFilePath());
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                })
+                .map(file -> fileService.encodeFileToString(file.getFilePath()))
                 .toList();
         return RoomResponse.builder()
                 .roomId(room.getId())
@@ -116,10 +111,10 @@ public class RoomService {
                 .discountPercent(room.getDiscountPercent())
                 .quantity(room.getQuantity())
                 .status(room.getStatus())
-                .views(new HashSet<>(Arrays.asList(room.getView().split("\\|"))))
-                .dinningRooms(new HashSet<>(Arrays.asList(room.getDinningRoom().split("\\|"))))
-                .bathRooms(new HashSet<>(Arrays.asList(room.getBathRoom().split("\\|"))))
-                .roomServices(new HashSet<>(Arrays.asList(room.getRoomService().split("\\|"))))
+                .views(mapper.readValue(room.getView(), Set.class))
+                .dinningRooms(mapper.readValue(room.getDinningRoom(), Set.class))
+                .bathRooms(mapper.readValue(room.getBathRoom(), Set.class))
+                .roomServices(mapper.readValue(room.getRoomService(), Set.class))
                 .filePaths(fileBytes)
                 .build();
     }

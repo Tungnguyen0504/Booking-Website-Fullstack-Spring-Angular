@@ -1,6 +1,5 @@
 package com.springboot.booking.service;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springboot.booking.common.Constant;
@@ -20,7 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -114,13 +115,7 @@ public class AccommodationService {
     private AccommodationResponse transferToDto(Accommodation accommodation) {
         List<File> files = fileService.getFilesByEntityIdAndEntityName(String.valueOf(accommodation.getId()), Util.extractTableName(Accommodation.class));
         List<String> fileBytes = files.stream()
-                .map(file -> {
-                    try {
-                        return fileService.encodeFileToString(file.getFilePath());
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                })
+                .map(file -> fileService.encodeFileToString(file.getFilePath()))
                 .toList();
 
         AccommodationResponse response = AutoMapper.MAPPER.mapToAccommodationResponse(accommodation);

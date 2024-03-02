@@ -18,6 +18,7 @@ export class UserService {
   constructor(private httpClient: HttpClient, private router: Router) {}
 
   getCurrentUser(): Observable<User> {
+    console.log(new Date());
     return this.httpClient.get<User>(URL + '/get-current-user');
   }
 }

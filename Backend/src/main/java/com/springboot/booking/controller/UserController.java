@@ -1,6 +1,7 @@
 package com.springboot.booking.controller;
 
 import com.springboot.booking.config.AuthenticationFacade;
+import com.springboot.booking.dto.response.UserResponse;
 import com.springboot.booking.model.entity.User;
 import com.springboot.booking.service.JwtService;
 import com.springboot.booking.service.UserService;
@@ -24,7 +25,7 @@ public class UserController {
     private final AuthenticationFacade authenticationFacade;
 
     @GetMapping("/get-current-user")
-    public ResponseEntity<User> getCurrentUser() {
+    public ResponseEntity<UserResponse> getCurrentUser() {
         return ResponseEntity.ok(userService.getCurrentUser());
     }
 

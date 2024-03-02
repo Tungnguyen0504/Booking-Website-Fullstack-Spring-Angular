@@ -1,9 +1,15 @@
 package com.springboot.booking.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.springboot.booking.common.Constant;
+import com.springboot.booking.common.ExceptionResult;
+import com.springboot.booking.common.Util;
+import com.springboot.booking.exeption.GlobalException;
+import com.springboot.booking.model.entity.Accommodation;
 import com.springboot.booking.model.entity.File;
 import com.springboot.booking.repository.FileRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -102,7 +108,14 @@ public class FileService {
         return fileRepository.findByEntityIdAndEntityName(entityId, entityName);
     }
 
-    public String encodeFileToString(String fileName) throws IOException {
+    public File getFilesByEntityIdAndEntityNameDesc(String entityId, String entityName) {
+        return fileRepository.findByEntityIdAndEntityNameDesc(entityId, entityName)
+                .orElseThrow(() -> new GlobalException(ExceptionResult.RESOURCE_NOT_FOUND,
+                        String.format("File %s", entityName)));
+    }
+
+    @SneakyThrows(IOException.class)
+    public String encodeFileToString(String fileName) {
         return "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(this.load(fileName).getContentAsByteArray());
     }
 }

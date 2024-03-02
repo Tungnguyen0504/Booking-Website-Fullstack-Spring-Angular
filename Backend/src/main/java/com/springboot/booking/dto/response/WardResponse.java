@@ -8,7 +8,6 @@ import lombok.Setter;
 @Setter
 @Builder
 public class WardResponse {
-
     private Long wardId;
     private String wardName;
 }
