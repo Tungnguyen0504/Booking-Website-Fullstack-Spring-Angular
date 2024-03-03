@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MatDrawer } from '@angular/material/sidenav';
 import { User } from 'src/app/model/User.model';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { UserService } from 'src/app/service/user.service';
@@ -9,6 +10,8 @@ import { UserService } from 'src/app/service/user.service';
   styleUrls: ['./user-header.component.css'],
 })
 export class UserHeaderComponent implements OnInit {
+  @Input() drawer!: MatDrawer;
+  
   user?: User;
 
   constructor(
@@ -24,5 +27,9 @@ export class UserHeaderComponent implements OnInit {
         },
       });
     }
+  }
+
+  test() {
+    this.drawer.toggle();
   }
 }

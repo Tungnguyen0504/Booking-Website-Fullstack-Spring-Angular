@@ -81,6 +81,7 @@
                   <a
                     type="button"
                     class="cart js-menu-toggle menu-toggle text-white position-relative"
+                    (click)="test()"
                   >
                     <i
                       class="fa-solid fa-cart-shopping"
@@ -179,6 +180,6 @@
 
 <aside class="sidebar">
   <div class="side-inner">
-    <div class="share" id="list-cart"></div>
+    <div class="share" (click)="test()" id="list-cart" style="cursor: pointer;"></div>
   </div>
 </aside>
