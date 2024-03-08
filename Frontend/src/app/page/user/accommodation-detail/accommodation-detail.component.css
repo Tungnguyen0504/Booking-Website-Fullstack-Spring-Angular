@@ -163,44 +163,4 @@
 
 .service-right .service-detail ul li {
     margin-bottom: 0.75rem;
-} */
-/* 5
-
-/* 6 */
-/* .progress-bar {
-    background: #cb8670;
-} */
-/* 6 */
-
-/* 7 */
-.qty-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
-.qty-container .input-qty {
-  text-align: center;
-  padding: 6px 10px;
-  border: 1px solid #d4d4d4;
-  max-width: 80px;
-}
-.qty-container .qty-btn-minus,
-.qty-container .qty-btn-plus {
-  border: 1px solid #d4d4d4;
-  padding: 10px 13px;
-  font-size: 10px;
-  height: 38px;
-  width: 38px;
-}
-.qty-container .btn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.btn-rounded {
-  border-radius: 50%;
-}
-.input-rounded {
-  border-radius: 50px;
-}
-/* 7 */

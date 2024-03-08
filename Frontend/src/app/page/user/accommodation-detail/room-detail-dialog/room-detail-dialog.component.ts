@@ -1,6 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { Room } from 'src/app/model/Room.model';
+import { AuthenticationService } from 'src/app/service/authentication.service';
+import { BookingService, CartItem } from 'src/app/service/booking.service';
 import { FileService } from 'src/app/service/file.service';
 
 interface DialogData {
@@ -13,14 +16,29 @@ interface DialogData {
   styleUrls: ['./room-detail-dialog.component.css'],
 })
 export class RoomDetailDialogComponent implements OnInit {
-
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private dialogRef: MatDialogRef<RoomDetailDialogComponent>,
-    private $fileService: FileService
+    private router: Router,
+    private $fileService: FileService,
+    private $bookingService: BookingService,
+    private $authenticationService: AuthenticationService
   ) {
     console.log(data);
   }
 
   ngOnInit(): void {}
+
+  addToCart() {
+    const cartItem: CartItem = {
+      quantity: 2,
+      room: this.data.room,
+    };
+    if (!this.$authenticationService.isLoggedIn()) {
+      this.dialogRef.close();
+      this.router.navigate(['/authentication/login']);
+      return;
+    }
+    this.$bookingService.addToCart(cartItem);
+  }
 }

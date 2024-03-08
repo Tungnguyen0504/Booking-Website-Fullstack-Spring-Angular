@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Room } from '../model/Room.model';
-import { BOOKING_STORAGE } from '../constant/Abstract.constant';
+import { CART_STORAGE } from '../constant/Abstract.constant';
+import { BehaviorSubject } from 'rxjs';
+import { UserService } from './user.service';
+import { AuthenticationService } from './authentication.service';
+import { Router } from '@angular/router';
 
-export interface BookingStorage {
+export interface CartStorage {
   startDate: Date;
   endDate: Date;
-  accommodationId: number;
-  items: Item[];
+  cartItems: CartItem[];
 }
 
-export interface Item {
+export interface CartItem {
   quantity: number;
   room: Room;
 }
@@ -18,30 +21,81 @@ export interface Item {
   providedIn: 'root',
 })
 export class BookingService {
+  private cartStorage: CartStorage = {
+    startDate: new Date(),
+    endDate: new Date(),
+    cartItems: [],
+  };
+  private cartSubject = new BehaviorSubject<CartItem[]>([]);
 
-  setBookingStorage(
-    startDate: Date,
-    endDate: Date,
-    userId: number,
-    accommodationId: number,
-    items: Item[]
+  constructor(
+    private $userService: UserService,
+    private $authenticationService: AuthenticationService
   ) {
-    const bookingStorage = {
-      startDate: startDate,
-      endDate: endDate,
-      userId: userId,
-      accommodationId: accommodationId,
-      items: items,
-    };
-    console.log(bookingStorage);
-    localStorage.setItem(BOOKING_STORAGE, JSON.stringify(bookingStorage));
+    this.loadCartFromLocalStorage();
   }
 
-  getBookingStorage(): any {
-    const data = localStorage.getItem(BOOKING_STORAGE);
-    if (data) {
-      return JSON.parse(data);
+  getCart() {
+    return this.cartStorage;
+  }
+
+  addToCart(item: CartItem) {
+    const existingItem = this.cartStorage.cartItems.find(
+      (i) => i.room.roomId === item.room.roomId
+    );
+    if (existingItem) {
+      existingItem.quantity += item.quantity;
+    } else {
+      this.cartStorage.cartItems.push(item);
     }
-    return {};
+    this.saveCartToLocalStorage();
+    this.cartSubject.next(this.cartStorage.cartItems);
+    console.log(this.cartStorage);
+  }
+
+  removeFromCart(itemId: number) {
+    const itemIndex = this.cartStorage.cartItems.findIndex(
+      (i) => i.room.roomId === itemId
+    );
+    if (itemIndex > -1) {
+      this.cartStorage.cartItems.splice(itemIndex, 1);
+      this.saveCartToLocalStorage();
+      this.cartSubject.next(this.cartStorage.cartItems);
+    }
+  }
+
+  clearCart() {
+    this.cartStorage.cartItems = [];
+    this.saveCartToLocalStorage();
+    this.cartSubject.next(this.cartStorage.cartItems);
+  }
+
+  private loadCartFromLocalStorage() {
+    if (this.$authenticationService.isLoggedIn()) {
+      this.$userService.getCurrentUser().subscribe({
+        next: (res) => {
+          const userId = res.id;
+          const storedCart = localStorage.getItem(`${CART_STORAGE}/${userId}`);
+          if (storedCart) {
+            this.cartStorage = JSON.parse(storedCart);
+            this.cartSubject.next(this.cartStorage.cartItems);
+          }
+        },
+      });
+    }
+  }
+
+  private saveCartToLocalStorage() {
+    if (this.$authenticationService.isLoggedIn()) {
+      this.$userService.getCurrentUser().subscribe({
+        next: (res) => {
+          const userId = res.id;
+          localStorage.setItem(
+            `${CART_STORAGE}/${userId}`,
+            JSON.stringify(this.cartStorage)
+          );
+        },
+      });
+    }
   }
 }

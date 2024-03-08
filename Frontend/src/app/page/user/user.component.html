@@ -1,9 +1,80 @@
-<mat-drawer-container class="example-container" [hasBackdrop]="true">
-  <mat-drawer class="w-50" #drawer [mode]="'over'" [position]="'end'">
-    <div>I'm a drawer</div>
-  </mat-drawer>
-  <mat-drawer-content>
+<mat-sidenav-container [hasBackdrop]="true">
+  <mat-sidenav
+    #drawer
+    [mode]="'over'"
+    [position]="'end'"
+    [fixedInViewport]="true"
+    style="width: 40%"
+  >
+    <div class="cart" style="padding: 20px 30px">
+      <ng-container *ngIf="cartStorage?.cartItems?.length === 0">
+        <h4 class="font-weight-bold">Danh sách chọn phòng đang trống!</h4>
+      </ng-container>
+      <ng-container *ngIf="cartStorage?.cartItems?.length !== 0">
+        <h4 class="font-weight-bold">Phòng đã chọn</h4>
+        <div>
+          <div
+            *ngFor="let data of cartStorage?.cartItems"
+            class="list-cart row position-relative mx-0 mt-3 shadow p-4"
+          >
+            <div class="col-3 cart-img">
+              <img class="w-100 rounded" [src]="data.room.filePaths[0]" />
+              <a class="btn-remove-cart btn btn-secondary rounded-circle"
+                ><i class="fa-solid fa-xmark"></i
+              ></a>
+            </div>
+            <div class="col-6 cart-title pl-3">
+              <h6 class="mb-0">{{ data.room.roomType }}</h6>
+              <p class="mb-0">
+                {{ data.room.price | number : "1.0-0" }} VND/ 1 đêm
+              </p>
+            </div>
+            <div class="col-3 pt-1 pl-3">
+              <div class="qty-container d-flex">
+                <button
+                  class="btn palatin-btn qty-btn-minus btn-rounded mr-2"
+                  type="button"
+                >
+                  <i class="fa fa-chevron-left"></i>
+                </button>
+                <input
+                  type="text"
+                  name="qty"
+                  value="0"
+                  class="input-qty input-rounded"
+                />
+                <button
+                  class="btn palatin-btn qty-btn-plus btn-rounded ml-2"
+                  type="button"
+                >
+                  <i class="fa fa-chevron-right"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="border-top mt-5"></div>
+          <div class="mt-4 d-flex justify-content-between">
+            <div class="d-flex flex-column">
+              <strong style="font-size: 20px">Tổng cộng:</strong>
+              <div>
+                <span
+                  class="text-muted mr-2"
+                  style="text-decoration: line-through"
+                  >870,000 VND</span
+                >
+              </div>
+              <strong class="text-success mb-2" style="font-size: 16px"
+                >609,000 VND cho 1 đêm</strong
+              >
+            </div>
+            <a href="" class="btn palatin-btn" style="width: 40%">Thanh toán</a>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content>
     <app-user-header [drawer]="drawer"></app-user-header>
     <router-outlet></router-outlet>
-  </mat-drawer-content>
-</mat-drawer-container>
+  </mat-sidenav-content>
+</mat-sidenav-container>

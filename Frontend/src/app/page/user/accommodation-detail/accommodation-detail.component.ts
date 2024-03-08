@@ -14,6 +14,7 @@ import * as moment from 'moment';
 import { MatDialog } from '@angular/material/dialog';
 import { RoomDetailDialogComponent } from './room-detail-dialog/room-detail-dialog.component';
 import { DialogData } from 'src/app/shared/admin/form-address/form-address-dialog/form-address-dialog.component';
+import { BookingService } from 'src/app/service/booking.service';
 
 @Component({
   selector: 'app-accommodation-detail',

@@ -41,8 +41,7 @@
               "./node_modules/bootstrap-fileinput/js/plugins/sortable.min.js",
               "src/assets/js/datatable/dataTables.min.js",
               "src/assets/js/plugins/plugins.js",
-              "src/assets/js/active.js",
-              "src/assets/js/script.js"
+              "src/assets/js/active.js"
             ]
           },
           "configurations": {
