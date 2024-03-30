@@ -1,20 +1,17 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Gallery } from 'ng-gallery';
 import { Accommodation } from 'src/app/model/Accommodation.model';
 import { AccommodationService } from 'src/app/service/accommodation.service';
-import { FileService } from 'src/app/service/file.service';
-import { RoomService } from 'src/app/service/room.service';
 import { BeforeSlideDetail } from 'lightgallery/lg-events';
 import { Room } from 'src/app/model/Room.model';
 import { DATETIME_FORMAT1 } from 'src/app/constant/Abstract.constant';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import lgZoom from 'lightgallery/plugins/zoom';
 import * as moment from 'moment';
 import { MatDialog } from '@angular/material/dialog';
 import { RoomDetailDialogComponent } from './room-detail-dialog/room-detail-dialog.component';
 import { DialogData } from 'src/app/shared/admin/form-address/form-address-dialog/form-address-dialog.component';
-import { BookingService } from 'src/app/service/booking.service';
+import { BookingService, CartItem } from 'src/app/service/booking.service';
+import { AuthenticationService } from 'src/app/service/authentication.service';
 
 @Component({
   selector: 'app-accommodation-detail',
@@ -33,10 +30,9 @@ export class AccommodationDetailComponent {
   constructor(
     private $route: ActivatedRoute,
     private $router: Router,
-    private sanitizer: DomSanitizer,
-    private $roomService: RoomService,
     private $accommodationService: AccommodationService,
-    private $fileService: FileService,
+    private $bookingService: BookingService,
+    private $authenticationService: AuthenticationService,
     private $dialog: MatDialog
   ) {}
 
@@ -92,5 +88,18 @@ export class AccommodationDetailComponent {
         // });
       }
     });
+  }
+
+  addToCart(id: number) {
+    const room = this.accommodation?.rooms?.find((room) => room.roomId == id);
+    const cartItem: CartItem = {
+      quantity: 1,
+      room: room!,
+    };
+    if (!this.$authenticationService.isLoggedIn()) {
+      this.$router.navigate(['/authentication/login']);
+      return;
+    }
+    this.$bookingService.addToCart(cartItem);
   }
 }

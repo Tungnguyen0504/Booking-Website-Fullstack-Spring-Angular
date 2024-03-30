@@ -2439,3 +2439,17 @@ img {
 .card-admin {
   border-radius: 0px !important;
 }
+
+/* filter search accommodation */
+.rooms-area .mdc-list-item--with-leading-checkbox .mdc-list-item__start {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.rooms-area .mdc-list-item {
+  padding-right: 0px;
+}
+
+.rooms-area .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: unset;
+}

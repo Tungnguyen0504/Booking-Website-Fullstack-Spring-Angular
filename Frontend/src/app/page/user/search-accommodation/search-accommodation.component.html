@@ -22,7 +22,6 @@
     </nav>
     <div class="row px-3">
       <div
-        id="filter"
         class="col-12 col-lg-3 border rounded wow fadeInUp bg-white"
         style="height: fit-content"
       >
@@ -30,88 +29,71 @@
           <h4 class="m-0">Chọn lọc theo:</h4>
         </div>
         <div class="p-3 border-bottom">
-          <div class="filter-title mb-2">
-            <span class="font-weight-bold" style="font-size: 17px">
-              Loại chỗ ở
-            </span>
-          </div>
-          <!-- <c:forEach items="${HotelTypeDAO.all}" var="ht" varStatus="loop">
-                        <div class="filter-option form-check d-flex align-items-center">
-                            <input class="form-check-input filter-check" type="checkbox" value="type${ht.typeId}"
-                                   id="type${loop.index}" ${(loop.index + 1) == hotelTypeId ? "checked" : ""}>
-                            <label class="form-check-label" for="type${loop.index}">
-                                    ${ht.typeName}
-                            </label>
-                        </div>
-                    </c:forEach> -->
-          <div class="filter-option form-check d-flex align-items-center">
-            <input class="form-check-input filter-check" type="checkbox" />
-            <label class="form-check-label"> Khách sạn </label>
-          </div>
+          <span class="font-weight-bold" style="font-size: 17px">
+            Loại chỗ ở
+          </span>
+          <mat-selection-list
+            #accTypeSelection
+            (selectionChange)="filterSelectionChange()"
+            class="pt-0"
+          >
+            <mat-list-option
+              *ngFor="let filter of accTypeFilter"
+              [togglePosition]="'before'"
+              [value]="filter.value"
+            >
+              {{ filter.text }}
+            </mat-list-option>
+          </mat-selection-list>
         </div>
-
         <div class="p-3 border-bottom">
-          <div class="filter-title mb-2">
-            <span class="font-weight-bold" style="font-size: 17px">
-              Thành phố
-            </span>
-          </div>
-          <!-- <c:forEach items="${CityDAO.all}" var="c" varStatus="loop">
-                        <div class="filter-option form-check d-flex align-items-center">
-                            <input class="form-check-input filter-check" type="checkbox" value="city${c.cityId}"
-                                   id="city${loop.index}" ${(loop.index + 1) == city ? "checked" : ""}>
-                            <label class="form-check-label" for="city${loop.index}">
-                                    ${c.cityName}
-                            </label>
-                        </div>
-                    </c:forEach> -->
-          <div class="filter-option form-check d-flex align-items-center">
-            <input class="form-check-input filter-check" type="checkbox" />
-            <label class="form-check-label"> Hà Nội </label>
-          </div>
+          <span class="font-weight-bold" style="font-size: 17px">
+            Xếp hạng chỗ ở
+          </span>
+          <mat-selection-list
+            #propertyRatingSelection
+            (selectionChange)="filterSelectionChange()"
+            class="pt-0"
+          >
+            <mat-list-option [togglePosition]="'before'" [value]="5">
+              5 sao
+            </mat-list-option>
+            <mat-list-option [togglePosition]="'before'" [value]="4">
+              4 sao
+            </mat-list-option>
+            <mat-list-option [togglePosition]="'before'" [value]="3">
+              3 sao
+            </mat-list-option>
+            <mat-list-option [togglePosition]="'before'" [value]="2">
+              2 sao
+            </mat-list-option>
+            <mat-list-option [togglePosition]="'before'" [value]="1">
+              1 sao
+            </mat-list-option>
+          </mat-selection-list>
         </div>
-
         <div class="p-3 border-bottom">
-          <div class="filter-title mb-2">
-            <span class="font-weight-bold" style="font-size: 17px">
-              Xếp hạng sao
-            </span>
-          </div>
-          <!-- <c:forEach begin="1" end="5" var="i" varStatus="loop">
-                        <div class="filter-option form-check d-flex align-items-center">
-                            <input class="form-check-input filter-check" type="checkbox" value="star${loop.end - i + 1}"
-                                   id="s${loop.end - i + 1}">
-                            <label class="form-check-label" for="s${loop.end - i + 1}">
-                                    ${loop.end - i + 1} sao
-                            </label>
-                        </div>
-                    </c:forEach> -->
-          <div class="filter-option form-check d-flex align-items-center">
-            <input class="form-check-input filter-check" type="checkbox" />
-            <label class="form-check-label"> 5 sao </label>
-          </div>
-        </div>
-
-        <div class="p-3 border-bottom">
-          <div class="filter-title mb-2">
-            <span class="font-weight-bold" style="font-size: 17px">
-              Điểm đánh giá của khách
-            </span>
-          </div>
-          <!-- <c:forEach begin="1" end="4" var="i" varStatus="loop">
-                        <div class="filter-option form-check d-flex align-items-center">
-                            <input class="form-check-input filter-check" type="checkbox" id="rate${loop.end - i + 6}"
-                                   value="rate${loop.end - i + 6}">
-                            <label class="form-check-label" for="rate${loop.end - i + 6}">
-                                    ${loop.end - i + 6} điểm trở lên
-                                : ${loop.end - i + 6 == 9 ? "Tuyệt hảo" : loop.end - i + 6 == 8 ? "Rất tốt" : loop.end - i + 6 == 7 ? "Tốt" : "Dễ chịu"}
-                            </label>
-                        </div>
-                    </c:forEach> -->
-          <div class="filter-option form-check d-flex align-items-center">
-            <input class="form-check-input filter-check" type="checkbox" />
-            <label class="form-check-label"> 8 điểm trở lên : Rất tốt </label>
-          </div>
+          <span class="font-weight-bold" style="font-size: 17px">
+            Điểm đánh giá của khách
+          </span>
+          <mat-selection-list
+            #reviewScoreSelection
+            (selectionChange)="filterSelectionChange()"
+            class="pt-0"
+          >
+            <mat-list-option [togglePosition]="'before'" [value]="9">
+              9 điểm trở lên : Tuyệt hảo
+            </mat-list-option>
+            <mat-list-option [togglePosition]="'before'" [value]="8">
+              8 điểm trở lên : Rất tốt
+            </mat-list-option>
+            <mat-list-option [togglePosition]="'before'" [value]="7">
+              7 điểm trở lên : Tốt
+            </mat-list-option>
+            <mat-list-option [togglePosition]="'before'" [value]="6">
+              6 điểm trở lên : Dễ chịu
+            </mat-list-option>
+          </mat-selection-list>
         </div>
       </div>
       <div class="col-12 col-lg-9 pr-0 wow fadeInUp">
@@ -119,25 +101,30 @@
           <div class="d-flex align-items-center justify-content-between mb-4">
             <div class="count-result">
               <h3 class="m-0 font-weight-bold">
-                Kết quả : tìm thấy 30 chỗ nghỉ
+                Kết quả : tìm thấy {{ totalItem }} chỗ nghỉ
               </h3>
             </div>
-            <div class="btn-group">
-              <select class="form-select bg-transparent border-0 filter-sort">
-                <option selected disabled>Các lựa chọn cho bạn</option>
-                <option>Giá (Từ thấp đến cao)</option>
-                <option>Giá (Từ cao đến thấp)</option>
-                <option>Hạng sao (Ưu tiên cao nhất)</option>
-                <option>Hạng sao (Ưu tiên thấp nhất)</option>
-                <option>Được đánh giá hàng đầu</option>
-              </select>
+            <div style="width: 240px">
+              <mat-form-field class="w-100">
+                <mat-label>Các lựa chọn cho bạn</mat-label>
+                <mat-select class="form-select bg-transparent border-0">
+                  <mat-option value="option1">Giá (Từ thấp đến cao)</mat-option>
+                  <mat-option value="option2">Giá (Từ cao đến thấp)</mat-option>
+                  <mat-option value="option3"
+                    >Hạng sao (Ưu tiên cao nhất)</mat-option
+                  >
+                  <mat-option value="option1"
+                    >Hạng sao (Ưu tiên thấp nhất)</mat-option
+                  >
+                  <mat-option value="option2"
+                    >Được đánh giá hàng đầu</mat-option
+                  >
+                </mat-select>
+              </mat-form-field>
             </div>
           </div>
           <div class="list-search-result">
-            <div
-              *ngFor="let data of listAccommodation"
-              class="card mb-3 wow fadeInUp"
-            >
+            <div *ngFor="let data of listAccommodation" class="card mb-3">
               <div class="card-body">
                 <div class="row no-gutters">
                   <div class="col-3">
@@ -174,7 +161,7 @@
                             style="color: #febb02; margin-bottom: 2px"
                           >
                             <i
-                              *ngFor="let data of fakeArrStar(data.star)"
+                              *ngFor="let data of [].constructor(data.star)"
                               class="fa-solid fa-star"
                             ></i>
                           </div>
@@ -287,37 +274,18 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
-
-    <div class="col-12">
-      <!-- Pagination -->
-      <div id="result-pagination">
-        <div
-          class="pagination-area wow fadeInUp search-result-pagination"
-          data-wow-delay="400ms "
+        <mat-paginator
+          [length]="totalItem"
+          [pageIndex]="currentPage"
+          [pageSizeOptions]="totalPages"
+          (page)="onPageChange($event)"
+          style="background-color: unset"
         >
-          <nav>
-            <ul class="pagination">
-              <!-- <c:if test="${lastPage<1 || lastPage < index }">
-                                <h1>Not found</h1>
-                            </c:if>
-                            <c:if test="${lastPage>=1}">
-                                <c:forEach begin="1" end="${lastPage}" var="i">
-                                    <li class="page-item ${i == index ? "active" : ""} ">
-                                        <input type="hidden" name="index" value="${i}">
-                                        <a class="page-link " href="#">0${i}.</a>
-                                    </li>
-                                </c:forEach>
-                            </c:if> -->
-            </ul>
-          </nav>
-        </div>
+        </mat-paginator>
       </div>
     </div>
   </div>
 </section>
-<!-- ##### Rooms Area End ##### -->
 
 <section class="rooms-area" style="padding-bottom: 100px">
   <div class="container bg-white py-4 shadow rounded wow fadeInUp">

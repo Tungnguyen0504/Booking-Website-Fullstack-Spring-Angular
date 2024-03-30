@@ -273,7 +273,7 @@
                         name="qty"
                         value="0"
                         class="input-qty input-rounded"
-                        style="max-width: 60px;"
+                        style="max-width: 60px"
                       />
                       <button
                         class="btn palatin-btn qty-btn-plus btn-rounded ml-2"
@@ -377,16 +377,16 @@
                 </h4>
                 <p class="mb-2" style="color: tomato">
                   Phù hợp cho:
-                  <ng-container *ngIf="accommodation?.star! <= 2">
+                  <ng-container *ngIf="room.capacity <= 2">
                     <i
-                      *ngFor="let data of [].constructor(accommodation?.star)"
+                      *ngFor="let data of [].constructor(room.capacity)"
                       class="fa-solid fa-user ml-1"
                     ></i>
                   </ng-container>
-                  <ng-container *ngIf="accommodation?.star! >= 2">
+                  <ng-container *ngIf="room.capacity > 2">
                     <span
                       ><i class="fa-solid fa-user ml-1"></i> x
-                      {{ accommodation?.star! - 1 }}</span
+                      {{ room.capacity - 1 }}</span
                     >
                   </ng-container>
                 </p>
@@ -407,7 +407,11 @@
                 </p>
               </div>
             </a>
-            <a class="book-room-btn btn palatin-btn text-white">Chọn phòng</a>
+            <a
+              class="book-room-btn btn palatin-btn text-white"
+              (click)="addToCart(room.roomId)"
+              >Chọn phòng</a
+            >
           </div>
         </div>
       </ng-container>

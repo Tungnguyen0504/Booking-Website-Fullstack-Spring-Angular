@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { Room } from 'src/app/model/Room.model';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { BookingService, CartItem } from 'src/app/service/booking.service';
-import { FileService } from 'src/app/service/file.service';
 
 interface DialogData {
   room: Room;
@@ -20,7 +19,6 @@ export class RoomDetailDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private dialogRef: MatDialogRef<RoomDetailDialogComponent>,
     private router: Router,
-    private $fileService: FileService,
     private $bookingService: BookingService,
     private $authenticationService: AuthenticationService
   ) {
@@ -31,7 +29,7 @@ export class RoomDetailDialogComponent implements OnInit {
 
   addToCart() {
     const cartItem: CartItem = {
-      quantity: 2,
+      quantity: 1,
       room: this.data.room,
     };
     if (!this.$authenticationService.isLoggedIn()) {

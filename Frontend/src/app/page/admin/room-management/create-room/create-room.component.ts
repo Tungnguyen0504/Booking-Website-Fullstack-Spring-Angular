@@ -103,10 +103,6 @@ export class CreateRoomComponent implements OnInit {
     });
   }
 
-  fakeArrStar(star: number): Array<any> {
-    return new Array(star);
-  }
-
   refreshSeletedAccom(response: any) {
     this.selectedAccommodation = response;
   }

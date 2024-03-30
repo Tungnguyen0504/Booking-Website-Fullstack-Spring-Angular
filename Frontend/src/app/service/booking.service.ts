@@ -39,6 +39,12 @@ export class BookingService {
     return this.cartStorage;
   }
 
+  saveCartDate(startDate: Date, endDate: Date) {
+    this.cartStorage.startDate = startDate;
+    this.cartStorage.endDate = endDate;
+    this.saveCartToLocalStorage();
+  }
+
   addToCart(item: CartItem) {
     const existingItem = this.cartStorage.cartItems.find(
       (i) => i.room.roomId === item.room.roomId

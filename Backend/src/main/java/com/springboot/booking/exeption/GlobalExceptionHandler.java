@@ -13,6 +13,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(GlobalException.class)
     public ResponseEntity<BException> handleResourceNotFoundBException(GlobalException result) {
+        result.printStackTrace();
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST.value())
                 .body(new BException(result.getCode(), result.getMessage(), LocalDateTime.now()));
@@ -20,6 +21,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<BException> handleResourceNotFoundException(Exception e) {
+        e.printStackTrace();
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .body(new BException(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage(), LocalDateTime.now()));

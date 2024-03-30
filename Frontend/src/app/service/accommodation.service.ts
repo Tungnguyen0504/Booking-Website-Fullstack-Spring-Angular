@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Accommodation } from '../model/Accommodation.model';
+import { BasePagingRequest } from '../model/request/BasePagingRequest.model';
+import { BasePagingResponse } from '../model/response/BasePagingRequest.model';
 
 @Injectable({
   providedIn: 'root',
@@ -67,6 +69,15 @@ export class AccommodationService {
 
   getAllAccommodation(): Observable<Accommodation[]> {
     return this.httpClient.get<Accommodation[]>(`${this.URL}/get-all`);
+  }
+
+  getAccommodations(
+    request: BasePagingRequest
+  ): Observable<BasePagingResponse> {
+    return this.httpClient.post<BasePagingResponse>(
+      `${this.URL}/get-accommodations`,
+      request
+    );
   }
 
   getById(id: number): Observable<Accommodation> {

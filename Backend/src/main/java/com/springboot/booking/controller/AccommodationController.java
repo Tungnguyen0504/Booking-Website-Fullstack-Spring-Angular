@@ -2,11 +2,12 @@ package com.springboot.booking.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.springboot.booking.common.SuccessResult;
+import com.springboot.booking.common.paging.BasePagingRequest;
+import com.springboot.booking.common.paging.BasePagingResponse;
 import com.springboot.booking.dto.request.CreateAccommodationRequest;
 import com.springboot.booking.dto.response.AccommodationResponse;
 import com.springboot.booking.model.BSuccess;
 import com.springboot.booking.service.AccommodationService;
-import com.springboot.booking.service.FileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,6 @@ import static com.springboot.booking.common.Constant.PATH_V1;
 public class AccommodationController {
 
     private final AccommodationService accommodationService;
-    private final FileService fileService;
 
     @PostMapping("/save")
     public ResponseEntity<BSuccess> createAccommodation(@ModelAttribute CreateAccommodationRequest request) throws JsonProcessingException {
@@ -38,5 +38,10 @@ public class AccommodationController {
     @GetMapping("/get-by-id/{id}")
     public ResponseEntity<AccommodationResponse> getById(@PathVariable Long id) {
         return ResponseEntity.ok(accommodationService.getById(id));
+    }
+
+    @PostMapping("/get-accommodations")
+    public ResponseEntity<BasePagingResponse> pagingAccommodation(@RequestBody BasePagingRequest request) {
+        return ResponseEntity.ok(accommodationService.getAccommodations(request));
     }
 }

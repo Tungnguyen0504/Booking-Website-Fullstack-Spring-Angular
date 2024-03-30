@@ -15,7 +15,6 @@ export class UserComponent implements OnInit {
     setTimeout(() => {
       this.cartStorage = this.$bookingService.getCart();
       console.log(this.cartStorage);
-      console.log(this.cartStorage.cartItems.length);
     }, 500);
   }
 }

@@ -24,6 +24,10 @@ import { MatInputModule } from '@angular/material/input';
 import { BookingDetailLeftComponent } from 'src/app/shared/admin/booking-detail-left/booking-detail-left.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -53,8 +57,11 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     MatInputModule,
     MatSidenavModule,
     MatSelectModule,
-
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatPaginatorModule,
+    MatCheckboxModule,
     LightgalleryModule,
   ],
 })
-export class UserModule { }
+export class UserModule {}

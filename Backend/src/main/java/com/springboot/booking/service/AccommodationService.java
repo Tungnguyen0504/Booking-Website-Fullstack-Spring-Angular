@@ -5,23 +5,29 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springboot.booking.common.Constant;
 import com.springboot.booking.common.ExceptionResult;
 import com.springboot.booking.common.Util;
+import com.springboot.booking.common.paging.BasePagingRequest;
+import com.springboot.booking.common.paging.BasePagingResponse;
+import com.springboot.booking.common.paging.SortRequest;
 import com.springboot.booking.dto.request.CreateAccommodationRequest;
 import com.springboot.booking.dto.response.AccommodationResponse;
 import com.springboot.booking.dto.response.AccommodationTypeResponse;
 import com.springboot.booking.exeption.GlobalException;
 import com.springboot.booking.mapper.AutoMapper;
+import com.springboot.booking.model.SortDirection;
 import com.springboot.booking.model.entity.*;
 import com.springboot.booking.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,6 +37,7 @@ public class AccommodationService {
     private final FileService fileService;
     private final AddressService addressService;
     private final RoomService roomService;
+    private final PagingService pagingService;
     private final AccommodationRepository accommodationRepository;
     private final AccommodationTypeRepository accommodationTypeRepository;
     private final WardRepository wardRepository;
@@ -51,6 +58,18 @@ public class AccommodationService {
             return new ArrayList<>();
         }
         return accommodations.stream().map(this::transferToDto).collect(Collectors.toList());
+    }
+
+    public BasePagingResponse getAccommodations(BasePagingRequest request) {
+        Pageable pageable = PageRequest.of(request.getCurrentPage(), request.getTotalPage(), pagingService.buildOrders(request));
+        Page<Accommodation> accommodationPage = accommodationRepository.findAll(
+                Specification.allOf(pagingService.buildSpecifications(request)), pageable);
+        return BasePagingResponse.builder()
+                .data(accommodationPage.getContent().stream().map(this::transferToDto).collect(Collectors.toList()))
+                .currentPage(accommodationPage.getPageable().getPageNumber())
+                .totalItem(accommodationPage.getTotalElements())
+                .totalPage(accommodationPage.getPageable().getPageSize())
+                .build();
     }
 
     @Transactional
