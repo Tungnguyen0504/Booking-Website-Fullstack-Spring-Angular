@@ -1,8 +1,12 @@
 package com.springboot.booking.model;
 
+import com.springboot.booking.common.ExceptionResult;
+import com.springboot.booking.exeption.GlobalException;
 import jakarta.persistence.criteria.Path;
+import jakarta.persistence.criteria.Root;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -12,25 +16,43 @@ import java.util.concurrent.atomic.AtomicReference;
 public enum Operator {
 
     OR {
-        public <T> Specification<T> build(String key, List<Object> values) {
+        public <T, V extends Comparable<? super V>> Specification<T> build(String key, List<V> values) {
             String[] keyArr = key.split("\\.");
             return values.stream()
-                    .map(value -> (Specification<T>) (root, query, criteriaBuilder) -> {
-                                AtomicReference<Path<?>> path = new AtomicReference<>(root.get(keyArr[0]));
-                                if (keyArr.length > 1) {
-                                    Arrays.asList(keyArr)
-                                            .subList(1, keyArr.length)
-                                            .forEach(p -> path.set(path.get().get(p)));
-                                }
-                                return criteriaBuilder.equal(path.get(), value);
-                            }
+                    .map(value -> (Specification<T>) (root, query, criteriaBuilder)
+                            -> criteriaBuilder.equal(getPath(root, key), value)
+                    )
+                    .reduce(Specification::or)
+                    .orElse(null);
+        }
+    },
+    BETTWEEN {
+        public <T, V extends Comparable<? super V>> Specification<T> build(String key, List<V> values) {
+            if (CollectionUtils.isEmpty(values) || values.size() > 2) {
+                throw new GlobalException(ExceptionResult.PARAMETER_INVALID);
+            }
+            return values.stream()
+                    .map(value -> (Specification<T>) (root, query, criteriaBuilder)
+                            -> criteriaBuilder.between(getPath(root, key), values.get(0), values.get(1))
                     )
                     .reduce(Specification::or)
                     .orElse(null);
         }
     };
 
-    public abstract <T> Specification<T> build(String key, List<Object> values);
+    public abstract <T, V extends Comparable<? super V>> Specification<T> build(String key, List<V> values);
+
+    public <T, V> Path<V> getPath(Root<T> root, String key) {
+        String[] keyArr = key.split("\\.");
+        AtomicReference<Path<V>> path = new AtomicReference<>(root.get(keyArr[0]));
+        if (keyArr.length > 1) {
+            Arrays.asList(keyArr)
+                    .subList(1, keyArr.length)
+                    .forEach(p -> path.set(path.get().get(p)));
+        }
+        return path.get();
+    }
+
 //    EQUAL {
 //        public <T> Predicate build(Root<T> root, CriteriaBuilder cb, FilterRequest request, Predicate predicate) {
 //            Object value = request.getFieldType().parse(request.getValue().toString());

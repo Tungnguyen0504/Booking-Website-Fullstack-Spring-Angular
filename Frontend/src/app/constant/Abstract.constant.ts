@@ -11,5 +11,6 @@ export const ACTION_REGISTER = 'register';
 
 export const DATETIME_FORMAT1 = 'dd-MM-yyyy HH:mm:ss';
 export const DATETIME_FORMAT2 = 'dd MMM yyyy';
+export const DATETIME_FORMAT3 = 'yyyy-MM-dd';
 
 export const CART_STORAGE = 'cart/userId';

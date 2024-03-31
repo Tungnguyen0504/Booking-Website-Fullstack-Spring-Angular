@@ -8,6 +8,6 @@ import java.util.List;
 @Data
 public class FilterRequest {
     private String key;
-    private List<Object> values;
+    private List<String> values;
     private Operator operator;
 }

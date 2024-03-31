@@ -72,6 +72,10 @@ public class AccommodationService {
                 .build();
     }
 
+    public BasePagingResponse searchAccommodations(String dateFrom, String dateTo, String searchText) {
+return null;
+    }
+
     @Transactional
     public void createAccommodation(CreateAccommodationRequest request) throws JsonProcessingException {
         AccommodationType accommodationType = accommodationTypeRepository.findById(request.getAccommodationTypeId())

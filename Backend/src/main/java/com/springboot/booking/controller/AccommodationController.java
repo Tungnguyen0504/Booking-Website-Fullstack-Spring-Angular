@@ -44,4 +44,6 @@ public class AccommodationController {
     public ResponseEntity<BasePagingResponse> pagingAccommodation(@RequestBody BasePagingRequest request) {
         return ResponseEntity.ok(accommodationService.getAccommodations(request));
     }
+
+//    @PostMapping
 }
