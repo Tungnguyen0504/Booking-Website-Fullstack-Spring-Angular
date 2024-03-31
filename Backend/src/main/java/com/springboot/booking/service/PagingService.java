@@ -3,8 +3,11 @@ package com.springboot.booking.service;
 import com.springboot.booking.common.Constant;
 import com.springboot.booking.common.DatetimeUtil;
 import com.springboot.booking.common.paging.BasePagingRequest;
+import com.springboot.booking.common.paging.FilterRequest;
 import com.springboot.booking.common.paging.SortRequest;
 import com.springboot.booking.exeption.GlobalException;
+import com.springboot.booking.model.FieldType;
+import com.springboot.booking.model.Operator;
 import com.springboot.booking.model.SortDirection;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -14,14 +17,22 @@ import org.springframework.util.CollectionUtils;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PagingService {
-    public <T> List<Specification<T>> buildSpecifications(BasePagingRequest request) {
+    public <T, V extends Comparable<? super V>> List<Specification<T>> buildSpecifications(BasePagingRequest request) {
         List<Specification<T>> specifications = new ArrayList<>();
-//        request.getFilterRequest().forEach(req -> specifications.add(req.getOperator().build(req.getKey(), req.getValues())));
+        request.getFilterRequest().forEach(req -> {
+            List<V> values = req.getValues()
+                    .stream()
+                    .map(val -> req.getFieldType().<V>parse(val))
+                    .collect(Collectors.toList());
+            specifications.add(req.getOperator().build(req.getKey(), values));
+        });
         return specifications;
     }
 
@@ -37,17 +48,14 @@ public class PagingService {
         return Sort.by(orders);
     }
 
-    public static <T> T parse(String value, Class<?> type) {
-        if (Integer.class.equals(type)) {
-            return (T) Integer.valueOf(value);
-        } else if (String.class.equals(type)) {
-            return (T) value;
-        } else if (LocalDate.class.equals(type)) {
-            return (T) DatetimeUtil.parseDate(value, Constant.DATE_FORMAT1);
-        } else if (LocalDateTime.class.equals(type)) {
-            return (T) DatetimeUtil.parseDateTime(value, Constant.DATETIME_FORMAT2);
-        } else {
-            throw new GlobalException("Unsupported type: " + type);
-        }
+    public void hasActiveCondition(BasePagingRequest request) {
+        List<FilterRequest> list = request.getFilterRequest();
+        list.add(FilterRequest.builder()
+                .key("status")
+                .values(Collections.singletonList(Constant.STATUS_ACTIVE))
+                .fieldType(FieldType.STRING)
+                .operator(Operator.EQUAL)
+                .build());
+        request.setFilterRequest(list);
     }
 }

@@ -248,22 +248,43 @@
                         <div class="text-right">
                           <small class="text-muted">2 đêm, 1 người lớn</small
                           ><br />
-                          <span
-                            class="text-danger"
-                            style="text-decoration: line-through"
-                            >VND 2,898,000</span
-                          ><br />
-                          <span style="font-size: 20px; font-weight: bold"
-                            >VND 2,318,400</span
+                          <ng-container
+                            *ngIf="isRoomAvailable(data.accommodationId)"
                           >
+                            <span
+                              class="text-danger"
+                              style="text-decoration: line-through"
+                              >VND
+                              {{
+                                getMinRoomPrice(data.accommodationId)
+                                  | number : "1.0-0"
+                              }}</span
+                            ><br />
+                            <span style="font-size: 20px; font-weight: bold"
+                              >VND 2,318,400</span
+                            >
+                          </ng-container>
+                          <ng-container
+                            *ngIf="!isRoomAvailable(data.accommodationId)"
+                          >
+                            <span>Hiện đang hết phòng</span>
+                          </ng-container>
                         </div>
                         <div class="d-flex justify-content-end">
                           <a
-                            class="btn palatin-btn btn-3"
+                            class="btn palatin-btn btn-3 {{
+                              isRoomAvailable(data.accommodationId)
+                                ? ''
+                                : 'disabled'
+                            }}"
                             href=""
                             role="button"
                             style="padding: 0 20px"
-                            >Xem chỗ trống</a
+                            >{{
+                              isRoomAvailable(data.accommodationId)
+                                ? "Xem chỗ trống"
+                                : "Hết phòng"
+                            }}</a
                           >
                         </div>
                       </div>

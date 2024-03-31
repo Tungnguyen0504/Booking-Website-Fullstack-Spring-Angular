@@ -17,11 +17,11 @@ public class DatetimeUtil {
         return DateTimeFormatter.ofPattern(pattern).format(localDateTime);
     }
 
-    public static LocalDate parseDate(String value, String pattern) {
-        return LocalDate.parse(value, DateTimeFormatter.ofPattern(pattern));
+    public static LocalDate parseDateDefault(String value) {
+        return LocalDate.parse(value, DateTimeFormatter.ofPattern(Constant.DATE_FORMAT1));
     }
 
-    public static LocalDateTime parseDateTime(String value, String pattern) {
-        return LocalDateTime.parse(value, DateTimeFormatter.ofPattern(pattern));
+    public static LocalDateTime parseDateTimeDefault(String value) {
+        return LocalDateTime.parse(value, DateTimeFormatter.ofPattern(Constant.DATETIME_FORMAT1));
     }
 }

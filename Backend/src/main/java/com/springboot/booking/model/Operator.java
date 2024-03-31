@@ -26,17 +26,22 @@ public enum Operator {
                     .orElse(null);
         }
     },
-    BETTWEEN {
+    EQUAL {
         public <T, V extends Comparable<? super V>> Specification<T> build(String key, List<V> values) {
-            if (CollectionUtils.isEmpty(values) || values.size() > 2) {
+            if (CollectionUtils.isEmpty(values) || values.size() != 1) {
                 throw new GlobalException(ExceptionResult.PARAMETER_INVALID);
             }
-            return values.stream()
-                    .map(value -> (Specification<T>) (root, query, criteriaBuilder)
-                            -> criteriaBuilder.between(getPath(root, key), values.get(0), values.get(1))
-                    )
-                    .reduce(Specification::or)
-                    .orElse(null);
+            return (root, query, criteriaBuilder)
+                    -> criteriaBuilder.equal(getPath(root, key), values.get(0));
+        }
+    },
+    BETWEEN {
+        public <T, V extends Comparable<? super V>> Specification<T> build(String key, List<V> values) {
+            if (CollectionUtils.isEmpty(values) || values.size() != 2) {
+                throw new GlobalException(ExceptionResult.PARAMETER_INVALID);
+            }
+            return (root, query, criteriaBuilder)
+                    -> criteriaBuilder.between(getPath(root, key), values.get(0), values.get(1));
         }
     };
 

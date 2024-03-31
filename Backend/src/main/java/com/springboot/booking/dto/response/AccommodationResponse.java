@@ -38,8 +38,8 @@ public class AccommodationResponse {
     private Set<String> others;
     private List<String> filePaths;
     private List<RoomResponse> rooms;
-    @JsonFormat(pattern = Constant.DATETIME_FORMAT1)
+    @JsonFormat(pattern = Constant.DATETIME_FORMAT2)
     private LocalDateTime createdAt;
-    @JsonFormat(pattern = Constant.DATETIME_FORMAT1)
+    @JsonFormat(pattern = Constant.DATETIME_FORMAT2)
     private LocalDateTime modifiedAt;
 }

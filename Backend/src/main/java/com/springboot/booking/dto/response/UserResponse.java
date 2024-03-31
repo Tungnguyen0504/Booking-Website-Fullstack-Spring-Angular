@@ -19,13 +19,13 @@ public class UserResponse {
     private String password;
     private String address;
     private String phoneNumber;
-    @JsonFormat(pattern = Constant.DATETIME_FORMAT1)
+    @JsonFormat(pattern = Constant.DATETIME_FORMAT2)
     private LocalDateTime dateOfBirth;
     private String status;
     private String role;
     private String filePath;
-    @JsonFormat(pattern = Constant.DATETIME_FORMAT1)
+    @JsonFormat(pattern = Constant.DATETIME_FORMAT2)
     private LocalDateTime createdAt;
-    @JsonFormat(pattern = Constant.DATETIME_FORMAT1)
+    @JsonFormat(pattern = Constant.DATETIME_FORMAT2)
     private LocalDateTime modifiedAt;
 }

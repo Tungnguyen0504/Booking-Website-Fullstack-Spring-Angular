@@ -24,4 +24,13 @@ export class Util {
   public static formatDate(date: Date, pattern: string) {
     return moment(date).format(pattern);
   }
+
+  public static filterActive() {
+    return {
+      key: 'status',
+      values: ['ACTIVE'],
+      operator: 'EQUAL',
+      fieldType: 'STRING',
+    };
+  }
 }

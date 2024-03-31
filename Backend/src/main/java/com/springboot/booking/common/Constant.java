@@ -31,8 +31,8 @@ public class Constant {
     public static final String PROPERTY_ROOM_SERVICE = "room_service";
     public static final String PROPERTY_VIEW = "view";
 
-    public static final String DATETIME_FORMAT1 = "dd-MM-yyyy HH:mm:ss";
-    public static final String DATETIME_FORMAT2 = "yyyy-MM-dd HH:mm:ss";
+    public static final String DATETIME_FORMAT1 = "yyyy-MM-dd HH:mm:ss";
+    public static final String DATETIME_FORMAT2 = "dd-MM-yyyy HH:mm:ss";
     public static final String DATE_FORMAT1 = "yyyy-MM-dd";
     public static final String STATUS_ACTIVE = "ACTIVE";
     public static final String STATUS_INACTIVE = "INACTIVE";
