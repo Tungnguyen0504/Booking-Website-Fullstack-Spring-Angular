@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Room } from '../model/Room.model';
 import { CART_STORAGE } from '../constant/Abstract.constant';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, of, switchMap } from 'rxjs';
 import { UserService } from './user.service';
 import { AuthenticationService } from './authentication.service';
 import { Router } from '@angular/router';
@@ -32,7 +32,11 @@ export class BookingService {
     private $userService: UserService,
     private $authenticationService: AuthenticationService
   ) {
-    this.loadCartFromLocalStorage();
+    this.loadCartFromLocalStorage().subscribe({
+      next: (res) => {
+        this.cartStorage = res;
+      },
+    });
   }
 
   getCart() {
@@ -76,19 +80,21 @@ export class BookingService {
     this.cartSubject.next(this.cartStorage.cartItems);
   }
 
-  private loadCartFromLocalStorage() {
+  loadCartFromLocalStorage(): Observable<any> {
     if (this.$authenticationService.isLoggedIn()) {
-      this.$userService.getCurrentUser().subscribe({
-        next: (res) => {
+      return this.$userService.getCurrentUser().pipe(
+        switchMap((res) => {
           const userId = res.id;
           const storedCart = localStorage.getItem(`${CART_STORAGE}/${userId}`);
           if (storedCart) {
             this.cartStorage = JSON.parse(storedCart);
             this.cartSubject.next(this.cartStorage.cartItems);
           }
-        },
-      });
+          return of(this.cartStorage);
+        })
+      );
     }
+    return of({});
   }
 
   private saveCartToLocalStorage() {

@@ -3,7 +3,7 @@
     <div class="row justify-content-center">
       <div class="col-12 col-lg-10">
         <div class="book-now-form">
-          <form #formSearch="ngForm" (ngSubmit)="search()">
+          <form [formGroup]="formSearch" (ngSubmit)="search()" novalidate>
             <div
               class="form-group col-6"
               id="search-accommodation-input"
@@ -12,11 +12,9 @@
               <label for="select3">Điểm đến:</label>
               <input
                 type="text"
-                name="keyword"
+                formControlName="keyword"
                 placeholder="Nhập Tên chỗ nghỉ / điểm đến ..."
                 id="select3"
-                value=""
-                ngModel
               />
             </div>
             <div class="form-group col-3">
@@ -24,10 +22,9 @@
               <input
                 id="dateFrom"
                 type="text"
-                name="dateFrom"
+                formControlName="dateFrom"
                 class="form-control"
                 placeholder="Nhận phòng"
-                ngModel
                 style="cursor: pointer"
               />
             </div>
@@ -36,10 +33,9 @@
               <input
                 id="dateTo"
                 type="text"
-                name="dateTo"
+                formControlName="dateTo"
                 class="form-control"
                 placeholder="Trả phòng"
-                ngModel
                 style="cursor: pointer"
               />
             </div>

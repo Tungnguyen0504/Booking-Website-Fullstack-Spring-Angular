@@ -28,6 +28,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { CartComponent } from 'src/app/shared/user/cart/cart.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     RoomDetailDialogComponent,
     CheckoutComponent,
     BookingDetailLeftComponent,
+    CartComponent
   ],
   imports: [
     CommonModule,

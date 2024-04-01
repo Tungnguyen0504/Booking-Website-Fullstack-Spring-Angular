@@ -43,6 +43,15 @@ public enum Operator {
             return (root, query, criteriaBuilder)
                     -> criteriaBuilder.between(getPath(root, key), values.get(0), values.get(1));
         }
+    },
+    LIKE {
+        public <T, V extends Comparable<? super V>> Specification<T> build(String key, List<V> values) {
+            if (CollectionUtils.isEmpty(values) || values.size() != 1) {
+                throw new GlobalException(ExceptionResult.PARAMETER_INVALID);
+            }
+            return (root, query, criteriaBuilder)
+                    -> criteriaBuilder.like(getPath(root, key), ("%" + values.get(0) + "%"));
+        }
     };
 
     public abstract <T, V extends Comparable<? super V>> Specification<T> build(String key, List<V> values);

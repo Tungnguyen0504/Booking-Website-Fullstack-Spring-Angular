@@ -2453,3 +2453,71 @@ img {
 .rooms-area .mdc-text-field--filled:not(.mdc-text-field--disabled) {
   background-color: unset;
 }
+
+/* cart */
+.mat-drawer-content {
+  display: unset !important;
+}
+
+.list-cart div {
+  padding: 0;
+}
+
+.list-cart .cart-img a {
+  position: absolute;
+  top: -9px;
+  left: -8px;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  font-size: 14px;
+}
+
+.cart-img img {
+  height: 75px;
+  object-fit: cover;
+}
+
+.cart-title h6 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  font-size: 1.1rem;
+}
+
+.cart-title p {
+  font-size: 14px;
+  color: burlywood;
+}
+
+.qty-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.qty-container .input-qty {
+  text-align: center;
+  padding: 6px 10px;
+  border: 1px solid #d4d4d4;
+  max-width: 80px;
+}
+.qty-container .qty-btn-minus,
+.qty-container .qty-btn-plus {
+  border: 1px solid #d4d4d4;
+  padding: 10px 14px;
+  font-size: 10px;
+  height: 37px;
+  width: 38px;
+}
+.qty-container .btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.btn-rounded {
+  border-radius: 50%;
+}
+.input-rounded {
+  border-radius: 50px;
+}

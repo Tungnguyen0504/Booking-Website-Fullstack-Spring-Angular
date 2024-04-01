@@ -1,14 +1,16 @@
 import { formatDate } from '@angular/common';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  ViewChild,
-} from '@angular/core';
-import { NgForm } from '@angular/forms';
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import flatpickr from 'flatpickr';
 import rangePlugin from 'flatpickr/dist/plugins/rangePlugin';
+import * as moment from 'moment';
 import { BookingService } from 'src/app/service/booking.service';
+import { Util } from 'src/app/util/util';
 
 declare var $: any;
 
@@ -18,52 +20,55 @@ declare var $: any;
   styleUrls: ['./book-now.component.css'],
 })
 export class BookNowComponent implements AfterViewInit {
-  @ViewChild('formSearch', { static: false }) formSearch!: NgForm;
+  formSearch: FormGroup = {} as FormGroup;
 
   constructor(
     private $elementRef: ElementRef,
+    private $formBuilder: FormBuilder,
     private $bookingService: BookingService
-  ) {}
+  ) {
+    this.buildFormGroup();
+  }
 
   ngAfterViewInit(): void {
     flatpickr('#dateFrom', {
       minDate: 'today',
-      dateFormat: 'd M Y',
+      dateFormat: 'y-M-d',
       plugins: [rangePlugin({ input: '#dateTo' })],
       onChange: (selectedDates) => {
         if (selectedDates.length === 2) {
-          this.formSearch.value.dateFrom = formatDate(
-            selectedDates[0],
-            'dd MM yyyy',
-            'en-US'
-          );
-          this.formSearch.value.dateTo = formatDate(
-            selectedDates[1],
-            'dd MM yyyy',
-            'en-US'
-          );
+          this.formSearch
+            .get('dateFrom')
+            ?.setValue(formatDate(selectedDates[0], 'yyyy-MM-dd', 'en-US'));
+          this.formSearch
+            .get('dateTo')
+            ?.setValue(formatDate(selectedDates[1], 'yyyy-MM-dd', 'en-US'));
         }
       },
     });
 
     flatpickr('#dateTo', {
       minDate: 'today',
-      dateFormat: 'd M Y',
+      dateFormat: 'y-M-d',
       plugins: [rangePlugin({ input: '#dateFrom' })],
       onChange: (selectedDates) => {
         if (selectedDates.length === 2) {
-          this.formSearch.value.dateFrom = formatDate(
-            selectedDates[0],
-            'dd MM yyyy',
-            'en-US'
-          );
-          this.formSearch.value.dateTo = formatDate(
-            selectedDates[1],
-            'dd MM yyyy',
-            'en-US'
-          );
+          this.formSearch
+            .get('dateFrom')
+            ?.setValue(formatDate(selectedDates[0], '', 'en-US'));
+          this.formSearch
+            .get('dateTo')
+            ?.setValue(formatDate(selectedDates[1], 'yyyy-MM-dd', 'en-US'));
         }
       },
+    });
+  }
+
+  buildFormGroup() {
+    this.formSearch = this.$formBuilder.group({
+      keyword: new FormControl('', Validators.required),
+      dateFrom: new FormControl('', Validators.required),
+      dateTo: new FormControl('', Validators.required),
     });
   }
 
@@ -71,8 +76,8 @@ export class BookNowComponent implements AfterViewInit {
     const dateFrom = this.$elementRef.nativeElement.querySelector('#dateFrom');
     const dateTo = this.$elementRef.nativeElement.querySelector('#dateTo');
 
-    this.formSearch.value.dateFrom = dateFrom.value;
-    this.formSearch.value.dateTo = dateTo.value;
+    this.formSearch.get('dateFrom')?.setValue(dateFrom.value);
+    this.formSearch.get('dateTo')?.setValue(dateTo.value);
 
     this.$bookingService.saveCartDate(
       new Date(dateFrom.value),
