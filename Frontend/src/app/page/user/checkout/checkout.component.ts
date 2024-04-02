@@ -15,7 +15,8 @@ import { BookingService, CartStorage } from 'src/app/service/booking.service';
 })
 export class CheckoutComponent implements OnInit {
   @ViewChild('stepper') private stepper!: MatStepper;
-  form: FormGroup = {} as FormGroup;
+  formCheckout: FormGroup = {} as FormGroup;
+  secondFormGroup: FormGroup = {} as FormGroup;
 
   cartStorage?: CartStorage;
   accommodation?: Accommodation;
@@ -36,11 +37,24 @@ export class CheckoutComponent implements OnInit {
       this.stepper.next();
     }, 200);
     this.initApi();
+
+    this.buildForm();
   }
 
-  secondFormGroup = this.$formBuilder.group({
-    secondCtrl: ['', Validators.required],
-  });
+  buildForm() {
+    this.secondFormGroup = this.$formBuilder.group({
+      secondCtrl: ['', Validators.required],
+    });
+
+    this.formCheckout = this.$formBuilder.group({
+      fullName: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      phoneNumber: ['', Validators.required],
+      address: ['', Validators.required],
+      note: [''],
+      timeReceiveRoom: ['', Validators.required],
+    });
+  }
 
   initApi() {
     this.$bookingService.loadCartFromLocalStorage().subscribe({
@@ -59,7 +73,5 @@ export class CheckoutComponent implements OnInit {
     });
   }
 
-  submit() {
-
-  }
+  submit() {}
 }

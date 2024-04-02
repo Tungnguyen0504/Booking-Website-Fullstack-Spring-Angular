@@ -13,3 +13,7 @@
 .service-box span i {
     margin-right: 3px;
 }
+
+.mat-mdc-form-field-subscript-wrapper {
+    height: 0;
+}

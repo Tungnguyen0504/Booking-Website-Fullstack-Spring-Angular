@@ -34,10 +34,9 @@
 
 /* :: 1.0 Import Fonts */
 
-@import url(https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css);
+@import url(bootstrap.min.css);
 @import url(classy-nav.css);
-@import url(https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css);
-@import url(https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css);
+@import url(owl.carousel.min.css);
 @import url(animate.css);
 @import url(magnific-popup.css);
 @import url(nice-select.css);
@@ -2520,4 +2519,8 @@ img {
 }
 .input-rounded {
   border-radius: 50px;
+}
+
+.checkout-page .mat-mdc-form-field-subscript-wrapper {
+  height: 0;
 }

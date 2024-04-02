@@ -1,4 +1,4 @@
-<section class="rooms-area pb-5" style="padding-top: 175px">
+<section class="checkout-page rooms-area pb-5" style="padding-top: 175px">
   <div class="container shadow bg-white pb-4 pt-5 rounded">
     <mat-stepper linear #stepper>
       <mat-step [editable]="false" [completed]="true">
@@ -12,7 +12,7 @@
               <app-booking-detail-left></app-booking-detail-left>
             </div>
             <div class="col-md-8">
-              <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+              <form [formGroup]="formCheckout" (ngSubmit)="submit()" novalidate>
                 <div class="border p-3 mb-3 d-flex">
                   <div class="mr-3">
                     <!-- <c:forTokens items="${hotel.hotelImage}" delims="|" var="img" begin="1" end="1">
@@ -196,54 +196,54 @@
                       buộc</span
                     >
                   </div>
-                  <div class="mb-3">
-                    <label for="fullName">Họ tên *</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="fullName"
-                      placeholder="Nhập họ và tên"
-                      formControlName="fullName"
-                    />
+                  <div class="form-group">
+                    <mat-form-field class="w-100 bg-white">
+                      <mat-label>Họ tên</mat-label>
+                      <input
+                        type="text"
+                        matInput
+                        placeholder="Nhập họ và tên ..."
+                        formControlName="fullName"
+                      />
+                    </mat-form-field>
                   </div>
-
-                  <div class="mb-3">
-                    <label for="email">Địa chỉ email * </label>
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="email"
-                      placeholder="you@example.com"
-                      formControlName="email"
-                    />
-                    <label class="text-muted" style="font-size: 13px">
+                  <div class="form-group">
+                    <mat-form-field class="w-100 bg-white">
+                      <mat-label>Địa chỉ email</mat-label>
+                      <input
+                        type="email"
+                        matInput
+                        placeholder="you@example.com ..."
+                        formControlName="email"
+                      />
+                    </mat-form-field>
+                    <label class="text-muted" style="font-size: 13px;">
                       Email xác nhận đặt phòng sẽ được gửi đến địa chỉ này
                     </label>
                   </div>
-
-                  <div class="mb-3">
-                    <label for="phone">Số điện thoại * </label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="phone"
-                      placeholder="Nhập số điện thoại"
-                      formControlName="phone"
-                    />
+                  <div class="form-group">
+                    <mat-form-field class="w-100 bg-white">
+                      <mat-label>Số điện thoại</mat-label>
+                      <input
+                        type="text"
+                        matInput
+                        placeholder="Nhập số điện thoại ..."
+                        formControlName="phoneNumber"
+                      />
+                    </mat-form-field>
                   </div>
-
-                  <div class="mb-3">
-                    <label for="address">Địa chỉ *</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="address"
-                      placeholder="Nhập địa chỉ"
-                      formControlName="address"
-                    />
+                  <div class="form-group">
+                    <mat-form-field class="w-100 bg-white">
+                      <mat-label>Địa chỉ</mat-label>
+                      <input
+                        type="text"
+                        matInput
+                        placeholder="Nhập địa chỉ ..."
+                        formControlName="address"
+                      />
+                    </mat-form-field>
                   </div>
                 </div>
-
                 <div class="border p-3 mb-3" style="background: #ebf3ff">
                   <h4 class="mb-3">Các Yêu Cầu Đặc Biệt</h4>
                   <div class="mb-3">
@@ -254,27 +254,27 @@
                       mình!
                     </p>
                   </div>
-
                   <div class="mb-3">
-                    <div class="mb-2">
-                      <strong
-                        >Vui lòng ghi yêu cầu của bạn tại đây.
-                        <small>(không bắt buộc)</small></strong
-                      >
-                    </div>
-                    <div class="form-floating">
-                      <textarea
-                        class="form-control"
-                        rows="4"
-                        formControlName="note"
-                      ></textarea>
+                    <div class="form-group">
+                      <mat-form-field class="w-100 bg-white">
+                        <mat-label>
+                          <strong
+                            >Vui lòng ghi yêu cầu của bạn tại đây.
+                            <small>(không bắt buộc)</small></strong
+                          >
+                        </mat-label>
+                        <textarea
+                          matInput
+                          placeholder="Nhập mô tả chỗ ở ..."
+                          rows="5"
+                          formControlName="note"
+                        ></textarea>
+                      </mat-form-field>
                     </div>
                   </div>
                 </div>
-
                 <div class="border p-3 mb-3" style="background: #ebf3ff">
                   <h4 class="mb-3">Thời gian đến của bạn</h4>
-
                   <div class="mb-3 d-flex align-items-center">
                     <i
                       class="fa-regular fa-circle-check text-success mr-2"
@@ -284,7 +284,6 @@
                       Các phòng của bạn sẽ sẵn sàng để nhận vào lúc 14:00
                     </p>
                   </div>
-
                   <div class="mb-3 d-flex align-items-center">
                     <i
                       class="fa-solid fa-bell-concierge text-success mr-2"
@@ -294,30 +293,13 @@
                       Lễ tân 24 giờ - Luôn có trợ giúp mỗi khi bạn cần!
                     </p>
                   </div>
-
                   <div class="mb-3">
                     <div class="mb-2">
                       <strong>Thêm thời gian đến dự kiến của bạn. </strong>
                     </div>
                     <div>
-                      <!-- <style>
-                        .nice-select {
-                          width: 100%;
-                          height: 38px;
-                          line-height: 38px;
-                        }
-
-                        .nice-select:after {
-                          display: none;
-                        }
-
-                        .nice-select .list {
-                          max-height: 300px;
-                          overflow: auto;
-                        }
-                      </style> -->
                       <div class="d-flex flex-column">
-                        <mat-form-field class="w-100">
+                        <mat-form-field class="w-100 bg-white">
                           <mat-label>Các lựa chọn cho bạn</mat-label>
                           <mat-select
                             class="form-select bg-transparent border-0"
