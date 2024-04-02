@@ -12,6 +12,7 @@ import java.util.Set;
 @Builder
 public class RoomResponse {
     private long roomId;
+    private long accommodationId;
     private String roomType;
     private double roomArea;
     private String bed;

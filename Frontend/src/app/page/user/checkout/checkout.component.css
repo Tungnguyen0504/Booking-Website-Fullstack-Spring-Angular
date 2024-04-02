@@ -1,0 +1,15 @@
+.service-box {
+    display: inline-flex;
+    margin-bottom: 3px;
+    margin-right: 3px;
+}
+
+.service-box span {
+    padding: 0px 3px;
+    border: 1px solid #949494;
+    border-radius: 2px;
+}
+
+.service-box span i {
+    margin-right: 3px;
+}

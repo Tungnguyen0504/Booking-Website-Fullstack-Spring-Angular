@@ -1,5 +1,6 @@
 export interface Room {
   roomId: number;
+  accommodationId: number;
   roomType: string;
   roomArea: number;
   bed: string;

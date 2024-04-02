@@ -102,6 +102,7 @@ public class RoomService {
                 .toList();
         return RoomResponse.builder()
                 .roomId(room.getId())
+                .accommodationId(room.getAccommodation().getId())
                 .roomType(room.getRoomType())
                 .roomArea(room.getRoomArea())
                 .bed(room.getBed())

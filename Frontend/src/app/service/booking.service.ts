@@ -60,6 +60,21 @@ export class BookingService {
     }
     this.saveCartToLocalStorage();
     this.cartSubject.next(this.cartStorage.cartItems);
+  }
+
+  updateQuantity(itemId: number, quantity: number) {
+    const existingItem = this.cartStorage.cartItems.find(
+      (i) => i.room.roomId === itemId
+    );
+    if (existingItem) {
+      if (quantity == 0) {
+        this.removeFromCart(itemId);
+      } else {
+        existingItem.quantity = quantity;
+      }
+    }
+    this.saveCartToLocalStorage();
+    this.cartSubject.next(this.cartStorage.cartItems);
     console.log(this.cartStorage);
   }
 

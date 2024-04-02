@@ -11,7 +11,9 @@
       >
         <div class="col-3 cart-img">
           <img class="w-100 rounded" [src]="data.room.filePaths[0]" />
-          <a class="btn-remove-cart btn btn-secondary rounded-circle"
+          <a
+            class="btn-remove-cart btn btn-secondary rounded-circle"
+            (click)="removeRoom(data.room.roomId)"
             ><i class="fa-solid fa-xmark"></i
           ></a>
         </div>
@@ -26,18 +28,20 @@
             <button
               class="btn palatin-btn qty-btn-minus btn-rounded mr-2"
               type="button"
+              (click)="decrease(data.room.roomId, data.quantity)"
             >
               <i class="fa fa-chevron-left"></i>
             </button>
             <input
               type="text"
-              name="qty"
-              value="0"
+              [value]="data.quantity"
               class="input-qty input-rounded"
+              readonly
             />
             <button
               class="btn palatin-btn qty-btn-plus btn-rounded ml-2"
               type="button"
+              (click)="increase(data.room.roomId, data.quantity)"
             >
               <i class="fa fa-chevron-right"></i>
             </button>
@@ -57,7 +61,7 @@
             >609,000 VND cho 1 đêm</strong
           >
         </div>
-        <a href="" class="btn palatin-btn" style="width: 40%">Thanh toán</a>
+        <a href="user/checkout" class="btn palatin-btn" style="width: 40%">Thanh toán</a>
       </div>
     </div>
   </ng-container>

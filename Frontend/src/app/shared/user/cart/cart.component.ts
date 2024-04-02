@@ -16,8 +16,20 @@ export class CartComponent implements OnInit {
     this.$bookingService.loadCartFromLocalStorage().subscribe({
       next: (res) => {
         this.cartStorage = res;
-        console.log(res);
+        console.log(this.cartStorage);
       },
     });
+  }
+
+  removeRoom(roomId: number) {
+    this.$bookingService.removeFromCart(roomId);
+  }
+
+  increase(roomId: number, quantity: number) {
+    this.$bookingService.updateQuantity(roomId, ++quantity);
+  }
+
+  decrease(roomId: number, quantity: number) {
+    this.$bookingService.updateQuantity(roomId, --quantity);
   }
 }
