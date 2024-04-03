@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { OwlOptions } from 'ngx-owl-carousel-o';
 import { Observable, map } from 'rxjs';
 import { AccommodationType } from 'src/app/model/AccommodationType.model';
 import { Province } from 'src/app/model/Province.model';
@@ -19,6 +20,19 @@ export class UserHomeComponent implements OnInit {
   lstProvince: Province[] = [];
   lstAccommodationType: AccommodationType[] = [];
   cityList: City[] = [];
+
+  customOptions: OwlOptions = {
+    items: 1,
+    margin: 0,
+    loop: true,
+    nav: false,
+    dots: true,
+    autoplay: true,
+    autoplayTimeout: 7000,
+    smartSpeed: 1000,
+    animateIn: 'fadeIn',
+    animateOut: 'fadeOut',
+  };
 
   constructor(
     private $accommodationTypeService: AccommodationTypeService,

@@ -1,141 +1,151 @@
 <section class="hero-area">
-  <div class="hero-slides owl-carousel owl-loaded owl-drag">
+  <owl-carousel-o
+    class="hero-slides owl-carousel owl-loaded owl-drag"
+    [options]="customOptions"
+  >
     <!-- Single Hero Slide -->
-    <div
-      class="single-hero-slide d-flex align-items-center justify-content-center"
-    >
-      <!-- Slide Img -->
+    <ng-template class="slide" carouselSlide [id]="'1'">
       <div
-        class="slide-img bg-img"
-        style="background-image: url(assets/img/bg-img/bg-1.jpg)"
-      ></div>
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-12 col-lg-9">
-            <!-- Slide Content -->
-            <div
-              class="hero-slides-content"
-              data-animation="fadeInUp"
-              data-delay="100ms"
-            >
+        class="single-hero-slide d-flex align-items-center justify-content-center"
+      >
+        <!-- Slide Img -->
+        <div
+          class="slide-img bg-img"
+          style="background-image: url(assets/img/bg-img/bg-1.jpg)"
+        ></div>
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-12 col-lg-9">
+              <!-- Slide Content -->
               <div
-                class="line"
+                class="hero-slides-content"
                 data-animation="fadeInUp"
-                data-delay="300ms"
-              ></div>
-              <h2 data-animation="fadeInUp" data-delay="500ms">
-                Thiên đường du lịch
-              </h2>
-              <p data-animation="fadeInUp" data-delay="700ms">
-                Luôn gắn các giá trị văn hóa bản địa với mọi hoạt động kinh
-                doanh để tạo ra chuỗi giá trị mang thương hiệu The Palatin trong
-                nỗ lực quảng bá hình ảnh du lịch Việt Nam đến với bạn bè quốc
-                tế, góp phần đưa du lịch trở thành ngành kinh tế mũi nhọn.
-              </p>
-              <a
-                href="#"
-                class="btn palatin-btn mt-50"
-                data-animation="fadeInUp"
-                data-delay="900ms"
-                >Xem thêm</a
+                data-delay="100ms"
               >
+                <div
+                  class="line"
+                  data-animation="fadeInUp"
+                  data-delay="300ms"
+                ></div>
+                <h2 data-animation="fadeInUp" data-delay="500ms">
+                  Thiên đường du lịch
+                </h2>
+                <p data-animation="fadeInUp" data-delay="700ms">
+                  Luôn gắn các giá trị văn hóa bản địa với mọi hoạt động kinh
+                  doanh để tạo ra chuỗi giá trị mang thương hiệu The Palatin
+                  trong nỗ lực quảng bá hình ảnh du lịch Việt Nam đến với bạn bè
+                  quốc tế, góp phần đưa du lịch trở thành ngành kinh tế mũi
+                  nhọn.
+                </p>
+                <a
+                  href="#"
+                  class="btn palatin-btn mt-50"
+                  data-animation="fadeInUp"
+                  data-delay="900ms"
+                  >Xem thêm</a
+                >
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </ng-template>
+
+    <ng-template class="slide" carouselSlide [id]="'2'">
+      <!-- Single Hero Slide -->
+      <div
+        class="single-hero-slide d-flex align-items-center justify-content-center"
+      >
+        <!-- Slide Img -->
+        <div
+          class="slide-img bg-img"
+          style="background-image: url(assets/img/bg-img/bg-2.jpg)"
+        ></div>
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-12 col-lg-9">
+              <!-- Slide Content -->
+              <div
+                class="hero-slides-content"
+                data-animation="fadeInUp"
+                data-delay="100ms"
+              >
+                <div
+                  class="line"
+                  data-animation="fadeInUp"
+                  data-delay="300ms"
+                ></div>
+                <h2 data-animation="fadeInUp" data-delay="500ms">
+                  Một nơi để nhớ
+                </h2>
+                <p data-animation="fadeInUp" data-delay="700ms">
+                  Triết lý kinh doanh của chúng tôi là động lực thúc đẩy hướng
+                  đi thống nhất của tập thể The Palatin Group, với mục tiêu
+                  doanh nghiệp luôn đồng hành cùng xã hội, cộng đồng để phát
+                  triển kinh tế và các giá trị tinh thần, nhân văn.
+                </p>
+                <a
+                  href="#"
+                  class="btn palatin-btn mt-50"
+                  data-animation="fadeInUp"
+                  data-delay="900ms"
+                  >Xem thêm</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
 
     <!-- Single Hero Slide -->
-    <div
-      class="single-hero-slide d-flex align-items-center justify-content-center"
-    >
-      <!-- Slide Img -->
+    <ng-template class="slide" carouselSlide [id]="'3'">
       <div
-        class="slide-img bg-img"
-        style="background-image: url(assets/img/bg-img/bg-2.jpg)"
-      ></div>
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-12 col-lg-9">
-            <!-- Slide Content -->
-            <div
-              class="hero-slides-content"
-              data-animation="fadeInUp"
-              data-delay="100ms"
-            >
+        class="single-hero-slide d-flex align-items-center justify-content-center"
+      >
+        <!-- Slide Img -->
+        <div
+          class="slide-img bg-img"
+          style="background-image: url(assets/img/bg-img/bg-3.jpg)"
+        ></div>
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-12 col-lg-9">
+              <!-- Slide Content -->
               <div
-                class="line"
+                class="hero-slides-content"
                 data-animation="fadeInUp"
-                data-delay="300ms"
-              ></div>
-              <h2 data-animation="fadeInUp" data-delay="500ms">
-                Một nơi để nhớ
-              </h2>
-              <p data-animation="fadeInUp" data-delay="700ms">
-                Triết lý kinh doanh của chúng tôi là động lực thúc đẩy hướng đi
-                thống nhất của tập thể The Palatin Group, với mục tiêu doanh
-                nghiệp luôn đồng hành cùng xã hội, cộng đồng để phát triển kinh
-                tế và các giá trị tinh thần, nhân văn.
-              </p>
-              <a
-                href="#"
-                class="btn palatin-btn mt-50"
-                data-animation="fadeInUp"
-                data-delay="900ms"
-                >Xem thêm</a
+                data-delay="100ms"
               >
+                <div
+                  class="line"
+                  data-animation="fadeInUp"
+                  data-delay="300ms"
+                ></div>
+                <h2 data-animation="fadeInUp" data-delay="500ms">
+                  Hưởng thụ cuộc sống
+                </h2>
+                <p data-animation="fadeInUp" data-delay="700ms">
+                  Với biểu tượng bông mai vàng 5 cánh bao quanh quả địa cầu, The
+                  Palatin Group được tượng trưng cho sứ mệnh nâng tầm vị thế du
+                  lịch Việt Nam, mang hình ảnh Việt Nam đến khắp năm châu thông
+                  qua việc cung cấp các trải nghiệm, sản phẩm, dịch vụ độc đáo,
+                  chứa đựng giá trị văn hóa tinh thần với chất lượng quốc tế.
+                </p>
+                <a
+                  href="#"
+                  class="btn palatin-btn mt-50"
+                  data-animation="fadeInUp"
+                  data-delay="900ms"
+                  >Xem thêm</a
+                >
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-
-    <!-- Single Hero Slide -->
-    <div
-      class="single-hero-slide d-flex align-items-center justify-content-center"
-    >
-      <!-- Slide Img -->
-      <div
-        class="slide-img bg-img"
-        style="background-image: url(assets/img/bg-img/bg-3.jpg)"
-      ></div>
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-12 col-lg-9">
-            <!-- Slide Content -->
-            <div
-              class="hero-slides-content"
-              data-animation="fadeInUp"
-              data-delay="100ms"
-            >
-              <div
-                class="line"
-                data-animation="fadeInUp"
-                data-delay="300ms"
-              ></div>
-              <h2 data-animation="fadeInUp" data-delay="500ms">
-                Hưởng thụ cuộc sống
-              </h2>
-              <p data-animation="fadeInUp" data-delay="700ms">
-                Với biểu tượng bông mai vàng 5 cánh bao quanh quả địa cầu, The
-                Palatin Group được tượng trưng cho sứ mệnh nâng tầm vị thế du
-                lịch Việt Nam, mang hình ảnh Việt Nam đến khắp năm châu thông
-                qua việc cung cấp các trải nghiệm, sản phẩm, dịch vụ độc đáo,
-                chứa đựng giá trị văn hóa tinh thần với chất lượng quốc tế.
-              </p>
-              <a
-                href="#"
-                class="btn palatin-btn mt-50"
-                data-animation="fadeInUp"
-                data-delay="900ms"
-                >Xem thêm</a
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+    </ng-template>
+  </owl-carousel-o>
 </section>
 <!-- ##### Hero Area End ##### -->
 

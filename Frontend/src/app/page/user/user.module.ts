@@ -30,6 +30,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CartComponent } from 'src/app/shared/user/cart/cart.component';
 import { HotelCardComponent } from './checkout/hotel-card/hotel-card.component';
 import { BookingDetailSummaryComponent } from './checkout/booking-detail-left/booking-detail-summary.component';
+import { CarouselModule } from 'ngx-owl-carousel-o';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,7 @@ import { BookingDetailSummaryComponent } from './checkout/booking-detail-left/bo
     CheckoutComponent,
     BookingDetailSummaryComponent,
     CartComponent,
-    HotelCardComponent
+    HotelCardComponent,
   ],
   imports: [
     CommonModule,
@@ -66,6 +67,7 @@ import { BookingDetailSummaryComponent } from './checkout/booking-detail-left/bo
     MatPaginatorModule,
     MatCheckboxModule,
     LightgalleryModule,
+    CarouselModule,
   ],
 })
 export class UserModule {}

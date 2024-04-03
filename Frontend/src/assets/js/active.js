@@ -21,52 +21,52 @@ $(document).ready(function () {
   }
 
   // :: 4.0 Sliders Active Code
-  if ($.fn.owlCarousel) {
-    var welcomeSlide = $(".hero-slides");
-    var testimonial = $(".testimonial-slides");
+  // if ($.fn.owlCarousel) {
+  //   var welcomeSlide = $(".hero-slides");
+  //   var testimonial = $(".testimonial-slides");
 
-    welcomeSlide.owlCarousel({
-      items: 1,
-      margin: 0,
-      loop: true,
-      nav: false,
-      dots: true,
-      autoplay: true,
-      animateIn: "fadeIn",
-      animateOut: "fadeOut",
-    });
+  //   welcomeSlide.owlCarousel({
+  //     items: 1,
+  //     margin: 0,
+  //     loop: true,
+  //     nav: false,
+  //     dots: true,
+  //     autoplay: true,
+  //     animateIn: "fadeIn",
+  //     animateOut: "fadeOut",
+  //   });
 
-    welcomeSlide.on("translate.owl.carousel", function () {
-      var slideLayer = $("[data-animation]");
-      slideLayer.each(function () {
-        var anim_name = $(this).data("animation");
-        $(this)
-          .removeClass("animated " + anim_name)
-          .css("opacity", "0");
-      });
-    });
+  //   welcomeSlide.on("translate.owl.carousel", function () {
+  //     var slideLayer = $("[data-animation]");
+  //     slideLayer.each(function () {
+  //       var anim_name = $(this).data("animation");
+  //       $(this)
+  //         .removeClass("animated " + anim_name)
+  //         .css("opacity", "0");
+  //     });
+  //   });
 
-    welcomeSlide.on("translated.owl.carousel", function () {
-      var slideLayer = welcomeSlide
-        .find(".owl-item.active")
-        .find("[data-animation]");
-      slideLayer.each(function () {
-        var anim_name = $(this).data("animation");
-        $(this)
-          .addClass("animated " + anim_name)
-          .css("opacity", "1");
-      });
-    });
+  //   welcomeSlide.on("translated.owl.carousel", function () {
+  //     var slideLayer = welcomeSlide
+  //       .find(".owl-item.active")
+  //       .find("[data-animation]");
+  //     slideLayer.each(function () {
+  //       var anim_name = $(this).data("animation");
+  //       $(this)
+  //         .addClass("animated " + anim_name)
+  //         .css("opacity", "1");
+  //     });
+  //   });
 
-    $("[data-delay]").each(function () {
-      var anim_del = $(this).data("delay");
-      $(this).css("animation-delay", anim_del);
-    });
+  //   $("[data-delay]").each(function () {
+  //     var anim_del = $(this).data("delay");
+  //     $(this).css("animation-delay", anim_del);
+  //   });
 
-    $("[data-duration]").each(function () {
-      var anim_dur = $(this).data("duration");
-      $(this).css("animation-duration", anim_dur);
-    });
+  //   $("[data-duration]").each(function () {
+  //     var anim_dur = $(this).data("duration");
+  //     $(this).css("animation-duration", anim_dur);
+  //   });
 
     var dot = $(".hero-slides .owl-dot");
     dot.each(function () {
@@ -78,17 +78,17 @@ $(document).ready(function () {
       }
     });
 
-    testimonial.owlCarousel({
-      items: 1,
-      margin: 0,
-      loop: true,
-      nav: false,
-      dots: false,
-      autoplay: true,
-      autoplayTimeout: 5000,
-      smartSpeed: 600,
-    });
-  }
+  //   testimonial.owlCarousel({
+  //     items: 1,
+  //     margin: 0,
+  //     loop: true,
+  //     nav: false,
+  //     dots: false,
+  //     autoplay: true,
+  //     autoplayTimeout: 5000,
+  //     smartSpeed: 600,
+  //   });
+  // }
 
   // :: 5.0 ScrollUp Active Code
   if ($.fn.scrollUp) {
