@@ -36,7 +36,8 @@
 
 @import url(bootstrap.min.css);
 @import url(classy-nav.css);
-@import url(owl.carousel.min.css);
+@import url(https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css);
+@import url(https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css);
 @import url(animate.css);
 @import url(magnific-popup.css);
 @import url(nice-select.css);
@@ -2523,4 +2524,8 @@ img {
 
 .checkout-page .mat-mdc-form-field-subscript-wrapper {
   height: 0;
+}
+
+.checkout-page .mat-horizontal-stepper-header-container {
+  margin-bottom: 1rem;
 }

@@ -1,0 +1,65 @@
+<div class="border p-3 mb-3 d-flex">
+  <div class="mr-3">
+    <img
+      class="image-fluid rounded"
+      [src]="(accommodation?.filePaths)![0]"
+      style="height: 198px; width: 198px; object-fit: cover"
+    />
+  </div>
+  <div>
+    <div class="d-flex align-items-center mb-2">
+      <p class="text-muted mb-0 mr-2">
+        {{ accommodation?.accommodationType?.accommodationTypeName }}
+      </p>
+      <div
+        *ngIf="accommodation?.star! > 0"
+        style="color: #febb02; margin-bottom: 2px"
+      >
+        <i
+          *ngFor="let data of [].constructor(accommodation?.star!)"
+          class="fa-solid fa-star"
+        ></i>
+      </div>
+    </div>
+
+    <div class="mb-2">
+      <h3 class="mb-0">
+        {{ accommodation?.accommodationName }}
+      </h3>
+    </div>
+
+    <div class="mb-1">
+      <p class="mb-0">
+        {{ accommodation?.fullAddress }}
+      </p>
+    </div>
+
+    <div class="d-flex mb-1">
+      <div
+        class="d-flex align-items-center justify-content-center font-weight-bold mr-1"
+        style="
+          background: #003580;
+          height: 28px;
+          width: 28px;
+          border-radius: 5.8181818182px 5.8181818182px 5.8181818182px 0;
+          color: #ffffff;
+          font-size: 13px;
+        "
+      >
+        8
+      </div>
+      <div class="d-flex align-items-center mr-1" style="font-weight: 500">
+        Tuyệt hảo
+      </div>
+      <div class="d-flex align-items-center text-muted" style="font-size: 13px">
+        56 đánh giá
+      </div>
+    </div>
+
+    <div>
+      <span class="rounded" style="border: 1px solid; padding: 0px 3px">
+        <i class="fa-solid fa-car-side mr-1"></i> Xe đưa đón sân bay
+      </span>
+    </div>
+  </div>
+</div>

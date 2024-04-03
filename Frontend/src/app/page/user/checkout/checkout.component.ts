@@ -2,11 +2,11 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute } from '@angular/router';
-import * as moment from 'moment';
-import { DATETIME_FORMAT1 } from 'src/app/constant/Abstract.constant';
 import { Accommodation } from 'src/app/model/Accommodation.model';
+import { User } from 'src/app/model/User.model';
 import { AccommodationService } from 'src/app/service/accommodation.service';
 import { BookingService, CartStorage } from 'src/app/service/booking.service';
+import { UserService } from 'src/app/service/user.service';
 
 @Component({
   selector: 'app-checkout',
@@ -15,44 +15,38 @@ import { BookingService, CartStorage } from 'src/app/service/booking.service';
 })
 export class CheckoutComponent implements OnInit {
   @ViewChild('stepper') private stepper!: MatStepper;
-  formCheckout: FormGroup = {} as FormGroup;
-  secondFormGroup: FormGroup = {} as FormGroup;
+  secondForm: FormGroup = {} as FormGroup;
 
   cartStorage?: CartStorage;
+  user?: User;
   accommodation?: Accommodation;
+
+  typesOfShoes: string[] = ['Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers'];
 
   constructor(
     private $formBuilder: FormBuilder,
     private $route: ActivatedRoute,
+    private $userService: UserService,
     private $accommodationService: AccommodationService,
     private $bookingService: BookingService
-  ) {
-    // const accommodationId: number = Number.parseInt(
-    //   <string>this.$route.snapshot.paramMap.get('accommodationId')
-    // );
-  }
+  ) {}
 
   ngOnInit(): void {
     setTimeout(() => {
       this.stepper.next();
     }, 200);
     this.initApi();
-
     this.buildForm();
   }
 
   buildForm() {
-    this.secondFormGroup = this.$formBuilder.group({
-      secondCtrl: ['', Validators.required],
-    });
-
-    this.formCheckout = this.$formBuilder.group({
+    this.secondForm = this.$formBuilder.group({
       fullName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phoneNumber: ['', Validators.required],
-      address: ['', Validators.required],
+      address: [''],
       note: [''],
-      timeReceiveRoom: ['', Validators.required],
+      timeReceiveRoom: [''],
     });
   }
 
@@ -66,9 +60,21 @@ export class CheckoutComponent implements OnInit {
           .subscribe({
             next: (response: any) => {
               this.accommodation = response;
-              console.log(this.accommodation);
             },
           });
+      },
+    });
+
+    this.$userService.getCurrentUser().subscribe({
+      next: (res) => {
+        this.user = res;
+        console.log(this.user);
+        this.secondForm.patchValue({
+          fullName: this.user.fullName,
+          email: this.user.email,
+          phoneNumber: this.user.phoneNumber,
+          address: this.user.address,
+        });
       },
     });
   }

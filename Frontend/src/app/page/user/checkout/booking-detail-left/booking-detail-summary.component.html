@@ -10,7 +10,9 @@
         <p class="mb-1">Nhận phòng</p>
       </div>
       <div>
-        <p class="font-weight-bold mb-1">17 Feb 2024</p>
+        <p class="font-weight-bold mb-1" *ngIf="cartStorage">
+          {{ formatDate(cartStorage.startDate) }}
+        </p>
       </div>
       <div>
         <p class="mb-0 text-muted">Từ 14:00</p>

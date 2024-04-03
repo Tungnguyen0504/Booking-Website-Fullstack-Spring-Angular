@@ -44,8 +44,7 @@ public class UserService {
         String fileByte = fileService.encodeFileToString(file.getFilePath());
         return UserResponse.builder()
                 .id(user.getId())
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
+                .fullName(user.getFullName())
                 .email(user.getEmail())
                 .password(user.getPassword())
                 .address(user.getAddress())

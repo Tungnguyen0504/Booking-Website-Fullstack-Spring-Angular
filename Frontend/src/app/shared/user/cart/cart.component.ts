@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { BookingService, CartStorage } from 'src/app/service/booking.service';
 
 @Component({

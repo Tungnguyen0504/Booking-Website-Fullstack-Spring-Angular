@@ -21,7 +21,6 @@ import { CheckoutComponent } from './checkout/checkout.component';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { BookingDetailLeftComponent } from 'src/app/shared/admin/booking-detail-left/booking-detail-left.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -29,6 +28,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CartComponent } from 'src/app/shared/user/cart/cart.component';
+import { HotelCardComponent } from './checkout/hotel-card/hotel-card.component';
+import { BookingDetailSummaryComponent } from './checkout/booking-detail-left/booking-detail-summary.component';
 
 @NgModule({
   declarations: [
@@ -41,8 +42,9 @@ import { CartComponent } from 'src/app/shared/user/cart/cart.component';
     AccommodationDetailComponent,
     RoomDetailDialogComponent,
     CheckoutComponent,
-    BookingDetailLeftComponent,
-    CartComponent
+    BookingDetailSummaryComponent,
+    CartComponent,
+    HotelCardComponent
   ],
   imports: [
     CommonModule,

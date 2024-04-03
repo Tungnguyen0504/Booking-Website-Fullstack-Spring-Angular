@@ -23,11 +23,8 @@ import java.util.List;
 @AttributeOverride(name = "id", column = @Column(name = "user_id"))
 public class User extends BaseEntity implements UserDetails {
 
-    @Column(name = "first_name")
-    private String firstName;
-
-    @Column(name = "last_name")
-    private String lastName;
+    @Column(name = "full_name")
+    private String fullName;
 
     @Column(name = "email")
     private String email;
