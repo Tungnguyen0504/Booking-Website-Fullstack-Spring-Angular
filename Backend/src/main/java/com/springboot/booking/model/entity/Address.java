@@ -2,12 +2,12 @@ package com.springboot.booking.model.entity;
 
 import com.springboot.booking.model.BaseEntity;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.List;
-
-@Getter
-@Setter
+@Data
 @Entity
 @Builder
 @AllArgsConstructor
@@ -25,4 +25,7 @@ public class Address extends BaseEntity {
 
     @OneToOne(mappedBy = "address")
     private Accommodation accommodation;
+
+    @OneToOne(mappedBy = "address")
+    private Booking booking;
 }

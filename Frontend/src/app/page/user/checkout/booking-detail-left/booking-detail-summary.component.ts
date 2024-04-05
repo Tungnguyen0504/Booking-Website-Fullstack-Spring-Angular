@@ -14,7 +14,7 @@ export class BookingDetailSummaryComponent {
   @Input() accommodation?: Accommodation;
 
   constructor() {
-    console.log(typeof this.cartStorage?.startDate);
+    console.log(typeof this.cartStorage?.fromDate);
   }
 
   formatDate(date: Date) {

@@ -72,7 +72,7 @@ public class AccommodationService {
                 .build();
     }
 
-    public BasePagingResponse searchAccommodations(String dateFrom, String dateTo, String searchText) {
+    public BasePagingResponse searchAccommodations(String fromDate, String toDate, String searchText) {
 return null;
     }
 

@@ -41,12 +41,13 @@ export class CheckoutComponent implements OnInit {
 
   buildForm() {
     this.secondForm = this.$formBuilder.group({
-      fullName: ['', Validators.required],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phoneNumber: ['', Validators.required],
       address: [''],
       note: [''],
-      timeReceiveRoom: [''],
+      estCheckinTime: [''],
     });
   }
 
@@ -70,7 +71,8 @@ export class CheckoutComponent implements OnInit {
         this.user = res;
         console.log(this.user);
         this.secondForm.patchValue({
-          fullName: this.user.fullName,
+          firstName: this.user.firstName,
+          lastName: this.user.lastName,
           email: this.user.email,
           phoneNumber: this.user.phoneNumber,
           address: this.user.address,

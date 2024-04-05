@@ -107,7 +107,7 @@ public class RoomService {
                 .roomArea(room.getRoomArea())
                 .bed(room.getBed())
                 .capacity(room.getCapacity())
-                .smoke(room.isSmoke())
+                .smoke(room.getSmoke())
                 .price(room.getPrice())
                 .discountPercent(room.getDiscountPercent())
                 .quantity(room.getQuantity())

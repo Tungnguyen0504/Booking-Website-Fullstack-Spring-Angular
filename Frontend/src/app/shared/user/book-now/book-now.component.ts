@@ -31,33 +31,33 @@ export class BookNowComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    flatpickr('#dateFrom', {
+    flatpickr('#fromDate', {
       minDate: 'today',
       dateFormat: 'y-M-d',
-      plugins: [rangePlugin({ input: '#dateTo' })],
+      plugins: [rangePlugin({ input: '#toDate' })],
       onChange: (selectedDates) => {
         if (selectedDates.length === 2) {
           this.formSearch
-            .get('dateFrom')
+            .get('fromDate')
             ?.setValue(formatDate(selectedDates[0], 'yyyy-MM-dd', 'en-US'));
           this.formSearch
-            .get('dateTo')
+            .get('toDate')
             ?.setValue(formatDate(selectedDates[1], 'yyyy-MM-dd', 'en-US'));
         }
       },
     });
 
-    flatpickr('#dateTo', {
+    flatpickr('#toDate', {
       minDate: 'today',
       dateFormat: 'y-M-d',
-      plugins: [rangePlugin({ input: '#dateFrom' })],
+      plugins: [rangePlugin({ input: '#fromDate' })],
       onChange: (selectedDates) => {
         if (selectedDates.length === 2) {
           this.formSearch
-            .get('dateFrom')
+            .get('fromDate')
             ?.setValue(formatDate(selectedDates[0], '', 'en-US'));
           this.formSearch
-            .get('dateTo')
+            .get('toDate')
             ?.setValue(formatDate(selectedDates[1], 'yyyy-MM-dd', 'en-US'));
         }
       },
@@ -67,21 +67,21 @@ export class BookNowComponent implements AfterViewInit {
   buildFormGroup() {
     this.formSearch = this.$formBuilder.group({
       keyword: new FormControl('', Validators.required),
-      dateFrom: new FormControl('', Validators.required),
-      dateTo: new FormControl('', Validators.required),
+      fromDate: new FormControl('', Validators.required),
+      toDate: new FormControl('', Validators.required),
     });
   }
 
   search() {
-    const dateFrom = this.$elementRef.nativeElement.querySelector('#dateFrom');
-    const dateTo = this.$elementRef.nativeElement.querySelector('#dateTo');
+    const fromDate = this.$elementRef.nativeElement.querySelector('#fromDate');
+    const toDate = this.$elementRef.nativeElement.querySelector('#toDate');
 
-    this.formSearch.get('dateFrom')?.setValue(dateFrom.value);
-    this.formSearch.get('dateTo')?.setValue(dateTo.value);
+    this.formSearch.get('fromDate')?.setValue(fromDate.value);
+    this.formSearch.get('toDate')?.setValue(toDate.value);
 
     this.$bookingService.saveCartDate(
-      new Date(dateFrom.value),
-      new Date(dateTo.value)
+      new Date(fromDate.value),
+      new Date(toDate.value)
     );
     console.log(this.$bookingService.getCart());
   }

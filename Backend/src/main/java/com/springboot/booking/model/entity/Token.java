@@ -5,8 +5,7 @@ import com.springboot.booking.model.ETokenType;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Getter
-@Setter
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,10 +22,10 @@ public class Token extends BaseEntity {
     private ETokenType tokenType = ETokenType.BEARER;
 
     @Column(name = "revoked")
-    private boolean revoked;
+    private Boolean revoked;
 
     @Column(name = "expired")
-    private boolean expired;
+    private Boolean expired;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

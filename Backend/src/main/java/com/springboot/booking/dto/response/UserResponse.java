@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -13,13 +14,14 @@ import java.time.LocalDateTime;
 @Builder
 public class UserResponse {
     private Long id;
-    private String fullName;
+    private String firstName;
+    private String lastName;
     private String email;
     private String password;
     private String address;
     private String phoneNumber;
     @JsonFormat(pattern = Constant.DATETIME_FORMAT2)
-    private LocalDateTime dateOfBirth;
+    private LocalDate dateOfBirth;
     private String status;
     private String role;
     private String filePath;

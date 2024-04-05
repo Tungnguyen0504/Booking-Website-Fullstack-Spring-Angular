@@ -117,12 +117,23 @@
                 </div>
                 <div class="form-group">
                   <mat-form-field class="w-100 bg-white">
-                    <mat-label>Họ tên</mat-label>
+                    <mat-label>Họ</mat-label>
                     <input
                       type="text"
                       matInput
-                      placeholder="Nhập họ và tên ..."
-                      formControlName="fullName"
+                      placeholder="Nhập họ của bạn ..."
+                      formControlName="lastName"
+                    />
+                  </mat-form-field>
+                </div>
+                <div class="form-group">
+                  <mat-form-field class="w-100 bg-white">
+                    <mat-label>Tên</mat-label>
+                    <input
+                      type="text"
+                      matInput
+                      placeholder="Nhập tên của bạn ..."
+                      formControlName="firstName"
                     />
                   </mat-form-field>
                 </div>
@@ -222,7 +233,7 @@
                         <mat-label>Các lựa chọn cho bạn</mat-label>
                         <mat-select
                           class="form-select bg-transparent border-0"
-                          formControlName="timeReceiveRoom"
+                          formControlName="estCheckinTime"
                         >
                           <mat-option value="Tôi không biết"
                             >Tôi không biết</mat-option

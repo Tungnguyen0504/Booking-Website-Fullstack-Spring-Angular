@@ -4,11 +4,10 @@ import { CART_STORAGE } from '../constant/Abstract.constant';
 import { BehaviorSubject, Observable, of, switchMap } from 'rxjs';
 import { UserService } from './user.service';
 import { AuthenticationService } from './authentication.service';
-import { Router } from '@angular/router';
 
 export interface CartStorage {
-  startDate: Date;
-  endDate: Date;
+  fromDate: Date;
+  toDate: Date;
   cartItems: CartItem[];
 }
 
@@ -22,8 +21,8 @@ export interface CartItem {
 })
 export class BookingService {
   private cartStorage: CartStorage = {
-    startDate: new Date(),
-    endDate: new Date(),
+    fromDate: new Date(),
+    toDate: new Date(),
     cartItems: [],
   };
   private cartSubject = new BehaviorSubject<CartItem[]>([]);
@@ -43,9 +42,9 @@ export class BookingService {
     return this.cartStorage;
   }
 
-  saveCartDate(startDate: Date, endDate: Date) {
-    this.cartStorage.startDate = startDate;
-    this.cartStorage.endDate = endDate;
+  saveCartDate(fromDate: Date, toDate: Date) {
+    this.cartStorage.fromDate = fromDate;
+    this.cartStorage.toDate = toDate;
     this.saveCartToLocalStorage();
   }
 

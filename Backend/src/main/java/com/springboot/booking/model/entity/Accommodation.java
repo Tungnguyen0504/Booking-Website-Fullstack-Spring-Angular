@@ -2,16 +2,16 @@ package com.springboot.booking.model.entity;
 
 import com.springboot.booking.model.BaseEntity;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Builder
 @AllArgsConstructor
@@ -30,7 +30,7 @@ public class Accommodation extends BaseEntity {
     private String email;
 
     @Column(name = "star")
-    private int star;
+    private Integer star;
 
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;

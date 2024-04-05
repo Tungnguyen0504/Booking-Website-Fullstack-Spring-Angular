@@ -8,13 +8,12 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Builder
 @AllArgsConstructor
@@ -23,8 +22,11 @@ import java.util.List;
 @AttributeOverride(name = "id", column = @Column(name = "user_id"))
 public class User extends BaseEntity implements UserDetails {
 
-    @Column(name = "full_name")
-    private String fullName;
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
 
     @Column(name = "email")
     private String email;
@@ -39,7 +41,7 @@ public class User extends BaseEntity implements UserDetails {
     private String phoneNumber;
 
     @Column(name = "date_of_birth")
-    private LocalDateTime dateOfBirth;
+    private LocalDate dateOfBirth;
 
     @Column(name = "status")
     private String status;
@@ -51,6 +53,9 @@ public class User extends BaseEntity implements UserDetails {
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private List<Token> tokens;
+
+    @OneToMany(mappedBy = "user")
+    private List<Booking> bookings = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

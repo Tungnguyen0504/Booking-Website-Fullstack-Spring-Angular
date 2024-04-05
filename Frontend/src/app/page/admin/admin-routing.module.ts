@@ -6,7 +6,7 @@ import { CreateRoomComponent } from './room-management/create-room/create-room.c
 
 const routes: Routes = [
   {
-    path: 'admin',
+    path: 'dashboard',
     component: AdminComponent,
     children: [
       {

@@ -31,6 +31,7 @@ import { CartComponent } from 'src/app/shared/user/cart/cart.component';
 import { HotelCardComponent } from './checkout/hotel-card/hotel-card.component';
 import { BookingDetailSummaryComponent } from './checkout/booking-detail-left/booking-detail-summary.component';
 import { CarouselModule } from 'ngx-owl-carousel-o';
+import { BookingSuccessComponent } from './booking-success/booking-success.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
     BookingDetailSummaryComponent,
     CartComponent,
     HotelCardComponent,
+    BookingSuccessComponent,
   ],
   imports: [
     CommonModule,
