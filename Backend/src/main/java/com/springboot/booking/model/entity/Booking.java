@@ -1,6 +1,7 @@
 package com.springboot.booking.model.entity;
 
 import com.springboot.booking.model.BaseEntity;
+import com.springboot.booking.model.EBookingStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -55,7 +56,7 @@ public class Booking extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private String status;
+    private EBookingStatus status;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

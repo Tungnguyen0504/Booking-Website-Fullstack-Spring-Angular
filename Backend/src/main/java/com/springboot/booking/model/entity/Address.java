@@ -25,7 +25,4 @@ public class Address extends BaseEntity {
 
     @OneToOne(mappedBy = "address")
     private Accommodation accommodation;
-
-    @OneToOne(mappedBy = "address")
-    private Booking booking;
 }

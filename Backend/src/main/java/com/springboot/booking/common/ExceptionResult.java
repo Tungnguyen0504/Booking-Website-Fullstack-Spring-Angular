@@ -22,6 +22,7 @@ public enum ExceptionResult {
     LOCKED_ACCOUNT(402, "Tài khoản của bạn đã bị khóa."),
     SEND_EMAIL_ERROR(404, "Không gửi được email."),
     CUSTOM_FIELD_EXISTED(409, "%s đã tồn tại"),
+    CUSTOM_FIELD_NOT_FOUND(409, "Không tìm thấy %s"),
     RESOURCE_NOT_FOUND(404, "[%s] không tìm thấy dữ liệu."),
     PARAMETER_INVALID(400, "Tham số không hợp lệ");
 

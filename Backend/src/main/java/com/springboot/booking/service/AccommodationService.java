@@ -48,7 +48,7 @@ public class AccommodationService {
 
     public AccommodationResponse getById(Long id) {
         Accommodation accommodation = accommodationRepository.findById(id)
-                .orElseThrow(() -> new GlobalException(ExceptionResult.RESOURCE_NOT_FOUND));
+                .orElseThrow(() -> new GlobalException(ExceptionResult.CUSTOM_FIELD_NOT_FOUND, "chỗ ở"));
         return transferToDto(accommodation);
     }
 
@@ -73,13 +73,13 @@ public class AccommodationService {
     }
 
     public BasePagingResponse searchAccommodations(String fromDate, String toDate, String searchText) {
-return null;
+        return null;
     }
 
     @Transactional
     public void createAccommodation(CreateAccommodationRequest request) throws JsonProcessingException {
         AccommodationType accommodationType = accommodationTypeRepository.findById(request.getAccommodationTypeId())
-                .orElseThrow(() -> new GlobalException(ExceptionResult.RESOURCE_NOT_FOUND, "loại chỗ ở"));
+                .orElseThrow(() -> new GlobalException(ExceptionResult.CUSTOM_FIELD_NOT_FOUND, "loại chỗ ở"));
         List<Accommodation> checkAccommodations = accommodationRepository.getByAccommodationName(request.getAccommodationName());
 
         if (!CollectionUtils.isEmpty(checkAccommodations)) {
@@ -132,6 +132,13 @@ return null;
                         .build())
                 .collect(Collectors.toList());
         fileRepository.saveAll(files);
+    }
+
+    public void inactive(Long id) {
+        Accommodation accommodation = accommodationRepository.findById(id)
+                .orElseThrow(() -> new GlobalException(ExceptionResult.CUSTOM_FIELD_NOT_FOUND, "chỗ ở"));
+        accommodation.setStatus(Constant.STATUS_INACTIVE);
+        accommodationRepository.save(accommodation);
     }
 
     @SneakyThrows(JsonProcessingException.class)

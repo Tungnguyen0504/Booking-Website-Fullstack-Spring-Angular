@@ -19,7 +19,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
-import {MatDividerModule} from '@angular/material/divider';
+import { MatDividerModule } from '@angular/material/divider';
 import { FormAddressComponent } from 'src/app/shared/admin/form-address/form-address.component';
 import { FormAddressDialogComponent } from 'src/app/shared/admin/form-address/form-address-dialog/form-address-dialog.component';
 import { AdminSidebarComponent } from 'src/app/shared/admin/admin-sidebar/admin-sidebar.component';
@@ -28,6 +28,10 @@ import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { CustomFieldTagInputComponent } from 'src/app/shared/admin/custom-field-tag-input/custom-field-tag-input.component';
 import { FileInputComponent } from 'src/app/shared/generic/file-input/file-input.component';
+import { AccommmodationListComponent } from './accommodation-management/accommmodation-list/accommmodation-list.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -38,7 +42,8 @@ import { FileInputComponent } from 'src/app/shared/generic/file-input/file-input
     FormAddressDialogComponent,
     AdminSidebarComponent,
     CreateRoomComponent,
-    FileInputComponent
+    FileInputComponent,
+    AccommmodationListComponent,
   ],
   imports: [
     CommonModule,
@@ -60,6 +65,9 @@ import { FileInputComponent } from 'src/app/shared/generic/file-input/file-input
     MatExpansionModule,
     MatListModule,
     MatDividerModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
     NgxMatTimepickerModule,
     RatingModule,
   ],

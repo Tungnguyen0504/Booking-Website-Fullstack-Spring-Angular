@@ -45,5 +45,9 @@ public class AccommodationController {
         return ResponseEntity.ok(accommodationService.getAccommodations(request));
     }
 
-//    @PostMapping
+    @PutMapping("/inactive/{id}")
+    public ResponseEntity<BSuccess> inactive(@PathVariable Long id) {
+        accommodationService.inactive(id);
+        return ResponseEntity.ok(new BSuccess(SuccessResult.DELETED));
+    }
 }

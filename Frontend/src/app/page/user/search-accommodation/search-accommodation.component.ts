@@ -25,10 +25,8 @@ interface FilterObj {
 })
 export class SearchAccommodationComponent implements OnInit {
   @ViewChild('accTypeSelection') private accTypeSelection!: MatSelectionList;
-  @ViewChild('propertyRatingSelection')
-  private propertyRatingSelection!: MatSelectionList;
-  @ViewChild('reviewScoreSelection')
-  private reviewScoreSelection!: MatSelectionList;
+  @ViewChild('propertyRatingSelection') private propertyRatingSelection!: MatSelectionList;
+  @ViewChild('reviewScoreSelection') private reviewScoreSelection!: MatSelectionList;
 
   listAccommodation: Accommodation[] = [];
   filterRequest: FilterRequest[] = [Util.filterActive()];
@@ -91,28 +89,13 @@ export class SearchAccommodationComponent implements OnInit {
   }
 
   filterSelectionChange() {
-    this.pushFilterRequest(
-      'accommodationType.id',
-      this.accTypeSelection.selectedOptions.selected,
-      'OR',
-      'INTEGER'
-    );
-    this.pushFilterRequest(
-      'star',
-      this.propertyRatingSelection.selectedOptions.selected,
-      'OR',
-      'INTEGER'
-    );
+    this.pushFilterRequest('accommodationType.id', this.accTypeSelection.selectedOptions.selected, 'OR', 'INTEGER');
+    this.pushFilterRequest('star', this.propertyRatingSelection.selectedOptions.selected, 'OR', 'INTEGER');
     // console.log(this.reviewScoreSelection.selectedOptions.selected);
     this.getAccommodations();
   }
 
-  pushFilterRequest(
-    key: string,
-    values: any[],
-    operator: string,
-    fieldType: string
-  ) {
+  pushFilterRequest(key: string, values: any[], operator: string, fieldType: string) {
     const filterObj = this.filterRequest.find((req) => req.key === key);
     if (filterObj) {
       filterObj.values = values.map((seleted) => seleted.value);
@@ -127,16 +110,12 @@ export class SearchAccommodationComponent implements OnInit {
   }
 
   getMinRoomPrice(accId: number) {
-    const roomArr = this.listAccommodation?.find(
-      (acc) => acc.accommodationId === accId
-    )?.rooms;
+    const roomArr = this.listAccommodation?.find((acc) => acc.accommodationId === accId)?.rooms;
     return roomArr?.map((r) => r.price).sort((r1, r2) => r1 - r2)[0];
   }
 
   isRoomAvailable(accId: number) {
-    const roomArr = this.listAccommodation?.find(
-      (acc) => acc.accommodationId === accId
-    )?.rooms;
+    const roomArr = this.listAccommodation?.find((acc) => acc.accommodationId === accId)?.rooms;
     return Array.isArray(roomArr) && roomArr.length > 0;
   }
 }
