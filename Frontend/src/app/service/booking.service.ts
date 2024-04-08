@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Room } from '../model/Room.model';
-import { CART_STORAGE } from '../constant/Abstract.constant';
+import { CART_STORAGE, PATH_USER, PATH_V1 } from '../constant/Abstract.constant';
 import { BehaviorSubject, Observable, of, switchMap } from 'rxjs';
 import { UserService } from './user.service';
 import { AuthenticationService } from './authentication.service';
+import { environment } from 'src/environments/environment';
+import { HttpClient } from '@angular/common/http';
 
 export interface CartStorage {
+  guestNumber: number;
+  accommodationId: number;
   fromDate: Date;
   toDate: Date;
   cartItems: CartItem[];
@@ -16,18 +20,17 @@ export interface CartItem {
   room: Room;
 }
 
+const URL = environment.apiUrl + PATH_V1 + PATH_USER;
+
 @Injectable({
   providedIn: 'root',
 })
 export class BookingService {
-  private cartStorage: CartStorage = {
-    fromDate: new Date(),
-    toDate: new Date(),
-    cartItems: [],
-  };
+  private cartStorage: CartStorage = {} as CartStorage;
   private cartSubject = new BehaviorSubject<CartItem[]>([]);
 
   constructor(
+    private httpClient: HttpClient,
     private $userService: UserService,
     private $authenticationService: AuthenticationService
   ) {
@@ -49,9 +52,7 @@ export class BookingService {
   }
 
   addToCart(item: CartItem) {
-    const existingItem = this.cartStorage.cartItems.find(
-      (i) => i.room.roomId === item.room.roomId
-    );
+    const existingItem = this.cartStorage.cartItems.find((i) => i.room.roomId === item.room.roomId);
     if (existingItem) {
       existingItem.quantity += item.quantity;
     } else {
@@ -62,9 +63,7 @@ export class BookingService {
   }
 
   updateQuantity(itemId: number, quantity: number) {
-    const existingItem = this.cartStorage.cartItems.find(
-      (i) => i.room.roomId === itemId
-    );
+    const existingItem = this.cartStorage.cartItems.find((i) => i.room.roomId === itemId);
     if (existingItem) {
       if (quantity == 0) {
         this.removeFromCart(itemId);
@@ -78,9 +77,7 @@ export class BookingService {
   }
 
   removeFromCart(itemId: number) {
-    const itemIndex = this.cartStorage.cartItems.findIndex(
-      (i) => i.room.roomId === itemId
-    );
+    const itemIndex = this.cartStorage.cartItems.findIndex((i) => i.room.roomId === itemId);
     if (itemIndex > -1) {
       this.cartStorage.cartItems.splice(itemIndex, 1);
       this.saveCartToLocalStorage();
@@ -116,12 +113,13 @@ export class BookingService {
       this.$userService.getCurrentUser().subscribe({
         next: (res) => {
           const userId = res.id;
-          localStorage.setItem(
-            `${CART_STORAGE}/${userId}`,
-            JSON.stringify(this.cartStorage)
-          );
+          localStorage.setItem(`${CART_STORAGE}/${userId}`, JSON.stringify(this.cartStorage));
         },
       });
     }
+  }
+
+  createPayment(request: any) {
+    return this.httpClient.post(URL + '/booking/payment/create', request);
   }
 }

@@ -24,11 +24,7 @@ export class CartComponent implements OnInit {
     this.$bookingService.removeFromCart(roomId);
   }
 
-  increase(roomId: number, quantity: number) {
-    this.$bookingService.updateQuantity(roomId, ++quantity);
-  }
-
-  decrease(roomId: number, quantity: number) {
-    this.$bookingService.updateQuantity(roomId, --quantity);
+  onQuantityEmitter(roomId: number, data: any) {
+    this.$bookingService.updateQuantity(roomId, data);
   }
 }

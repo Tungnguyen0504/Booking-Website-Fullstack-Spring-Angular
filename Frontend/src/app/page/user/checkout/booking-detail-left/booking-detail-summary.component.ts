@@ -1,5 +1,8 @@
 import { Component, Input } from '@angular/core';
-import { DATETIME_FORMAT2, DATETIME_FORMAT3 } from 'src/app/constant/Abstract.constant';
+import {
+  DATETIME_FORMAT2,
+  DATETIME_FORMAT3,
+} from 'src/app/constant/Abstract.constant';
 import { Accommodation } from 'src/app/model/Accommodation.model';
 import { CartStorage } from 'src/app/service/booking.service';
 import { Util } from 'src/app/util/util';
@@ -13,9 +16,7 @@ export class BookingDetailSummaryComponent {
   @Input() cartStorage?: CartStorage;
   @Input() accommodation?: Accommodation;
 
-  constructor() {
-    console.log(typeof this.cartStorage?.fromDate);
-  }
+  constructor() {}
 
   formatDate(date: Date) {
     return Util.formatDate(date, DATETIME_FORMAT3);

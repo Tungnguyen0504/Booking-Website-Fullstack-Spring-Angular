@@ -1,0 +1,22 @@
+<div class="qty-container d-flex">
+  <button
+    class="btn palatin-btn qty-btn-minus btn-rounded mr-2"
+    type="button"
+    (click)="decrease()"
+  >
+    <i class="fa fa-chevron-left"></i>
+  </button>
+  <input
+    type="text"
+    [value]="quantity"
+    class="input-qty input-rounded"
+    readonly
+  />
+  <button
+    class="btn palatin-btn qty-btn-plus btn-rounded ml-2"
+    type="button"
+    (click)="increase()"
+  >
+    <i class="fa fa-chevron-right"></i>
+  </button>
+</div>

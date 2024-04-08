@@ -186,117 +186,56 @@
       </div>
     </div>
 
-    <form method="post">
+    <form class="guest-room-qty-box">
       <div class="row wow fadeInUp mb-4">
-        <div class="col-8 d-flex">
-          <div class="col-8 px-0">
-            <div class="dropdown">
-              <button
-                class="btn palatin-btn dropdown-toggle btn-3 w-100"
-                type="button"
-                id="qty-people-room"
-                data-toggle="dropdown"
-                aria-expanded="false "
-              >
-                <label class="float-left">
-                  <span id="room-lbl">1</span>
-                  phòng,
-                  <span id="person-lbl">1</span>
-                  người
-                </label>
-                <label class="float-right">
-                  <i class="fa-solid fa-user-group"></i>
-                </label>
-              </button>
-              <div
-                class="dropdown-menu w-100"
-                aria-labelledby="qty-people-room"
-                id="passenger-box"
-                (click)="preventEvent($event)"
-              >
-                <div class="dropdown-item d-flex align-items-center">
-                  <div class="col-5">
-                    <span>Phòng</span>
-                  </div>
-                  <div class="col-7">
-                    <!-- <input
-                      type="number"
-                      id="room-input"
-                      name="qtyRoom"
-                      value="1"
-                      min="1"
-                      max="1"
-                    /> -->
-                    <div class="qty-container d-flex">
-                      <button
-                        class="btn palatin-btn qty-btn-minus btn-rounded mr-2"
-                        type="button"
-                      >
-                        <i class="fa fa-chevron-left"></i>
-                      </button>
-                      <input
-                        type="text"
-                        name="qty"
-                        value="0"
-                        class="input-qty input-rounded"
-                      />
-                      <button
-                        class="btn palatin-btn qty-btn-plus btn-rounded ml-2"
-                        type="button"
-                      >
-                        <i class="fa fa-chevron-right"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <div class="dropdown-item d-flex align-items-center">
-                  <div class="col-5">
-                    <span>Người lớn</span>
-                  </div>
-                  <div class="col-7">
-                    <!-- <input
-                      type="number"
-                      id="person-input"
-                      name="qtyPassenger"
-                      value="1"
-                      min="1"
-                    /> -->
-                    <div class="qty-container d-flex">
-                      <button
-                        class="btn palatin-btn qty-btn-minus btn-rounded mr-2"
-                        type="button"
-                      >
-                        <i class="fa fa-chevron-left"></i>
-                      </button>
-                      <input
-                        type="text"
-                        name="qty"
-                        value="0"
-                        class="input-qty input-rounded"
-                        style="max-width: 60px"
-                      />
-                      <button
-                        class="btn palatin-btn qty-btn-plus btn-rounded ml-2"
-                        type="button"
-                      >
-                        <i class="fa fa-chevron-right"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
+        <div class="col-6">
+          <mat-expansion-panel style="border: 2px solid #cb8670">
+            <mat-expansion-panel-header>
+              <mat-panel-title style="color: #cb8670">
+                <span>{{ roomQuantity }} phòng, {{ guestQuantity }} người</span>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="d-flex align-items-center mb-3">
+              <div class="col-5 px-0">
+                <span>Phòng</span>
+              </div>
+              <div class="col-7">
+                <app-input-spinner
+                  [quantity]="roomQuantity"
+                  [min]="0"
+                  [max]="10"
+                  (eventEmitter)="onRoomQtyEmitter($event)"
+                >
+                </app-input-spinner>
               </div>
             </div>
-          </div>
-          <div class="col-4 pr-0">
-            <input type="hidden" value="" name="hotelId" />
-            <button
-              type="submit"
-              class="btn palatin-btn w-100"
-              style="height: 49px"
-            >
-              Cập nhật
-            </button>
-          </div>
+
+            <div class="d-flex align-items-center">
+              <div class="col-5 px-0">
+                <span>Người lớn</span>
+              </div>
+              <div class="col-7">
+                <app-input-spinner
+                  [quantity]="guestQuantity"
+                  [min]="0"
+                  [max]="10"
+                  (eventEmitter)="onGuestQtyEmitter($event)"
+                >
+                </app-input-spinner>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </div>
+        <div class="col-2 pl-0">
+          <input type="hidden" value="" name="hotelId" />
+          <button
+            type="submit"
+            class="btn palatin-btn w-100"
+            style="height: 49px"
+          >
+            Cập nhật
+          </button>
         </div>
       </div>
     </form>

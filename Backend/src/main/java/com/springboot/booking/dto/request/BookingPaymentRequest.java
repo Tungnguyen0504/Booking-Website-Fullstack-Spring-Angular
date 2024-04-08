@@ -18,5 +18,5 @@ public class BookingPaymentRequest {
     private String fromDate;
     private String toDate;
     private String accommodationId;
-    private List<BookingDetailRequest> bookingDetails;
+    private List<BookingDetailRequest> cartItems;
 }

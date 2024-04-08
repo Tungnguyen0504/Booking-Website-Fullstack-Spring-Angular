@@ -27,6 +27,9 @@ export class AccommodationDetailComponent {
     plugins: [lgZoom],
   };
 
+  roomQuantity: number = 0;
+  guestQuantity: number = 0;
+
   constructor(
     private $route: ActivatedRoute,
     private $router: Router,
@@ -37,9 +40,7 @@ export class AccommodationDetailComponent {
   ) {}
 
   ngOnInit(): void {
-    const accommodationId: number = Number.parseInt(
-      <string>this.$route.snapshot.paramMap.get('accommodationId')
-    );
+    const accommodationId: number = Number.parseInt(<string>this.$route.snapshot.paramMap.get('accommodationId'));
     this.initApi(accommodationId);
   }
 
@@ -48,23 +49,24 @@ export class AccommodationDetailComponent {
     console.log(index, prevIndex);
   };
 
+  onRoomQtyEmitter(data: any) {
+    this.roomQuantity = data;
+  }
+
+  onGuestQtyEmitter(data: any) {
+    this.guestQuantity = data;
+  }
+
   initApi(accommodationId: number) {
     this.$accommodationService.getById(accommodationId).subscribe({
       next: (response: any) => {
         this.accommodation = response;
         if (this.accommodation) {
-          this.accommodation.createdAt = moment(
-            response.createdAt,
-            DATETIME_FORMAT1
-          ).toDate();
+          this.accommodation.createdAt = moment(response.createdAt, DATETIME_FORMAT1).toDate();
         }
         console.log(this.accommodation);
       },
     });
-  }
-
-  preventEvent(e: any) {
-    e.stopPropagation();
   }
 
   getPercentage(hour: number) {
@@ -97,7 +99,7 @@ export class AccommodationDetailComponent {
       room: room!,
     };
     if (!this.$authenticationService.isLoggedIn()) {
-      this.$router.navigate(['/authentication/login']);
+      this.$router.navigate(['/login']);
       return;
     }
     this.$bookingService.addToCart(cartItem);

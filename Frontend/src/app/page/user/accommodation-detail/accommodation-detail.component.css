@@ -91,35 +91,7 @@
 /* 2 */
 
 /* 3 */
-#qty-people-room.dropdown-toggle::after {
-  display: none;
-}
-#qty-people-room.dropdown-toggle::after {
-  display: none;
-}
 
-#qty-people-room.dropdown-toggle:focus,
-#qty-people-room.dropdown-toggle:hover {
-  background-color: #ffffff;
-  color: #cb8670;
-}
-
-#passenger-box .dropdown-item:focus,
-#passenger-box .dropdown-item:hover,
-#passenger-box .dropdown-item:active {
-  background-color: #ffffff;
-  color: black;
-}
-
-#passenger-box .form-control:focus {
-  border-color: #ced4da;
-  box-shadow: none;
-}
-
-#passenger-box .form-control:disabled,
-#passenger-box .form-control[readonly] {
-  background-color: #ffffff;
-}
 
 /* #room-modal a:hover {
     font-size: initial;

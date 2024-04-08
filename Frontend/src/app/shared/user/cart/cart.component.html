@@ -24,28 +24,13 @@
           </p>
         </div>
         <div class="col-3 pt-1 pl-3">
-          <div class="qty-container d-flex">
-            <button
-              class="btn palatin-btn qty-btn-minus btn-rounded mr-2"
-              type="button"
-              (click)="decrease(data.room.roomId, data.quantity)"
-            >
-              <i class="fa fa-chevron-left"></i>
-            </button>
-            <input
-              type="text"
-              [value]="data.quantity"
-              class="input-qty input-rounded"
-              readonly
-            />
-            <button
-              class="btn palatin-btn qty-btn-plus btn-rounded ml-2"
-              type="button"
-              (click)="increase(data.room.roomId, data.quantity)"
-            >
-              <i class="fa fa-chevron-right"></i>
-            </button>
-          </div>
+          <app-input-spinner
+            [quantity]="data.quantity"
+            [min]="0"
+            [max]="10"
+            (eventEmitter)="onQuantityEmitter(data.room.roomId, $event)"
+          >
+          </app-input-spinner>
         </div>
       </div>
       <div class="border-top mt-5"></div>
@@ -61,7 +46,9 @@
             >609,000 VND cho 1 đêm</strong
           >
         </div>
-        <a href="user/checkout" class="btn palatin-btn" style="width: 40%">Thanh toán</a>
+        <a href="checkout" class="btn palatin-btn" style="width: 40%"
+          >Thanh toán</a
+        >
       </div>
     </div>
   </ng-container>

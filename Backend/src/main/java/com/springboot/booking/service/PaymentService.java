@@ -11,67 +11,27 @@ import com.springboot.booking.dto.response.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
 public class PaymentService {
     @Value("${environment.local.base-url}")
     private String baseUrl;
-    final double RATECONVERT = 23810;
+    final double RATE_CONVERT = 23810;
 
     private final APIContext apiContext;
     private final UserService userService;
     private final AccommodationService accommodationService;
     private final RoomService roomService;
 
-    public Payment createPayment(
-            Double total,
-            String currency,
-            String method,
-            String intent,
-            String description,
-            String cancelUrl,
-            String successUrl
-    ) throws PayPalRESTException {
-        Amount amount = new Amount();
-        amount.setCurrency(currency);
-        amount.setTotal(String.format(Locale.forLanguageTag(currency), "%.2f", total)); // 9.99$ - 9,99€
-
-        Transaction transaction = new Transaction();
-        transaction.setDescription(description);
-        transaction.setAmount(amount);
-
-        List<Transaction> transactions = new ArrayList<>();
-        transactions.add(transaction);
-
-        Payer payer = new Payer();
-        payer.setPaymentMethod(method);
-
-        Payment payment = new Payment();
-        payment.setIntent(intent);
-        payment.setPayer(payer);
-        payment.setTransactions(transactions);
-
-        RedirectUrls redirectUrls = new RedirectUrls();
-        redirectUrls.setCancelUrl(cancelUrl);
-        redirectUrls.setReturnUrl(successUrl);
-
-        payment.setRedirectUrls(redirectUrls);
-
-        return payment.create(apiContext);
-    }
-
-    public Payment executePayment(
-            String paymentId,
-            String payerId
-    ) throws PayPalRESTException {
+    public Payment executePayment(String paymentId, String payerId) throws PayPalRESTException {
         Payment payment = new Payment();
         payment.setId(paymentId);
 
@@ -81,19 +41,14 @@ public class PaymentService {
         return payment.execute(apiContext, paymentExecution);
     }
 
-    public String authorizePayment(BookingPaymentRequest request)
-            throws PayPalRESTException {
-        Payer payer = getPayerInformation();
-        RedirectUrls redirectUrls = getRedirectURLs();
-        List<Transaction> listTransaction = getTransactionInformation(request);
+    public String createPayment(BookingPaymentRequest request) throws PayPalRESTException {
+        Payment payment = new Payment();
+        payment.setTransactions(getTransactionInformation(request));
+        payment.setRedirectUrls(getRedirectURLs());
+        payment.setPayer(getPayerInformation());
+        payment.setIntent("sale");
 
-        Payment requestPayment = new Payment();
-        requestPayment.setTransactions(listTransaction);
-        requestPayment.setRedirectUrls(redirectUrls);
-        requestPayment.setPayer(payer);
-        requestPayment.setIntent("authorize");
-
-        Payment approvedPayment = requestPayment.create(apiContext);
+        Payment approvedPayment = payment.create(apiContext);
         System.out.println("=== CREATED PAYMENT: ====");
         System.out.println(approvedPayment);
         return getApprovalLink(approvedPayment);
@@ -131,15 +86,9 @@ public class PaymentService {
         int subDate = DatetimeUtil.subLocalDate(request.getFromDate(), request.getToDate());
         Double totalPrice = 0.0;
 
-        amount.setCurrency("USD");
-        amount.setDetails(details);
-
-        transaction.setAmount(amount);
-        transaction.setDescription("Reservation for " + accommodationService.getById(Long.valueOf(request.getAccommodationId())).getAccommodationName());
-
-        for (BookingDetailRequest bookingDetail : request.getBookingDetails()) {
+        for (BookingDetailRequest bookingDetail : request.getCartItems()) {
             RoomResponse room = roomService.getById(bookingDetail.getRoomId());
-            double price = (room.getPrice() * (100 - room.getDiscountPercent()) / 100 * subDate) / RATECONVERT;
+            double price = (room.getPrice() * (100 - room.getDiscountPercent()) / 100 * subDate) / RATE_CONVERT;
             price = Double.parseDouble(decimalFormat.format(price)) * bookingDetail.getQuantity();
             totalPrice += price;
 
@@ -150,24 +99,28 @@ public class PaymentService {
             item.setQuantity(String.valueOf(bookingDetail.getQuantity()));
             items.add(item);
         }
-
-
         itemList.setItems(items);
-        transaction.setItemList(itemList);
 
         details.setSubtotal(decimalFormat.format(totalPrice));
+
+        transaction.setAmount(amount);
+        transaction.setDescription("Reservation for " + accommodationService.getById(Long.valueOf(request.getAccommodationId())).getAccommodationName());
+        transaction.setItemList(itemList);
+
+        amount.setCurrency("USD");
+        amount.setDetails(details);
         amount.setTotal(decimalFormat.format(totalPrice));
 
         return List.of(transaction);
     }
 
     private String getApprovalLink(Payment approvedPayment) {
-        return approvedPayment.getLinks()
-                .stream()
-                .filter(link -> link.getRel().equalsIgnoreCase("approval_url"))
-                .findFirst()
-                .orElse(null)
-                .getHref();
+        return Objects.requireNonNull(Objects.requireNonNull(approvedPayment.getLinks()
+                        .stream()
+                        .filter(link -> link.getRel().equalsIgnoreCase("approval_url"))
+                        .findFirst()
+                        .orElse(null))
+                .getHref());
     }
 
     public Payment getPaymentDetails(String paymentId) throws PayPalRESTException {

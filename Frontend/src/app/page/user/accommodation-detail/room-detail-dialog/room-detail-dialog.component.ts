@@ -34,7 +34,7 @@ export class RoomDetailDialogComponent implements OnInit {
     };
     if (!this.$authenticationService.isLoggedIn()) {
       this.dialogRef.close();
-      this.router.navigate(['/authentication/login']);
+      this.router.navigate(['/login']);
       return;
     }
     this.$bookingService.addToCart(cartItem);

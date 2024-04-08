@@ -32,6 +32,9 @@ import { HotelCardComponent } from './checkout/hotel-card/hotel-card.component';
 import { BookingDetailSummaryComponent } from './checkout/booking-detail-left/booking-detail-summary.component';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { BookingSuccessComponent } from './booking-success/booking-success.component';
+import { InputSpinnerComponent } from 'src/app/shared/user/input-spinner/input-spinner.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -48,6 +51,7 @@ import { BookingSuccessComponent } from './booking-success/booking-success.compo
     CartComponent,
     HotelCardComponent,
     BookingSuccessComponent,
+    InputSpinnerComponent,
   ],
   imports: [
     CommonModule,
@@ -68,6 +72,8 @@ import { BookingSuccessComponent } from './booking-success/booking-success.compo
     MatNativeDateModule,
     MatPaginatorModule,
     MatCheckboxModule,
+    MatExpansionModule,
+    MatIconModule,
     LightgalleryModule,
     CarouselModule,
   ],

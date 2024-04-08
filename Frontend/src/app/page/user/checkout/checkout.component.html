@@ -5,7 +5,7 @@
         <ng-template matStepLabel>CHỌN PHÒNG.</ng-template>
       </mat-step>
       <mat-step [stepControl]="secondForm">
-        <form [formGroup]="secondForm" (ngSubmit)="submit()" novalidate>
+        <form [formGroup]="secondForm" novalidate>
           <ng-template matStepLabel>CHI TIẾT VỀ BẠN.</ng-template>
           <div class="row">
             <div class="col-md-4 mb-4 pr-0">
@@ -320,25 +320,21 @@
                   </div>
                 </div>
               </div>
-
-              <div class="float-right">
-                <button type="submit" class="btn palatin-btn">
+              <div class="d-flex justify-content-between">
+                <button mat-button matStepperPrevious>Back</button>
+                <button matStepperNext type="submit" class="btn palatin-btn">
                   Tiếp theo: chi tiết cuối cùng
                 </button>
               </div>
             </div>
           </div>
-          <div>
-            <button mat-button matStepperPrevious>Back</button>
-            <button mat-button matStepperNext>Next</button>
-          </div>
         </form>
       </mat-step>
-      <mat-step>
-        <ng-template matStepLabel>BƯỚC CUỐI CÙNG.</ng-template>
-        <div class="row">
-          <div class="col-md-8 mb-4 pr-0">
-            <form class="position-relative">
+      <mat-step [stepControl]="thirdForm">
+        <form [formGroup]="thirdForm" (ngSubmit)="submit()" novalidate>
+          <ng-template matStepLabel>BƯỚC CUỐI CÙNG.</ng-template>
+          <div class="row">
+            <div class="col-md-8 mb-4 pr-0">
               <div class="border-bottom mb-3">
                 <h4
                   style="
@@ -352,47 +348,45 @@
               </div>
               <app-hotel-card [accommodation]="accommodation"></app-hotel-card>
               <div class="border p-2 mb-3 d-flex">
-                <mat-selection-list class="w-100" #shoes [multiple]="false">
+                <mat-selection-list
+                  #paymentSelection
+                  class="w-100"
+                  #shoes
+                  [multiple]="false"
+                  (selectionChange)="selectPaymentChange(paymentSelection)"
+                >
                   <mat-list-option
-                    *ngFor="let shoe of typesOfShoes"
+                    *ngFor="let data of paymentMethods"
                     [togglePosition]="'before'"
-                    [value]="shoe"
+                    [value]="data.value"
                   >
                     <div class="d-flex align-items-center">
                       <div class="p-2 mx-2 payment-img">
-                        <img
-                          width="130"
-                          class="rounded"
-                          src="assets/img/core-img/paypal.png"
-                        />
+                        <img width="80" class="rounded" [src]="data.img" />
                       </div>
                       <div>
-                        <h5 class="mb-0">Thanh toán bằng Paypal</h5>
-                        <p class="mb-0">Phí thanh toán 0đ</p>
+                        <h5 class="mb-0">{{ data.title }}</h5>
+                        <p class="mb-0">{{ data.description }}</p>
                       </div>
                     </div>
                   </mat-list-option>
                 </mat-selection-list>
               </div>
-
-              <div class="float-right">
+              <div class="d-flex justify-content-between">
+                <button mat-button matStepperPrevious>Back</button>
                 <button type="submit" class="btn palatin-btn">
                   Thanh toán
                 </button>
               </div>
-            </form>
+            </div>
+            <div class="col-md-4">
+              <app-booking-detail-summary
+                [cartStorage]="cartStorage"
+                [accommodation]="accommodation"
+              ></app-booking-detail-summary>
+            </div>
           </div>
-          <div class="col-md-4">
-            <app-booking-detail-summary
-              [cartStorage]="cartStorage"
-              [accommodation]="accommodation"
-            ></app-booking-detail-summary>
-          </div>
-        </div>
-        <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button (click)="stepper.reset()">Reset</button>
-        </div>
+        </form>
       </mat-step>
     </mat-stepper>
   </div>

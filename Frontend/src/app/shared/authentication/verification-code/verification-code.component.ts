@@ -74,7 +74,7 @@ export class VerificationCodeComponent implements AfterViewInit {
 
   navigateToHomePage() {
     $('#verifyCodeModal').modal('hide');
-    this.router.navigate(['/user/home']).then(() => window.location.reload());
+    this.router.navigate(['/home']).then(() => window.location.reload());
   }
 
   alertRegisterSuccess() {
