@@ -32,6 +32,10 @@ import { AccommmodationListComponent } from './accommodation-management/accommmo
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
+import { TestComponent } from './test/test.component';
+import { CssLoadingComponent } from 'src/app/shared/user/css-loading/css-loading.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +48,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     CreateRoomComponent,
     FileInputComponent,
     AccommmodationListComponent,
+    TestComponent,
+    CssLoadingComponent,
   ],
   imports: [
     CommonModule,
@@ -68,6 +74,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
+    MatProgressSpinnerModule,
     NgxMatTimepickerModule,
     RatingModule,
   ],

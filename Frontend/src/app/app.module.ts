@@ -27,7 +27,6 @@ import { UserModule } from './page/user/user.module';
 @NgModule({
   declarations: [
     AppComponent,
-    CssLoadingComponent,
     AlertComponent,
     AdminWidgetComponent,
   ],

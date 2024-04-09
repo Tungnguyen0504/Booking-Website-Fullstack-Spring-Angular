@@ -4,6 +4,7 @@ import { AdminComponent } from './admin.component';
 import { CreateAccommodationComponent } from './accommodation-management/create-accommodation/create-accommodation.component';
 import { CreateRoomComponent } from './room-management/create-room/create-room.component';
 import { AccommmodationListComponent } from './accommodation-management/accommmodation-list/accommmodation-list.component';
+import { TestComponent } from './test/test.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,10 @@ const routes: Routes = [
       {
         path: 'create-room',
         component: CreateRoomComponent,
+      },
+      {
+        path: 'test',
+        component: TestComponent,
       },
     ],
   },
