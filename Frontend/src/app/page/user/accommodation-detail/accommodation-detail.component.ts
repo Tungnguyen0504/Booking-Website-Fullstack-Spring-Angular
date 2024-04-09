@@ -10,7 +10,7 @@ import * as moment from 'moment';
 import { MatDialog } from '@angular/material/dialog';
 import { RoomDetailDialogComponent } from './room-detail-dialog/room-detail-dialog.component';
 import { DialogData } from 'src/app/shared/admin/form-address/form-address-dialog/form-address-dialog.component';
-import { BookingService, CartItem } from 'src/app/service/booking.service';
+import { BookingService, CartItem, CartStorage } from 'src/app/service/booking.service';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 
 @Component({
@@ -28,7 +28,8 @@ export class AccommodationDetailComponent {
   };
 
   roomQuantity: number = 0;
-  guestQuantity: number = 0;
+
+  cartStorage?: CartStorage;
 
   constructor(
     private $route: ActivatedRoute,
@@ -40,7 +41,9 @@ export class AccommodationDetailComponent {
   ) {}
 
   ngOnInit(): void {
-    const accommodationId: number = Number.parseInt(<string>this.$route.snapshot.paramMap.get('accommodationId'));
+    const accommodationId: number = Number.parseInt(
+      <string>this.$route.snapshot.paramMap.get('accommodationId')
+    );
     this.initApi(accommodationId);
   }
 
@@ -54,10 +57,20 @@ export class AccommodationDetailComponent {
   }
 
   onGuestQtyEmitter(data: any) {
-    this.guestQuantity = data;
+    if (this.cartStorage) {
+      this.cartStorage.guestNumber = data;
+      this.$bookingService.saveCartStorage(this.cartStorage);
+    }
   }
 
   initApi(accommodationId: number) {
+    this.$bookingService.loadCartFromLocalStorage().subscribe({
+      next: (res) => {
+        this.cartStorage = res;
+        console.log(this.cartStorage);
+      },
+    });
+
     this.$accommodationService.getById(accommodationId).subscribe({
       next: (response: any) => {
         this.accommodation = response;

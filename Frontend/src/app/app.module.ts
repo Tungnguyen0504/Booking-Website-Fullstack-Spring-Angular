@@ -15,7 +15,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CssLoadingComponent } from './shared/user/css-loading/css-loading.component';
-import { AlertComponent } from './shared/generic/alert/alert.component';
 import { AdminWidgetComponent } from './shared/admin/admin-widget/admin-widget.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -25,11 +24,7 @@ import { AuthenticationModule } from './page/authentication/authentication.modul
 import { UserModule } from './page/user/user.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    AlertComponent,
-    AdminWidgetComponent,
-  ],
+  declarations: [AppComponent, AdminWidgetComponent],
   imports: [
     HttpClientModule,
     FormsModule,

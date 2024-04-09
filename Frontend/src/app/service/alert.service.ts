@@ -1,4 +1,10 @@
 import { Injectable } from '@angular/core';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
+import { AlertComponent } from '../shared/generic/alert/alert.component';
 
 declare var $: any;
 
@@ -6,47 +12,34 @@ declare var $: any;
   providedIn: 'root',
 })
 export class AlertService {
-  bgColor: string = '';
-  icon: string = '';
+  horizontalPosition: MatSnackBarHorizontalPosition = 'end';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
+
+  constructor(private $snackBar: MatSnackBar) {}
 
   success(message: string) {
-    this.showAlert('SUCCESS', message, 'alert-success', 'fa-check');
+    this.createAlert('SUCCESS', message, 'alert-success', 'SUCCESS');
   }
 
   error(message: string) {
-    this.showAlert('ERROR', message, 'alert-danger', 'fa-circle-exclamation');
+    this.createAlert('ERROR', message, 'alert-danger', 'WARNING');
   }
 
   warning(message: string) {
-    this.showAlert(
-      'WARNING',
-      message,
-      'alert-warning',
-      'fa-circle-exclamation'
-    );
-  }
-
-  showAlert(title: string, message: string, bgColor: string, icon: string) {
-    this.clearAlert();
-    this.createAlert(title, message, bgColor, icon);
-  }
-
-  clearAlert() {
-    $('#alert-toast .alert').removeClass(this.bgColor);
-    $('#alert-toast .alert .alert-icon').removeClass(this.icon);
+    this.createAlert('WARNING', message, 'alert-warning', 'WARNING');
   }
 
   createAlert(title: string, message: string, bgColor: string, icon: string) {
-    this.bgColor = bgColor;
-    this.icon = icon;
-
-    $('#alert-toast .alert').addClass(bgColor);
-    $('#alert-toast .alert .alert-icon').addClass(icon);
-    $('#alert-toast .toast-title').html(title);
-    $('#alert-toast .toast-message').html(message);
-    $('#alert-toast').toast('show');
-    setTimeout(() => {
-      $('#alert-toast').toast('hide');
-    }, 8000);
+    this.$snackBar.openFromComponent(AlertComponent, {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+      duration: 3000,
+      data: {
+        title: title,
+        message: message,
+        bgColor: bgColor,
+        icon: icon,
+      },
+    });
   }
 }

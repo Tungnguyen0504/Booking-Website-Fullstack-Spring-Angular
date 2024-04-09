@@ -26,7 +26,13 @@ const URL = environment.apiUrl + PATH_V1 + PATH_USER;
   providedIn: 'root',
 })
 export class BookingService {
-  private cartStorage: CartStorage = {} as CartStorage;
+  private cartStorage: CartStorage = {
+    guestNumber: 0,
+    accommodationId: 0,
+    fromDate: new Date(),
+    toDate: new Date(),
+    cartItems: [],
+  };
   private cartSubject = new BehaviorSubject<CartItem[]>([]);
 
   constructor(
@@ -41,13 +47,14 @@ export class BookingService {
     });
   }
 
-  getCart() {
-    return this.cartStorage;
-  }
-
   saveCartDate(fromDate: Date, toDate: Date) {
     this.cartStorage.fromDate = fromDate;
     this.cartStorage.toDate = toDate;
+    this.saveCartToLocalStorage();
+  }
+
+  saveCartStorage(cartStorage: CartStorage) {
+    this.cartStorage = cartStorage;
     this.saveCartToLocalStorage();
   }
 

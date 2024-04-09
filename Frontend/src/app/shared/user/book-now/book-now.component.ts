@@ -83,6 +83,5 @@ export class BookNowComponent implements AfterViewInit {
       new Date(fromDate.value),
       new Date(toDate.value)
     );
-    console.log(this.$bookingService.getCart());
   }
 }

@@ -16,21 +16,15 @@ export class LoginComponent implements AfterViewInit {
 
   emailSent: boolean = false;
   verificationCode: string = '';
-  action: string = "";
+  action: string = '';
 
-  constructor(
-    private alertService: AlertService,
-    private authService: AuthenticationService
-  ) {}
+  constructor(private alertService: AlertService, private authService: AuthenticationService) {}
 
   ngOnInit(): void {}
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.form.controls['email'].addValidators([
-        Validators.required,
-        Validators.email,
-      ]);
+      this.form.controls['email'].addValidators([Validators.required, Validators.email]);
       this.form.controls['email'].updateValueAndValidity();
 
       this.form.controls['password'].addValidators([
@@ -51,20 +45,18 @@ export class LoginComponent implements AfterViewInit {
   verifiy() {
     const loginRequest = {
       email: this.form.value.email,
-      password: this.form.value.password
+      password: this.form.value.password,
     };
-    this.authService
-      .verifyLogin(loginRequest)
-      .subscribe(
-        (data) => {
-          this.verificationCode = data;
-          this.openModal();
-          console.log(this.verificationCode);
-        },
-        (error) => {
-          this.alertService.error(error.error.message);
-        }
-      );
+    this.authService.verifyLogin(loginRequest).subscribe(
+      (data) => {
+        this.verificationCode = data;
+        this.openModal();
+        console.log(this.verificationCode);
+      },
+      (error) => {
+        this.alertService.error(error.error.message);
+      }
+    );
   }
 
   openModal(): void {

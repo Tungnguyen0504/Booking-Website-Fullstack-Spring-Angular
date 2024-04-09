@@ -2525,10 +2525,19 @@ img {
 }
 
 /* accommodation detail */
-.guest-room-qty-box .mat-expansion-panel:not([class*=mat-elevation-z]) {
+.guest-room-qty-box .mat-expansion-panel:not([class*="mat-elevation-z"]) {
   box-shadow: unset;
 }
 
 .guest-room-qty-box .mat-expansion-panel {
   border-radius: unset;
+}
+
+/* alert */
+.mdc-snackbar__surface {
+  padding: 0 !important;
+}
+
+.mdc-snackbar__label {
+  padding: 0 !important;
 }

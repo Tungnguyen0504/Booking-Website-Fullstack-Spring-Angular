@@ -192,7 +192,10 @@
           <mat-expansion-panel style="border: 2px solid #cb8670">
             <mat-expansion-panel-header>
               <mat-panel-title style="color: #cb8670">
-                <span>{{ roomQuantity }} phòng, {{ guestQuantity }} người</span>
+                <span
+                  >{{ roomQuantity }} phòng,
+                  {{ cartStorage?.guestNumber }} người</span
+                >
               </mat-panel-title>
             </mat-expansion-panel-header>
 
@@ -217,7 +220,7 @@
               </div>
               <div class="col-7">
                 <app-input-spinner
-                  [quantity]="guestQuantity"
+                  [quantity]="cartStorage?.guestNumber!"
                   [min]="0"
                   [max]="10"
                   (eventEmitter)="onGuestQtyEmitter($event)"
