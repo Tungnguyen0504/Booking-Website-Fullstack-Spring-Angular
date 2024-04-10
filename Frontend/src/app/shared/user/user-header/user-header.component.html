@@ -3,7 +3,7 @@
     <div class="classy-nav-container breakpoint-off">
       <div class="container">
         <nav class="classy-navbar justify-content-between" id="palatinNav">
-          <a href="" class="nav-brand"
+          <a href="home" class="nav-brand"
             ><img src="assets/img/core-img/logo.png" alt=""
           /></a>
 
@@ -22,8 +22,8 @@
 
             <div class="classynav">
               <ul>
-                <li class="active"><a href="">Trang chủ</a></li>
-                <li><a href="">Lưu trú</a></li>
+                <li class="active"><a href="home">Trang chủ</a></li>
+                <li><a href="search-accommodation">Lưu trú</a></li>
                 <li><a href="">Về chúng tôi</a></li>
                 <li><a href="">Dịch vụ</a></li>
                 <li><a href="">Liên hệ</a></li>
@@ -31,12 +31,12 @@
 
               <div *ngIf="!user" class="menu-btn">
                 <a
-                  href=""
+                  href="register"
                   class="btn palatin-btn btn-3 bg-transparent text-white"
                   >Đăng ký</a
                 >
                 <a
-                  href=""
+                  href="login"
                   class="btn palatin-btn btn-3 bg-transparent text-white"
                   >Đăng nhập</a
                 >
@@ -81,13 +81,16 @@
                   <a
                     type="button"
                     class="cart js-menu-toggle menu-toggle text-white position-relative"
-                    (click)="test()"
+                    (click)="toggleCart()"
+                    style="cursor: pointer"
                   >
                     <i
                       class="fa-solid fa-cart-shopping"
                       style="font-size: 24px"
                     ></i>
-                    <span class="count-cart">0</span>
+                    <span class="count-cart">{{
+                      cartStorage?.cartItems?.length
+                    }}</span>
                   </a>
                 </div>
 
@@ -177,9 +180,3 @@
     </div>
   </div>
 </header>
-
-<aside class="sidebar">
-  <div class="side-inner">
-    <div class="share" (click)="test()" id="list-cart" style="cursor: pointer;"></div>
-  </div>
-</aside>

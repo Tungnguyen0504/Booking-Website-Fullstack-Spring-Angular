@@ -14,3 +14,4 @@ export const DATETIME_FORMAT2 = 'dd MMM yyyy';
 export const DATETIME_FORMAT3 = 'yyyy-MM-dd';
 
 export const CART_STORAGE = 'cart/userId';
+export const ROOM_GUEST_QTY_STORAGE = 'room-guest-qty';

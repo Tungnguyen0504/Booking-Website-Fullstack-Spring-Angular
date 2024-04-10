@@ -6,9 +6,9 @@ import { UserService } from './user.service';
 import { AuthenticationService } from './authentication.service';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { Util } from '../util/util';
 
 export interface CartStorage {
-  guestNumber: number;
   accommodationId: number;
   fromDate: Date;
   toDate: Date;
@@ -27,7 +27,6 @@ const URL = environment.apiUrl + PATH_V1 + PATH_USER;
 })
 export class BookingService {
   private cartStorage: CartStorage = {
-    guestNumber: 0,
     accommodationId: 0,
     fromDate: new Date(),
     toDate: new Date(),
@@ -59,12 +58,13 @@ export class BookingService {
   }
 
   addToCart(item: CartItem) {
-    const existingItem = this.cartStorage.cartItems.find((i) => i.room.roomId === item.room.roomId);
-    if (existingItem) {
-      existingItem.quantity += item.quantity;
+    const existedItem = this.cartStorage.cartItems.find((i) => i.room.roomId === item.room.roomId);
+    if (existedItem) {
+      existedItem.quantity += item.quantity;
     } else {
       this.cartStorage.cartItems.push(item);
     }
+    this.cartStorage.accommodationId = item.room.accommodationId;
     this.saveCartToLocalStorage();
     this.cartSubject.next(this.cartStorage.cartItems);
   }
@@ -103,9 +103,9 @@ export class BookingService {
       return this.$userService.getCurrentUser().pipe(
         switchMap((res) => {
           const userId = res.id;
-          const storedCart = localStorage.getItem(`${CART_STORAGE}/${userId}`);
+          const storedCart = Util.getLocal(`${CART_STORAGE}/${userId}`);
           if (storedCart) {
-            this.cartStorage = JSON.parse(storedCart);
+            this.cartStorage = storedCart;
             this.cartSubject.next(this.cartStorage.cartItems);
           }
           return of(this.cartStorage);
@@ -120,7 +120,7 @@ export class BookingService {
       this.$userService.getCurrentUser().subscribe({
         next: (res) => {
           const userId = res.id;
-          localStorage.setItem(`${CART_STORAGE}/${userId}`, JSON.stringify(this.cartStorage));
+          Util.setLocal(`${CART_STORAGE}/${userId}`, this.cartStorage);
         },
       });
     }

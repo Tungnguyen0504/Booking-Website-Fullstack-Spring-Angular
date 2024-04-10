@@ -2,6 +2,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
 import { User } from 'src/app/model/User.model';
 import { AuthenticationService } from 'src/app/service/authentication.service';
+import { BookingService, CartStorage } from 'src/app/service/booking.service';
 import { UserService } from 'src/app/service/user.service';
 
 @Component({
@@ -11,25 +12,34 @@ import { UserService } from 'src/app/service/user.service';
 })
 export class UserHeaderComponent implements OnInit {
   @Input() drawer!: MatDrawer;
-  
+
+  cartStorage?: CartStorage;
+
   user?: User;
 
   constructor(
     private $userService: UserService,
-    private $authenticationService: AuthenticationService
+    private $authenticationService: AuthenticationService,
+    private $bookingService: BookingService
   ) {}
 
   ngOnInit(): void {
-    if(this.$authenticationService.isLoggedIn()) {
+    if (this.$authenticationService.isLoggedIn()) {
       this.$userService.getCurrentUser().subscribe({
         next: (response) => {
           this.user = response;
         },
       });
     }
+
+    this.$bookingService.loadCartFromLocalStorage().subscribe({
+      next: (res) => {
+        this.cartStorage = res;
+      },
+    });
   }
 
-  test() {
+  toggleCart() {
     this.drawer.toggle();
   }
 }

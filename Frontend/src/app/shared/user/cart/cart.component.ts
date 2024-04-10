@@ -15,7 +15,6 @@ export class CartComponent implements OnInit {
     this.$bookingService.loadCartFromLocalStorage().subscribe({
       next: (res) => {
         this.cartStorage = res;
-        console.log(this.cartStorage);
       },
     });
   }

@@ -186,15 +186,20 @@
       </div>
     </div>
 
-    <form class="guest-room-qty-box">
+    <form
+      class="guest-room-qty-box"
+      [formGroup]="formUpdateQty"
+      (ngSubmit)="updateRoomGuest()"
+      novalidate
+    >
       <div class="row wow fadeInUp mb-4">
         <div class="col-6">
-          <mat-expansion-panel style="border: 2px solid #cb8670">
+          <mat-expansion-panel #expansionPanel style="border: 2px solid #cb8670">
             <mat-expansion-panel-header>
               <mat-panel-title style="color: #cb8670">
                 <span
-                  >{{ roomQuantity }} phòng,
-                  {{ cartStorage?.guestNumber }} người</span
+                  >{{ formUpdateQty.get("roomQty")?.value }} phòng,
+                  {{ formUpdateQty.get("guestQty")?.value }} người</span
                 >
               </mat-panel-title>
             </mat-expansion-panel-header>
@@ -205,7 +210,7 @@
               </div>
               <div class="col-7">
                 <app-input-spinner
-                  [quantity]="roomQuantity"
+                  [quantity]="formUpdateQty.get('roomQty')?.value"
                   [min]="0"
                   [max]="10"
                   (eventEmitter)="onRoomQtyEmitter($event)"
@@ -220,7 +225,7 @@
               </div>
               <div class="col-7">
                 <app-input-spinner
-                  [quantity]="cartStorage?.guestNumber!"
+                  [quantity]="formUpdateQty.get('guestQty')?.value"
                   [min]="0"
                   [max]="10"
                   (eventEmitter)="onGuestQtyEmitter($event)"

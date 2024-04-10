@@ -14,7 +14,6 @@ public class BookingPaymentRequest {
     private String note;
     private String estCheckinTime;
     private String paymentMethod;
-    private String totalAmount;
     private String fromDate;
     private String toDate;
     private String accommodationId;

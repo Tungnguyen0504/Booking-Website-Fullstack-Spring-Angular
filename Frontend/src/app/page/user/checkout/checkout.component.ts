@@ -1,11 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
+import { DATETIME_FORMAT3, ROOM_GUEST_QTY_STORAGE } from 'src/app/constant/Abstract.constant';
 import { Accommodation } from 'src/app/model/Accommodation.model';
 import { User } from 'src/app/model/User.model';
 import { AccommodationService } from 'src/app/service/accommodation.service';
 import { BookingService, CartStorage } from 'src/app/service/booking.service';
 import { UserService } from 'src/app/service/user.service';
+import { Util } from 'src/app/util/util';
 
 @Component({
   selector: 'app-checkout',
@@ -41,28 +43,29 @@ export class CheckoutComponent implements OnInit {
     private $userService: UserService,
     private $accommodationService: AccommodationService,
     private $bookingService: BookingService
-  ) {}
+  ) {
+    console.log(Util.parseDate('1999-05-04', DATETIME_FORMAT3).toISOString());
+  }
 
   ngOnInit(): void {
     setTimeout(() => {
       this.stepper.next();
-    }, 200);
+    });
     this.initApi();
     this.buildForm();
   }
 
   buildForm() {
     this.secondForm = this.$formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      phoneNumber: ['', Validators.required],
-      address: [''],
-      note: [''],
-      estCheckinTime: [''],
+      firstName: new FormControl('', Validators.required),
+      lastName: new FormControl('', Validators.required),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      phoneNumber: new FormControl('', Validators.required),
+      note: new FormControl(''),
+      estCheckinTime: new FormControl(''),
     });
     this.thirdForm = this.$formBuilder.group({
-      paymentMethod: ['', Validators.required],
+      paymentMethod: new FormControl('', Validators.required),
     });
   }
 
@@ -71,7 +74,7 @@ export class CheckoutComponent implements OnInit {
       next: (res) => {
         this.cartStorage = res;
         console.log(this.cartStorage);
-        this.$accommodationService.getById(this.cartStorage!.cartItems[0].room.accommodationId).subscribe({
+        this.$accommodationService.getById(this.cartStorage!.accommodationId).subscribe({
           next: (response: any) => {
             this.accommodation = response;
           },
@@ -99,15 +102,31 @@ export class CheckoutComponent implements OnInit {
   }
 
   submit() {
-    // if (this.secondForm.valid && this.thirdForm.valid && this.cartStorage) {
-    //   this.cartStorage.firstName = this.secondForm.get('firstName')?.value;
-    //   this.cartStorage.lastName = this.secondForm.get('lastName')?.value;
-    //   this.cartStorage.email = this.secondForm.get('email')?.value;
-    //   this.cartStorage.phoneNumber = this.secondForm.get('phoneNumber')?.value;
-    //   this.cartStorage.note = this.secondForm.get('note')?.value;
-    //   this.cartStorage.estCheckinTime = this.secondForm.get('estCheckinTime')?.value;
-    //   this.cartStorage.paymentMethod = this.thirdForm.get('paymentMethod')?.value;
-    //   console.log(this.cartStorage);
-    // }
+    const data = Util.getLocal(ROOM_GUEST_QTY_STORAGE);
+    if (
+      this.secondForm.valid &&
+      this.thirdForm.valid &&
+      this.cartStorage &&
+      Object.keys(data).length !== 0
+    ) {
+      const request = {
+        firstName: this.secondForm.get('firstName')?.value,
+        lastName: this.secondForm.get('lastName')?.value,
+        email: this.secondForm.get('lastName')?.value,
+        phoneNumber: this.secondForm.get('phoneNumber')?.value,
+        guestNumber: data.guestQty,
+        note: this.secondForm.get('note')?.value,
+        estCheckinTime: this.secondForm.get('estCheckinTime')?.value,
+        paymentMethod: this.thirdForm.get('paymentMethod')?.value,
+        // fromDate
+        // toDate
+        // accommodationId
+        // cartItems
+      };
+      console.log(this.cartStorage.fromDate);
+      console.log(typeof this.cartStorage.fromDate);
+      console.log(Util.formatDate(this.cartStorage.fromDate, DATETIME_FORMAT3));
+      console.log(request);
+    }
   }
 }
