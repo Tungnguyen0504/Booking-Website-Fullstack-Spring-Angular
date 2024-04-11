@@ -84,15 +84,17 @@ export class CheckoutComponent implements OnInit {
 
     this.$userService.getCurrentUser().subscribe({
       next: (res) => {
-        this.user = res;
-        console.log(this.user);
-        this.secondForm.patchValue({
-          firstName: this.user.firstName,
-          lastName: this.user.lastName,
-          email: this.user.email,
-          phoneNumber: this.user.phoneNumber,
-          address: this.user.address,
-        });
+        if (res) {
+          this.user = res;
+          console.log(this.user);
+          this.secondForm.patchValue({
+            firstName: this.user.firstName,
+            lastName: this.user.lastName,
+            email: this.user.email,
+            phoneNumber: this.user.phoneNumber,
+            address: this.user.address,
+          });
+        }
       },
     });
   }

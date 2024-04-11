@@ -10,35 +10,4 @@ declare var $: any;
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements AfterViewInit {
-  title = 'Thepalatin.com';
-  user?: User;
-  isLogined: boolean = false;
-
-  constructor(
-    private $authService: AuthenticationService,
-    private $userService: UserService,
-    private $alertService: AlertService
-  ) {}
-
-  ngAfterViewInit(): void {}
-
-  ngOnInit(): void {
-    this.isLogined = this.$authService.isLoggedIn();
-    // this.getCurrentUser();
-  }
-
-  getCurrentUser() {
-    if (this.isLogined) {
-      this.$userService.getCurrentUser().subscribe({
-        next: (response) => {
-          this.user = response;
-        },
-        error: (error) => {
-          this.isLogined = false;
-          this.$alertService.error(error.error.message);
-        },
-      });
-    }
-  }
-}
+export class AppComponent {}

@@ -99,31 +99,28 @@ export class BookingService {
   }
 
   loadCartFromLocalStorage(): Observable<any> {
-    if (this.$authenticationService.isLoggedIn()) {
-      return this.$userService.getCurrentUser().pipe(
-        switchMap((res) => {
-          const userId = res.id;
-          const storedCart = Util.getLocal(`${CART_STORAGE}/${userId}`);
-          if (Object.keys(storedCart).length !== 0) {
-            this.cartStorage = storedCart;
-            this.cartSubject.next(this.cartStorage.cartItems);
-          }
-          return of(this.cartStorage);
-        })
-      );
-    }
-    return of({});
+    return this.$userService.getCurrentUser().pipe(
+      switchMap((res) => {
+        const userId = res?.id;
+        const storedCart = Util.getLocal(`${CART_STORAGE}/${userId}`);
+        if (Object.keys(storedCart).length !== 0) {
+          this.cartStorage = storedCart;
+          this.cartSubject.next(this.cartStorage.cartItems);
+        }
+        return of(this.cartStorage);
+      })
+    );
   }
 
   private saveCartToLocalStorage() {
-    if (this.$authenticationService.isLoggedIn()) {
-      this.$userService.getCurrentUser().subscribe({
-        next: (res) => {
+    this.$userService.getCurrentUser().subscribe({
+      next: (res) => {
+        if (res) {
           const userId = res.id;
           Util.setLocal(`${CART_STORAGE}/${userId}`, this.cartStorage);
-        },
-      });
-    }
+        }
+      },
+    });
   }
 
   createPayment(request: any) {
