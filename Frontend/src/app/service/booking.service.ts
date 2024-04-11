@@ -20,7 +20,7 @@ export interface CartItem {
   room: Room;
 }
 
-const URL = environment.apiUrl + PATH_V1 + PATH_USER;
+const URL = environment.apiUrl + PATH_V1;
 
 @Injectable({
   providedIn: 'root',
@@ -104,7 +104,7 @@ export class BookingService {
         switchMap((res) => {
           const userId = res.id;
           const storedCart = Util.getLocal(`${CART_STORAGE}/${userId}`);
-          if (storedCart) {
+          if (Object.keys(storedCart).length !== 0) {
             this.cartStorage = storedCart;
             this.cartSubject.next(this.cartStorage.cartItems);
           }

@@ -1,14 +1,9 @@
 import { formatDate } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { AfterViewInit, Component, ElementRef } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import flatpickr from 'flatpickr';
 import rangePlugin from 'flatpickr/dist/plugins/rangePlugin';
-import * as moment from 'moment';
+import { DATETIME_FORMAT3 } from 'src/app/constant/Abstract.constant';
 import { BookingService } from 'src/app/service/booking.service';
 import { Util } from 'src/app/util/util';
 
@@ -53,9 +48,7 @@ export class BookNowComponent implements AfterViewInit {
       plugins: [rangePlugin({ input: '#fromDate' })],
       onChange: (selectedDates) => {
         if (selectedDates.length === 2) {
-          this.formSearch
-            .get('fromDate')
-            ?.setValue(formatDate(selectedDates[0], '', 'en-US'));
+          this.formSearch.get('fromDate')?.setValue(formatDate(selectedDates[0], '', 'en-US'));
           this.formSearch
             .get('toDate')
             ?.setValue(formatDate(selectedDates[1], 'yyyy-MM-dd', 'en-US'));
@@ -80,8 +73,8 @@ export class BookNowComponent implements AfterViewInit {
     this.formSearch.get('toDate')?.setValue(toDate.value);
 
     this.$bookingService.saveCartDate(
-      new Date(fromDate.value),
-      new Date(toDate.value)
+      Util.parseDate(fromDate.value, DATETIME_FORMAT3),
+      Util.parseDate(toDate.value, DATETIME_FORMAT3)
     );
   }
 }

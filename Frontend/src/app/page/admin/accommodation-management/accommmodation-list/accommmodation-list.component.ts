@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Accommodation } from 'src/app/model/Accommodation.model';
 import { BasePagingRequest } from 'src/app/model/request/BasePagingRequest.model';
@@ -8,6 +8,7 @@ import { FilterRequest } from 'src/app/model/request/FilterRequest.model';
 import { SortRequest } from 'src/app/model/request/SortRequest.model';
 import { BasePagingResponse } from 'src/app/model/response/BasePagingRequest.model';
 import { AccommodationService } from 'src/app/service/accommodation.service';
+import { BasePagingService } from 'src/app/service/base-paging.service';
 import { Util } from 'src/app/util/util';
 
 @Component({
@@ -31,7 +32,10 @@ export class AccommmodationListComponent implements AfterViewInit {
   totalItem: number = 0;
   totalPages: number[] = [3, 5, 10, 25, 50];
 
-  constructor(private $accommodationService: AccommodationService) {
+  constructor(
+    private $accommodationService: AccommodationService,
+    private $basePagingService: BasePagingService
+  ) {
     this.getAccommodations();
   }
 
@@ -68,6 +72,19 @@ export class AccommmodationListComponent implements AfterViewInit {
         console.log(error);
       },
     });
+  }
+
+  sortData(sort: Sort) {
+    if (sort.direction) {
+      this.$basePagingService.pushSortRequest(
+        sort.active,
+        sort.direction.toUpperCase(),
+        this.sortRequest
+      );
+    } else {
+      this.sortRequest = [];
+    }
+    this.getAccommodations();
   }
 
   onPageChange($event: any) {

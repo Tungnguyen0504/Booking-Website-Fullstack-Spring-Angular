@@ -10,6 +10,7 @@
           <div class="row">
             <div class="col-md-4 mb-4 pr-0">
               <app-booking-detail-summary
+                [roomGuestQty]="roomGuestQty"
                 [cartStorage]="cartStorage"
                 [accommodation]="accommodation"
               ></app-booking-detail-summary>
@@ -370,6 +371,7 @@
             </div>
             <div class="col-md-4">
               <app-booking-detail-summary
+                [roomGuestQty]="roomGuestQty"
                 [cartStorage]="cartStorage"
                 [accommodation]="accommodation"
               ></app-booking-detail-summary>

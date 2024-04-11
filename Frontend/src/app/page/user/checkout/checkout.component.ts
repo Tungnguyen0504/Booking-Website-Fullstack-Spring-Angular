@@ -20,6 +20,7 @@ export class CheckoutComponent implements OnInit {
   thirdForm: FormGroup = {} as FormGroup;
 
   cartStorage?: CartStorage;
+  roomGuestQty: any;
   user?: User;
   accommodation?: Accommodation;
 
@@ -43,9 +44,7 @@ export class CheckoutComponent implements OnInit {
     private $userService: UserService,
     private $accommodationService: AccommodationService,
     private $bookingService: BookingService
-  ) {
-    console.log(Util.parseDate('1999-05-04', DATETIME_FORMAT3).toISOString());
-  }
+  ) {}
 
   ngOnInit(): void {
     setTimeout(() => {
@@ -62,7 +61,7 @@ export class CheckoutComponent implements OnInit {
       email: new FormControl('', [Validators.required, Validators.email]),
       phoneNumber: new FormControl('', Validators.required),
       note: new FormControl(''),
-      estCheckinTime: new FormControl(''),
+      estCheckinTime: new FormControl('', Validators.required),
     });
     this.thirdForm = this.$formBuilder.group({
       paymentMethod: new FormControl('', Validators.required),
@@ -70,6 +69,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   initApi() {
+    this.roomGuestQty = Util.getLocal(ROOM_GUEST_QTY_STORAGE);
     this.$bookingService.loadCartFromLocalStorage().subscribe({
       next: (res) => {
         this.cartStorage = res;
@@ -102,31 +102,37 @@ export class CheckoutComponent implements OnInit {
   }
 
   submit() {
-    const data = Util.getLocal(ROOM_GUEST_QTY_STORAGE);
     if (
       this.secondForm.valid &&
       this.thirdForm.valid &&
       this.cartStorage &&
-      Object.keys(data).length !== 0
+      Object.keys(this.roomGuestQty).length !== 0
     ) {
       const request = {
         firstName: this.secondForm.get('firstName')?.value,
         lastName: this.secondForm.get('lastName')?.value,
-        email: this.secondForm.get('lastName')?.value,
+        email: this.secondForm.get('email')?.value,
         phoneNumber: this.secondForm.get('phoneNumber')?.value,
-        guestNumber: data.guestQty,
+        guestNumber: this.roomGuestQty.guestQty,
         note: this.secondForm.get('note')?.value,
         estCheckinTime: this.secondForm.get('estCheckinTime')?.value,
         paymentMethod: this.thirdForm.get('paymentMethod')?.value,
-        // fromDate
-        // toDate
-        // accommodationId
-        // cartItems
+        fromDate: Util.formatDate(this.cartStorage.fromDate, DATETIME_FORMAT3),
+        toDate: Util.formatDate(this.cartStorage.toDate, DATETIME_FORMAT3),
+        accommodationId: this.cartStorage.accommodationId,
+        cartItems: this.cartStorage.cartItems.map((item) => {
+          return {
+            quantity: item.quantity,
+            roomId: item.room.roomId,
+          };
+        }),
       };
-      console.log(this.cartStorage.fromDate);
-      console.log(typeof this.cartStorage.fromDate);
-      console.log(Util.formatDate(this.cartStorage.fromDate, DATETIME_FORMAT3));
       console.log(request);
+      this.$bookingService.createPayment(request).subscribe({
+        next: (res) => {
+          console.log('oke');
+        },
+      });
     }
   }
 }

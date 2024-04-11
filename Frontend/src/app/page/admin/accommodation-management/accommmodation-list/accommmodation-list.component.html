@@ -3,7 +3,7 @@
   <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input />
 </mat-form-field>
 <div class="mat-elevation-z8">
-  <table mat-table [dataSource]="dataSource" matSort>
+  <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)">
     <ng-container matColumnDef="accommodationName">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
         Accommodation Name
@@ -19,7 +19,7 @@
       <td mat-cell *matCellDef="let row">{{ row.email }}</td>
     </ng-container>
     <ng-container matColumnDef="fullAddress">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Full Address</th>
+      <th mat-header-cell *matHeaderCellDef>Full Address</th>
       <td mat-cell *matCellDef="let row">{{ row.fullAddress }}</td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

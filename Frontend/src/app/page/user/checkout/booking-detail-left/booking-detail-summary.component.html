@@ -10,8 +10,8 @@
         <p class="mb-1">Nhận phòng</p>
       </div>
       <div>
-        <p class="font-weight-bold mb-1" *ngIf="cartStorage">
-          {{ formatDate(cartStorage.fromDate) }}
+        <p class="font-weight-bold mb-1">
+          {{ formatDate(cartStorage?.fromDate!) }}
         </p>
       </div>
       <div>
@@ -23,7 +23,9 @@
         <p class="mb-1">Trả phòng</p>
       </div>
       <div>
-        <p class="font-weight-bold mb-1">18 Feb 2024</p>
+        <p class="font-weight-bold mb-1">
+          {{ formatDate(cartStorage?.toDate!) }}
+        </p>
       </div>
       <div>
         <p class="mb-0 text-muted">Từ 12:00</p>
@@ -32,15 +34,25 @@
   </div>
   <div class="d-flex align-items-center mb-3">
     <i class="fa-solid fa-circle-exclamation mr-2"></i>
-    <p class="text-warning mb-0">Chỉ còn 1 ngày nữa!</p>
+    <p class="text-warning mb-0">
+      Chỉ còn
+      {{ subtractDate(cartStorage?.toDate!, cartStorage?.fromDate!) }} ngày nữa!
+    </p>
   </div>
   <div class="border-bottom mb-3">
-    <p>Tổng thời gian lưu trú: <br /><strong>1 đêm</strong></p>
+    <p>
+      Tổng thời gian lưu trú: <br /><strong
+        >{{
+          subtractDate(cartStorage?.toDate!, cartStorage?.fromDate!)
+        }}
+        đêm</strong
+      >
+    </p>
   </div>
   <div class="mb-3">
-    <p>
-      <strong>Bạn đã chọn:</strong><br />
-      1 x Phòng Deluxe<br />
+    <strong>Bạn đã chọn:</strong>
+    <p *ngFor="let data of cartStorage?.cartItems">
+      {{ data.quantity }} x {{ data.room.roomType }}
     </p>
   </div>
   <div class="mb-3">
@@ -87,7 +99,9 @@
     <div>
       <p class="font-weight-bold mb-0">Tổng cộng</p>
       <p class="mb-0 text-muted" style="font-size: 12px">
-        (cho 1 khách và 1 đêm nghỉ)
+        (cho {{ roomGuestQty.guestQty }} khách và
+        {{ subtractDate(cartStorage?.toDate!, cartStorage?.fromDate!) }} đêm
+        nghỉ)
       </p>
     </div>
     <div>

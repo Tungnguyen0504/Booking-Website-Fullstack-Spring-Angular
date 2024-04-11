@@ -26,8 +26,13 @@ export class Util {
   }
 
   public static formatDate(date: Date, pattern: string) {
-    const datePipe = new DatePipe('en-US');
-    return datePipe.transform(date, pattern);
+    return moment(date).format(pattern);
+  }
+
+  public static subtractDate(var1: Date, var2: Date) {
+    const momentDate1 = moment(var1);
+    const momentDate2 = moment(var2);
+    return momentDate1.diff(momentDate2, 'days');
   }
 
   public static filterActive() {

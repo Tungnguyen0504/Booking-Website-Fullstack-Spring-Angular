@@ -1,8 +1,5 @@
 import { Component, Input } from '@angular/core';
-import {
-  DATETIME_FORMAT2,
-  DATETIME_FORMAT3,
-} from 'src/app/constant/Abstract.constant';
+import { DATETIME_FORMAT2 } from 'src/app/constant/Abstract.constant';
 import { Accommodation } from 'src/app/model/Accommodation.model';
 import { CartStorage } from 'src/app/service/booking.service';
 import { Util } from 'src/app/util/util';
@@ -13,12 +10,17 @@ import { Util } from 'src/app/util/util';
   styleUrls: ['./booking-detail-summary.component.css'],
 })
 export class BookingDetailSummaryComponent {
+  @Input() roomGuestQty?: any;
   @Input() cartStorage?: CartStorage;
   @Input() accommodation?: Accommodation;
 
   constructor() {}
 
   formatDate(date: Date) {
-    return Util.formatDate(date, DATETIME_FORMAT3);
+    return Util.formatDate(date, DATETIME_FORMAT2);
+  }
+
+  subtractDate(var1: Date, var2: Date) {
+    return Util.subtractDate(var1, var2);
   }
 }
