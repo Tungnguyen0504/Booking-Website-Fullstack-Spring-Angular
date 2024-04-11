@@ -71,8 +71,8 @@ public class PaymentService {
 
     private RedirectUrls getRedirectURLs() {
         RedirectUrls redirectUrls = new RedirectUrls();
-        redirectUrls.setCancelUrl(baseUrl + "/order/checkout");
-        redirectUrls.setReturnUrl(baseUrl + "/order/success");
+        redirectUrls.setCancelUrl(baseUrl + "/booking/checkout");
+        redirectUrls.setReturnUrl(baseUrl + "/booking/success");
         return redirectUrls;
     }
 
@@ -103,13 +103,13 @@ public class PaymentService {
 
         details.setSubtotal(decimalFormat.format(totalPrice));
 
-        transaction.setAmount(amount);
-        transaction.setDescription("Reservation for " + accommodationService.getById(Long.valueOf(request.getAccommodationId())).getAccommodationName());
-        transaction.setItemList(itemList);
-
         amount.setCurrency("USD");
         amount.setDetails(details);
         amount.setTotal(decimalFormat.format(totalPrice));
+
+        transaction.setAmount(amount);
+        transaction.setDescription("Reservation for " + accommodationService.getById(Long.valueOf(request.getAccommodationId())).getAccommodationName());
+        transaction.setItemList(itemList);
 
         return List.of(transaction);
     }
