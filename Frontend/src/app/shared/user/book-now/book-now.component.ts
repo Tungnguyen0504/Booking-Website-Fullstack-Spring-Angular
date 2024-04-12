@@ -1,6 +1,7 @@
 import { formatDate } from '@angular/common';
 import { AfterViewInit, Component, ElementRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import flatpickr from 'flatpickr';
 import rangePlugin from 'flatpickr/dist/plugins/rangePlugin';
 import { DATETIME_FORMAT3 } from 'src/app/constant/Abstract.constant';
@@ -18,8 +19,9 @@ export class BookNowComponent implements AfterViewInit {
   formSearch: FormGroup = {} as FormGroup;
 
   constructor(
-    private $elementRef: ElementRef,
-    private $formBuilder: FormBuilder,
+    private router: Router,
+    private elementRef: ElementRef,
+    private formBuilder: FormBuilder,
     private $bookingService: BookingService
   ) {
     this.buildFormGroup();
@@ -58,7 +60,7 @@ export class BookNowComponent implements AfterViewInit {
   }
 
   buildFormGroup() {
-    this.formSearch = this.$formBuilder.group({
+    this.formSearch = this.formBuilder.group({
       keyword: new FormControl('', Validators.required),
       fromDate: new FormControl('', Validators.required),
       toDate: new FormControl('', Validators.required),
@@ -66,8 +68,8 @@ export class BookNowComponent implements AfterViewInit {
   }
 
   search() {
-    const fromDate = this.$elementRef.nativeElement.querySelector('#fromDate');
-    const toDate = this.$elementRef.nativeElement.querySelector('#toDate');
+    const fromDate = this.elementRef.nativeElement.querySelector('#fromDate');
+    const toDate = this.elementRef.nativeElement.querySelector('#toDate');
 
     this.formSearch.get('fromDate')?.setValue(fromDate.value);
     this.formSearch.get('toDate')?.setValue(toDate.value);
@@ -76,5 +78,13 @@ export class BookNowComponent implements AfterViewInit {
       Util.parseDate(fromDate.value, DATETIME_FORMAT3),
       Util.parseDate(toDate.value, DATETIME_FORMAT3)
     );
+
+    this.router.navigate(['/search-accommodation'], {
+      queryParams: {
+        searchKey: this.formSearch.get('keyword')?.value,
+        fromDate: this.formSearch.get('fromDate')?.value,
+        toDate: this.formSearch.get('toDate')?.value,
+      },
+    });
   }
 }

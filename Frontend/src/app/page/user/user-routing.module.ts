@@ -15,6 +15,10 @@ const routes: Routes = [
       { path: '', component: UserHomeComponent },
       { path: 'home', component: UserHomeComponent },
       { path: 'search-accommodation', component: SearchAccommodationComponent },
+      // {
+      //   path: 'search-accommodation/:searchKey/:fromDate/:toDate',
+      //   component: SearchAccommodationComponent,
+      // },
       {
         path: 'accommodation-detail/:accommodationId',
         component: AccommodationDetailComponent,

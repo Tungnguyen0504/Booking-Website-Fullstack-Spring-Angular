@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSelectionList } from '@angular/material/list';
 import { MatPaginatorIntl } from '@angular/material/paginator';
+import { ActivatedRoute } from '@angular/router';
 import { Accommodation } from 'src/app/model/Accommodation.model';
 import { AccommodationType } from 'src/app/model/AccommodationType.model';
 import { BasePagingRequest } from 'src/app/model/request/BasePagingRequest.model';
@@ -9,6 +10,7 @@ import { SortRequest } from 'src/app/model/request/SortRequest.model';
 import { BasePagingResponse } from 'src/app/model/response/BasePagingRequest.model';
 import { AccommodationTypeService } from 'src/app/service/accommodation-type.service';
 import { AccommodationService } from 'src/app/service/accommodation.service';
+import { BasePagingService } from 'src/app/service/base-paging.service';
 import { CustomPaginatorIntl } from 'src/app/util/custom-paginator';
 import { Util } from 'src/app/util/util';
 
@@ -40,11 +42,26 @@ export class SearchAccommodationComponent implements OnInit {
   accTypeFilter: FilterObj[] = [];
 
   constructor(
+    private route: ActivatedRoute,
+    private $basePagingService: BasePagingService,
     private $accommodationService: AccommodationService,
     private $accommodationTypeService: AccommodationTypeService
   ) {}
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe((params) => {
+      if (params['searchKey'].text) {
+        // console.log(params['searchKey']);
+        // this.$basePagingService.pushFilterRequest(
+        //   'accommodationName',
+        //   params['searchKey'].text,
+        //   'LIKE',
+        //   'STRING',
+        //   this.filterRequest
+        // );
+        // console.log(this.filterRequest);
+      }
+    });
     this.getAccommodations();
     this.initApi();
   }
@@ -89,24 +106,22 @@ export class SearchAccommodationComponent implements OnInit {
   }
 
   filterSelectionChange() {
-    this.pushFilterRequest('accommodationType.id', this.accTypeSelection.selectedOptions.selected, 'OR', 'INTEGER');
-    this.pushFilterRequest('star', this.propertyRatingSelection.selectedOptions.selected, 'OR', 'INTEGER');
+    this.$basePagingService.pushFilterRequest(
+      'accommodationType.id',
+      this.accTypeSelection.selectedOptions.selected.map((seleted) => seleted.value),
+      'OR',
+      'INTEGER',
+      this.filterRequest
+    );
+    this.$basePagingService.pushFilterRequest(
+      'star',
+      this.propertyRatingSelection.selectedOptions.selected.map((seleted) => seleted.value),
+      'OR',
+      'INTEGER',
+      this.filterRequest
+    );
     // console.log(this.reviewScoreSelection.selectedOptions.selected);
     this.getAccommodations();
-  }
-
-  pushFilterRequest(key: string, values: any[], operator: string, fieldType: string) {
-    const filterObj = this.filterRequest.find((req) => req.key === key);
-    if (filterObj) {
-      filterObj.values = values.map((seleted) => seleted.value);
-    } else {
-      this.filterRequest.push({
-        key: key,
-        values: values.map((seleted) => seleted.value),
-        operator: operator,
-        fieldType: fieldType,
-      });
-    }
   }
 
   getMinRoomPrice(accId: number) {
