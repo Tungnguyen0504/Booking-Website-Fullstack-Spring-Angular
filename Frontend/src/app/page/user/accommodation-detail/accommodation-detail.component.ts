@@ -4,7 +4,11 @@ import { Accommodation } from 'src/app/model/Accommodation.model';
 import { AccommodationService } from 'src/app/service/accommodation.service';
 import { BeforeSlideDetail } from 'lightgallery/lg-events';
 import { Room } from 'src/app/model/Room.model';
-import { DATETIME_FORMAT1, ROOM_GUEST_QTY_STORAGE } from 'src/app/constant/Abstract.constant';
+import {
+  DATETIME_FORMAT1,
+  ROOM_GUEST_QTY_STORAGE,
+  TIME_EXPIRED,
+} from 'src/app/constant/Abstract.constant';
 import lgZoom from 'lightgallery/plugins/zoom';
 import * as moment from 'moment';
 import { MatDialog } from '@angular/material/dialog';
@@ -16,6 +20,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { AlertService } from 'src/app/service/alert.service';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { Util } from 'src/app/util/util';
+import { Observable, of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-accommodation-detail',
@@ -56,7 +61,7 @@ export class AccommodationDetailComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     const data = Util.getLocal(ROOM_GUEST_QTY_STORAGE);
-    if (Object.keys(data).length !== 0) {
+    if (data) {
       setTimeout(() => {
         this.formUpdateQty.patchValue({
           roomQty: data.roomQty,
@@ -121,36 +126,48 @@ export class AccommodationDetailComponent implements AfterViewInit {
   }
 
   addToCart(id: number) {
-    if (!this.preCheck()) {
-      return;
-    }
-    const room = this.accommodation?.rooms?.find((room) => room.roomId == id);
-    const cartItem: CartItem = {
-      quantity: this.formUpdateQty.get('roomQty')?.value,
-      room: room!,
-    };
-    this.$bookingService.addToCart(cartItem);
-    this.$alertService.success('Thêm thành công');
+    this.preCheck().subscribe({
+      next: (res: boolean) => {
+        if (res) {
+          const room = this.accommodation?.rooms?.find((room) => room.roomId == id);
+          const cartItem: CartItem = {
+            quantity: this.formUpdateQty.get('roomQty')?.value,
+            room: room!,
+          };
+          this.$bookingService.addToCart(cartItem);
+          this.$alertService.success('Thêm thành công');
+        }
+      },
+    });
   }
 
   updateRoomGuest() {
-    if (!this.preCheck()) {
-      return;
-    }
-    Util.setLocal(ROOM_GUEST_QTY_STORAGE, this.formUpdateQty.value);
-    this.expansionPanel.close();
-    this.$alertService.success('Cập nhật thành công');
+    this.preCheck().subscribe({
+      next: (res: boolean) => {
+        if (res) {
+          Util.setLocal(ROOM_GUEST_QTY_STORAGE, this.formUpdateQty.value, TIME_EXPIRED);
+          this.expansionPanel.close();
+          this.$alertService.success('Cập nhật thành công');
+        }
+      },
+    });
   }
 
-  preCheck(): boolean {
-    if (!this.$authenticationService.isLoggedIn()) {
-      this.$alertService.warning('Bạn cần đăng nhập trước');
-      return false;
-    }
-    if (!this.formUpdateQty.valid) {
-      this.$alertService.warning('Số lượng khách và phòng không hợp lệ');
-      return false;
-    }
-    return true;
+  preCheck(): Observable<boolean> {
+    return this.$authenticationService.isAuthenticated().pipe(
+      switchMap((res: boolean) => {
+        console.log(res);
+        if (res == false) {
+          this.$alertService.warning('Bạn cần đăng nhập trước');
+          return of(false);
+        }
+        if (!this.formUpdateQty.valid) {
+          this.$alertService.warning('Số lượng khách và phòng không hợp lệ');
+          return of(false);
+        }
+        console.log(1);
+        return of(true);
+      })
+    );
   }
 }

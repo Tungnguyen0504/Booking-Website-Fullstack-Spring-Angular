@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Room } from 'src/app/model/Room.model';
+import { AlertService } from 'src/app/service/alert.service';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { BookingService, CartItem } from 'src/app/service/booking.service';
 
@@ -19,10 +20,10 @@ export class RoomDetailDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private dialogRef: MatDialogRef<RoomDetailDialogComponent>,
     private router: Router,
+    private $alertService: AlertService,
     private $bookingService: BookingService,
     private $authenticationService: AuthenticationService
   ) {
-    console.log(data);
   }
 
   ngOnInit(): void {}
@@ -32,11 +33,14 @@ export class RoomDetailDialogComponent implements OnInit {
       quantity: 1,
       room: this.data.room,
     };
-    if (!this.$authenticationService.isLoggedIn()) {
-      this.dialogRef.close();
-      this.router.navigate(['/login']);
-      return;
-    }
-    this.$bookingService.addToCart(cartItem);
+    this.$authenticationService.isAuthenticated().subscribe({
+      next: (res: boolean) => {
+        if (res) {
+          this.$bookingService.addToCart(cartItem);
+        } else {
+          this.$alertService.warning('Bạn cần đăng nhập trước');
+        }
+      },
+    });
   }
 }
