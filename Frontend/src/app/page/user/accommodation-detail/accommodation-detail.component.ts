@@ -16,6 +16,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { AlertService } from 'src/app/service/alert.service';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { Util } from 'src/app/util/util';
+import { Observable, of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-accommodation-detail',
@@ -121,36 +122,48 @@ export class AccommodationDetailComponent implements AfterViewInit {
   }
 
   addToCart(id: number) {
-    if (!this.preCheck()) {
-      return;
-    }
-    const room = this.accommodation?.rooms?.find((room) => room.roomId == id);
-    const cartItem: CartItem = {
-      quantity: this.formUpdateQty.get('roomQty')?.value,
-      room: room!,
-    };
-    this.$bookingService.addToCart(cartItem);
-    this.$alertService.success('Thêm thành công');
+    this.preCheck().subscribe({
+      next: (res: boolean) => {
+        if (res) {
+          const room = this.accommodation?.rooms?.find((room) => room.roomId == id);
+          const cartItem: CartItem = {
+            quantity: this.formUpdateQty.get('roomQty')?.value,
+            room: room!,
+          };
+          this.$bookingService.addToCart(cartItem);
+          this.$alertService.success('Thêm thành công');
+        } else {
+          this.$alertService.warning('Bạn cần đăng nhập trước');
+        }
+      },
+    });
   }
 
   updateRoomGuest() {
-    if (!this.preCheck()) {
-      return;
-    }
-    Util.setLocal(ROOM_GUEST_QTY_STORAGE, this.formUpdateQty.value);
-    this.expansionPanel.close();
-    this.$alertService.success('Cập nhật thành công');
+    this.preCheck().subscribe({
+      next: (res: boolean) => {
+        if (res) {
+          Util.setLocal(ROOM_GUEST_QTY_STORAGE, this.formUpdateQty.value);
+          this.expansionPanel.close();
+          this.$alertService.success('Cập nhật thành công');
+        }
+      },
+    });
   }
 
-  preCheck(): boolean {
-    if (!this.$authenticationService.isLoggedIn()) {
-      this.$alertService.warning('Bạn cần đăng nhập trước');
-      return false;
-    }
-    if (!this.formUpdateQty.valid) {
-      this.$alertService.warning('Số lượng khách và phòng không hợp lệ');
-      return false;
-    }
-    return true;
+  preCheck(): Observable<boolean> {
+    return this.$authenticationService.isAuthenticated().pipe(
+      switchMap((res: boolean) => {
+        if (!res) {
+          this.$alertService.warning('Bạn cần đăng nhập trước');
+          return of(false);
+        }
+        if (!this.formUpdateQty.valid) {
+          this.$alertService.warning('Số lượng khách và phòng không hợp lệ');
+          return of(false);
+        }
+        return of(true);
+      })
+    );
   }
 }

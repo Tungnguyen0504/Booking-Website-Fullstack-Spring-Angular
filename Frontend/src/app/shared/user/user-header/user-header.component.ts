@@ -24,13 +24,14 @@ export class UserHeaderComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (this.$authenticationService.isLoggedIn()) {
-      this.$userService.getCurrentUser().subscribe({
-        next: (response) => {
+    this.$userService.getCurrentUser().subscribe({
+      next: (response) => {
+        console.log('check')
+        if (response) {
           this.user = response;
-        },
-      });
-    }
+        }
+      },
+    });
 
     this.$bookingService.loadCartFromLocalStorage().subscribe({
       next: (res) => {
