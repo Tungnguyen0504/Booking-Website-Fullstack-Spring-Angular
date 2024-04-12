@@ -4,10 +4,12 @@ import { Router } from '@angular/router';
 import {
   ACTION_LOGIN,
   ACTION_REGISTER,
-  JWT_TOKEN,
+  JWT_TOKEN_STORAGE,
+  TIME_EXPIRED,
 } from 'src/app/constant/Abstract.constant';
 import { AlertService } from 'src/app/service/alert.service';
 import { AuthenticationService } from 'src/app/service/authentication.service';
+import { Util } from 'src/app/util/util';
 
 declare var $: any;
 
@@ -18,8 +20,8 @@ declare var $: any;
 })
 export class VerificationCodeComponent implements AfterViewInit {
   @ViewChild('formVerifyCode', { static: false }) formVerifyCode!: NgForm;
-  @Input() formLogin!: NgForm;
-  @Input() formRegister!: NgForm;
+  @Input() formLogin: NgForm = {} as NgForm;
+  @Input() formRegister: NgForm = {} as NgForm;
   @Input() verifyCode: string = '';
   @Input() email: string = '';
   @Input() action: string = '';
@@ -40,7 +42,7 @@ export class VerificationCodeComponent implements AfterViewInit {
         Validators.maxLength(6),
       ]);
       this.formVerifyCode.controls['verificationCode'].updateValueAndValidity();
-    }, 0);
+    });
   }
 
   verifyCodeAction() {
@@ -52,7 +54,7 @@ export class VerificationCodeComponent implements AfterViewInit {
     if (this.action === ACTION_LOGIN) {
       this.authService.login(this.formLogin.value).subscribe({
         next: (response) => {
-          this.authService.setJwtToken(response.accessToken.toString());
+          Util.setLocal(JWT_TOKEN_STORAGE, response.accessToken, TIME_EXPIRED);
           this.navigateToHomePage();
         },
         error: (error) => {
@@ -61,7 +63,7 @@ export class VerificationCodeComponent implements AfterViewInit {
       });
     } else if (this.action === ACTION_REGISTER) {
       this.authService.register(this.formRegister.value).subscribe(
-        (response) => {
+        () => {
           this.alertRegisterSuccess();
         },
         (error) => {

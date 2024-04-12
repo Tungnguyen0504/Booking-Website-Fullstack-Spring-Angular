@@ -1,20 +1,30 @@
-import { DatePipe } from '@angular/common';
-import { Injectable } from '@angular/core';
 import * as moment from 'moment';
 
 export class Util {
-  constructor(private datePipe: DatePipe) {}
-
-  public static setLocal(key: string, value: any): void {
-    localStorage.setItem(key, JSON.stringify(value));
+  public static setLocal(key: string, value: any, expiredTime: number) {
+    if (key && value) {
+      const item = {
+        value: value,
+        expiration: Date.now() + expiredTime,
+      };
+      localStorage.setItem(key, JSON.stringify(item));
+    }
   }
 
-  public static getLocal(key: string): any {
-    const data = localStorage.getItem(key);
-    if (data) {
-      return JSON.parse(data);
+  public static getLocal(key: string) {
+    const item = localStorage.getItem(key);
+    if (item) {
+      const parsedItem = JSON.parse(item);
+      if (
+        Object.keys(parsedItem).length == 0 ||
+        (parsedItem.expiration && parsedItem.expiration < Date.now())
+      ) {
+        localStorage.removeItem(key);
+        return null;
+      }
+      return parsedItem.value;
     }
-    return {};
+    return null;
   }
 
   public static removeLocal(key: string): void {

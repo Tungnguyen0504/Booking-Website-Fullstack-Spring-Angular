@@ -25,8 +25,8 @@ public class UserController {
     private final AuthenticationFacade authenticationFacade;
 
     @GetMapping("/get-current-user")
-    public ResponseEntity<UserResponse> getCurrentUser() {
-        return ResponseEntity.ok(userService.getCurrentUser());
+    public ResponseEntity<UserResponse> getCurrentUser(@RequestParam String jwt) {
+        return ResponseEntity.ok(userService.getCurrentUser(jwt));
     }
 
     @GetMapping("/check-token")

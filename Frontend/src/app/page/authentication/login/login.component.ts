@@ -33,7 +33,7 @@ export class LoginComponent implements AfterViewInit {
         Validators.maxLength(16),
       ]);
       this.form.controls['password'].updateValueAndValidity();
-    }, 0);
+    });
 
     this.action = ACTION_LOGIN;
   }

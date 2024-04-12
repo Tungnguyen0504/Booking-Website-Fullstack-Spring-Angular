@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Room } from '../model/Room.model';
-import { CART_STORAGE, PATH_USER, PATH_V1 } from '../constant/Abstract.constant';
+import { CART_STORAGE, PATH_USER, PATH_V1, TIME_EXPIRED } from '../constant/Abstract.constant';
 import { BehaviorSubject, Observable, of, switchMap } from 'rxjs';
 import { UserService } from './user.service';
 import { AuthenticationService } from './authentication.service';
@@ -101,11 +101,13 @@ export class BookingService {
   loadCartFromLocalStorage(): Observable<any> {
     return this.$userService.getCurrentUser().pipe(
       switchMap((res) => {
-        const userId = res?.id;
-        const storedCart = Util.getLocal(`${CART_STORAGE}/${userId}`);
-        if (Object.keys(storedCart).length !== 0) {
-          this.cartStorage = storedCart;
-          this.cartSubject.next(this.cartStorage.cartItems);
+        if (res) {
+          const userId = res.id;
+          const storedCart = Util.getLocal(`${CART_STORAGE}/${userId}`);
+          if (storedCart) {
+            this.cartStorage = storedCart;
+            this.cartSubject.next(this.cartStorage.cartItems);
+          }
         }
         return of(this.cartStorage);
       })
@@ -117,7 +119,7 @@ export class BookingService {
       next: (res) => {
         if (res) {
           const userId = res.id;
-          Util.setLocal(`${CART_STORAGE}/${userId}`, this.cartStorage);
+          Util.setLocal(`${CART_STORAGE}/${userId}`, this.cartStorage, TIME_EXPIRED);
         }
       },
     });
