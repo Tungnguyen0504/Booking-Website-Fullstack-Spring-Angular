@@ -26,7 +26,6 @@ export class UserHeaderComponent implements OnInit {
   ngOnInit(): void {
     this.$userService.getCurrentUser().subscribe({
       next: (response) => {
-        console.log('check')
         if (response) {
           this.user = response;
         }

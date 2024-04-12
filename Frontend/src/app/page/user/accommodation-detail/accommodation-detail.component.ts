@@ -4,7 +4,11 @@ import { Accommodation } from 'src/app/model/Accommodation.model';
 import { AccommodationService } from 'src/app/service/accommodation.service';
 import { BeforeSlideDetail } from 'lightgallery/lg-events';
 import { Room } from 'src/app/model/Room.model';
-import { DATETIME_FORMAT1, ROOM_GUEST_QTY_STORAGE } from 'src/app/constant/Abstract.constant';
+import {
+  DATETIME_FORMAT1,
+  ROOM_GUEST_QTY_STORAGE,
+  TIME_EXPIRED,
+} from 'src/app/constant/Abstract.constant';
 import lgZoom from 'lightgallery/plugins/zoom';
 import * as moment from 'moment';
 import { MatDialog } from '@angular/material/dialog';
@@ -57,7 +61,7 @@ export class AccommodationDetailComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     const data = Util.getLocal(ROOM_GUEST_QTY_STORAGE);
-    if (Object.keys(data).length !== 0) {
+    if (data) {
       setTimeout(() => {
         this.formUpdateQty.patchValue({
           roomQty: data.roomQty,
@@ -132,8 +136,6 @@ export class AccommodationDetailComponent implements AfterViewInit {
           };
           this.$bookingService.addToCart(cartItem);
           this.$alertService.success('Thêm thành công');
-        } else {
-          this.$alertService.warning('Bạn cần đăng nhập trước');
         }
       },
     });
@@ -143,7 +145,7 @@ export class AccommodationDetailComponent implements AfterViewInit {
     this.preCheck().subscribe({
       next: (res: boolean) => {
         if (res) {
-          Util.setLocal(ROOM_GUEST_QTY_STORAGE, this.formUpdateQty.value);
+          Util.setLocal(ROOM_GUEST_QTY_STORAGE, this.formUpdateQty.value, TIME_EXPIRED);
           this.expansionPanel.close();
           this.$alertService.success('Cập nhật thành công');
         }
@@ -154,7 +156,8 @@ export class AccommodationDetailComponent implements AfterViewInit {
   preCheck(): Observable<boolean> {
     return this.$authenticationService.isAuthenticated().pipe(
       switchMap((res: boolean) => {
-        if (!res) {
+        console.log(res);
+        if (res == false) {
           this.$alertService.warning('Bạn cần đăng nhập trước');
           return of(false);
         }
@@ -162,6 +165,7 @@ export class AccommodationDetailComponent implements AfterViewInit {
           this.$alertService.warning('Số lượng khách và phòng không hợp lệ');
           return of(false);
         }
+        console.log(1);
         return of(true);
       })
     );

@@ -24,7 +24,6 @@ export class RoomDetailDialogComponent implements OnInit {
     private $bookingService: BookingService,
     private $authenticationService: AuthenticationService
   ) {
-    console.log(data);
   }
 
   ngOnInit(): void {}
