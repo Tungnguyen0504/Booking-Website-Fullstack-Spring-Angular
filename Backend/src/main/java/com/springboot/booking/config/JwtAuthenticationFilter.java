@@ -1,5 +1,6 @@
 package com.springboot.booking.config;
 
+import com.springboot.booking.exeption.GlobalException;
 import com.springboot.booking.repository.TokenRepository;
 import com.springboot.booking.service.JwtService;
 import jakarta.servlet.FilterChain;
@@ -61,7 +62,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
 
         } catch (Exception e) {
-            request.setAttribute("exception", e);
+            throw new GlobalException(e.getMessage());
         }
 
         filterChain.doFilter(request, response);

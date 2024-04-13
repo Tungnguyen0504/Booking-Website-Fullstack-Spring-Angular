@@ -12,7 +12,7 @@ export class TokenInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const data = Util.getLocal(JWT_TOKEN_STORAGE);
     if (data) {
-      req = this._addToken(req, data.token!);
+      req = this._addToken(req, data!);
     }
 
     return next.handle(req);

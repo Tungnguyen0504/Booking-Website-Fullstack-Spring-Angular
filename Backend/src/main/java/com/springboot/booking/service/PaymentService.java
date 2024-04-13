@@ -14,10 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -60,7 +57,7 @@ public class PaymentService {
         PayerInfo payerInfo = new PayerInfo();
         payerInfo.setFirstName("Nguyen Van");
         payerInfo.setLastName("A");
-        payerInfo.setPhone(user.getPhoneNumber());
+//        payerInfo.setPhone(user.getPhoneNumber());
         payerInfo.setEmail(user.getEmail());
 
         Payer payer = new Payer();
@@ -111,7 +108,7 @@ public class PaymentService {
         transaction.setDescription("Reservation for " + accommodationService.getById(Long.valueOf(request.getAccommodationId())).getAccommodationName());
         transaction.setItemList(itemList);
 
-        return List.of(transaction);
+        return Collections.singletonList(transaction);
     }
 
     private String getApprovalLink(Payment approvedPayment) {
