@@ -127,10 +127,9 @@ public class AuthenticationService {
     public void logout(String jwt) {
         Token tokenStored = tokenRepository.findByToken(jwt).orElse(null);
         if (tokenStored != null) {
-            tokenRepository.save(tokenStored.builder()
-                    .expired(true)
-                    .revoked(true)
-                    .build());
+            tokenStored.setExpired(true);
+            tokenStored.setRevoked(true);
+            tokenRepository.save(tokenStored);
             authenticationFacade.clearContext();
         }
     }

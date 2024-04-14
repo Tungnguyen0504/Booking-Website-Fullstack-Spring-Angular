@@ -1,48 +1,27 @@
-<div class="book-now-area" style="height: 70px">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-12 col-lg-10">
-        <div class="book-now-form">
-          <form [formGroup]="formSearch" (ngSubmit)="search()" novalidate>
-            <div
-              class="form-group col-6"
-              id="search-accommodation-input"
-              style="min-width: 40%; flex: none"
-            >
-              <label for="select3">Điểm đến:</label>
-              <input
-                type="text"
-                formControlName="keyword"
-                placeholder="Nhập Tên chỗ nghỉ / điểm đến ..."
-                id="select3"
-              />
-            </div>
-            <div class="form-group col-3">
-              <label for="fromDate">Ngày nhận phòng</label>
-              <input
-                id="fromDate"
-                type="text"
-                formControlName="fromDate"
-                class="form-control"
-                placeholder="Nhận phòng"
-                style="cursor: pointer"
-              />
-            </div>
-            <div class="form-group col-3">
-              <label for="select2">Ngày trả phòng</label>
-              <input
-                id="toDate"
-                type="text"
-                formControlName="toDate"
-                class="form-control"
-                placeholder="Trả phòng"
-                style="cursor: pointer"
-              />
-            </div>
-            <button type="submit">Tìm Kiếm</button>
-          </form>
-        </div>
+<form [formGroup]="formSearch" (ngSubmit)="search()" novalidate>
+  <div class="container" style="height: 70px">
+    <div class="row" style="margin: 0 100px">
+      <div class="col-12 col-lg">
+        <mat-form-field class="example-form-field">
+          <mat-label>Clearable input</mat-label>
+          <input matInput type="text" />
+          <button matSuffix mat-icon-button aria-label="Clear">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <div class="col-12 col-lg">
+        <mat-form-field class="example-form-field">
+          <mat-label>Clearable input</mat-label>
+          <input matInput type="text" />
+          <button matSuffix mat-icon-button aria-label="Clear">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <div class="col-12 col-lg-3">
+        <button class="palatin-btn" type="submit">Tìm Kiếm</button>
       </div>
     </div>
   </div>
-</div>
+</form>

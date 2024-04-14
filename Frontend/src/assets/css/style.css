@@ -2533,6 +2533,13 @@ img {
   border-radius: unset;
 }
 
+/* room-dialog-carousel */
+#room-dialog-carousel button {
+  background-color: unset;
+  border: 0;
+  cursor: pointer;
+}
+
 /* alert */
 .mdc-snackbar__surface {
   padding: 0 !important;

@@ -19,6 +19,7 @@ export class AuthenticationService {
   constructor(
     private httpClient: HttpClient,
     private router: Router,
+    private $alertService: AlertService,
     private $userService: UserService
   ) {}
 
@@ -41,10 +42,18 @@ export class AuthenticationService {
   logout() {
     const jwt = Util.getLocal(JWT_TOKEN_STORAGE);
     if (jwt) {
-      this.httpClient.post(URL + '/logout', jwt.token).subscribe(() => {
-        localStorage.removeItem(JWT_TOKEN_STORAGE);
+      this.httpClient.post(URL + '/logout', jwt).subscribe({
+        next: () => {
+          Util.removeLocal(JWT_TOKEN_STORAGE);
+        },
+        error: (error) => {
+          console.log(error);
+          this.$alertService.error(error.error.message);
+          return;
+        },
       });
     }
+    this.$alertService.success('Đăng xuất thành công');
     this.router.navigate(['/login']);
   }
 

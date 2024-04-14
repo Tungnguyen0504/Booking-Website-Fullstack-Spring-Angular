@@ -3,7 +3,7 @@
   <div class="row dialog-body">
     <div class="col-7">
       <div
-        id="carouselExampleCaptions"
+        id="room-dialog-carousel"
         class="carousel slide"
         data-ride="carousel"
       >
@@ -19,7 +19,7 @@
           <li
             *ngFor="let img of data?.room?.filePaths; let i = index"
             [attr.data-slide-to]="i"
-            data-target="#carouselExampleCaptions"
+            data-target="#room-dialog-carousel"
             class="col-2 p-0 mx-1 {{ i === 0 ? 'active' : '' }}"
           >
             <img class="d-block w-100 p-1" [src]="img" />
@@ -28,7 +28,7 @@
         <button
           class="carousel-control-prev"
           type="button"
-          data-target="#carouselExampleCaptions"
+          data-target="#room-dialog-carousel"
           data-slide="prev"
         >
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -37,7 +37,7 @@
         <button
           class="carousel-control-next"
           type="button"
-          data-target="#carouselExampleCaptions"
+          data-target="#room-dialog-carousel"
           data-slide="next"
         >
           <span class="carousel-control-next-icon" aria-hidden="true"></span>

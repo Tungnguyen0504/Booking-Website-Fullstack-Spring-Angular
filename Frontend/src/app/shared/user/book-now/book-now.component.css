@@ -1,16 +1,27 @@
-#search-accommodation-input input {
+.book-now-form input[type="text"]::placeholder {
+  color: #ffffff;
+}
+
+.book-now-form input:-internal-autofill-selected {
+  appearance: menulist-button;
+  background-image: none !important;
+  background-color: darkblue;
+  color: fieldtext !important;
+}
+
+/* .search-input input {
   width: 100%;
   height: 46px;
   background-color: transparent;
   border: 2px solid #cb8670;
   padding: 0 15px;
   color: #ffffff;
-}
+} */
 
-.book-now-form input[type="text"]::placeholder {
-  color: #ffffff;
-}
-
-#search-accommodation-input input::placeholder {
+.search-input input::placeholder {
   font-size: 15px;
+}
+
+.search-input input:focus-visible {
+  outline: unset;
 }
