@@ -1,8 +1,10 @@
 package com.springboot.booking.service;
 
+import com.springboot.booking.common.ExceptionResult;
 import com.springboot.booking.dto.response.DistrictResponse;
 import com.springboot.booking.dto.response.ProvinceResponse;
 import com.springboot.booking.dto.response.WardResponse;
+import com.springboot.booking.exeption.GlobalException;
 import com.springboot.booking.model.entity.Address;
 import com.springboot.booking.model.entity.Province;
 import com.springboot.booking.model.entity.Ward;
@@ -73,5 +75,14 @@ public class AddressService {
         fullAddressBuilder.append(address.getWard().getDistrict().getProvince().getProvinceName());
 
         return fullAddressBuilder.toString();
+    }
+
+    public Address createAddress(Long wardId, String specificAddress) {
+        Ward ward = wardRepository.findById(wardId)
+                .orElseThrow(() -> new GlobalException(ExceptionResult.RESOURCE_NOT_FOUND));
+        return addressRepository.save(Address.builder()
+                .specificAddress(specificAddress)
+                .ward(ward)
+                .build());
     }
 }

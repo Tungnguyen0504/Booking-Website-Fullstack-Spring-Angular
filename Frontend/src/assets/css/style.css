@@ -34,7 +34,7 @@
 
 /* :: 1.0 Import Fonts */
 
-@import url(bootstrap.min.css);
+@import url(https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css);
 @import url(classy-nav.css);
 @import url(https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css);
 @import url(https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css);
@@ -2547,4 +2547,30 @@ img {
 
 .mdc-snackbar__label {
   padding: 0 !important;
+}
+
+/* form-book-area */
+.form-book-area {
+  position: relative;
+  top: -87px;
+  z-index: 11;
+}
+
+.form-book-area .form-field {
+  padding: 0;
+  display: flex;
+  font-size: 16px !important;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 120px;
+  /* color: #ffffff !important; */
+  /* background-color: #363636; */
+  background: #ffffff;
+  border: 5px solid #cb8670;
+  /* margin-bottom: 0; */
+}
+
+.form-book-area .form-field .mat-mdc-form-field-subscript-wrapper {
+  height: 0;
 }

@@ -29,13 +29,4 @@ public class UserController {
         return ResponseEntity.ok(userService.getCurrentUser(jwt));
     }
 
-    @GetMapping("/check-token")
-    public ResponseEntity<Boolean> isTokenValid(@RequestParam String token) {
-        Authentication authentication = authenticationFacade.getAuthentication();
-        if (authentication.getPrincipal() instanceof UserDetails) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            return ResponseEntity.ok(jwtService.isTokenValid(token, userDetails));
-        }
-        return ResponseEntity.ok(false);
-    }
 }

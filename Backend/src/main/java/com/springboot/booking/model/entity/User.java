@@ -34,9 +34,6 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "address")
-    private String address;
-
     @Column(name = "phone_number")
     private String phoneNumber;
 
@@ -53,6 +50,10 @@ public class User extends BaseEntity implements UserDetails {
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private List<Token> tokens;
+
+    @OneToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
 
     @OneToMany(mappedBy = "user")
     private List<Booking> bookings = new ArrayList<>();

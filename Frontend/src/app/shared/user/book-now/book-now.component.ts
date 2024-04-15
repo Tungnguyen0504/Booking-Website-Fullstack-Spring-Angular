@@ -18,6 +18,11 @@ declare var $: any;
 export class BookNowComponent implements AfterViewInit {
   formSearch: FormGroup = {} as FormGroup;
 
+  range = new FormGroup({
+    start: new FormControl<Date | null>(null),
+    end: new FormControl<Date | null>(null),
+  });
+
   constructor(
     private router: Router,
     private elementRef: ElementRef,
