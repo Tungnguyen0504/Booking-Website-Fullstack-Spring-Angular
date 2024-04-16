@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { BookingService, CartStorage } from 'src/app/service/booking.service';
+import { Component } from '@angular/core';
+import { BaseApiService } from 'src/app/service/base-api.service';
 
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css'],
 })
-export class UserComponent {}
+export class UserComponent {
+  constructor(public $baseApiService: BaseApiService) {}
+}

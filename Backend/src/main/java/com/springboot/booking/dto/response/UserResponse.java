@@ -18,7 +18,7 @@ public class UserResponse {
     private String lastName;
     private String email;
     private String password;
-    private String address;
+    private String fullAddress;
     private String phoneNumber;
     @JsonFormat(pattern = Constant.DATETIME_FORMAT2)
     private LocalDate dateOfBirth;

@@ -29,11 +29,11 @@ export class AlertService {
     this.createAlert('WARNING', message, 'alert-warning', 'WARNING');
   }
 
-  createAlert(title: string, message: string, bgColor: string, icon: string) {
+  private createAlert(title: string, message: string, bgColor: string, icon: string) {
     this.$snackBar.openFromComponent(AlertComponent, {
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
-      duration: 3000,
+      duration: 5000,
       data: {
         title: title,
         message: message,

@@ -35,6 +35,8 @@ import { BookingSuccessComponent } from './booking-success/booking-success.compo
 import { InputSpinnerComponent } from 'src/app/shared/user/input-spinner/input-spinner.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CssLoadingComponent } from 'src/app/shared/user/css-loading/css-loading.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +54,7 @@ import { MatIconModule } from '@angular/material/icon';
     HotelCardComponent,
     BookingSuccessComponent,
     InputSpinnerComponent,
+    CssLoadingComponent,
   ],
   imports: [
     CommonModule,
@@ -74,6 +77,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatCheckboxModule,
     MatExpansionModule,
     MatIconModule,
+    MatProgressSpinnerModule,
     LightgalleryModule,
     CarouselModule,
   ],

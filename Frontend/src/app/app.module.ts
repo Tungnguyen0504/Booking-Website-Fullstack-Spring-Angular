@@ -22,6 +22,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { AdminModule } from './page/admin/admin.module';
 import { AuthenticationModule } from './page/authentication/authentication.module';
 import { UserModule } from './page/user/user.module';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [AppComponent, AdminWidgetComponent],
@@ -42,6 +43,7 @@ import { UserModule } from './page/user/user.module';
     MatButtonModule,
     MatDialogModule,
     MatExpansionModule,
+    MatProgressSpinnerModule,
     AuthenticationModule,
     UserModule,
     AdminModule,

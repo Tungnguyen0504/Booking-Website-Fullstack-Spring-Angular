@@ -21,6 +21,7 @@
     "@angular/platform-browser-dynamic": "^16.2.0",
     "@angular/router": "^16.2.0",
     "@popperjs/core": "^2.11.6",
+    "bootstrap": "4.6.2",
     "bootstrap-fileinput": "^5.5.2",
     "bootstrap-icons": "^1.11.3",
     "flatpickr": "^4.6.13",

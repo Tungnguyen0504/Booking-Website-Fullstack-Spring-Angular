@@ -63,8 +63,11 @@ export class AuthenticationService {
 
   isAuthenticated(): Observable<boolean> {
     return this.$userService.getCurrentUser().pipe(
-      switchMap(() => {
-        return of(true);
+      switchMap((res) => {
+        if (res) {
+          return of(true);
+        }
+        return of(false);
       }),
       catchError((error) => {
         console.log(error.error);

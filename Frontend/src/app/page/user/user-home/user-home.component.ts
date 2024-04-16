@@ -72,7 +72,6 @@ export class UserHomeComponent implements OnInit {
           };
           this.cityList?.push(city);
         }
-        console.log(this.cityList);
       },
     });
   }

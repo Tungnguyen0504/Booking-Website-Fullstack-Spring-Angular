@@ -5,7 +5,6 @@ import com.springboot.booking.common.ExceptionResult;
 import com.springboot.booking.common.Util;
 import com.springboot.booking.config.AuthenticationFacade;
 import com.springboot.booking.dto.request.UserRequest;
-import com.springboot.booking.dto.response.AccommodationResponse;
 import com.springboot.booking.dto.response.UserResponse;
 import com.springboot.booking.exeption.GlobalException;
 import com.springboot.booking.model.entity.*;
@@ -17,6 +16,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -75,7 +76,7 @@ public class UserService {
                 .lastName(user.getLastName())
                 .email(user.getEmail())
                 .password(user.getPassword())
-                .address(user.getAddress())
+                .fullAddress(Objects.nonNull(user.getAddress()) ? addressService.getFullAddress(user.getAddress().getId()) : "")
                 .phoneNumber(user.getPhoneNumber())
                 .dateOfBirth(user.getDateOfBirth())
                 .status(user.getStatus())

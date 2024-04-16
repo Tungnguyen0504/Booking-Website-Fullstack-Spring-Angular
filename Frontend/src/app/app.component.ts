@@ -1,8 +1,5 @@
-import { AfterViewInit, Component } from '@angular/core';
-import { User } from './model/User.model';
-import { AuthenticationService } from './service/authentication.service';
-import { UserService } from './service/user.service';
-import { AlertService } from './service/alert.service';
+import { Component } from '@angular/core';
+import { BaseApiService } from './service/base-api.service';
 declare var $: any;
 
 @Component({
@@ -10,4 +7,7 @@ declare var $: any;
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent {}
+export class AppComponent {
+  constructor(public $baseApiService: BaseApiService) {
+  }
+}

@@ -1,3 +1,6 @@
+<ng-container *ngIf="$baseApiService.loading">
+  <app-css-loading></app-css-loading>
+</ng-container>
 <mat-sidenav-container [hasBackdrop]="true">
   <mat-sidenav
     #drawer

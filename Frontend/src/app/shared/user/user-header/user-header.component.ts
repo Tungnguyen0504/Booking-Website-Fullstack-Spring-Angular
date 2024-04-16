@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
+import { of, switchMap } from 'rxjs';
 import { User } from 'src/app/model/User.model';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { BookingService, CartStorage } from 'src/app/service/booking.service';
@@ -25,9 +26,10 @@ export class UserHeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.$userService.getCurrentUser().subscribe({
-      next: (response) => {
-        if (response) {
-          this.user = response;
+      next: (res: User | null) => {
+        if (res) {
+          this.user = res;
+          console.log(this.user)
         }
       },
     });

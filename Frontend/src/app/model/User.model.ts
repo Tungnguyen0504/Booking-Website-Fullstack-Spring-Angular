@@ -4,7 +4,7 @@ export interface User {
     lastName: string;
     email: string;
     password: string;
-    address: string;
+    fullAddress: string;
     phoneNumber: string;
     dateOfBirth: string;
     status: string;

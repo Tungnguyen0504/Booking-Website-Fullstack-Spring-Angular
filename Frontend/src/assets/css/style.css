@@ -34,7 +34,6 @@
 
 /* :: 1.0 Import Fonts */
 
-@import url(https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css);
 @import url(classy-nav.css);
 @import url(https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css);
 @import url(https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css);
@@ -2565,9 +2564,9 @@ img {
   width: 100%;
   height: 120px;
   /* color: #ffffff !important; */
-  /* background-color: #363636; */
+  /* background-color: #cb8670; */
   background: #ffffff;
-  border: 5px solid #cb8670;
+  /* border: 5px solid #cb8670; */
   /* margin-bottom: 0; */
 }
 
