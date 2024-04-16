@@ -2556,20 +2556,45 @@ img {
 }
 
 .form-book-area .form-field {
-  padding: 0;
+  padding: 0 30px;
+  font-size: 15px !important;
   display: flex;
-  font-size: 16px !important;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 120px;
-  /* color: #ffffff !important; */
-  /* background-color: #cb8670; */
-  background: #ffffff;
-  /* border: 5px solid #cb8670; */
-  /* margin-bottom: 0; */
+  height: 140px;
+  background-color: #363636;
+  border-top: 2px solid #cb8670;
+  border-left: 2px solid #cb8670;
+  border-bottom: 2px solid #cb8670;
+}
+
+.form-book-area .btn-book-area {
+  padding: 0;
+  font-size: 15px !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 140px;
+  background-color: #363636;
+  border-top: 2px solid #cb8670;
+  border-left: 2px solid #cb8670;
+  border-bottom: 2px solid #cb8670;
+}
+
+.form-book-area .form-field .lbl-form-field {
+  color: #cb8670;
 }
 
 .form-book-area .form-field .mat-mdc-form-field-subscript-wrapper {
   height: 0;
+}
+
+.form-book-area .mdc-text-field {
+  border-radius: 0px !important;
+  background-color: #ffffff !important;
+  border: 2px solid #cb8670;
 }
