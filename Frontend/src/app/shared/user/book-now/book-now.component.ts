@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import flatpickr from 'flatpickr';
 import rangePlugin from 'flatpickr/dist/plugins/rangePlugin';
 import { DATETIME_FORMAT3 } from 'src/app/constant/Abstract.constant';
+import { AlertService } from 'src/app/service/alert.service';
 import { BookingService } from 'src/app/service/booking.service';
 import { Util } from 'src/app/util/util';
 
@@ -15,81 +16,51 @@ declare var $: any;
   templateUrl: './book-now.component.html',
   styleUrls: ['./book-now.component.css'],
 })
-export class BookNowComponent implements AfterViewInit {
+export class BookNowComponent {
   formSearch: FormGroup = {} as FormGroup;
-
-  range = new FormGroup({
-    start: new FormControl<Date | null>(null),
-    end: new FormControl<Date | null>(null),
-  });
 
   constructor(
     private router: Router,
-    private elementRef: ElementRef,
     private formBuilder: FormBuilder,
+    private $alertService: AlertService,
     private $bookingService: BookingService
   ) {
     this.buildFormGroup();
   }
 
-  ngAfterViewInit(): void {
-    flatpickr('#fromDate', {
-      minDate: 'today',
-      dateFormat: 'y-M-d',
-      plugins: [rangePlugin({ input: '#toDate' })],
-      onChange: (selectedDates) => {
-        if (selectedDates.length === 2) {
-          this.formSearch
-            .get('fromDate')
-            ?.setValue(formatDate(selectedDates[0], 'yyyy-MM-dd', 'en-US'));
-          this.formSearch
-            .get('toDate')
-            ?.setValue(formatDate(selectedDates[1], 'yyyy-MM-dd', 'en-US'));
-        }
-      },
-    });
-
-    flatpickr('#toDate', {
-      minDate: 'today',
-      dateFormat: 'y-M-d',
-      plugins: [rangePlugin({ input: '#fromDate' })],
-      onChange: (selectedDates) => {
-        if (selectedDates.length === 2) {
-          this.formSearch.get('fromDate')?.setValue(formatDate(selectedDates[0], '', 'en-US'));
-          this.formSearch
-            .get('toDate')
-            ?.setValue(formatDate(selectedDates[1], 'yyyy-MM-dd', 'en-US'));
-        }
-      },
-    });
-  }
-
   buildFormGroup() {
     this.formSearch = this.formBuilder.group({
-      keyword: new FormControl('', Validators.required),
+      keySearch: new FormControl('', Validators.required),
       fromDate: new FormControl('', Validators.required),
       toDate: new FormControl('', Validators.required),
     });
   }
 
   search() {
-    const fromDate = this.elementRef.nativeElement.querySelector('#fromDate');
-    const toDate = this.elementRef.nativeElement.querySelector('#toDate');
-
-    this.formSearch.get('fromDate')?.setValue(fromDate.value);
-    this.formSearch.get('toDate')?.setValue(toDate.value);
-
-    this.$bookingService.saveCartDate(
-      Util.parseDate(fromDate.value, DATETIME_FORMAT3),
-      Util.parseDate(toDate.value, DATETIME_FORMAT3)
-    );
-
-    this.router.navigate(['/search-accommodation'], {
-      queryParams: {
-        searchKey: this.formSearch.get('keyword')?.value,
-        fromDate: this.formSearch.get('fromDate')?.value,
-        toDate: this.formSearch.get('toDate')?.value,
-      },
-    });
+    if (this.formSearch.valid) {
+      this.$bookingService.saveCartDate(
+        this.formSearch.get('fromDate')?.value,
+        this.formSearch.get('toDate')?.value
+      );
+      this.router.navigate(['/search-accommodation'], {
+        queryParams: {
+          keySearch: this.formSearch.get('keySearch')?.value,
+          fromDate: Util.formatDate(this.formSearch.get('fromDate')?.value, DATETIME_FORMAT3),
+          toDate: Util.formatDate(this.formSearch.get('toDate')?.value, DATETIME_FORMAT3),
+        },
+      });
+    } else {
+      var msg = '';
+      if (this.formSearch.get('keySearch')?.errors) {
+        msg += 'Điểm đến không hợp lệ <br/>';
+      }
+      if (this.formSearch.get('fromDate')?.errors) {
+        msg += 'Ngày nhận không hợp lệ <br/>';
+      }
+      if (this.formSearch.get('toDate')?.errors) {
+        msg += 'Ngày trả không hợp lệ <br/>';
+      }
+      this.$alertService.error(msg);
+    }
   }
 }

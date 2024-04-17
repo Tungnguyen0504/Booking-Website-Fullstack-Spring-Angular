@@ -13,7 +13,7 @@
       </div>
       <div>
         <h5 class="toast-title font-bold mb-1">{{ data.title }}</h5>
-        <label class="toast-message text-break mb-0">{{ data.message }}</label>
+        <p class="toast-message text-break mb-0" [innerHTML]="data.message"></p>
         <button
           type="button"
           class="close"

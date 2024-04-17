@@ -1,43 +1,43 @@
 <form [formGroup]="formSearch" (ngSubmit)="search()" novalidate>
   <div class="container form-book-area">
     <div class="row" style="margin: 0 120px">
-      <div class="col-12 col-lg form-field">
+      <div class="col-12 form-field">
         <div class="d-flex flex-column w-100">
           <label class="lbl-form-field">Điểm đến:</label>
           <mat-form-field>
-            <input matInput placeholder="Nhập chỗ nghỉ/địa điểm ..." />
+            <input
+              matInput
+              placeholder="Nhập chỗ nghỉ/địa điểm ..."
+              formControlName="keySearch"
+            />
           </mat-form-field>
         </div>
       </div>
-      <div class="col-12 col-lg form-field">
+      <div class="col-12 form-field">
         <div class="d-flex flex-column w-100">
           <label class="lbl-form-field">Ngày nhận/trả phòng:</label>
           <mat-form-field>
-            <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+            <mat-date-range-input [rangePicker]="picker">
               <input
                 matStartDate
-                formControlName="start"
+                formControlName="fromDate"
                 placeholder="Ngày nhận"
               />
-              <input matEndDate formControlName="end" placeholder="Ngày trả" />
+              <input
+                matEndDate
+                formControlName="toDate"
+                placeholder="Ngày trả"
+              />
             </mat-date-range-input>
             <mat-datepicker-toggle
               matIconSuffix
               [for]="picker"
             ></mat-datepicker-toggle>
             <mat-date-range-picker #picker></mat-date-range-picker>
-
-            <mat-error
-              *ngIf="range.controls.start.hasError('matStartDateInvalid')"
-              >Invalid start date</mat-error
-            >
-            <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')"
-              >Invalid end date</mat-error
-            >
           </mat-form-field>
         </div>
       </div>
-      <div class="col-12 col-lg-2 btn-book-area">
+      <div class="col-12 btn-book-area">
         <button class="btn palatin-btn w-100 h-100" type="submit">
           Tìm Kiếm
         </button>

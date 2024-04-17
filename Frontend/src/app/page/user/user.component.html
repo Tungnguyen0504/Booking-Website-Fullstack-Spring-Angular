@@ -1,4 +1,4 @@
-<ng-container *ngIf="$baseApiService.loading">
+<ng-container *ngIf="$authService.isAuthenticated() && $baseApiService.isLoading()">
   <app-css-loading></app-css-loading>
 </ng-container>
 <mat-sidenav-container [hasBackdrop]="true">

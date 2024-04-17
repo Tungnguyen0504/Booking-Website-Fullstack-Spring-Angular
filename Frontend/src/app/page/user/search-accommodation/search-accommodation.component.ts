@@ -50,16 +50,14 @@ export class SearchAccommodationComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
-      if (params['searchKey'].text) {
-        // console.log(params['searchKey']);
-        // this.$basePagingService.pushFilterRequest(
-        //   'accommodationName',
-        //   params['searchKey'].text,
-        //   'LIKE',
-        //   'STRING',
-        //   this.filterRequest
-        // );
-        // console.log(this.filterRequest);
+      if (params['keySearch']) {
+        this.$basePagingService.pushFilterRequest(
+          'accommodationName',
+          [params['keySearch']],
+          'LIKE',
+          'STRING',
+          this.filterRequest
+        );
       }
     });
     this.getAccommodations();
@@ -88,13 +86,12 @@ export class SearchAccommodationComponent implements OnInit {
     };
     this.$accommodationService.getAccommodations(request).subscribe({
       next: (response: BasePagingResponse) => {
-        this.listAccommodation = response.data;
-        this.totalItem = response.totalItem;
-        this.currentPage = response.currentPage;
-        this.totalPage = response.totalPage;
-      },
-      error: (error) => {
-        console.log(error);
+        if (response) {
+          this.listAccommodation = response.data;
+          this.totalItem = response.totalItem;
+          this.currentPage = response.currentPage;
+          this.totalPage = response.totalPage;
+        }
       },
     });
   }

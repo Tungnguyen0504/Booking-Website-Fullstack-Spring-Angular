@@ -11,9 +11,35 @@ export class BaseApiService {
 
   constructor(private $alertService: AlertService, private $httpClient: HttpClient) {}
 
+  isLoading() {
+    // setTimeout(() => {
+      return this.loading;
+    // }, 200);
+  }
+
   public get(url: string, params: HttpParams): Observable<any> {
     this.loading = true;
     return this.$httpClient.get(url, { params }).pipe(
+      switchMap((response) => {
+        if (response) {
+          return of(response);
+        }
+        return of(null);
+      }),
+      catchError((error) => {
+        console.log(error);
+        this.$alertService.error(error.error.message);
+        return of(null);
+      }),
+      finalize(() => {
+        this.loading = false;
+      })
+    );
+  }
+
+  public post(url: string, requestBody: any): Observable<any> {
+    this.loading = true;
+    return this.$httpClient.post(url, requestBody).pipe(
       switchMap((response) => {
         if (response) {
           return of(response);

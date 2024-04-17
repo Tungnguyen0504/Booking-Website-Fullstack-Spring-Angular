@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthenticationService } from 'src/app/service/authentication.service';
 import { BaseApiService } from 'src/app/service/base-api.service';
 
 @Component({
@@ -7,5 +8,5 @@ import { BaseApiService } from 'src/app/service/base-api.service';
   styleUrls: ['./user.component.css'],
 })
 export class UserComponent {
-  constructor(public $baseApiService: BaseApiService) {}
+  constructor(public $baseApiService: BaseApiService, public $authService: AuthenticationService) {}
 }

@@ -2563,7 +2563,7 @@ img {
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 140px;
+  height: 160px;
   background-color: #363636;
   border-top: 2px solid #cb8670;
   border-left: 2px solid #cb8670;
@@ -2578,7 +2578,7 @@ img {
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 140px;
+  height: 160px;
   background-color: #363636;
   border-top: 2px solid #cb8670;
   border-left: 2px solid #cb8670;
@@ -2597,4 +2597,16 @@ img {
   border-radius: 0px !important;
   background-color: #ffffff !important;
   border: 2px solid #cb8670;
+}
+
+@media only screen and (min-width: 992px) {
+  .form-book-area .btn-book-area {
+    flex: 0 0 20%;
+    max-width: 20%;
+  }
+
+  .form-book-area .form-field {
+    flex: 0 0 40%;
+    max-width: 40%;
+  }
 }
