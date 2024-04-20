@@ -4,6 +4,7 @@ import com.paypal.api.payments.*;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
 import com.springboot.booking.common.DatetimeUtil;
+import com.springboot.booking.dto.request.BookingCaptureRequest;
 import com.springboot.booking.dto.request.BookingDetailRequest;
 import com.springboot.booking.dto.request.BookingPaymentRequest;
 import com.springboot.booking.dto.response.RoomResponse;
@@ -11,10 +12,12 @@ import com.springboot.booking.dto.response.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.view.RedirectView;
 
 import java.text.DecimalFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -28,27 +31,21 @@ public class PaymentService {
     private final AccommodationService accommodationService;
     private final RoomService roomService;
 
-    public Payment executePayment(String paymentId, String payerId) throws PayPalRESTException {
+    public Payment executePayment(BookingCaptureRequest request) throws PayPalRESTException {
         Payment payment = new Payment();
-        payment.setId(paymentId);
-
+        payment.setId(request.getPaymentId());
         PaymentExecution paymentExecution = new PaymentExecution();
-        paymentExecution.setPayerId(payerId);
-
+        paymentExecution.setPayerId(request.getPayerId());
         return payment.execute(apiContext, paymentExecution);
     }
 
-    public String createPayment(BookingPaymentRequest request) throws PayPalRESTException {
+    public Payment createPayment(BookingPaymentRequest request) throws PayPalRESTException {
         Payment payment = new Payment();
         payment.setTransactions(getTransactionInformation(request));
         payment.setRedirectUrls(getRedirectURLs());
         payment.setPayer(getPayerInformation());
         payment.setIntent("sale");
-
-        Payment approvedPayment = payment.create(apiContext);
-        System.out.println("=== CREATED PAYMENT: ====");
-        System.out.println(approvedPayment);
-        return getApprovalLink(approvedPayment);
+        return payment.create(apiContext);
     }
 
     private Payer getPayerInformation() {
