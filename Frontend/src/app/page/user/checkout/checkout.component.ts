@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { DATETIME_FORMAT3, ROOM_GUEST_QTY_STORAGE } from 'src/app/constant/Abstract.constant';
@@ -16,6 +16,8 @@ import { Util } from 'src/app/util/util';
 })
 export class CheckoutComponent implements OnInit {
   @ViewChild('stepper') private stepper!: MatStepper;
+  @ViewChild('paymentRef', { static: true }) paymentRef!: ElementRef;
+
   secondForm: FormGroup = {} as FormGroup;
   thirdForm: FormGroup = {} as FormGroup;
 
@@ -52,6 +54,58 @@ export class CheckoutComponent implements OnInit {
     });
     this.initApi();
     this.buildForm();
+    this.initPayment();
+  }
+
+  initPayment() {
+    window.paypal
+      .Buttons({
+        style: {
+          layout: 'horizontal',
+          color: 'blue',
+          shape: 'rect',
+          label: 'paypal',
+        },
+        // createOrder: (data, actions) => {
+        //   return fetch('http://localhost:3000/paypal/orders', {
+        //     method: 'post',
+        //     headers: {
+        //       Accept: 'application/json, text/plain, */*',
+        //       'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify(postData),
+        //   })
+        //     .then((response) => response.json())
+        //     .then((response) => {
+        //       orderRef = response.orderRef;
+        //       return response.id;
+        //     });
+        // },
+        // onApprove: (data, actions) => {
+        //   return fetch(`http://localhost:3000/paypal/orders/${data.orderID}/capture`, {
+        //     method: 'post',
+        //     headers: {
+        //       Accept: 'application/json, text/plain, */*',
+        //       'Content-Type': 'application/json',
+        //     },
+        //   })
+        //     .then((response) => response.json())
+        //     .then((orderData) => {
+        //       var errorDetail = Array.isArray(orderData.details) && orderData.details[0];
+
+        //       if (errorDetail && errorDetail.issue === 'INSTRUMENT_DECLINED') {
+        //         return actions.restart();
+        //       }
+        //       var transaction = orderData.purchase_units[0].payments.captures[0];
+
+        //       this.paypalRedirect(transaction.status, orderData.orderRef);
+        //     });
+        // },
+        onError: (error: any) => {
+          console.log(error);
+        },
+      })
+      .render(this.paymentRef.nativeElement);
   }
 
   buildForm() {

@@ -8,6 +8,12 @@ import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Util } from '../util/util';
 
+declare global {
+  interface Window {
+    paypal: any;
+  }
+}
+
 export interface CartStorage {
   accommodationId: number;
   fromDate: Date;
