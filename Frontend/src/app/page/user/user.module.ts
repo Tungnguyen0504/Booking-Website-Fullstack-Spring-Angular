@@ -35,6 +35,7 @@ import { BookingSuccessComponent } from './booking-success/booking-success.compo
 import { InputSpinnerComponent } from 'src/app/shared/user/input-spinner/input-spinner.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTabsModule } from '@angular/material/tabs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CssLoadingComponent } from 'src/app/shared/user/css-loading/css-loading.component';
 import { BookingPaymentComponent } from './booking-payment/booking-payment.component';
@@ -80,6 +81,7 @@ import { BookingPaymentComponent } from './booking-payment/booking-payment.compo
     MatExpansionModule,
     MatIconModule,
     MatProgressSpinnerModule,
+    MatTabsModule,
     LightgalleryModule,
     CarouselModule,
   ],

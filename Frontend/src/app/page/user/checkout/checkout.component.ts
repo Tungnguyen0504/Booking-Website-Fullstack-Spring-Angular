@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { Router } from '@angular/router';
 import {
   BOOKING_INFO_STORAGE,
   DATETIME_FORMAT3,
+  PATH_V1,
   ROOM_GUEST_QTY_STORAGE,
   TIME_EXPIRED,
 } from 'src/app/constant/Abstract.constant';
@@ -15,6 +16,7 @@ import { AlertService } from 'src/app/service/alert.service';
 import { BookingService, CartStorage } from 'src/app/service/booking.service';
 import { UserService } from 'src/app/service/user.service';
 import { Util } from 'src/app/util/util';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-checkout',
@@ -23,6 +25,7 @@ import { Util } from 'src/app/util/util';
 })
 export class CheckoutComponent implements OnInit {
   @ViewChild('stepper') private stepper!: MatStepper;
+  @ViewChild('paymentRef', { static: true }) paymentRef!: ElementRef;
 
   secondForm: FormGroup = {} as FormGroup;
   thirdForm: FormGroup = {} as FormGroup;
@@ -32,6 +35,8 @@ export class CheckoutComponent implements OnInit {
   user?: User;
   accommodation?: Accommodation;
 
+  bookingInfo: any;
+
   paymentMethods: any[] = [
     {
       value: 'paypal',
@@ -40,10 +45,10 @@ export class CheckoutComponent implements OnInit {
       img: 'assets/img/payment-method/paypal.jpg',
     },
     {
-      value: 'momo',
-      title: 'Thanh toán bằng Momo',
+      value: 'vnpay',
+      title: 'Thanh toán bằng VNPAY',
       description: 'Phí thanh toán 0đ',
-      img: 'assets/img/payment-method/momo.jpg',
+      img: 'assets/img/payment-method/vnpay.jpg',
     },
   ];
 
@@ -110,6 +115,75 @@ export class CheckoutComponent implements OnInit {
 
   selectPaymentChange(option: any) {
     this.thirdForm.get('paymentMethod')?.setValue(option._value[0]);
+  }
+
+  initPayment() {
+    console.log(this.secondForm.valid);
+    if (this.secondForm.valid && this.cartStorage && Object.keys(this.roomGuestQty).length !== 0) {
+      const URL = environment.apiUrl + PATH_V1;
+      this.bookingInfo = {
+        firstName: this.secondForm.get('firstName')?.value,
+        lastName: this.secondForm.get('lastName')?.value,
+        email: this.secondForm.get('email')?.value,
+        phoneNumber: this.secondForm.get('phoneNumber')?.value,
+        guestNumber: this.roomGuestQty.guestQty,
+        note: this.secondForm.get('note')?.value,
+        estCheckinTime: this.secondForm.get('estCheckinTime')?.value,
+        paymentMethod: this.thirdForm.get('paymentMethod')?.value,
+        fromDate: Util.formatDate(this.cartStorage.fromDate, DATETIME_FORMAT3),
+        toDate: Util.formatDate(this.cartStorage.toDate, DATETIME_FORMAT3),
+        accommodationId: this.cartStorage.accommodationId,
+        cartItems: this.cartStorage.cartItems.map((item) => {
+          return {
+            quantity: item.quantity,
+            roomId: item.room.roomId,
+          };
+        }),
+      };
+      window.paypal
+        .Buttons({
+          style: {
+            layout: 'horizontal',
+            color: 'blue',
+            shape: 'rect',
+            label: 'paypal',
+          },
+          createOrder: (data: any, actions: any) => {
+            return fetch(`${URL}/booking/payment/create`, {
+              method: 'post',
+              headers: {
+                Accept: 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(this.bookingInfo),
+            });
+          },
+          onApprove: (data: any, actions: any) => {
+            const request = {
+              paymentId: data.id,
+              payerId: 0,
+            };
+            return fetch(`${URL}/booking/payment/success`, {
+              method: 'post',
+              headers: {
+                Accept: 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(request),
+            })
+              .then((response) => response.json())
+              .then((details) => {
+                this.$alertService.success(
+                  'Transaction completed by ' + details.payer.name.given_name
+                );
+              });
+          },
+          onError: (error: any) => {
+            console.log(error);
+          },
+        })
+        .render(this.paymentRef.nativeElement);
+    }
   }
 
   submit() {

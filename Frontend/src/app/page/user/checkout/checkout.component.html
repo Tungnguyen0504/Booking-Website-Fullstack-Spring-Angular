@@ -5,7 +5,7 @@
         <ng-template matStepLabel>CHỌN PHÒNG.</ng-template>
       </mat-step>
       <mat-step [stepControl]="secondForm">
-        <form [formGroup]="secondForm" novalidate>
+        <form [formGroup]="secondForm" (ngSubmit)="initPayment()" novalidate>
           <ng-template matStepLabel>CHI TIẾT VỀ BẠN.</ng-template>
           <div class="row">
             <div class="col-md-4 mb-4 pr-0">
@@ -337,50 +337,31 @@
                 </h4>
               </div>
               <app-hotel-card [accommodation]="accommodation"></app-hotel-card>
-              <div class="border p-2 mb-3 d-flex">
-                <mat-accordion class="w-100">
-                  <mat-expansion-panel
-                    hideToggle
-                    *ngFor="let data of paymentMethods"
-                  >
-                    <mat-expansion-panel-header>
-                      <div class="d-flex align-items-center">
-                        <div class="p-2 mx-2 payment-img">
-                          <img width="80" class="rounded" [src]="data.img" />
+              <div class="border mb-3 d-flex">
+                <mat-tab-group class="w-100" animationDuration="0ms">
+                  <mat-tab *ngFor="let data of paymentMethods">
+                    <ng-template mat-tab-label>
+                      <div class="custom-tab-header">
+                        <div
+                          class="d-flex flex-column justify-content-between align-items-center p-3"
+                        >
+                          <div class="p-2 mx-2 payment-img">
+                            <img width="120" class="rounded" [src]="data.img" />
+                          </div>
+                          <div>
+                            <h6 class="mb-0">{{ data.title }}</h6>
+                            <p class="font-italic text-muted mb-0">
+                              {{ data.description }}
+                            </p>
+                          </div>
                         </div>
-                        <div>
-                          <h5 class="mb-0">{{ data.title }}</h5>
-                          <p class="mb-0">{{ data.description }}</p>
-                        </div>
                       </div>
-                    </mat-expansion-panel-header>
-                    <p>This is the primary content of the panel.</p>
-                  </mat-expansion-panel>
-                </mat-accordion>
-
-                <!-- <mat-selection-list
-                  #paymentSelection
-                  class="w-100"
-                  #shoes
-                  [multiple]="false"
-                  (selectionChange)="selectPaymentChange(paymentSelection)"
-                >
-                  <mat-list-option
-                    *ngFor="let data of paymentMethods"
-                    [togglePosition]="'before'"
-                    [value]="data.value"
-                  >
-                    <div class="d-flex align-items-center">
-                      <div class="p-2 mx-2 payment-img">
-                        <img width="80" class="rounded" [src]="data.img" />
-                      </div>
-                      <div>
-                        <h5 class="mb-0">{{ data.title }}</h5>
-                        <p class="mb-0">{{ data.description }}</p>
-                      </div>
+                    </ng-template>
+                    <div>
+                      <div #paymentRef></div>
                     </div>
-                  </mat-list-option>
-                </mat-selection-list> -->
+                  </mat-tab>
+                </mat-tab-group>
               </div>
               <div class="d-flex justify-content-between">
                 <button mat-button matStepperPrevious>Back</button>
