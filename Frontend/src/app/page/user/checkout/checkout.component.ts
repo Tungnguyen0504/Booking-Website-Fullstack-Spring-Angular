@@ -1,10 +1,17 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
-import { DATETIME_FORMAT3, ROOM_GUEST_QTY_STORAGE } from 'src/app/constant/Abstract.constant';
+import { Router } from '@angular/router';
+import {
+  BOOKING_INFO_STORAGE,
+  DATETIME_FORMAT3,
+  ROOM_GUEST_QTY_STORAGE,
+  TIME_EXPIRED,
+} from 'src/app/constant/Abstract.constant';
 import { Accommodation } from 'src/app/model/Accommodation.model';
 import { User } from 'src/app/model/User.model';
 import { AccommodationService } from 'src/app/service/accommodation.service';
+import { AlertService } from 'src/app/service/alert.service';
 import { BookingService, CartStorage } from 'src/app/service/booking.service';
 import { UserService } from 'src/app/service/user.service';
 import { Util } from 'src/app/util/util';
@@ -16,7 +23,6 @@ import { Util } from 'src/app/util/util';
 })
 export class CheckoutComponent implements OnInit {
   @ViewChild('stepper') private stepper!: MatStepper;
-  @ViewChild('paymentRef', { static: true }) paymentRef!: ElementRef;
 
   secondForm: FormGroup = {} as FormGroup;
   thirdForm: FormGroup = {} as FormGroup;
@@ -42,7 +48,9 @@ export class CheckoutComponent implements OnInit {
   ];
 
   constructor(
+    private router: Router,
     private $formBuilder: FormBuilder,
+    private $alertService: AlertService,
     private $userService: UserService,
     private $accommodationService: AccommodationService,
     private $bookingService: BookingService
@@ -54,58 +62,6 @@ export class CheckoutComponent implements OnInit {
     });
     this.initApi();
     this.buildForm();
-    this.initPayment();
-  }
-
-  initPayment() {
-    window.paypal
-      .Buttons({
-        style: {
-          layout: 'horizontal',
-          color: 'blue',
-          shape: 'rect',
-          label: 'paypal',
-        },
-        // createOrder: (data, actions) => {
-        //   return fetch('http://localhost:3000/paypal/orders', {
-        //     method: 'post',
-        //     headers: {
-        //       Accept: 'application/json, text/plain, */*',
-        //       'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify(postData),
-        //   })
-        //     .then((response) => response.json())
-        //     .then((response) => {
-        //       orderRef = response.orderRef;
-        //       return response.id;
-        //     });
-        // },
-        // onApprove: (data, actions) => {
-        //   return fetch(`http://localhost:3000/paypal/orders/${data.orderID}/capture`, {
-        //     method: 'post',
-        //     headers: {
-        //       Accept: 'application/json, text/plain, */*',
-        //       'Content-Type': 'application/json',
-        //     },
-        //   })
-        //     .then((response) => response.json())
-        //     .then((orderData) => {
-        //       var errorDetail = Array.isArray(orderData.details) && orderData.details[0];
-
-        //       if (errorDetail && errorDetail.issue === 'INSTRUMENT_DECLINED') {
-        //         return actions.restart();
-        //       }
-        //       var transaction = orderData.purchase_units[0].payments.captures[0];
-
-        //       this.paypalRedirect(transaction.status, orderData.orderRef);
-        //     });
-        // },
-        onError: (error: any) => {
-          console.log(error);
-        },
-      })
-      .render(this.paymentRef.nativeElement);
   }
 
   buildForm() {
@@ -163,7 +119,7 @@ export class CheckoutComponent implements OnInit {
       this.cartStorage &&
       Object.keys(this.roomGuestQty).length !== 0
     ) {
-      const request = {
+      const bookingInfo = {
         firstName: this.secondForm.get('firstName')?.value,
         lastName: this.secondForm.get('lastName')?.value,
         email: this.secondForm.get('email')?.value,
@@ -182,12 +138,9 @@ export class CheckoutComponent implements OnInit {
           };
         }),
       };
-      console.log(request);
-      this.$bookingService.createPayment(request).subscribe({
-        next: (res) => {
-          console.log('oke');
-        },
-      });
+      console.log(bookingInfo);
+      Util.setLocal(BOOKING_INFO_STORAGE, bookingInfo, TIME_EXPIRED);
+      this.router.navigate(['/booking/payment']);
     }
   }
 }

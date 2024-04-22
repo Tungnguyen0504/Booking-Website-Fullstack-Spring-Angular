@@ -42,13 +42,13 @@ export class BookNowComponent {
         this.formSearch.get('fromDate')?.value,
         this.formSearch.get('toDate')?.value
       );
-      this.router.navigate(['/search-accommodation'], {
-        queryParams: {
-          keySearch: this.formSearch.get('keySearch')?.value,
-          fromDate: Util.formatDate(this.formSearch.get('fromDate')?.value, DATETIME_FORMAT3),
-          toDate: Util.formatDate(this.formSearch.get('toDate')?.value, DATETIME_FORMAT3),
-        },
-      });
+      // this.router.navigate(['/search-accommodation'], {
+      //   queryParams: {
+      //     keySearch: this.formSearch.get('keySearch')?.value,
+      //     fromDate: Util.formatDate(this.formSearch.get('fromDate')?.value, DATETIME_FORMAT3),
+      //     toDate: Util.formatDate(this.formSearch.get('toDate')?.value, DATETIME_FORMAT3),
+      //   },
+      // });
     } else {
       var msg = '';
       if (this.formSearch.get('keySearch')?.errors) {

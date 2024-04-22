@@ -27,7 +27,6 @@ export class BaseApiService {
         return of(null);
       }),
       catchError((error) => {
-        console.log(error);
         this.$alertService.error(error.error.message);
         return of(null);
       }),
@@ -47,7 +46,6 @@ export class BaseApiService {
         return of(null);
       }),
       catchError((error) => {
-        console.log(error);
         this.$alertService.error(error.error.message);
         return of(null);
       }),

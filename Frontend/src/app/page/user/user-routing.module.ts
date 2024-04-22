@@ -6,6 +6,7 @@ import { SearchAccommodationComponent } from './search-accommodation/search-acco
 import { AccommodationDetailComponent } from './accommodation-detail/accommodation-detail.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { BookingSuccessComponent } from './booking-success/booking-success.component';
+import { BookingPaymentComponent } from './booking-payment/booking-payment.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,7 @@ const routes: Routes = [
         component: AccommodationDetailComponent,
       },
       { path: 'booking/checkout', component: CheckoutComponent },
+      { path: 'booking/payment', component: BookingPaymentComponent },
       { path: 'booking/success', component: BookingSuccessComponent },
     ],
   },

@@ -47,7 +47,6 @@ export class AuthenticationService {
           Util.removeLocal(JWT_TOKEN_STORAGE);
         },
         error: (error) => {
-          console.log(error);
           this.$alertService.error(error.error.message);
           return;
         },

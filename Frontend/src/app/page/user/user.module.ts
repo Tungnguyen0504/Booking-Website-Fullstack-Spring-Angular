@@ -37,6 +37,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CssLoadingComponent } from 'src/app/shared/user/css-loading/css-loading.component';
+import { BookingPaymentComponent } from './booking-payment/booking-payment.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { CssLoadingComponent } from 'src/app/shared/user/css-loading/css-loading
     BookingSuccessComponent,
     InputSpinnerComponent,
     CssLoadingComponent,
+    BookingPaymentComponent,
   ],
   imports: [
     CommonModule,
