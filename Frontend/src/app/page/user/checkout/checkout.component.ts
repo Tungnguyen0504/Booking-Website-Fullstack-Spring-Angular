@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import {
   BOOKING_INFO_STORAGE,
   DATETIME_FORMAT3,
+  JWT_TOKEN_STORAGE,
   PATH_V1,
   ROOM_GUEST_QTY_STORAGE,
   TIME_EXPIRED,
@@ -140,6 +141,7 @@ export class CheckoutComponent implements OnInit {
           };
         }),
       };
+      const token = Util.getLocal(JWT_TOKEN_STORAGE);
       window.paypal
         .Buttons({
           style: {
@@ -154,9 +156,14 @@ export class CheckoutComponent implements OnInit {
               headers: {
                 Accept: 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
               },
               body: JSON.stringify(this.bookingInfo),
-            });
+            })
+            .then((response) => response.json())
+              .then((response) => {
+                console.log(response);
+              });
           },
           onApprove: (data: any, actions: any) => {
             const request = {
@@ -168,6 +175,7 @@ export class CheckoutComponent implements OnInit {
               headers: {
                 Accept: 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
               },
               body: JSON.stringify(request),
             })
