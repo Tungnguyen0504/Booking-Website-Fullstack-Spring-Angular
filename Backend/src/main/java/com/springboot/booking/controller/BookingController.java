@@ -1,6 +1,7 @@
 package com.springboot.booking.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.gson.JsonObject;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
 import com.springboot.booking.dto.request.BookingCaptureRequest;
@@ -23,8 +24,8 @@ public class BookingController {
     private final PaymentService paymentService;
 
     @PostMapping("/payment/create")
-    public ResponseEntity<Map<String, Object>> createPayment(@RequestBody BookingPaymentRequest request) throws PayPalRESTException, JsonProcessingException {
-        return ResponseEntity.ok(paymentService.createPayment(request));
+    public JsonObject createPayment(@RequestBody BookingPaymentRequest request) throws PayPalRESTException, JsonProcessingException {
+        return paymentService.createOrder(request);
     }
 
     @PostMapping("/payment/success")

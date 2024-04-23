@@ -27,14 +27,13 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.text.DecimalFormat;
 import java.util.*;
 
-import static jdk.javadoc.internal.doclets.formats.html.markup.HtmlStyle.details;
-
 @Service
 @RequiredArgsConstructor
 public class PaymentService {
     @Value("${environment.local.base-url}")
     private String baseUrl;
     final double RATE_CONVERT = 23810;
+    DecimalFormat decimalFormat = new DecimalFormat("#0.00");
     @Value("${paypal.client-id}")
     private String clientId;
     @Value("${paypal.secret}")
@@ -69,8 +68,27 @@ public class PaymentService {
         return mapper.readValue(response, JsonObject.class);
     }
 
-    public JsonObject createOrder(BookingPaymentRequest request) {
-        return null;
+    public JsonObject createOrder(BookingPaymentRequest request) throws JsonProcessingException {
+        JsonObject requestBody = new JsonObject();
+        requestBody.add("purchase_units", getPurchaseUnits(request));
+        requestBody.addProperty("intent", "CAPTURE");
+        requestBody.add("payer", getPayer());
+        requestBody.add("application_context", getApplicationContext());
+        System.out.println(mapper.writeValueAsString(requestBody));
+        return requestBody;
+    }
+
+    //bug
+    //solution => convert to Map
+    private JsonObject getPayer() throws JsonProcessingException {
+        UserResponse user = userService.getCurrentUser();
+        JsonObject name = new JsonObject();
+        name.addProperty("given_name", user.getFirstName());
+        name.addProperty("surname", user.getLastName());
+
+        JsonObject payer = new JsonObject();
+        payer.add("name", name);
+        return payer;
     }
 
     public Payment executePayment(BookingCaptureRequest request) throws PayPalRESTException {
@@ -111,6 +129,13 @@ public class PaymentService {
         return payer;
     }
 
+    private JsonObject getApplicationContext() {
+        JsonObject applicationContext = new JsonObject();
+        applicationContext.addProperty("return_url", baseUrl + "/booking/success");
+        applicationContext.addProperty("cancel_url", baseUrl + "/booking/checkout");
+        return applicationContext;
+    }
+
     private RedirectUrls getRedirectURLs() {
         RedirectUrls redirectUrls = new RedirectUrls();
         redirectUrls.setCancelUrl(baseUrl + "/booking/checkout");
@@ -118,20 +143,18 @@ public class PaymentService {
         return redirectUrls;
     }
 
-    private JsonArray getPurchaseUnits(BookingPaymentRequest request) {
+    private JsonArray getPurchaseUnits(BookingPaymentRequest request) throws JsonProcessingException {
         JsonArray purchaseUnits = new JsonArray();
         JsonObject unit = new JsonObject();
         JsonObject amount = new JsonObject();
         JsonArray items = new JsonArray();
 
-        DecimalFormat decimalFormat = new DecimalFormat("#0.00");
         int subDate = DatetimeUtil.subLocalDate(request.getFromDate(), request.getToDate());
         Double totalPrice = 0.0;
 
         for (BookingDetailRequest bookingDetail : request.getCartItems()) {
             RoomResponse room = roomService.getById(bookingDetail.getRoomId());
-            double price = (room.getPrice() * (100 - room.getDiscountPercent()) / 100 * subDate) / RATE_CONVERT;
-            price = Double.parseDouble(decimalFormat.format(price)) * bookingDetail.getQuantity();
+            double price = (room.getPrice() * ((100 - room.getDiscountPercent()) / 100) * bookingDetail.getQuantity() * subDate) / RATE_CONVERT;
             totalPrice += price;
 
             JsonObject unitAmount = new JsonObject();
@@ -141,19 +164,19 @@ public class PaymentService {
             JsonObject item = new JsonObject();
             item.addProperty("name", room.getRoomType());
             item.addProperty("quantity", bookingDetail.getQuantity());
-            item.addProperty("unit_amount", String.valueOf(unitAmount));
+            item.add("unit_amount", unitAmount);
 
             items.add(item);
         }
         amount.addProperty("currency_code", "USD");
         amount.addProperty("value", decimalFormat.format(totalPrice));
-        unit.addProperty("items", String.valueOf(items));
-        unit.addProperty("amount", String.valueOf(amount));
+        unit.add("items", items);
+        unit.add("amount", amount);
         purchaseUnits.add(unit);
         return purchaseUnits;
     }
 
-    private List<Transaction> getTransactionInformation(BookingPaymentRequest request) {
+    private List<Transaction> getTransactionInformation(BookingPaymentRequest request) throws JsonProcessingException {
         DecimalFormat decimalFormat = new DecimalFormat("#0.00");
         Details details = new Details();
         Amount amount = new Amount();
