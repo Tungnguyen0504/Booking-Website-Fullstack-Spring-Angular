@@ -150,7 +150,7 @@ export class CheckoutComponent implements OnInit {
             shape: 'rect',
             label: 'paypal',
           },
-          createOrder: (data: any, actions: any) => {
+          createOrder: () => {
             return fetch(`${URL}/booking/payment/create`, {
               method: 'post',
               headers: {
@@ -160,15 +160,17 @@ export class CheckoutComponent implements OnInit {
               },
               body: JSON.stringify(this.bookingInfo),
             })
-            .then((response) => response.json())
+              .then((response) => response.json())
               .then((response) => {
                 console.log(response);
+                return response.id;
               });
           },
-          onApprove: (data: any, actions: any) => {
+          onApprove: (data: any) => {
+            console.log('test');
+            console.log(data);
             const request = {
               paymentId: data.id,
-              payerId: 0,
             };
             return fetch(`${URL}/booking/payment/success`, {
               method: 'post',
@@ -180,9 +182,10 @@ export class CheckoutComponent implements OnInit {
               body: JSON.stringify(request),
             })
               .then((response) => response.json())
-              .then((details) => {
+              .then((response) => {
+                console.log(response);
                 this.$alertService.success(
-                  'Transaction completed by ' + details.payer.name.given_name
+                  'Transaction completed by ' + response.payer.name.given_name
                 );
               });
           },

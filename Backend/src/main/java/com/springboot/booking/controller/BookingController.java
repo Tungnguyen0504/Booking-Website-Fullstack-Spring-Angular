@@ -24,12 +24,12 @@ public class BookingController {
     private final PaymentService paymentService;
 
     @PostMapping("/payment/create")
-    public ResponseEntity<Map<String, Object>> createPayment(@RequestBody BookingPaymentRequest request) throws PayPalRESTException, JsonProcessingException {
+    public ResponseEntity<Map<String, Object>> createPayment(@RequestBody BookingPaymentRequest request) throws JsonProcessingException {
         return ResponseEntity.ok(paymentService.createOrder(request));
     }
 
-    @PostMapping("/payment/success")
-    public ResponseEntity<Payment> capturePayment(@RequestBody BookingCaptureRequest request) throws PayPalRESTException {
-        return ResponseEntity.ok(paymentService.executePayment(request));
+    @PostMapping("/payment/capture")
+    public ResponseEntity<Map<String, Object>> capturePayment(@RequestBody BookingCaptureRequest request) throws JsonProcessingException {
+        return ResponseEntity.ok(paymentService.captureOrder(request));
     }
 }

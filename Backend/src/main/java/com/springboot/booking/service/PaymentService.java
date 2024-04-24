@@ -48,7 +48,52 @@ public class PaymentService {
 
     private final ObjectMapper mapper;
 
-    private JsonObject generateTokenPaypal(BookingPaymentRequest request) throws JsonProcessingException {
+    public Map<String, Object> createOrder(BookingPaymentRequest request) throws JsonProcessingException {
+        Map<String, Object> token = generateTokenPaypal();
+
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("purchase_units", getPurchaseUnits(request));
+        requestBody.put("intent", "CAPTURE");
+        requestBody.put("payer", getPayer());
+//        requestBody.put("application_context", getApplicationContext());
+        requestBody.put("payment_source", getPaymentSource());
+        System.out.println(mapper.writeValueAsString(requestBody));
+
+        WebClient webClient = WebClient.create();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", String.format("%s %s", token.get("token_type"), token.get("access_token")));
+
+        String response = webClient.post()
+                .uri("https://api-m.sandbox.paypal.com/v2/checkout/orders")
+                .headers(httpHeaders -> httpHeaders.addAll(headers))
+                .body(BodyInserters.fromValue(mapper.writeValueAsString(requestBody)))
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+        System.out.println(response);
+        return mapper.readValue(response, Map.class);
+    }
+
+    public Map<String, Object> captureOrder(BookingCaptureRequest request) throws JsonProcessingException {
+        Map<String, Object> token = generateTokenPaypal();
+
+        WebClient webClient = WebClient.create();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", String.format("%s %s", token.get("token_type"), token.get("access_token")));
+
+        String response = webClient.post()
+                .uri(String.format("https://api-m.sandbox.paypal.com/v2/checkout/orders/%s/capture", request.getPaymentId()))
+                .headers(httpHeaders -> httpHeaders.addAll(headers))
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+        System.out.println(response);
+        return mapper.readValue(response, Map.class);
+    }
+
+    private Map<String, Object> generateTokenPaypal() throws JsonProcessingException {
         WebClient webClient = WebClient.create();
 
         HttpHeaders headers = new HttpHeaders();
@@ -65,34 +110,10 @@ public class PaymentService {
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
-        return mapper.readValue(response, JsonObject.class);
-    }
-
-    public Map<String, Object> createOrder(BookingPaymentRequest request) throws JsonProcessingException {
-        Map<String, Object> requestBody = new HashMap<>();
-        requestBody.put("purchase_units", getPurchaseUnits(request));
-        requestBody.put("intent", "CAPTURE");
-        requestBody.put("payer", getPayer());
-        requestBody.put("application_context", getApplicationContext());
-        System.out.println(mapper.writeValueAsString(requestBody));
-
-        WebClient webClient = WebClient.create();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("Authorization", Util.getBasicAuth(clientId, secret));
-
-        String response = webClient.post()
-                .uri("https://api-m.sandbox.paypal.com/v2/checkout/orders")
-                .headers(httpHeaders -> httpHeaders.addAll(headers))
-                .body(BodyInserters.fromValue(mapper.writeValueAsString(requestBody)))
-                .retrieve()
-                .bodyToMono(String.class)
-                .block();
-        System.out.println(response);
         return mapper.readValue(response, Map.class);
     }
 
-    private Map<String, Object> getPayer() throws JsonProcessingException {
+    private Map<String, Object> getPayer() {
         UserResponse user = userService.getCurrentUser();
         Map<String, Object> name = new HashMap<>();
         name.put("given_name", user.getFirstName());
@@ -103,44 +124,6 @@ public class PaymentService {
         return payer;
     }
 
-    public Payment executePayment(BookingCaptureRequest request) throws PayPalRESTException {
-        Payment payment = new Payment();
-        payment.setId(request.getPaymentId());
-        PaymentExecution paymentExecution = new PaymentExecution();
-        paymentExecution.setPayerId(request.getPayerId());
-        return payment.execute(apiContext, paymentExecution);
-    }
-
-    public Map<String, Object> createPayment(BookingPaymentRequest request) throws PayPalRESTException, JsonProcessingException {
-        Payment payment = new Payment();
-        payment.setTransactions(getTransactionInformation(request));
-        payment.setRedirectUrls(getRedirectURLs());
-        payment.setPayer(getPayerInformation());
-        payment.setIntent("sale");
-        Payment paymentCreated = payment.create(apiContext);
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("paymentId", paymentCreated.getId());
-        response.put("payerId", paymentCreated.getPayer().getPayerInfo().getPayerId());
-        System.out.println(response);
-        return response;
-    }
-
-    private Payer getPayerInformation() {
-        UserResponse user = userService.getCurrentUser();
-
-        PayerInfo payerInfo = new PayerInfo();
-        payerInfo.setFirstName("Nguyen Van");
-        payerInfo.setLastName("A");
-//        payerInfo.setPhone(user.getPhoneNumber());
-        payerInfo.setEmail(user.getEmail());
-
-        Payer payer = new Payer();
-        payer.setPaymentMethod("Paypal");
-        payer.setPayerInfo(payerInfo);
-        return payer;
-    }
-
     private Map<String, Object> getApplicationContext() {
         Map<String, Object> applicationContext = new HashMap<>();
         applicationContext.put("return_url", baseUrl + "/booking/success");
@@ -148,14 +131,7 @@ public class PaymentService {
         return applicationContext;
     }
 
-    private RedirectUrls getRedirectURLs() {
-        RedirectUrls redirectUrls = new RedirectUrls();
-        redirectUrls.setCancelUrl(baseUrl + "/booking/checkout");
-        redirectUrls.setReturnUrl(baseUrl + "/booking/success");
-        return redirectUrls;
-    }
-
-    private List<Map<String, Object>> getPurchaseUnits(BookingPaymentRequest request) throws JsonProcessingException {
+    private List<Map<String, Object>> getPurchaseUnits(BookingPaymentRequest request) {
         List<Map<String, Object>> purchaseUnits = new ArrayList<>();
         Map<String, Object> unit = new HashMap<>();
         Map<String, Object> amount = new HashMap<>();
@@ -182,60 +158,29 @@ public class PaymentService {
         }
         amount.put("currency_code", "USD");
         amount.put("value", decimalFormat.format(totalPrice));
-        unit.put("items", items);
+//        unit.put("items", items);
         unit.put("amount", amount);
         purchaseUnits.add(unit);
         return purchaseUnits;
     }
 
-    private List<Transaction> getTransactionInformation(BookingPaymentRequest request) throws JsonProcessingException {
-        DecimalFormat decimalFormat = new DecimalFormat("#0.00");
-        Details details = new Details();
-        Amount amount = new Amount();
-        Transaction transaction = new Transaction();
-        ItemList itemList = new ItemList();
-        List<Item> items = new ArrayList<>();
-        int subDate = DatetimeUtil.subLocalDate(request.getFromDate(), request.getToDate());
-        Double totalPrice = 0.0;
+    private Map<String, Object> getPaymentSource() {
+        Map<String, Object> experienceContext = new HashMap<>();
+        experienceContext.put("payment_method_preference", "IMMEDIATE_PAYMENT_REQUIRED");
+        experienceContext.put("brand_name", "EXAMPLE INC");
+        experienceContext.put("locale", "en-US");
+        experienceContext.put("landing_page", "LOGIN");
+        experienceContext.put("shipping_preference", "NO_SHIPPING");
+        experienceContext.put("user_action", "PAY_NOW");
+        experienceContext.put("return_url", baseUrl + "/booking/success");
+        experienceContext.put("cancel_url", baseUrl + "/booking/checkout");
 
-        for (BookingDetailRequest bookingDetail : request.getCartItems()) {
-            RoomResponse room = roomService.getById(bookingDetail.getRoomId());
-            double price = (room.getPrice() * (100 - room.getDiscountPercent()) / 100 * subDate) / RATE_CONVERT;
-            price = Double.parseDouble(decimalFormat.format(price)) * bookingDetail.getQuantity();
-            totalPrice += price;
+        Map<String, Object> paypal = new HashMap<>();
+        paypal.put("experience_context", experienceContext);
 
-            Item item = new Item();
-            item.setCurrency("USD");
-            item.setName(room.getRoomType() + " x " + bookingDetail.getQuantity());
-            item.setPrice(decimalFormat.format(price));
-            item.setQuantity(String.valueOf(bookingDetail.getQuantity()));
-            items.add(item);
-        }
-        itemList.setItems(items);
+        Map<String, Object> paymentSource = new HashMap<>();
+        paymentSource.put("paypal", paypal);
 
-        details.setSubtotal(decimalFormat.format(totalPrice));
-
-        amount.setCurrency("USD");
-        amount.setDetails(details);
-        amount.setTotal(decimalFormat.format(totalPrice));
-
-        transaction.setAmount(amount);
-        transaction.setDescription("Reservation for " + accommodationService.getById(Long.valueOf(request.getAccommodationId())).getAccommodationName());
-        transaction.setItemList(itemList);
-
-        return Collections.singletonList(transaction);
-    }
-
-    private String getApprovalLink(Payment approvedPayment) {
-        return Objects.requireNonNull(Objects.requireNonNull(approvedPayment.getLinks()
-                        .stream()
-                        .filter(link -> link.getRel().equalsIgnoreCase("approval_url"))
-                        .findFirst()
-                        .orElse(null))
-                .getHref());
-    }
-
-    public Payment getPaymentDetails(String paymentId) throws PayPalRESTException {
-        return Payment.get(apiContext, paymentId);
+        return paymentSource;
     }
 }
