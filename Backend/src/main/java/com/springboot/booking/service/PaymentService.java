@@ -68,26 +68,38 @@ public class PaymentService {
         return mapper.readValue(response, JsonObject.class);
     }
 
-    public JsonObject createOrder(BookingPaymentRequest request) throws JsonProcessingException {
-        JsonObject requestBody = new JsonObject();
-        requestBody.add("purchase_units", getPurchaseUnits(request));
-        requestBody.addProperty("intent", "CAPTURE");
-        requestBody.add("payer", getPayer());
-        requestBody.add("application_context", getApplicationContext());
+    public Map<String, Object> createOrder(BookingPaymentRequest request) throws JsonProcessingException {
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("purchase_units", getPurchaseUnits(request));
+        requestBody.put("intent", "CAPTURE");
+        requestBody.put("payer", getPayer());
+        requestBody.put("application_context", getApplicationContext());
         System.out.println(mapper.writeValueAsString(requestBody));
-        return requestBody;
+
+        WebClient webClient = WebClient.create();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", Util.getBasicAuth(clientId, secret));
+
+        String response = webClient.post()
+                .uri("https://api-m.sandbox.paypal.com/v2/checkout/orders")
+                .headers(httpHeaders -> httpHeaders.addAll(headers))
+                .body(BodyInserters.fromValue(mapper.writeValueAsString(requestBody)))
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+        System.out.println(response);
+        return mapper.readValue(response, Map.class);
     }
 
-    //bug
-    //solution => convert to Map
-    private JsonObject getPayer() throws JsonProcessingException {
+    private Map<String, Object> getPayer() throws JsonProcessingException {
         UserResponse user = userService.getCurrentUser();
-        JsonObject name = new JsonObject();
-        name.addProperty("given_name", user.getFirstName());
-        name.addProperty("surname", user.getLastName());
+        Map<String, Object> name = new HashMap<>();
+        name.put("given_name", user.getFirstName());
+        name.put("surname", user.getLastName());
 
-        JsonObject payer = new JsonObject();
-        payer.add("name", name);
+        Map<String, Object> payer = new HashMap<>();
+        payer.put("name", name);
         return payer;
     }
 
@@ -129,10 +141,10 @@ public class PaymentService {
         return payer;
     }
 
-    private JsonObject getApplicationContext() {
-        JsonObject applicationContext = new JsonObject();
-        applicationContext.addProperty("return_url", baseUrl + "/booking/success");
-        applicationContext.addProperty("cancel_url", baseUrl + "/booking/checkout");
+    private Map<String, Object> getApplicationContext() {
+        Map<String, Object> applicationContext = new HashMap<>();
+        applicationContext.put("return_url", baseUrl + "/booking/success");
+        applicationContext.put("cancel_url", baseUrl + "/booking/checkout");
         return applicationContext;
     }
 
@@ -143,11 +155,11 @@ public class PaymentService {
         return redirectUrls;
     }
 
-    private JsonArray getPurchaseUnits(BookingPaymentRequest request) throws JsonProcessingException {
-        JsonArray purchaseUnits = new JsonArray();
-        JsonObject unit = new JsonObject();
-        JsonObject amount = new JsonObject();
-        JsonArray items = new JsonArray();
+    private List<Map<String, Object>> getPurchaseUnits(BookingPaymentRequest request) throws JsonProcessingException {
+        List<Map<String, Object>> purchaseUnits = new ArrayList<>();
+        Map<String, Object> unit = new HashMap<>();
+        Map<String, Object> amount = new HashMap<>();
+        List<Map<String, Object>> items = new ArrayList<>();
 
         int subDate = DatetimeUtil.subLocalDate(request.getFromDate(), request.getToDate());
         Double totalPrice = 0.0;
@@ -157,21 +169,21 @@ public class PaymentService {
             double price = (room.getPrice() * ((100 - room.getDiscountPercent()) / 100) * bookingDetail.getQuantity() * subDate) / RATE_CONVERT;
             totalPrice += price;
 
-            JsonObject unitAmount = new JsonObject();
-            unitAmount.addProperty("currency_code", "USD");
-            unitAmount.addProperty("value", decimalFormat.format(price));
+            Map<String, Object> unitAmount = new HashMap<>();
+            unitAmount.put("currency_code", "USD");
+            unitAmount.put("value", decimalFormat.format(price));
 
-            JsonObject item = new JsonObject();
-            item.addProperty("name", room.getRoomType());
-            item.addProperty("quantity", bookingDetail.getQuantity());
-            item.add("unit_amount", unitAmount);
+            Map<String, Object> item = new HashMap<>();
+            item.put("name", room.getRoomType());
+            item.put("quantity", bookingDetail.getQuantity());
+            item.put("unit_amount", unitAmount);
 
             items.add(item);
         }
-        amount.addProperty("currency_code", "USD");
-        amount.addProperty("value", decimalFormat.format(totalPrice));
-        unit.add("items", items);
-        unit.add("amount", amount);
+        amount.put("currency_code", "USD");
+        amount.put("value", decimalFormat.format(totalPrice));
+        unit.put("items", items);
+        unit.put("amount", amount);
         purchaseUnits.add(unit);
         return purchaseUnits;
     }

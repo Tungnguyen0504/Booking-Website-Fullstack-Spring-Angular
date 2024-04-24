@@ -24,8 +24,8 @@ public class BookingController {
     private final PaymentService paymentService;
 
     @PostMapping("/payment/create")
-    public JsonObject createPayment(@RequestBody BookingPaymentRequest request) throws PayPalRESTException, JsonProcessingException {
-        return paymentService.createOrder(request);
+    public ResponseEntity<Map<String, Object>> createPayment(@RequestBody BookingPaymentRequest request) throws PayPalRESTException, JsonProcessingException {
+        return ResponseEntity.ok(paymentService.createOrder(request));
     }
 
     @PostMapping("/payment/success")
