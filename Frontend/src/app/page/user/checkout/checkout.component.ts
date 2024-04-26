@@ -25,8 +25,8 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./checkout.component.css'],
 })
 export class CheckoutComponent implements OnInit {
-  @ViewChild('stepper') private stepper!: MatStepper;
-  @ViewChild('paymentRef', { static: true }) paymentRef!: ElementRef;
+  @ViewChild('stepper') private stepper?: MatStepper;
+  @ViewChild('paymentRef', { static: true }) paymentRef?: ElementRef;
 
   secondForm: FormGroup = {} as FormGroup;
   thirdForm: FormGroup = {} as FormGroup;
@@ -64,7 +64,7 @@ export class CheckoutComponent implements OnInit {
 
   ngOnInit(): void {
     setTimeout(() => {
-      this.stepper.next();
+      this.stepper?.next();
     });
     this.initApi();
     this.buildForm();
@@ -193,7 +193,7 @@ export class CheckoutComponent implements OnInit {
             console.log(error);
           },
         })
-        .render(this.paymentRef.nativeElement);
+        .render(this.paymentRef?.nativeElement);
     }
   }
 

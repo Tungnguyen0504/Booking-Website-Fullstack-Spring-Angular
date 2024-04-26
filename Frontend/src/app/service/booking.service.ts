@@ -40,11 +40,7 @@ export class BookingService {
   };
   private cartSubject = new BehaviorSubject<CartItem[]>([]);
 
-  constructor(
-    private httpClient: HttpClient,
-    private $userService: UserService,
-    private $authenticationService: AuthenticationService
-  ) {
+  constructor(private httpClient: HttpClient, private $userService: UserService) {
     this.loadCartFromLocalStorage().subscribe({
       next: (res) => {
         this.cartStorage = res;

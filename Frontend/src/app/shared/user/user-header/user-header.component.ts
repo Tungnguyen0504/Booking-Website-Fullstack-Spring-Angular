@@ -29,7 +29,6 @@ export class UserHeaderComponent implements OnInit {
       next: (res: User | null) => {
         if (res) {
           this.user = res;
-          console.log(this.user)
         }
       },
     });

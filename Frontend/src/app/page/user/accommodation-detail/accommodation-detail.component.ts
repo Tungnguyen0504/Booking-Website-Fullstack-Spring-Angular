@@ -156,7 +156,6 @@ export class AccommodationDetailComponent implements AfterViewInit {
   preCheck(): Observable<boolean> {
     return this.$authenticationService.isAuthenticated().pipe(
       switchMap((res: boolean) => {
-        console.log(res);
         if (res == false) {
           this.$alertService.warning('Bạn cần đăng nhập trước');
           return of(false);
@@ -165,7 +164,6 @@ export class AccommodationDetailComponent implements AfterViewInit {
           this.$alertService.warning('Số lượng khách và phòng không hợp lệ');
           return of(false);
         }
-        console.log(1);
         return of(true);
       })
     );
