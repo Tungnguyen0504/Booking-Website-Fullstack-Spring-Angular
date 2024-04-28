@@ -13,16 +13,11 @@ import { UserService } from 'src/app/service/user.service';
 })
 export class UserHeaderComponent implements OnInit {
   @Input() drawer!: MatDrawer;
-
-  cartStorage?: CartStorage;
+  @Input() cartStorage?: CartStorage;
 
   user?: User;
 
-  constructor(
-    private $userService: UserService,
-    private $authenticationService: AuthenticationService,
-    private $bookingService: BookingService
-  ) {}
+  constructor(private $userService: UserService) {}
 
   ngOnInit(): void {
     this.$userService.getCurrentUser().subscribe({
@@ -30,12 +25,6 @@ export class UserHeaderComponent implements OnInit {
         if (res) {
           this.user = res;
         }
-      },
-    });
-
-    this.$bookingService.loadCartFromLocalStorage().subscribe({
-      next: (res) => {
-        this.cartStorage = res;
       },
     });
   }

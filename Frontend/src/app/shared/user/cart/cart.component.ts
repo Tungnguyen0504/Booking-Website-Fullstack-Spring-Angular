@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { BookingService, CartStorage } from 'src/app/service/booking.service';
 
 @Component({
@@ -7,17 +7,11 @@ import { BookingService, CartStorage } from 'src/app/service/booking.service';
   styleUrls: ['./cart.component.css'],
 })
 export class CartComponent implements OnInit {
-  cartStorage?: CartStorage;
+  @Input() cartStorage?: CartStorage;
 
   constructor(private $bookingService: BookingService) {}
 
-  ngOnInit(): void {
-    this.$bookingService.loadCartFromLocalStorage().subscribe({
-      next: (res) => {
-        this.cartStorage = res;
-      },
-    });
-  }
+  ngOnInit(): void {}
 
   removeRoom(roomId: number) {
     this.$bookingService.removeFromCart(roomId);

@@ -1,11 +1,12 @@
 import * as moment from 'moment';
+import { DATETIME_FORMAT1, TIME_EXPIRED } from '../constant/Abstract.constant';
 
 export class Util {
   public static setLocal(key: string, value: any, expiredTime: number) {
     if (key && value) {
       const item = {
         value: value,
-        expiration: Date.now() + expiredTime,
+        expiration: this.formatDate(this.parseDate1(Date.now() + expiredTime), DATETIME_FORMAT1),
       };
       localStorage.setItem(key, JSON.stringify(item));
     }
@@ -15,10 +16,10 @@ export class Util {
     const item = localStorage.getItem(key);
     if (item) {
       const parsedItem = JSON.parse(item);
-      if (
-        Object.keys(parsedItem).length == 0 ||
-        (parsedItem.expiration && parsedItem.expiration < Date.now())
-      ) {
+      const milliseconds = this.toMilliseconds(
+        this.parseDate2(parsedItem.expiration, DATETIME_FORMAT1)
+      );
+      if (Object.keys(parsedItem).length == 0 || (milliseconds && milliseconds < Date.now())) {
         localStorage.removeItem(key);
         return null;
       }
@@ -31,12 +32,20 @@ export class Util {
     localStorage.removeItem(key);
   }
 
-  public static parseDate(dateStr: string, pattern: string): Date {
+  public static parseDate1(milliseconds: number): Date {
+    return moment(milliseconds).toDate();
+  }
+
+  public static parseDate2(dateStr: string, pattern: string): Date {
     return moment(dateStr, pattern).toDate();
   }
 
   public static formatDate(date: Date, pattern: string) {
     return moment(date).format(pattern);
+  }
+
+  public static toMilliseconds(date: Date) {
+    return moment(date).valueOf();
   }
 
   public static subtractDate(var1: Date, var2: Date) {

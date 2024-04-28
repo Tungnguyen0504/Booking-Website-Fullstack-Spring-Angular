@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Room } from '../model/Room.model';
-import { CART_STORAGE, PATH_USER, PATH_V1, TIME_EXPIRED } from '../constant/Abstract.constant';
+import { CART_STORAGE, PATH_V1, TIME_EXPIRED } from '../constant/Abstract.constant';
 import { BehaviorSubject, Observable, of, switchMap } from 'rxjs';
 import { UserService } from './user.service';
-import { AuthenticationService } from './authentication.service';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Util } from '../util/util';

@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { TokenInterceptor } from './service/token.interceptor';
+import { TokenInterceptor } from './interceptor/token.interceptor';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatSelectModule } from '@angular/material/select';
@@ -23,9 +23,11 @@ import { AdminModule } from './page/admin/admin.module';
 import { AuthenticationModule } from './page/authentication/authentication.module';
 import { UserModule } from './page/user/user.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { LoadingInterceptor } from './interceptor/loading.interceptor';
+import { SpinnerComponent } from './shared/generic/spinner/spinner.component';
 
 @NgModule({
-  declarations: [AppComponent, AdminWidgetComponent],
+  declarations: [AppComponent, AdminWidgetComponent, SpinnerComponent],
   imports: [
     HttpClientModule,
     FormsModule,
@@ -52,6 +54,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingInterceptor,
       multi: true,
     },
   ],

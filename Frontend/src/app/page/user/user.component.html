@@ -1,18 +1,19 @@
-<!-- <ng-container *ngIf="$authService.isAuthenticated() && $baseApiService.isLoading()">
-  <app-css-loading></app-css-loading>
-</ng-container> -->
 <mat-sidenav-container [hasBackdrop]="true">
   <mat-sidenav
     #drawer
     [mode]="'over'"
     [position]="'end'"
     [fixedInViewport]="true"
+    (openedStart)="openCart()"
     style="width: 764px"
   >
-    <app-cart></app-cart>
+    <app-cart [cartStorage]="cartStorage"></app-cart>
   </mat-sidenav>
   <mat-sidenav-content>
-    <app-user-header [drawer]="drawer"></app-user-header>
+    <app-user-header
+      [drawer]="drawer"
+      [cartStorage]="cartStorage"
+    ></app-user-header>
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>
