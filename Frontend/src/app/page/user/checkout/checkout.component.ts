@@ -26,7 +26,8 @@ import { environment } from 'src/environments/environment';
 })
 export class CheckoutComponent implements OnInit {
   @ViewChild('stepper') private stepper?: MatStepper;
-  @ViewChild('paymentRef', { static: true }) paymentRef?: ElementRef;
+  // @ViewChild('paymentRef', { static: true }) paymentRef?: ElementRef;
+  paymentRef?: ElementRef;
 
   secondForm: FormGroup = {} as FormGroup;
   thirdForm: FormGroup = {} as FormGroup;
@@ -70,6 +71,96 @@ export class CheckoutComponent implements OnInit {
     this.buildForm();
   }
 
+  selectPaymentChange(option: any) {
+    this.thirdForm.get('paymentMethod')?.setValue(option._value[0]);
+  }
+
+  onStepChange(event: any): void {
+    if (event.selectedIndex === 2) {
+      this.initPayment();
+    }
+  }
+
+  initPayment() {
+    this.paymentRef = new ElementRef(document.getElementById('paypal-element'));
+    if (this.secondForm.valid && Object.keys(this.roomGuestQty).length !== 0 && this.paymentRef) {
+      const URL = environment.apiUrl + PATH_V1;
+      const token = Util.getLocal(JWT_TOKEN_STORAGE);
+      this.buildBookingInfo();
+      if (this.paymentRef) {
+        window.paypal
+          .Buttons({
+            style: {
+              layout: 'vertical',
+              color: 'blue',
+              shape: 'sharp',
+              label: 'paypal',
+            },
+            createOrder: () => {
+              return fetch(`${URL}/booking/payment/create`, {
+                method: 'post',
+                headers: {
+                  Accept: 'application/json, text/plain, */*',
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(this.bookingInfo),
+              })
+                .then((response) => response.json())
+                .then((response) => {
+                  return response.id;
+                });
+            },
+            onApprove: (data: any) => {
+              return fetch(`${URL}/booking/payment/capture`, {
+                method: 'post',
+                headers: {
+                  Accept: 'application/json, text/plain, */*',
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                  paymentId: data.paymentID,
+                }),
+              })
+                .then((response) => response.json())
+                .then((response) => {
+                  this.$alertService.success('Đặt phòng thành công');
+                });
+            },
+            onError: (error: any) => {
+              this.$alertService.error(error);
+            },
+          })
+          .render(this.paymentRef.nativeElement);
+      }
+    }
+  }
+
+  buildBookingInfo() {
+    if (this.cartStorage) {
+      this.bookingInfo = {
+        firstName: this.secondForm.get('firstName')?.value,
+        lastName: this.secondForm.get('lastName')?.value,
+        email: this.secondForm.get('email')?.value,
+        phoneNumber: this.secondForm.get('phoneNumber')?.value,
+        guestNumber: this.roomGuestQty.guestQty,
+        note: this.secondForm.get('note')?.value,
+        estCheckinTime: this.secondForm.get('estCheckinTime')?.value,
+        paymentMethod: this.thirdForm.get('paymentMethod')?.value,
+        fromDate: Util.formatDate(this.cartStorage.fromDate, DATETIME_FORMAT3),
+        toDate: Util.formatDate(this.cartStorage.toDate, DATETIME_FORMAT3),
+        accommodationId: this.cartStorage.accommodationId,
+        cartItems: this.cartStorage.cartItems.map((item) => {
+          return {
+            quantity: item.quantity,
+            roomId: item.room.roomId,
+          };
+        }),
+      };
+    }
+  }
+
   buildForm() {
     this.secondForm = this.$formBuilder.group({
       firstName: new FormControl('', Validators.required),
@@ -86,6 +177,7 @@ export class CheckoutComponent implements OnInit {
 
   initApi() {
     this.roomGuestQty = Util.getLocal(ROOM_GUEST_QTY_STORAGE);
+
     this.$bookingService.loadCartFromLocalStorage().subscribe({
       next: (res) => {
         this.cartStorage = res;
@@ -112,120 +204,5 @@ export class CheckoutComponent implements OnInit {
         }
       },
     });
-  }
-
-  selectPaymentChange(option: any) {
-    this.thirdForm.get('paymentMethod')?.setValue(option._value[0]);
-  }
-
-  initPayment() {
-    console.log(this.secondForm.valid);
-    if (this.secondForm.valid && this.cartStorage && Object.keys(this.roomGuestQty).length !== 0) {
-      const URL = environment.apiUrl + PATH_V1;
-      this.bookingInfo = {
-        firstName: this.secondForm.get('firstName')?.value,
-        lastName: this.secondForm.get('lastName')?.value,
-        email: this.secondForm.get('email')?.value,
-        phoneNumber: this.secondForm.get('phoneNumber')?.value,
-        guestNumber: this.roomGuestQty.guestQty,
-        note: this.secondForm.get('note')?.value,
-        estCheckinTime: this.secondForm.get('estCheckinTime')?.value,
-        paymentMethod: this.thirdForm.get('paymentMethod')?.value,
-        fromDate: Util.formatDate(this.cartStorage.fromDate, DATETIME_FORMAT3),
-        toDate: Util.formatDate(this.cartStorage.toDate, DATETIME_FORMAT3),
-        accommodationId: this.cartStorage.accommodationId,
-        cartItems: this.cartStorage.cartItems.map((item) => {
-          return {
-            quantity: item.quantity,
-            roomId: item.room.roomId,
-          };
-        }),
-      };
-      const token = Util.getLocal(JWT_TOKEN_STORAGE);
-      window.paypal
-        .Buttons({
-          style: {
-            layout: 'horizontal',
-            color: 'blue',
-            shape: 'rect',
-            label: 'paypal',
-          },
-          createOrder: () => {
-            return fetch(`${URL}/booking/payment/create`, {
-              method: 'post',
-              headers: {
-                Accept: 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
-              },
-              body: JSON.stringify(this.bookingInfo),
-            })
-              .then((response) => response.json())
-              .then((response) => {
-                console.log(response);
-                return response.id;
-              });
-          },
-          onApprove: (data: any) => {
-            console.log('test');
-            console.log(data);
-            const request = {
-              paymentId: data.id,
-            };
-            return fetch(`${URL}/booking/payment/success`, {
-              method: 'post',
-              headers: {
-                Accept: 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
-              },
-              body: JSON.stringify(request),
-            })
-              .then((response) => response.json())
-              .then((response) => {
-                console.log(response);
-                this.$alertService.success(
-                  'Transaction completed by ' + response.payer.name.given_name
-                );
-              });
-          },
-          onError: (error: any) => {
-            console.log(error);
-          },
-        })
-        .render(this.paymentRef?.nativeElement);
-    }
-  }
-
-  submit() {
-    if (
-      this.secondForm.valid &&
-      this.thirdForm.valid &&
-      this.cartStorage &&
-      Object.keys(this.roomGuestQty).length !== 0
-    ) {
-      const bookingInfo = {
-        firstName: this.secondForm.get('firstName')?.value,
-        lastName: this.secondForm.get('lastName')?.value,
-        email: this.secondForm.get('email')?.value,
-        phoneNumber: this.secondForm.get('phoneNumber')?.value,
-        guestNumber: this.roomGuestQty.guestQty,
-        note: this.secondForm.get('note')?.value,
-        estCheckinTime: this.secondForm.get('estCheckinTime')?.value,
-        paymentMethod: this.thirdForm.get('paymentMethod')?.value,
-        fromDate: Util.formatDate(this.cartStorage.fromDate, DATETIME_FORMAT3),
-        toDate: Util.formatDate(this.cartStorage.toDate, DATETIME_FORMAT3),
-        accommodationId: this.cartStorage.accommodationId,
-        cartItems: this.cartStorage.cartItems.map((item) => {
-          return {
-            quantity: item.quantity,
-            roomId: item.room.roomId,
-          };
-        }),
-      };
-      console.log(bookingInfo);
-      Util.setLocal(BOOKING_INFO_STORAGE, bookingInfo, TIME_EXPIRED);
-      this.router.navigate(['/booking/payment']);
-    }
   }
 }

@@ -55,9 +55,7 @@ public class PaymentService {
         requestBody.put("purchase_units", getPurchaseUnits(request));
         requestBody.put("intent", "CAPTURE");
         requestBody.put("payer", getPayer());
-//        requestBody.put("application_context", getApplicationContext());
         requestBody.put("payment_source", getPaymentSource());
-        System.out.println(mapper.writeValueAsString(requestBody));
 
         WebClient webClient = WebClient.create();
         HttpHeaders headers = new HttpHeaders();
@@ -71,7 +69,6 @@ public class PaymentService {
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
-        System.out.println(response);
         return mapper.readValue(response, Map.class);
     }
 
@@ -124,13 +121,6 @@ public class PaymentService {
         return payer;
     }
 
-    private Map<String, Object> getApplicationContext() {
-        Map<String, Object> applicationContext = new HashMap<>();
-        applicationContext.put("return_url", baseUrl + "/booking/success");
-        applicationContext.put("cancel_url", baseUrl + "/booking/checkout");
-        return applicationContext;
-    }
-
     private List<Map<String, Object>> getPurchaseUnits(BookingPaymentRequest request) {
         List<Map<String, Object>> purchaseUnits = new ArrayList<>();
         Map<String, Object> unit = new HashMap<>();
@@ -172,8 +162,6 @@ public class PaymentService {
         experienceContext.put("landing_page", "LOGIN");
         experienceContext.put("shipping_preference", "NO_SHIPPING");
         experienceContext.put("user_action", "PAY_NOW");
-        experienceContext.put("return_url", baseUrl + "/booking/success");
-        experienceContext.put("cancel_url", baseUrl + "/booking/checkout");
 
         Map<String, Object> paypal = new HashMap<>();
         paypal.put("experience_context", experienceContext);
