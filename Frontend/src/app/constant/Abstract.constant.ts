@@ -6,7 +6,7 @@ export const PATH_USER = '/user';
 export const ACTION_LOGIN = 'login';
 export const ACTION_REGISTER = 'register';
 
-export const DATETIME_FORMAT1 = 'dd-MM-yyyy HH:mm:ss';
+export const DATETIME_FORMAT1 = 'DD-MM-YYYY HH:mm:ss';
 export const DATETIME_FORMAT2 = 'DD MMM YYYY';
 export const DATETIME_FORMAT3 = 'YYYY-MM-DD';
 

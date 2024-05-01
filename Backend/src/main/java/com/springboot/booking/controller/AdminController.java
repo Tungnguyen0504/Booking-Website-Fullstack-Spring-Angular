@@ -4,7 +4,6 @@ import org.springframework.web.bind.annotation.*;
 
 import static com.springboot.booking.common.Constant.*;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping(PATH_V1 + PATH_ADMIN)
 //@PreAuthorize("hasRole('ADMIN')")

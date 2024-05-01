@@ -47,16 +47,17 @@ export class LoginComponent implements AfterViewInit {
       email: this.form.value.email,
       password: this.form.value.password,
     };
-    this.authService.verifyLogin(loginRequest).subscribe(
-      (data) => {
-        this.verificationCode = data;
+    this.authService.verifyLogin(loginRequest).subscribe({
+      next: (response) => {
+        this.verificationCode = response;
         this.openModal();
         console.log(this.verificationCode);
       },
-      (error) => {
+      error: (error) => {
+        console.log(error);
         this.alertService.error(error.error.message);
-      }
-    );
+      },
+    });
   }
 
   openModal(): void {

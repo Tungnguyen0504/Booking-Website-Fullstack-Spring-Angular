@@ -13,7 +13,6 @@ import java.util.List;
 
 import static com.springboot.booking.common.Constant.PATH_V1;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping(PATH_V1 + "/accommodation-type")
 @RequiredArgsConstructor
