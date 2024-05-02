@@ -2,11 +2,7 @@ package com.springboot.booking.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.paypal.api.payments.*;
 import com.paypal.base.rest.APIContext;
-import com.paypal.base.rest.PayPalRESTException;
 import com.springboot.booking.common.DatetimeUtil;
 import com.springboot.booking.common.Util;
 import com.springboot.booking.dto.request.BookingCaptureRequest;
@@ -25,7 +21,10 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.text.DecimalFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -86,7 +85,6 @@ public class PaymentService {
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
-        System.out.println(response);
         return mapper.readValue(response, Map.class);
     }
 
@@ -123,21 +121,23 @@ public class PaymentService {
 
     private List<Map<String, Object>> getPurchaseUnits(BookingPaymentRequest request) {
         List<Map<String, Object>> purchaseUnits = new ArrayList<>();
-        Map<String, Object> unit = new HashMap<>();
         Map<String, Object> amount = new HashMap<>();
+        Map<String, Object> breakdown = new HashMap<>();
+        Map<String, Object> itemTotal = new HashMap<>();
         List<Map<String, Object>> items = new ArrayList<>();
+        Map<String, Object> unit = new HashMap<>();
 
         int subDate = DatetimeUtil.subLocalDate(request.getFromDate(), request.getToDate());
-        Double totalPrice = 0.0;
+        double totalPrice = 0.0;
 
         for (BookingDetailRequest bookingDetail : request.getCartItems()) {
             RoomResponse room = roomService.getById(bookingDetail.getRoomId());
-            double price = (room.getPrice() * ((100 - room.getDiscountPercent()) / 100) * bookingDetail.getQuantity() * subDate) / RATE_CONVERT;
-            totalPrice += price;
+            double price = calculateBookingDetailPrice(room.getPrice(), room.getDiscountPercent(), subDate);
+            totalPrice += price * bookingDetail.getQuantity();
 
             Map<String, Object> unitAmount = new HashMap<>();
             unitAmount.put("currency_code", "USD");
-            unitAmount.put("value", decimalFormat.format(price));
+            unitAmount.put("value", price);
 
             Map<String, Object> item = new HashMap<>();
             item.put("name", room.getRoomType());
@@ -146,12 +146,27 @@ public class PaymentService {
 
             items.add(item);
         }
+
+        itemTotal.put("currency_code", "USD");
+        itemTotal.put("value", totalPrice);
+
+        breakdown.put("item_total", itemTotal);
+
         amount.put("currency_code", "USD");
-        amount.put("value", decimalFormat.format(totalPrice));
-//        unit.put("items", items);
+        amount.put("value", totalPrice);
+        amount.put("breakdown", breakdown);
+
+        unit.put("items", items);
         unit.put("amount", amount);
+
         purchaseUnits.add(unit);
+
         return purchaseUnits;
+    }
+
+    private double calculateBookingDetailPrice(double roomPrice, double discountPercent, int subDate) {
+        double subPrice = ((roomPrice * ((100 - discountPercent) / 100) * subDate) / RATE_CONVERT);
+        return Double.parseDouble(decimalFormat.format(subPrice));
     }
 
     private Map<String, Object> getPaymentSource() {

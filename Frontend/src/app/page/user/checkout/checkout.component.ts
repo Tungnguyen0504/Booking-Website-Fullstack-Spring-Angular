@@ -75,13 +75,25 @@ export class CheckoutComponent implements OnInit {
     this.thirdForm.get('paymentMethod')?.setValue(option._value[0]);
   }
 
-  onStepChange(event: any): void {
-    if (event.selectedIndex === 2) {
+  onStepChange($event: any): void {
+    if ($event.selectedIndex === 2) {
       this.initPayment();
     }
   }
 
+  selectedTabChange($event: any): void {
+    if ($event === 0) {
+      setTimeout(() => {
+        this.initPayment();
+      });
+    }
+  }
+
   initPayment() {
+    const element = document.getElementById('paypal-element');
+    if (element) {
+      element.innerHTML = '';
+    }
     this.paymentRef = new ElementRef(document.getElementById('paypal-element'));
     if (this.secondForm.valid && Object.keys(this.roomGuestQty).length !== 0 && this.paymentRef) {
       const URL = environment.apiUrl + PATH_V1;

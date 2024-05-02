@@ -310,12 +310,13 @@
                   </div>
                 </div>
               </div>
-              <div class="d-flex justify-content-between">
-                <button mat-button matStepperPrevious>Back</button>
-                <button matStepperNext type="submit" class="btn palatin-btn">
-                  Tiếp theo: chi tiết cuối cùng
-                </button>
-              </div>
+              <button
+                matStepperNext
+                type="submit"
+                class="btn palatin-btn float-right"
+              >
+                Tiếp theo: chi tiết cuối cùng
+              </button>
             </div>
           </div>
         </form>
@@ -338,7 +339,11 @@
               </div>
               <app-hotel-card [accommodation]="accommodation"></app-hotel-card>
               <div class="border mb-3 d-flex">
-                <mat-tab-group class="w-100" animationDuration="0ms">
+                <mat-tab-group
+                  class="w-100"
+                  animationDuration="0ms"
+                  (selectedIndexChange)="selectedTabChange($event)"
+                >
                   <mat-tab *ngFor="let data of paymentMethods">
                     <ng-template mat-tab-label>
                       <div class="custom-tab-header">
@@ -363,12 +368,7 @@
                   </mat-tab>
                 </mat-tab-group>
               </div>
-              <div class="d-flex justify-content-between">
-                <button mat-button matStepperPrevious>Back</button>
-                <button type="submit" class="btn palatin-btn">
-                  Thanh toán
-                </button>
-              </div>
+              <button mat-button matStepperPrevious>Back</button>
             </div>
             <div class="col-md-4">
               <app-booking-detail-summary
