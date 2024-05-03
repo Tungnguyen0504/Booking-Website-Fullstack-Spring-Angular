@@ -71,10 +71,6 @@ export class CheckoutComponent implements OnInit {
     this.buildForm();
   }
 
-  selectPaymentChange(option: any) {
-    this.thirdForm.get('paymentMethod')?.setValue(option._value[0]);
-  }
-
   onStepChange($event: any): void {
     if ($event.selectedIndex === 2) {
       this.initPayment();
@@ -94,8 +90,9 @@ export class CheckoutComponent implements OnInit {
     if (element) {
       element.innerHTML = '';
     }
-    this.paymentRef = new ElementRef(document.getElementById('paypal-element'));
+    this.paymentRef = new ElementRef(element);
     if (this.secondForm.valid && Object.keys(this.roomGuestQty).length !== 0 && this.paymentRef) {
+      this.thirdForm.get('paymentMethod')?.setValue(this.paymentMethods[0].value);
       const URL = environment.apiUrl + PATH_V1;
       const token = Util.getLocal(JWT_TOKEN_STORAGE);
       this.buildBookingInfo();
@@ -137,7 +134,15 @@ export class CheckoutComponent implements OnInit {
               })
                 .then((response) => response.json())
                 .then((response) => {
-                  this.$alertService.success('Đặt phòng thành công');
+                  this.$bookingService.createBooking(this.bookingInfo).subscribe({
+                    next: (res) => {
+                      console.log(res);
+                      this.$alertService.success('Đặt phòng thành công');
+                    },
+                    error: (error) => {
+                      this.$alertService.error(error.error.message);
+                    },
+                  });
                 });
             },
             onError: (error: any) => {

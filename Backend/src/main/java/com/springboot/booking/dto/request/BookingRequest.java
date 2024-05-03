@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class BookingPaymentRequest {
+public class BookingRequest {
     private String firstName;
     private String lastName;
     private String email;

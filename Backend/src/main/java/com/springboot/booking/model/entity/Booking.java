@@ -8,7 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,10 +49,10 @@ public class Booking extends BaseEntity {
     private Double totalAmount;
 
     @Column(name = "from_date")
-    private LocalTime fromDate;
+    private LocalDate fromDate;
 
     @Column(name = "to_date")
-    private LocalTime toDate;
+    private LocalDate toDate;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")

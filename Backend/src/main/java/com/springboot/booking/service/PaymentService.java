@@ -2,12 +2,11 @@ package com.springboot.booking.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.paypal.base.rest.APIContext;
 import com.springboot.booking.common.DatetimeUtil;
 import com.springboot.booking.common.Util;
 import com.springboot.booking.dto.request.BookingCaptureRequest;
 import com.springboot.booking.dto.request.BookingDetailRequest;
-import com.springboot.booking.dto.request.BookingPaymentRequest;
+import com.springboot.booking.dto.request.BookingRequest;
 import com.springboot.booking.dto.response.RoomResponse;
 import com.springboot.booking.dto.response.UserResponse;
 import lombok.RequiredArgsConstructor;
@@ -37,17 +36,13 @@ public class PaymentService {
     private String clientId;
     @Value("${paypal.secret}")
     private String secret;
-    @Value("${paypal.mode}")
-    private String mode;
 
-    private final APIContext apiContext;
     private final UserService userService;
-    private final AccommodationService accommodationService;
     private final RoomService roomService;
 
     private final ObjectMapper mapper;
 
-    public Map<String, Object> createOrder(BookingPaymentRequest request) throws JsonProcessingException {
+    public Map<String, Object> createOrder(BookingRequest request) throws JsonProcessingException {
         Map<String, Object> token = generateTokenPaypal();
 
         Map<String, Object> requestBody = new HashMap<>();
@@ -119,7 +114,7 @@ public class PaymentService {
         return payer;
     }
 
-    private List<Map<String, Object>> getPurchaseUnits(BookingPaymentRequest request) {
+    private List<Map<String, Object>> getPurchaseUnits(BookingRequest request) {
         List<Map<String, Object>> purchaseUnits = new ArrayList<>();
         Map<String, Object> amount = new HashMap<>();
         Map<String, Object> breakdown = new HashMap<>();

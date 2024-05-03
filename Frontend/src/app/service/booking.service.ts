@@ -126,7 +126,7 @@ export class BookingService {
     });
   }
 
-  createPayment(request: any) {
-    return this.httpClient.post(URL + '/booking/payment/create', request);
+  createBooking(request: any) {
+    return this.httpClient.post(URL + '/booking/create', request);
   }
 }

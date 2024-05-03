@@ -81,8 +81,7 @@ public class RoomService {
 
     public RoomResponse getById(Long id) {
         Room room = roomRepository.findById(id)
-                .orElseThrow(() -> new GlobalException(ExceptionResult.RESOURCE_NOT_FOUND,
-                        String.format("File %s", Util.extractTableName(Room.class))));
+                .orElseThrow(() -> new GlobalException(ExceptionResult.CUSTOM_FIELD_NOT_FOUND, "phòng"));
         return transferToObject(room);
     }
 
