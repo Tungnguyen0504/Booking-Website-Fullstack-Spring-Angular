@@ -1,10 +1,11 @@
-import { formatDate } from '@angular/common';
-import { AfterViewInit, Component, ElementRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import flatpickr from 'flatpickr';
-import rangePlugin from 'flatpickr/dist/plugins/rangePlugin';
-import { DATETIME_FORMAT3 } from 'src/app/constant/Abstract.constant';
+import { Router } from '@angular/router';
+import {
+  BOX_SEARCH_STORAGE,
+  DATETIME_FORMAT3,
+  TIME_EXPIRED,
+} from 'src/app/constant/Abstract.constant';
 import { AlertService } from 'src/app/service/alert.service';
 import { BookingService } from 'src/app/service/booking.service';
 import { Util } from 'src/app/util/util';
@@ -26,14 +27,28 @@ export class BookNowComponent {
     private $bookingService: BookingService
   ) {
     this.buildFormGroup();
+    this.initData();
   }
 
   buildFormGroup() {
     this.formSearch = this.formBuilder.group({
-      keySearch: new FormControl('', Validators.required),
+      keySearch: new FormControl(''),
       fromDate: new FormControl('', Validators.required),
       toDate: new FormControl('', Validators.required),
     });
+  }
+
+  initData() {
+    const boxSearchStorage = Util.getLocal(BOX_SEARCH_STORAGE);
+    if (boxSearchStorage) {
+      setTimeout(() => {
+        this.formSearch.patchValue({
+          keySearch: boxSearchStorage.keySearch,
+          fromDate: Util.parseDate2(boxSearchStorage.fromDate, DATETIME_FORMAT3),
+          toDate: Util.parseDate2(boxSearchStorage.toDate, DATETIME_FORMAT3),
+        });
+      });
+    }
   }
 
   search() {
@@ -42,18 +57,17 @@ export class BookNowComponent {
         this.formSearch.get('fromDate')?.value,
         this.formSearch.get('toDate')?.value
       );
-      // this.router.navigate(['/search-accommodation'], {
-      //   queryParams: {
-      //     keySearch: this.formSearch.get('keySearch')?.value,
-      //     fromDate: Util.formatDate(this.formSearch.get('fromDate')?.value, DATETIME_FORMAT3),
-      //     toDate: Util.formatDate(this.formSearch.get('toDate')?.value, DATETIME_FORMAT3),
-      //   },
-      // });
+      const boxSearchStorage = {
+        keySearch: this.formSearch.get('keySearch')?.value,
+        fromDate: Util.formatDate(this.formSearch.get('fromDate')?.value, DATETIME_FORMAT3),
+        toDate: Util.formatDate(this.formSearch.get('toDate')?.value, DATETIME_FORMAT3),
+      };
+      Util.setLocal(BOX_SEARCH_STORAGE, boxSearchStorage, TIME_EXPIRED);
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.router.navigate(['/search-accommodation']);
+      });
     } else {
       var msg = '';
-      if (this.formSearch.get('keySearch')?.errors) {
-        msg += 'Điểm đến không hợp lệ <br/>';
-      }
       if (this.formSearch.get('fromDate')?.errors) {
         msg += 'Ngày nhận không hợp lệ <br/>';
       }

@@ -10,6 +10,16 @@
               placeholder="Nhập chỗ nghỉ/địa điểm ..."
               formControlName="keySearch"
             />
+            <button
+              *ngIf="this.formSearch.get('keySearch')?.value !== ''"
+              type="button"
+              matSuffix
+              mat-icon-button
+              aria-label="Clear"
+              (click)="this.formSearch.get('keySearch')?.setValue('')"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
           </mat-form-field>
         </div>
       </div>

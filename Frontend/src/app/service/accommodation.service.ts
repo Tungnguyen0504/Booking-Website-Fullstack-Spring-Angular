@@ -6,7 +6,6 @@ import { environment } from 'src/environments/environment';
 import { Accommodation } from '../model/Accommodation.model';
 import { BasePagingRequest } from '../model/request/BasePagingRequest.model';
 import { BasePagingResponse } from '../model/response/BasePagingRequest.model';
-import { BaseApiService } from './base-api.service';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +13,7 @@ import { BaseApiService } from './base-api.service';
 export class AccommodationService {
   URL = environment.apiUrl + PATH_V1 + '/accommodation';
 
-  constructor(private httpClient: HttpClient, private $baseApiService: BaseApiService) {}
+  constructor(private httpClient: HttpClient) {}
 
   createNewAccommodation(data: any): Observable<any> {
     const formData: FormData = new FormData();
@@ -73,7 +72,7 @@ export class AccommodationService {
   }
 
   getAccommodations(request: BasePagingRequest): Observable<BasePagingResponse> {
-    return this.$baseApiService.post(`${this.URL}/get-accommodations`, request);
+    return this.httpClient.post<BasePagingResponse>(`${this.URL}/get-accommodations`, request);
   }
 
   getById(id: number): Observable<Accommodation> {

@@ -12,10 +12,10 @@ import java.util.Set;
 @Setter
 public class CreateAccommodationRequest {
     private String accommodationName;
-    private long accommodationTypeId;
+    private String accommodationTypeId;
     private String phone;
     private String email;
-    private int star;
+    private String star;
     private String description;
     private LocalTime checkin;
     private LocalTime checkout;
@@ -30,7 +30,7 @@ public class CreateAccommodationRequest {
     private Set<String> cleaningServices;
     private Set<String> pools;
     private Set<String> others;
-    private long wardId;
+    private String wardId;
     private String specificAddress;
     private List<MultipartFile> files;
 }

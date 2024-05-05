@@ -7,13 +7,11 @@ import com.springboot.booking.common.ExceptionResult;
 import com.springboot.booking.common.Util;
 import com.springboot.booking.common.paging.BasePagingRequest;
 import com.springboot.booking.common.paging.BasePagingResponse;
-import com.springboot.booking.common.paging.SortRequest;
 import com.springboot.booking.dto.request.CreateAccommodationRequest;
 import com.springboot.booking.dto.response.AccommodationResponse;
 import com.springboot.booking.dto.response.AccommodationTypeResponse;
 import com.springboot.booking.exeption.GlobalException;
 import com.springboot.booking.mapper.AutoMapper;
-import com.springboot.booking.model.SortDirection;
 import com.springboot.booking.model.entity.*;
 import com.springboot.booking.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -21,13 +19,14 @@ import lombok.SneakyThrows;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -78,7 +77,7 @@ public class AccommodationService {
 
     @Transactional
     public void createAccommodation(CreateAccommodationRequest request) throws JsonProcessingException {
-        AccommodationType accommodationType = accommodationTypeRepository.findById(request.getAccommodationTypeId())
+        AccommodationType accommodationType = accommodationTypeRepository.findById(Long.valueOf(request.getAccommodationTypeId()))
                 .orElseThrow(() -> new GlobalException(ExceptionResult.CUSTOM_FIELD_NOT_FOUND, "loại chỗ ở"));
         List<Accommodation> checkAccommodations = accommodationRepository.getByAccommodationName(request.getAccommodationName());
 
@@ -86,7 +85,7 @@ public class AccommodationService {
             throw new GlobalException(ExceptionResult.CUSTOM_FIELD_EXISTED, "Tên " + accommodationType.getAccommodationTypeName());
         }
 
-        Ward ward = wardRepository.findById(request.getWardId())
+        Ward ward = wardRepository.findById(Long.valueOf(request.getWardId()))
                 .orElseThrow(() -> new GlobalException(ExceptionResult.RESOURCE_NOT_FOUND));
         Address address = addressRepository.save(Address.builder()
                 .specificAddress(request.getSpecificAddress())
@@ -97,7 +96,7 @@ public class AccommodationService {
                 .accommodationName(request.getAccommodationName())
                 .phone(request.getPhone())
                 .email(request.getEmail())
-                .star(request.getStar())
+                .star(Integer.valueOf(request.getStar()))
                 .description(request.getDescription())
                 .checkin(request.getCheckin())
                 .checkout(request.getCheckout())

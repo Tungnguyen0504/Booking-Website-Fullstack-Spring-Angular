@@ -38,8 +38,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CssLoadingComponent } from 'src/app/shared/user/css-loading/css-loading.component';
-import { BookingPaymentComponent } from './booking-payment/booking-payment.component';
-import { SpinnerComponent } from 'src/app/shared/generic/spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +56,6 @@ import { SpinnerComponent } from 'src/app/shared/generic/spinner/spinner.compone
     BookingSuccessComponent,
     InputSpinnerComponent,
     CssLoadingComponent,
-    BookingPaymentComponent,
   ],
   imports: [
     CommonModule,

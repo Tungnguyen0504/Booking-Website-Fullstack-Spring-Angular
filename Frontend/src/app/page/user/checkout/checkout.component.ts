@@ -136,8 +136,8 @@ export class CheckoutComponent implements OnInit {
                 .then((response) => {
                   this.$bookingService.createBooking(this.bookingInfo).subscribe({
                     next: (res) => {
-                      console.log(res);
-                      this.$alertService.success('Đặt phòng thành công');
+                      this.$bookingService.clearCart();
+                      this.router.navigate(['booking/success']);
                     },
                     error: (error) => {
                       this.$alertService.error(error.error.message);

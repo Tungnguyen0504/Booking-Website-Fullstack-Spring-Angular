@@ -11,8 +11,9 @@ export const DATETIME_FORMAT2 = 'DD MMM YYYY';
 export const DATETIME_FORMAT3 = 'YYYY-MM-DD';
 
 export const CART_STORAGE = 'cart/userId';
+export const JWT_TOKEN_STORAGE = 'jwt-token';
 export const ROOM_GUEST_QTY_STORAGE = 'room-guest-qty';
-export const JWT_TOKEN_STORAGE = 'JWT_TOKEN';
 export const BOOKING_INFO_STORAGE = 'booking-info';
+export const BOX_SEARCH_STORAGE = 'box-search';
 
 export const TIME_EXPIRED = 86400000;

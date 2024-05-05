@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSelectionList } from '@angular/material/list';
 import { MatPaginatorIntl } from '@angular/material/paginator';
-import { ActivatedRoute } from '@angular/router';
+import { BOX_SEARCH_STORAGE } from 'src/app/constant/Abstract.constant';
 import { Accommodation } from 'src/app/model/Accommodation.model';
 import { AccommodationType } from 'src/app/model/AccommodationType.model';
 import { BasePagingRequest } from 'src/app/model/request/BasePagingRequest.model';
@@ -42,39 +42,14 @@ export class SearchAccommodationComponent implements OnInit {
   accTypeFilter: FilterObj[] = [];
 
   constructor(
-    private route: ActivatedRoute,
     private $basePagingService: BasePagingService,
     private $accommodationService: AccommodationService,
     private $accommodationTypeService: AccommodationTypeService
   ) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
-      if (params['keySearch']) {
-        this.$basePagingService.pushFilterRequest(
-          'accommodationName',
-          [params['keySearch']],
-          'LIKE',
-          'STRING',
-          this.filterRequest
-        );
-      }
-    });
+    this.initData();
     this.getAccommodations();
-    this.initApi();
-  }
-
-  initApi() {
-    this.$accommodationTypeService.getAllAccommodationType().subscribe({
-      next: (res: AccommodationType[]) => {
-        this.accTypeFilter = res.map((accType: AccommodationType) => {
-          return {
-            text: accType.accommodationTypeName,
-            value: accType.accommodationTypeId,
-          };
-        });
-      },
-    });
   }
 
   getAccommodations() {
@@ -121,6 +96,25 @@ export class SearchAccommodationComponent implements OnInit {
     this.getAccommodations();
   }
 
+  sortChanged($event: any) {
+    console.log($event);
+    var key = '';
+    var direction = '';
+    if ($event.value === 'option1') {
+      
+    }
+    // if ($event.value === '') {
+    //   this.$basePagingService.pushSortRequest(
+    //     sort.active,
+    //     sort.direction.toUpperCase(),
+    //     this.sortRequest
+    //   );
+    // } else {
+    //   this.sortRequest = [];
+    // }
+    // this.getAccommodations();
+  }
+
   getMinRoomPrice(accId: number) {
     const roomArr = this.listAccommodation?.find((acc) => acc.accommodationId === accId)?.rooms;
     return roomArr?.map((r) => r.price).sort((r1, r2) => r1 - r2)[0];
@@ -129,5 +123,29 @@ export class SearchAccommodationComponent implements OnInit {
   isRoomAvailable(accId: number) {
     const roomArr = this.listAccommodation?.find((acc) => acc.accommodationId === accId)?.rooms;
     return Array.isArray(roomArr) && roomArr.length > 0;
+  }
+
+  initData() {
+    // this.$basePagingService.pushFilterRequest('rooms.discountPercent', [10], )
+    const boxSearchStorage = Util.getLocal(BOX_SEARCH_STORAGE);
+    if (boxSearchStorage) {
+      this.$basePagingService.pushFilterRequest(
+        'accommodationName',
+        [boxSearchStorage.keySearch],
+        'LIKE',
+        'STRING',
+        this.filterRequest
+      );
+    }
+    this.$accommodationTypeService.getAllAccommodationType().subscribe({
+      next: (res: AccommodationType[]) => {
+        this.accTypeFilter = res.map((accType: AccommodationType) => {
+          return {
+            text: accType.accommodationTypeName,
+            value: accType.accommodationTypeId,
+          };
+        });
+      },
+    });
   }
 }

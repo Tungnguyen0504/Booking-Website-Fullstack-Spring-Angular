@@ -2550,6 +2550,11 @@ img {
   padding: 0 !important;
 }
 
+.toast {
+  border: unset;
+  box-shadow: unset;
+}
+
 /* form-book-area */
 .form-book-area {
   position: relative;

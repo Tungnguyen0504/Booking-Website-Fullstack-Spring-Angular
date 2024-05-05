@@ -70,7 +70,6 @@ export class CustomFieldTagInputComponent implements OnInit {
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim().split('|');
-    console.log(value);
     for (let i = 0; i < value.length; i++) {
       const strTemp = value[i].trim(); 
       if (strTemp && !this.responseList.includes(strTemp)) {

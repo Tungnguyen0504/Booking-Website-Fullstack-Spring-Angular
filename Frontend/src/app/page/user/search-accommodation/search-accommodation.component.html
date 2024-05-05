@@ -113,16 +113,19 @@
             <div style="width: 240px">
               <mat-form-field class="w-100">
                 <mat-label>Các lựa chọn cho bạn</mat-label>
-                <mat-select class="form-select bg-transparent border-0">
+                <mat-select
+                  class="form-select bg-transparent border-0"
+                  (selectionChange)="sortChanged($event)"
+                >
                   <mat-option value="option1">Giá (Từ thấp đến cao)</mat-option>
                   <mat-option value="option2">Giá (Từ cao đến thấp)</mat-option>
                   <mat-option value="option3"
                     >Hạng sao (Ưu tiên cao nhất)</mat-option
                   >
-                  <mat-option value="option1"
+                  <mat-option value="option4"
                     >Hạng sao (Ưu tiên thấp nhất)</mat-option
                   >
-                  <mat-option value="option2"
+                  <mat-option value="option5"
                     >Được đánh giá hàng đầu</mat-option
                   >
                 </mat-select>
@@ -287,7 +290,7 @@
                               data.accommodationId
                             }}"
                             role="button"
-                            style="padding: 0 20px"
+                            style="padding: 0 20px; min-width: 155px"
                             >{{
                               isRoomAvailable(data.accommodationId)
                                 ? "Xem chỗ trống"

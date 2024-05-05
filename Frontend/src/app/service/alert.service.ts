@@ -22,12 +22,10 @@ export class AlertService {
   }
 
   error(message: string) {
-    console.log(message);
     this.createAlert('ERROR', message, 'alert-danger', 'WARNING');
   }
 
   warning(message: string) {
-    console.log(message);
     this.createAlert('WARNING', message, 'alert-warning', 'WARNING');
   }
 
