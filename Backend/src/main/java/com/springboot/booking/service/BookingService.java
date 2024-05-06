@@ -1,6 +1,5 @@
 package com.springboot.booking.service;
 
-import com.springboot.booking.common.Constant;
 import com.springboot.booking.common.DatetimeUtil;
 import com.springboot.booking.common.ExceptionResult;
 import com.springboot.booking.dto.request.BookingRequest;
@@ -16,15 +15,11 @@ import com.springboot.booking.repository.RoomRepository;
 import com.springboot.booking.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

@@ -5,6 +5,7 @@ import com.springboot.booking.common.SuccessResult;
 import com.springboot.booking.common.paging.BasePagingRequest;
 import com.springboot.booking.common.paging.BasePagingResponse;
 import com.springboot.booking.dto.request.CreateAccommodationRequest;
+import com.springboot.booking.dto.request.SearchAccommodationRequest;
 import com.springboot.booking.dto.response.AccommodationResponse;
 import com.springboot.booking.model.BSuccess;
 import com.springboot.booking.service.AccommodationService;
@@ -41,7 +42,7 @@ public class AccommodationController {
     }
 
     @PostMapping("/get-accommodations")
-    public ResponseEntity<BasePagingResponse> pagingAccommodation(@RequestBody BasePagingRequest request) {
+    public ResponseEntity<BasePagingResponse> pagingAccommodation(@RequestBody SearchAccommodationRequest request) {
         return ResponseEntity.ok(accommodationService.getAccommodations(request));
     }
 

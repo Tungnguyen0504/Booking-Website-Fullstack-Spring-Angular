@@ -28,10 +28,9 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class PaymentService {
-    @Value("${environment.local.base-url}")
-    private String baseUrl;
-    final double RATE_CONVERT = 23810;
     DecimalFormat decimalFormat = new DecimalFormat("#0.00");
+    @Value("${currency.rate.usd}")
+    private String currencyRate;
     @Value("${paypal.client-id}")
     private String clientId;
     @Value("${paypal.secret}")
@@ -41,6 +40,26 @@ public class PaymentService {
     private final RoomService roomService;
 
     private final ObjectMapper mapper;
+
+    private Map<String, Object> generateTokenPaypal() throws JsonProcessingException {
+        WebClient webClient = WebClient.create();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.set("Authorization", Util.getBasicAuth(clientId, secret));
+
+        MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
+        requestBody.add("grant_type", "client_credentials");
+
+        String response = webClient.post()
+                .uri("https://api-m.sandbox.paypal.com/v1/oauth2/token")
+                .headers(httpHeaders -> httpHeaders.addAll(headers))
+                .body(BodyInserters.fromFormData(requestBody))
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+        return mapper.readValue(response, Map.class);
+    }
 
     public Map<String, Object> createOrder(BookingRequest request) throws JsonProcessingException {
         Map<String, Object> token = generateTokenPaypal();
@@ -77,26 +96,6 @@ public class PaymentService {
         String response = webClient.post()
                 .uri(String.format("https://api-m.sandbox.paypal.com/v2/checkout/orders/%s/capture", request.getPaymentId()))
                 .headers(httpHeaders -> httpHeaders.addAll(headers))
-                .retrieve()
-                .bodyToMono(String.class)
-                .block();
-        return mapper.readValue(response, Map.class);
-    }
-
-    private Map<String, Object> generateTokenPaypal() throws JsonProcessingException {
-        WebClient webClient = WebClient.create();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        headers.set("Authorization", Util.getBasicAuth(clientId, secret));
-
-        MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
-        requestBody.add("grant_type", "client_credentials");
-
-        String response = webClient.post()
-                .uri("https://api-m.sandbox.paypal.com/v1/oauth2/token")
-                .headers(httpHeaders -> httpHeaders.addAll(headers))
-                .body(BodyInserters.fromFormData(requestBody))
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
@@ -160,7 +159,7 @@ public class PaymentService {
     }
 
     private double calculateBookingDetailPrice(double roomPrice, double discountPercent, int subDate) {
-        double subPrice = ((roomPrice * ((100 - discountPercent) / 100) * subDate) / RATE_CONVERT);
+        double subPrice = ((roomPrice * ((100 - discountPercent) / 100) * subDate) / Double.parseDouble(currencyRate));
         return Double.parseDouble(decimalFormat.format(subPrice));
     }
 

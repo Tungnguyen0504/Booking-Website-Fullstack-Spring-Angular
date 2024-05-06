@@ -1,10 +1,13 @@
 package com.springboot.booking.repository;
 
 import com.springboot.booking.model.entity.Accommodation;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,4 +20,9 @@ public interface AccommodationRepository extends JpaRepository<Accommodation, Lo
 
     @Query(value = "SELECT a FROM Accommodation a WHERE a.status = 'ACTIVE'")
     List<Accommodation> getAll();
+
+    @Query(value = "SELECT acc.* FROM :query",
+    countQuery = "SELECT COUNT(*) FROM :query",
+    nativeQuery = true)
+    Page<Accommodation> pagingAccommodations(@Param("query") String query, Pageable pageable);
 }

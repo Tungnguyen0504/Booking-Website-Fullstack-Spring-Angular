@@ -126,7 +126,6 @@ export class SearchAccommodationComponent implements OnInit {
   }
 
   initData() {
-    // this.$basePagingService.pushFilterRequest('rooms.discountPercent', [10], )
     const boxSearchStorage = Util.getLocal(BOX_SEARCH_STORAGE);
     if (boxSearchStorage) {
       this.$basePagingService.pushFilterRequest(
