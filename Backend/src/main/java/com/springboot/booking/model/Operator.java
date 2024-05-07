@@ -1,16 +1,13 @@
 package com.springboot.booking.model;
 
 import com.springboot.booking.common.ExceptionResult;
+import com.springboot.booking.common.Util;
 import com.springboot.booking.exeption.GlobalException;
-import jakarta.persistence.criteria.Path;
-import jakarta.persistence.criteria.Root;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 @Slf4j
 public enum Operator {
@@ -20,7 +17,7 @@ public enum Operator {
             String[] keyArr = key.split("\\.");
             return values.stream()
                     .map(value -> (Specification<T>) (root, query, criteriaBuilder)
-                            -> criteriaBuilder.equal(getPath(root, key), value)
+                            -> criteriaBuilder.equal(Util.getPath(root, key), value)
                     )
                     .reduce(Specification::or)
                     .orElse(null);
@@ -32,7 +29,7 @@ public enum Operator {
                 throw new GlobalException(ExceptionResult.PARAMETER_INVALID);
             }
             return (root, query, criteriaBuilder)
-                    -> criteriaBuilder.equal(getPath(root, key), values.get(0));
+                    -> criteriaBuilder.equal(Util.getPath(root, key), values.get(0));
         }
     },
     BETWEEN {
@@ -41,7 +38,7 @@ public enum Operator {
                 throw new GlobalException(ExceptionResult.PARAMETER_INVALID);
             }
             return (root, query, criteriaBuilder)
-                    -> criteriaBuilder.between(getPath(root, key), values.get(0), values.get(1));
+                    -> criteriaBuilder.between(Util.getPath(root, key), values.get(0), values.get(1));
         }
     },
     LIKE {
@@ -50,22 +47,11 @@ public enum Operator {
                 throw new GlobalException(ExceptionResult.PARAMETER_INVALID);
             }
             return (root, query, criteriaBuilder)
-                    -> criteriaBuilder.like(getPath(root, key), ("%" + values.get(0) + "%"));
+                    -> criteriaBuilder.like(Util.getPath(root, key), ("%" + values.get(0) + "%"));
         }
     };
 
     public abstract <T, V extends Comparable<? super V>> Specification<T> build(String key, List<V> values);
-
-    public <T, V> Path<V> getPath(Root<T> root, String key) {
-        String[] keyArr = key.split("\\.");
-        AtomicReference<Path<V>> path = new AtomicReference<>(root.get(keyArr[0]));
-        if (keyArr.length > 1) {
-            Arrays.asList(keyArr)
-                    .subList(1, keyArr.length)
-                    .forEach(p -> path.set(path.get().get(p)));
-        }
-        return path.get();
-    }
 
 //    EQUAL {
 //        public <T> Predicate build(Root<T> root, CriteriaBuilder cb, FilterRequest request, Predicate predicate) {

@@ -1,23 +1,18 @@
 package com.springboot.booking.service;
 
 import com.springboot.booking.common.Constant;
-import com.springboot.booking.common.DatetimeUtil;
+import com.springboot.booking.common.Util;
 import com.springboot.booking.common.paging.BasePagingRequest;
 import com.springboot.booking.common.paging.FilterRequest;
-import com.springboot.booking.common.paging.SortRequest;
-import com.springboot.booking.exeption.GlobalException;
 import com.springboot.booking.model.FieldType;
 import com.springboot.booking.model.Operator;
-import com.springboot.booking.model.SortDirection;
+import com.springboot.booking.model.entity.Accommodation;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,14 +32,10 @@ public class PagingService {
     }
 
     public Sort buildOrders(BasePagingRequest request) {
-        List<Sort.Order> orders = new ArrayList<>();
-        if (CollectionUtils.isEmpty(request.getSortRequest())) {
-            request.setSortRequest(Collections.singletonList(SortRequest.builder()
-                    .key("modifiedAt")
-                    .direction(SortDirection.DESC)
-                    .build()));
-        }
-        request.getSortRequest().forEach(req -> orders.add(req.getDirection().build(req.getKey())));
+        List<Sort.Order> orders = request.getSortRequest()
+                .stream()
+                .map(req -> req.getDirection().build(req.getKey()))
+                .collect(Collectors.toList());
         return Sort.by(orders);
     }
 
@@ -57,5 +48,31 @@ public class PagingService {
                 .operator(Operator.EQUAL)
                 .build());
         request.setFilterRequest(list);
+    }
+
+//    public Specification<Accommodation> withFullTextSearch() {
+//
+//    }
+
+    public Specification<Accommodation> sortByPrice(String direction) {
+        return switch (direction) {
+            case "ASC" -> (root, query, criteriaBuilder) -> {
+                query.orderBy(criteriaBuilder.asc(criteriaBuilder.quot(
+                        criteriaBuilder.prod(Util.getPath(root, "rooms.price"),
+                                criteriaBuilder.diff(100, Util.getPath(root, "rooms.discountPercent"))
+                        ), 100)
+                ));
+                return null;
+            };
+            case "DESC" -> (root, query, criteriaBuilder) -> {
+                query.orderBy(criteriaBuilder.desc(criteriaBuilder.quot(
+                        criteriaBuilder.prod(Util.getPath(root, "rooms.price"),
+                                criteriaBuilder.diff(100, Util.getPath(root, "rooms.discountPercent"))
+                        ), 100)
+                ));
+                return null;
+            };
+            default -> throw new InvalidParameterException();
+        };
     }
 }

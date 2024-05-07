@@ -6,8 +6,8 @@ import com.springboot.booking.common.Constant;
 import com.springboot.booking.common.ExceptionResult;
 import com.springboot.booking.common.Util;
 import com.springboot.booking.common.paging.BasePagingResponse;
-import com.springboot.booking.dto.request.SearchAccommodationRequest;
 import com.springboot.booking.dto.request.CreateAccommodationRequest;
+import com.springboot.booking.dto.request.SearchAccommodationRequest;
 import com.springboot.booking.dto.response.AccommodationResponse;
 import com.springboot.booking.dto.response.AccommodationTypeResponse;
 import com.springboot.booking.exeption.GlobalException;
@@ -19,12 +19,15 @@ import lombok.SneakyThrows;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -57,73 +60,21 @@ public class AccommodationService {
         return accommodations.stream().map(this::transferToDto).collect(Collectors.toList());
     }
 
-//    public BasePagingResponse getAccommodations(BasePagingRequest request) {
-//        Pageable pageable = PageRequest.of(request.getCurrentPage(), request.getTotalPage(), pagingService.buildOrders(request));
-//        Page<Accommodation> accommodationPage = accommodationRepository.findAll(
-//                Specification.allOf(pagingService.buildSpecifications(request)), pageable);
-//        return BasePagingResponse.builder()
-//                .data(accommodationPage.getContent().stream().map(this::transferToDto).collect(Collectors.toList()))
-//                .currentPage(accommodationPage.getPageable().getPageNumber())
-//                .totalItem(accommodationPage.getTotalElements())
-//                .totalPage(accommodationPage.getPageable().getPageSize())
-//                .build();
-//    }
-
     public BasePagingResponse getAccommodations(SearchAccommodationRequest request) {
-        Pageable pageable = PageRequest.of(request.getCurrentPage(), request.getTotalPage());
+        Sort sort = pagingService.buildOrders(request);
+        List<Specification<Accommodation>> specifications = pagingService.buildSpecifications(request);
+        specifications.add(pagingService.sortByPrice(String.valueOf(request.getCustomSortRequest().get("direction"))));
 
-        StringBuilder fromTableBuilder = new StringBuilder("accommodation acc ");
-        StringBuilder whereBuilder = new StringBuilder("WHERE 1 = 1 ");
-        StringBuilder orderBuilder = new StringBuilder("ORDER BY ");
+        Pageable pageable = PageRequest.of(request.getCurrentPage(), request.getTotalPage(), sort);
+        Page<Accommodation> accommodationPage = accommodationRepository.findAll(
+                Specification.allOf(specifications), pageable);
 
-        buildWhereCondition(request, fromTableBuilder, whereBuilder);
-        buildOrderCondition(request, fromTableBuilder, orderBuilder);
-
-        System.out.println(toQuery(fromTableBuilder, whereBuilder, orderBuilder));
-
-        Page<Accommodation> accommodationPage = accommodationRepository
-                .pagingAccommodations(toQuery(fromTableBuilder, whereBuilder, orderBuilder), pageable);
         return BasePagingResponse.builder()
                 .data(accommodationPage.getContent().stream().map(this::transferToDto).collect(Collectors.toList()))
                 .currentPage(accommodationPage.getPageable().getPageNumber())
                 .totalItem(accommodationPage.getTotalElements())
                 .totalPage(accommodationPage.getPageable().getPageSize())
                 .build();
-    }
-
-    private String toQuery(StringBuilder... builders) {
-        return Arrays.stream(builders).reduce(StringBuilder::append)
-                .orElseThrow(NullPointerException::new)
-                .toString();
-    }
-
-    private void buildWhereCondition(SearchAccommodationRequest request, StringBuilder fromTableBuilder, StringBuilder whereBuilder) {
-        if (request.getFilterRequest().containsKey("accommodationType")) {
-            whereBuilder.append(String.format("AND acc.accommodation_type_id IN (%s) \n",
-                    StringUtils.arrayToDelimitedString(request.getFilterRequest().get("accommodationType").toArray(), ", ")));
-        }
-        if (request.getFilterRequest().containsKey("star")) {
-            whereBuilder.append(String.format("AND acc.star IN (%s) \n",
-                    StringUtils.arrayToDelimitedString(request.getFilterRequest().get("star").toArray(), ", ")));
-        }
-    }
-
-    private void buildOrderCondition(SearchAccommodationRequest request, StringBuilder fromTableBuilder, StringBuilder orderBuilder) {
-        String key = "acc.modified_at";
-        String direction = "DESC";
-        if (Objects.nonNull(request.getSortRequest())) {
-            switch (String.valueOf(request.getSortRequest().get("key"))) {
-                case "option1":
-                case "option2":
-                    fromTableBuilder.append("JOIN room r ON acc.accommodation_id = r.accommodation_id \n");
-                    key = "(r.price * (100 - r.discount_percent) / 100)";
-                case "option3":
-                case "option4":
-                case "option5":
-            }
-            direction = String.valueOf(request.getSortRequest().get("direction"));
-        }
-        orderBuilder.append(String.format("%s %s \n", key, direction));
     }
 
     @Transactional

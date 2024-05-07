@@ -1,21 +1,15 @@
 package com.springboot.booking.common;
 
-import com.springboot.booking.exeption.GlobalException;
 import jakarta.persistence.Table;
 import jakarta.persistence.criteria.Path;
-import jakarta.servlet.http.HttpServletRequest;
+import jakarta.persistence.criteria.Root;
 import lombok.extern.log4j.Log4j2;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.http.HttpHeaders;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Base64;
-import java.util.List;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Log4j2
@@ -46,5 +40,16 @@ public class Util {
     public static final String getBasicAuth(String username, String password) {
         String valueToEncode = username + ":" + password;
         return "Basic " + Base64.getEncoder().encodeToString(valueToEncode.getBytes());
+    }
+
+    public static <T, V> Path<V> getPath(Root<T> root, String key) {
+        String[] keyArr = key.split("\\.");
+        AtomicReference<Path<V>> path = new AtomicReference<>(root.get(keyArr[0]));
+        if (keyArr.length > 1) {
+            Arrays.asList(keyArr)
+                    .subList(1, keyArr.length)
+                    .forEach(p -> path.set(path.get().get(p)));
+        }
+        return path.get();
     }
 }
