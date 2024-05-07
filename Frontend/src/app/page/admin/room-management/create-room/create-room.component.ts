@@ -1,10 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Accommodation } from 'src/app/model/Accommodation.model';
 import { AccommodationService } from 'src/app/service/accommodation.service';
 import { AlertService } from 'src/app/service/alert.service';
@@ -35,7 +30,6 @@ export class CreateRoomComponent implements OnInit {
     private $formBuilder: FormBuilder,
     private $accommodationService: AccommodationService,
     private $roomService: RoomService,
-    private $fileService: FileService,
     private $alertService: AlertService
   ) {
     this.buildFormGroup();
@@ -92,8 +86,8 @@ export class CreateRoomComponent implements OnInit {
     this.selectedImages = data;
   }
 
-  onSelectedAccom(option: any) {
-    this.$accommodationService.getById(option._value).subscribe({
+  onSelectedAccom($event: any) {
+    this.$accommodationService.getById($event.options[0]._value).subscribe({
       next: (response) => {
         this.refreshSeletedAccom(response);
       },
@@ -108,22 +102,17 @@ export class CreateRoomComponent implements OnInit {
   }
 
   create() {
-    // this.form
-    //   .get('accommodationId')
-    //   ?.setValue(this.selectedAccommodation?.accommodationId);
-    this.form.get('accommodationId')?.setValue(1);
+    this.form.get('accommodationId')?.setValue(this.selectedAccommodation?.accommodationId);
     if (this.form.valid && this.selectedImages) {
-      this.$roomService
-        .createNewRoom(this.selectedImages, this.form.value)
-        .subscribe({
-          next: (response) => {
-            this.$alertService.success(response.message);
-            this.form.reset();
-          },
-          error: (error) => {
-            this.$alertService.error(error.error.message);
-          },
-        });
+      this.$roomService.createNewRoom(this.selectedImages, this.form.value).subscribe({
+        next: (response) => {
+          this.$alertService.success(response.message);
+          this.form.reset();
+        },
+        error: (error) => {
+          this.$alertService.error(error.error.message);
+        },
+      });
     }
   }
 

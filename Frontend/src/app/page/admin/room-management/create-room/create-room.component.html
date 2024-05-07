@@ -27,9 +27,8 @@
                   style="max-height: 168px; overflow-y: auto"
                 >
                   <mat-selection-list
-                    #selectionList
                     [multiple]="false"
-                    (selectionChange)="onSelectedAccom(selectionList)"
+                    (selectionChange)="onSelectedAccom($event)"
                   >
                     <mat-list-option
                       *ngFor="let data of listAccommodation; let i = index"

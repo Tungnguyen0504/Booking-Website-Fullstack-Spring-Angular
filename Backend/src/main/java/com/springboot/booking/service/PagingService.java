@@ -7,6 +7,7 @@ import com.springboot.booking.common.paging.FilterRequest;
 import com.springboot.booking.model.FieldType;
 import com.springboot.booking.model.Operator;
 import com.springboot.booking.model.entity.Accommodation;
+import com.springboot.booking.model.entity.Room;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,10 @@ public class PagingService {
         return Sort.by(orders);
     }
 
+    public Sort.Order sortByModifiedAt() {
+        return Sort.Order.desc("modifiedAt");
+    }
+
     public void hasActiveCondition(BasePagingRequest request) {
         List<FilterRequest> list = request.getFilterRequest();
         list.add(FilterRequest.builder()
@@ -54,7 +59,14 @@ public class PagingService {
 //
 //    }
 
-    public Specification<Accommodation> sortByPrice(String direction) {
+//    public Specification<Accommodation> sortByModifiedAt() {
+//        return (root, query, criteriaBuilder) -> {
+//            query.orderBy(Sort.Order.desc("modifiedAt"));
+//            return null;
+//        };
+//    }
+
+    public Specification<Room> sortByRoomPrice(String direction) {
         return switch (direction) {
             case "ASC" -> (root, query, criteriaBuilder) -> {
                 query.orderBy(criteriaBuilder.asc(criteriaBuilder.quot(
@@ -66,8 +78,8 @@ public class PagingService {
             };
             case "DESC" -> (root, query, criteriaBuilder) -> {
                 query.orderBy(criteriaBuilder.desc(criteriaBuilder.quot(
-                        criteriaBuilder.prod(Util.getPath(root, "rooms.price"),
-                                criteriaBuilder.diff(100, Util.getPath(root, "rooms.discountPercent"))
+                        criteriaBuilder.prod(Util.getPath(root, "price"),
+                                criteriaBuilder.diff(100, Util.getPath(root, "discountPercent"))
                         ), 100)
                 ));
                 return null;

@@ -9,5 +9,5 @@ import java.util.Map;
 @Data
 public class SearchAccommodationRequest extends BasePagingRequest {
     private Map<String, List<Object>> customFilterRequest;
-    private Map<String, Object> customSortRequest;
+    private String customSortOption;
 }

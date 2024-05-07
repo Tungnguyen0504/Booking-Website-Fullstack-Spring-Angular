@@ -31,13 +31,19 @@ export class SearchAccommodationComponent implements OnInit {
   @ViewChild('reviewScoreSelection') private reviewScoreSelection!: MatSelectionList;
 
   listAccommodation: Accommodation[] = [];
-  filterRequest: FilterRequest[] = [Util.filterActive()];
-  sortRequest: SortRequest[] = [];
+
+  searchRequest: any = {
+    filterRequest: [Util.filterActive()],
+    sortRequest: [],
+    customSortOption: '',
+    currentPage: 0,
+    totalPage: 3,
+  };
 
   currentPage: number = 0;
   totalPage: number = 3;
   totalItem: number = 0;
-  totalPages: number[] = [3, 5, 10, 25, 50];
+  pageOptions: number[] = [3, 5, 10, 25, 50];
 
   accTypeFilter: FilterObj[] = [];
 
@@ -53,27 +59,21 @@ export class SearchAccommodationComponent implements OnInit {
   }
 
   getAccommodations() {
-    const request: BasePagingRequest = {
-      filterRequest: this.filterRequest,
-      sortRequest: this.sortRequest,
-      currentPage: this.currentPage,
-      totalPage: this.totalPage,
-    };
-    this.$accommodationService.getAccommodations(request).subscribe({
+    this.$accommodationService.getAccommodations(this.searchRequest).subscribe({
       next: (response: BasePagingResponse) => {
         if (response) {
           this.listAccommodation = response.data;
           this.totalItem = response.totalItem;
-          this.currentPage = response.currentPage;
-          this.totalPage = response.totalPage;
+          this.searchRequest.currentPage = response.currentPage;
+          this.searchRequest.totalPage = response.totalPage;
         }
       },
     });
   }
 
   onPageChange($event: any) {
-    this.currentPage = $event.pageIndex;
-    this.totalPage = $event.pageSize;
+    this.searchRequest.currentPage = $event.pageIndex;
+    this.searchRequest.totalPage = $event.pageSize;
     this.getAccommodations();
   }
 
@@ -83,36 +83,23 @@ export class SearchAccommodationComponent implements OnInit {
       this.accTypeSelection.selectedOptions.selected.map((seleted) => seleted.value),
       'OR',
       'INTEGER',
-      this.filterRequest
+      this.searchRequest.filterRequest
     );
     this.$basePagingService.pushFilterRequest(
       'star',
       this.propertyRatingSelection.selectedOptions.selected.map((seleted) => seleted.value),
       'OR',
       'INTEGER',
-      this.filterRequest
+      this.searchRequest.filterRequest
     );
     // console.log(this.reviewScoreSelection.selectedOptions.selected);
     this.getAccommodations();
   }
 
   sortChanged($event: any) {
-    console.log($event);
-    var key = '';
-    var direction = '';
-    if ($event.value === 'option1') {
-      
-    }
-    // if ($event.value === '') {
-    //   this.$basePagingService.pushSortRequest(
-    //     sort.active,
-    //     sort.direction.toUpperCase(),
-    //     this.sortRequest
-    //   );
-    // } else {
-    //   this.sortRequest = [];
-    // }
-    // this.getAccommodations();
+    this.searchRequest.customSortOption = $event.value;
+    console.log(this.searchRequest);
+    this.getAccommodations();
   }
 
   getMinRoomPrice(accId: number) {
@@ -133,7 +120,7 @@ export class SearchAccommodationComponent implements OnInit {
         [boxSearchStorage.keySearch],
         'LIKE',
         'STRING',
-        this.filterRequest
+        this.searchRequest.filterRequest
       );
     }
     this.$accommodationTypeService.getAllAccommodationType().subscribe({

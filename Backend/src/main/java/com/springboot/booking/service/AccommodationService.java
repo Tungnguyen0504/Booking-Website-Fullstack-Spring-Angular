@@ -16,6 +16,7 @@ import com.springboot.booking.model.entity.*;
 import com.springboot.booking.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -61,11 +62,25 @@ public class AccommodationService {
     }
 
     public BasePagingResponse getAccommodations(SearchAccommodationRequest request) {
-        Sort sort = pagingService.buildOrders(request);
+//        Sort sort = pagingService.buildOrders(request);
         List<Specification<Accommodation>> specifications = pagingService.buildSpecifications(request);
-        specifications.add(pagingService.sortByPrice(String.valueOf(request.getCustomSortRequest().get("direction"))));
 
-        Pageable pageable = PageRequest.of(request.getCurrentPage(), request.getTotalPage(), sort);
+//        if(StringUtils.isNotEmpty(request.getCustomSortOption())) {
+//            switch (request.getCustomSortOption()) {
+//                case "option1":
+//                    specifications.add(pagingService.sortByRoomPrice("ASC"));
+//                case "option2":
+//                    specifications.add(pagingService.sortByRoomPrice("DESC"));
+//                case "option3":
+//                case "option4":
+//            }
+//        }
+
+        Specification<Accommodation> combinedSpecification = Specification
+                .where(Specification.allOf(specifications))
+                .and(pagingService.sortByRoomPrice("ASC"));
+
+        Pageable pageable = PageRequest.of(request.getCurrentPage(), request.getTotalPage());
         Page<Accommodation> accommodationPage = accommodationRepository.findAll(
                 Specification.allOf(specifications), pageable);
 

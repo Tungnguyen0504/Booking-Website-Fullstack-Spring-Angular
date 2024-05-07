@@ -308,8 +308,8 @@
         </div>
         <mat-paginator
           [length]="totalItem"
-          [pageIndex]="currentPage"
-          [pageSizeOptions]="totalPages"
+          [pageIndex]="searchRequest.currentPage"
+          [pageSizeOptions]="pageOptions"
           (page)="onPageChange($event)"
           style="background-color: unset"
         >
