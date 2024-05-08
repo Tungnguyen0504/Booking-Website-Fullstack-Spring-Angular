@@ -1,0 +1,289 @@
+<section class="user-infor-page pb-5" style="padding-top: 175px">
+  <div class="container shadow bg-white pb-4 pt-5 rounded">
+    <div class="row">
+      <div class="col-3 border-right px-0">
+        <ul class="nav flex-column nav-pills">
+          <li class="nav-item">
+            <a class="nav-link active d-flex align-items-center" href="">
+              <i class="fa-solid fa-user mr-2"></i>
+              <span>Thông tin cá nhân</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link d-flex align-items-center" href="">
+              <i class="fa-solid fa-lock mr-2"></i>
+              <span>Đổi mật khẩu</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link d-flex align-items-center" href="">
+              <i class="fa-solid fa-clock mr-2"></i>
+              <span>Lịch sử đặt phòng</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="col-9 pl-5">
+        <div class="w-100 mb-5">
+          <span
+            class="h4 font-weight-bold"
+            style="border-bottom: 2px solid #ff8917"
+            >Thông tin các nhân</span
+          >
+        </div>
+        <form>
+          <div class="row">
+            <div class="col-md-6 form-group">
+              <mat-form-field class="w-100">
+                <mat-label>Họ</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  placeholder="Nhập họ ..."
+                  formControlName="lastName"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-md-6 form-group">
+              <mat-form-field class="w-100">
+                <mat-label>Tên</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  placeholder="Nhập tên ..."
+                  formControlName="lastName"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-md-12 form-group">
+              <mat-form-field class="w-100">
+                <mat-label>Địa chỉ Email</mat-label>
+                <input
+                  type="email"
+                  matInput
+                  placeholder="Nhập địa chỉ email ..."
+                  formControlName="email"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-md-12 form-group">
+              <mat-form-field class="w-100">
+                <mat-label>Số điện thoại</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  placeholder="Nhập số điện thoại ..."
+                  formControlName="lastName"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-md-12 form-group">
+              <mat-form-field class="w-100">
+                <mat-label>Nhập ngày sinh</mat-label>
+                <input
+                  matInput
+                  [matDatepicker]="picker"
+                  formControlName="dateOfBirth"
+                />
+                <mat-datepicker-toggle
+                  matIconSuffix
+                  [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="col-md-12 mb-3">
+              <span class="control-label">Ảnh đại diện</span>
+              <input
+                name="image"
+                id="avatar"
+                type="file"
+                class="file"
+                data-browse-on-zone-click="true"
+              />
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- <c:if test="${action == 'changePassword'}">
+            <div class="col-9 pl-5">
+                <div class="w-100 mb-5">
+                <span class="h4 font-weight-bold"
+                      style="border-bottom: 2px solid #ff8917;">Đổi mật khẩu</span>
+                </div>
+                <form action="<%=request.getContextPath()%>/my-account?action=changePassword" method="post"
+                      class="form-account" id="form-password">
+                    <div class="form-group row mb-5">
+                        <div class="col-lg-3 d-flex align-items-center">
+                            <span>Email</span>
+                        </div>
+                        <div class="col-lg-8">
+                            <input type="text" class="form-control" name="email"
+                                   value="${sessionScope.account.email}"
+                                   placeholder="Địa chỉ email" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-5">
+                        <div class="col-lg-3 d-flex align-items-center">
+                            <span>Mật khẩu hiện tại</span>
+                        </div>
+                        <div class="col-lg-8">
+                            <input type="password" class="form-control" name="currentPassword" id="currentPassword"
+                                   placeholder="Nhập mật khẩu hiện tại" required>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-5">
+                        <div class="col-lg-3 d-flex align-items-center">
+                            <span>Mật khẩu mới</span>
+                        </div>
+                        <div class="col-lg-8">
+                            <input type="password" class="form-control" name="newPassword" id="newPassword"
+                                   placeholder="Nhập mật khẩu mới" required>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-5">
+                        <div class="col-lg-3 d-flex align-items-center">
+                            <span>Xác nhận mật khẩu</span>
+                        </div>
+                        <div class="col-lg-8">
+                            <input type="password" class="form-control" name="confirmPassword" id="confirmPassword"
+                                   placeholder="Nhập lại mật khẩu mới" required>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-end">
+                        <button type="submit" class="btn palatin-btn mt-50 mr-4" style="width: 210px;">Cập nhật
+                        </button>
+                            ${msg}
+                    </div>
+                </form>
+            </div>
+        </c:if>
+
+        <c:if test="${action == 'bookingHistory'}">
+
+            <style>
+                .booking-card .booking-card-img img {
+                    object-fit: cover;
+                    max-height: 164px;
+                }
+
+                .booking-card .booking-btn a {
+                    height: 40px;
+                    line-height: 40px;
+                    padding: 0;
+                }
+            </style>
+            <div class="col-9 pl-5">
+                <div class="w-100 mb-3">
+                    <span class="h4 font-weight-bold"
+                          style="border-bottom: 2px solid #ff8917;">Lịch sử đặt phòng</span>
+                </div>
+                <%
+                    Date[] subDateFromNow = new Date[100];
+                    long[] dateDiff = new long[100];
+                    int i = 0;
+                    List<Booking> bookingList = (List<Booking>) request.getAttribute("bookingList");
+                    for (Booking booking : bookingList) {
+                        Date dateFrom = new Date(booking.getDateFrom().getTime());
+                        long tmp = dateFrom.getTime() - new Date().getTime();
+                        dateDiff[i] = TimeUnit.MILLISECONDS.toDays(tmp);
+
+                        Calendar c = Calendar.getInstance();
+                        c.setTime(dateFrom);
+                        c.add(Calendar.DATE, -2);
+                        subDateFromNow[i] = c.getTime();
+
+                        i++;
+                    }
+
+                    request.setAttribute("dateDiff", dateDiff);
+                    request.setAttribute("subDateFromNow", subDateFromNow);
+                %>
+                <c:forEach items="${bookingList}" var="o" varStatus="loop">
+                    <c:forEach items="${BookingDetailDAO.getAllByBookingId(o.bookingId)}" var="bd" end="0">
+                        <c:set var="room" value="${RoomDAO.getRoomByRoomId(bd.roomId)}"/>
+                    </c:forEach>
+                    <c:set var="hotel" value="${HotelDAO.getHotelById(room.hotelId)}"/>
+
+                    <div class="card mb-3 booking-card">
+                        <input type="hidden" value="${o.bookingId}" class="bookingId">
+                        <div class="row g-0">
+                            <div class="col-md-4 pr-0">
+                                <div class="booking-card-img w-100 h-100" style="padding: 1.25rem;">
+                                    <a type="button" class="booking-history-btn text-primary font-weight-bold"
+                                       data-toggle="modal"
+                                       data-target="#booking-history-detail">
+                                        <c:forTokens items="${hotel.hotelImage}" delims="|" var="img" end="0">
+                                            <img class="rounded w-100 h-100"
+                                                 src="<c:url value="/uploads/hotel/${img}"/>"
+                                                 class="img-fluid rounded-start" alt="...">
+                                        </c:forTokens>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-5 pl-0">
+                                <div class="card-body px-0">
+                                    <div>
+                                        <a type="button" class="booking-history-btn text-primary font-weight-bold"
+                                           data-toggle="modal"
+                                           data-target="#booking-history-detail">
+                                            <h5 class="hide-col text-primary card-title font-weight-bold mb-1 w-100">${hotel.hotelName}</h5>
+                                        </a>
+                                    </div>
+                                    <p class="card-text mb-1">Ngày đặt: <fmt:formatDate value="${o.bookingDate}"
+                                                                                        pattern="dd MMM yyyy"/></p>
+                                    <p class="card-text mb-1">Đặt từ <span class="text-success"><fmt:formatDate
+                                            value="${o.dateFrom}" pattern="dd MMM yyyy"/></span>
+                                        đến <span class="text-success"><fmt:formatDate value="${o.dateTo}"
+                                                                                       pattern="dd MMM yyyy"/></span>
+                                    </p>
+                                    <p class="card-text mb-2">Tổng giá tiền: <span
+                                            class="font-weight-bold text-danger"><fmt:formatNumber
+                                            value="${o.totalPrice}" type="number"/> VND</span></p>
+                                    <p class="card-text mb-1">Trạng thái:
+                                        <span class="${o.bookingStatusId == 1 ? "waiting" : o.bookingStatusId == 2 ? "confirmed" : o.bookingStatusId == 3 ? "refunded" : "canceled"}">
+                                                ${o.bookingStatusId == 1 ? "Chưa thanh toán" : o.bookingStatusId == 2 ? "Đã xác nhận" : o.bookingStatusId == 3 ? "Đã trả phòng" : "Đã hủy"}
+                                        </span>
+                                    </p>
+
+                                    <c:if test="${dateDiff[loop.index] > 2}">
+                                        <small class="text-muted">Miễn phí hủy đến
+                                            <fmt:formatDate value="${subDateFromNow[loop.index]}"
+                                                            pattern="dd MMM yyyy"/>
+                                        </small>
+                                    </c:if>
+                                    <c:if test="${dateDiff[loop.index] >= 0 && dateDiff[loop.index] <= 2}">
+                                        <small class="text-muted">
+                                            Đã qua thời gian hủy đặt phòng
+                                        </small>
+                                    </c:if>
+                                </div>
+                            </div>
+                            <div class="col-md-3 booking-btn">
+                                <div class="px-3 py-4">
+                                    <input type="hidden" value="${o.bookingId}" name="bookingId">
+                                    <c:if test="${o.bookingStatusId == 1}">
+                                        <a href="<%=request.getContextPath()%>/checkout?action=checkoutAgain&bookingId=${o.bookingId}"
+                                           class="btn palatin-btn bg-info w-100 mb-1">Thanh toán</a>
+                                    </c:if>
+                                    <c:if test="${dateDiff[loop.index] > 2 && (o.bookingStatusId == 1 || o.bookingStatusId == 2)}">
+                                        <a class="canceled-btn btn palatin-btn bg-secondary w-100 mb-1">Huỷ
+                                            đặt</a>
+                                    </c:if>
+                                    <c:if test="${o.bookingStatusId == 3}">
+                                        <a class="rating-btn btn palatin-btn bg-warning w-100 mb-1"
+                                           data-toggle="modal"
+                                           data-target="#rating-modal">Đánh giá</a>
+                                    </c:if>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </c:forEach>
+            </div>
+        </c:if> -->
+    </div>
+  </div>
+</section>

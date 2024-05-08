@@ -38,6 +38,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CssLoadingComponent } from 'src/app/shared/user/css-loading/css-loading.component';
+import { UserInformationComponent } from './user-information/user-information.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { CssLoadingComponent } from 'src/app/shared/user/css-loading/css-loading
     BookingSuccessComponent,
     InputSpinnerComponent,
     CssLoadingComponent,
+    UserInformationComponent,
   ],
   imports: [
     CommonModule,

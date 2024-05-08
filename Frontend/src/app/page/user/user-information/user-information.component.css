@@ -1,0 +1,50 @@
+.user-infor-page .nav .nav-item a {
+  height: 50px;
+  border-radius: 0;
+  font-size: 16px;
+  padding-left: 2rem;
+}
+
+.user-infor-page .nav .nav-item a i {
+  margin-bottom: 2px;
+  font-size: 18px;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  background-color: darkgray;
+}
+
+/*file-input*/
+.file-drop-zone {
+  min-height: 238px;
+}
+
+.krajee-default.file-preview-frame {
+  height: 210px;
+  width: 210px;
+}
+
+.krajee-default.file-preview-frame .kv-file-content {
+  height: 100%;
+  width: 100%;
+}
+
+.file-preview-image {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+}
+
+.file-thumbnail-footer {
+  display: none;
+}
+
+.file-caption {
+  display: none;
+}
+
+.file-preview .fileinput-remove {
+  top: 10px;
+  right: 10px;
+}

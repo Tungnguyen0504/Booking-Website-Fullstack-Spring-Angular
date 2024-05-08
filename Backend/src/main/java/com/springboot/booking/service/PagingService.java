@@ -41,21 +41,6 @@ public class PagingService {
         return Sort.by(orders);
     }
 
-    public Sort.Order sortByModifiedAt() {
-        return Sort.Order.desc("modifiedAt");
-    }
-
-    public void hasActiveCondition(BasePagingRequest request) {
-        List<FilterRequest> list = request.getFilterRequest();
-        list.add(FilterRequest.builder()
-                .key("status")
-                .values(Collections.singletonList(Constant.STATUS_ACTIVE))
-                .fieldType(FieldType.STRING)
-                .operator(Operator.EQUAL)
-                .build());
-        request.setFilterRequest(list);
-    }
-
 //    public Specification<Accommodation> withFullTextSearch() {
 //
 //    }

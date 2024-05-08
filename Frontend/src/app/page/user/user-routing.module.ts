@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
-import { ExtraOptions, RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { UserComponent } from './user.component';
 import { UserHomeComponent } from './user-home/user-home.component';
 import { SearchAccommodationComponent } from './search-accommodation/search-accommodation.component';
 import { AccommodationDetailComponent } from './accommodation-detail/accommodation-detail.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { BookingSuccessComponent } from './booking-success/booking-success.component';
+import { UserInformationComponent } from './user-information/user-information.component';
 
 const routes: Routes = [
   {
@@ -21,17 +22,13 @@ const routes: Routes = [
       },
       { path: 'booking/checkout', component: CheckoutComponent },
       { path: 'booking/success', component: BookingSuccessComponent },
+      { path: 'user-information', component: UserInformationComponent },
     ],
-    runGuardsAndResolvers: 'always',
   },
 ];
 
-const routerOptions: ExtraOptions = {
-  onSameUrlNavigation: 'reload',
-};
-
 @NgModule({
-  imports: [RouterModule.forRoot(routes, routerOptions)],
+  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
 export class UserRoutingModule {}
