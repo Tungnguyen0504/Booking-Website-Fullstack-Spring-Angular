@@ -104,7 +104,18 @@ export class SearchAccommodationComponent implements OnInit {
 
   getMinRoomPrice(accId: number) {
     const roomArr = this.listAccommodation?.find((acc) => acc.accommodationId === accId)?.rooms;
-    return roomArr?.map((r) => r.price).sort((r1, r2) => r1 - r2)[0];
+    const roomMinPrice = roomArr?.sort(
+      (r1, r2) =>
+        (r1.price * (100 - r1.discountPercent)) / 100 -
+        (r2.price * (100 - r2.discountPercent)) / 100
+    )[0];
+    if (roomMinPrice) {
+      return {
+        price: roomMinPrice.price,
+        priceDiscount: (roomMinPrice.price * (100 - roomMinPrice.discountPercent)) / 100,
+      };
+    }
+    return null;
   }
 
   isRoomAvailable(accId: number) {

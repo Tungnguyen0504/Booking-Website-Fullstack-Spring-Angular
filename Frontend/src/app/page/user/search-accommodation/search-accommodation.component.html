@@ -265,12 +265,16 @@
                               style="text-decoration: line-through"
                               >VND
                               {{
-                                getMinRoomPrice(data.accommodationId)
+                                getMinRoomPrice(data.accommodationId)?.price
                                   | number : "1.0-0"
                               }}</span
                             ><br />
                             <span style="font-size: 20px; font-weight: bold"
-                              >VND 2,318,400</span
+                              >VND
+                              {{
+                                getMinRoomPrice(data.accommodationId)
+                                  ?.priceDiscount | number : "1.0-0"
+                              }}</span
                             >
                           </ng-container>
                           <ng-container

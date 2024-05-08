@@ -62,25 +62,24 @@ public class AccommodationService {
     }
 
     public BasePagingResponse getAccommodations(SearchAccommodationRequest request) {
-//        Sort sort = pagingService.buildOrders(request);
+        Sort sort = pagingService.buildOrders(request);
         List<Specification<Accommodation>> specifications = pagingService.buildSpecifications(request);
 
-//        if(StringUtils.isNotEmpty(request.getCustomSortOption())) {
-//            switch (request.getCustomSortOption()) {
-//                case "option1":
-//                    specifications.add(pagingService.sortByRoomPrice("ASC"));
-//                case "option2":
-//                    specifications.add(pagingService.sortByRoomPrice("DESC"));
-//                case "option3":
-//                case "option4":
-//            }
-//        }
+        if(StringUtils.isNotEmpty(request.getCustomSortOption())) {
+            switch (request.getCustomSortOption()) {
+                case "option1":
+                    specifications.add(pagingService.sortByRoomPrice("ASC"));
+                    break;
+                case "option2":
+                    specifications.add(pagingService.sortByRoomPrice("DESC"));
+                    break;
+                case "option3":
+                case "option4":
+                case "option5":
+            }
+        }
 
-        Specification<Accommodation> combinedSpecification = Specification
-                .where(Specification.allOf(specifications))
-                .and(pagingService.sortByRoomPrice("ASC"));
-
-        Pageable pageable = PageRequest.of(request.getCurrentPage(), request.getTotalPage());
+        Pageable pageable = PageRequest.of(request.getCurrentPage(), request.getTotalPage(), sort);
         Page<Accommodation> accommodationPage = accommodationRepository.findAll(
                 Specification.allOf(specifications), pageable);
 
