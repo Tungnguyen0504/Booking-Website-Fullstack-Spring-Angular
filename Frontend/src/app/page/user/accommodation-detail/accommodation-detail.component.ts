@@ -13,7 +13,6 @@ import lgZoom from 'lightgallery/plugins/zoom';
 import * as moment from 'moment';
 import { MatDialog } from '@angular/material/dialog';
 import { RoomDetailDialogComponent } from './room-detail-dialog/room-detail-dialog.component';
-import { DialogData } from 'src/app/shared/admin/form-address/form-address-dialog/form-address-dialog.component';
 import { BookingService, CartItem, CartStorage } from 'src/app/service/booking.service';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -114,15 +113,15 @@ export class AccommodationDetailComponent implements AfterViewInit {
       autoFocus: false,
     });
 
-    dialogRef.afterClosed().subscribe((result: DialogData) => {
-      if (result && result.isCompleted) {
-        // this.form.patchValue({
-        //   wardId: result.wardId,
-        //   address: result.address,
-        //   specificAddress: result.specificAddress,
-        // });
-      }
-    });
+    // dialogRef.afterClosed().subscribe((result: DialogData) => {
+    //   if (result && result.isCompleted) {
+    //     this.form.patchValue({
+    //       wardId: result.wardId,
+    //       address: result.address,
+    //       specificAddress: result.specificAddress,
+    //     });
+    //   }
+    // });
   }
 
   addToCart(id: number) {
