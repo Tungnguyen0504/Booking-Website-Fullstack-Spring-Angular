@@ -2617,3 +2617,9 @@ img {
     max-width: 40%;
   }
 }
+
+/* file-input-bootstrap */
+[class^="icon-"],
+[class*=" icon-"] {
+  font-family: unset !important;
+}

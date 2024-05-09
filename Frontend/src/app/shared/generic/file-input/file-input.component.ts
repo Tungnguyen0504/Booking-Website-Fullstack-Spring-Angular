@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 declare var $: any;
 
@@ -8,17 +8,16 @@ declare var $: any;
   styleUrls: ['./file-input.component.css'],
 })
 export class FileInputComponent implements OnInit {
-  @Output() eventEmitter: EventEmitter<FileList> = new EventEmitter<any>();
+  @Input() multiple: boolean = false;
+  @Output() eventEmitter: EventEmitter<FileList> = new EventEmitter<FileList>();
 
   ngOnInit(): void {
-    setTimeout(() => {
-      $('.file-input').fileinput({
-        allowedFileTypes: ['image'],
-        initialPreviewAsData: true,
-        showUpload: false,
-        showCancel: false,
-      });
-    }, 500);
+    $('.file-input').fileinput({
+      allowedFileTypes: ['image'],
+      initialPreviewAsData: true,
+      showUpload: false,
+      showCancel: false,
+    });
   }
 
   onFileChange(event: any) {

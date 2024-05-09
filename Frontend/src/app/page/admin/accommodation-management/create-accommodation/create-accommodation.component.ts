@@ -1,10 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AccommodationType } from 'src/app/model/AccommodationType.model';
 import { AccommodationTypeService } from 'src/app/service/accommodation-type.service';
 import { AccommodationService } from 'src/app/service/accommodation.service';
@@ -51,14 +46,14 @@ export class CreateAccommodationComponent implements OnInit {
     private $accommodationService: AccommodationService,
     private $accommodationTypeService: AccommodationTypeService,
     private $alertService: AlertService
-  ) {
+  ) {}
+
+  ngOnInit(): void {
     this.buildFormGroup();
 
-    this.$accommodationTypeService
-      .getAllAccommodationType()
-      .subscribe((response) => {
-        this.listAccommodationType = response;
-      });
+    this.$accommodationTypeService.getAllAccommodationType().subscribe((response) => {
+      this.listAccommodationType = response;
+    });
   }
 
   onSpecialAroundEmitter(data: any) {
@@ -68,7 +63,7 @@ export class CreateAccommodationComponent implements OnInit {
   onBathRoomEmitter(data: any) {
     this.form.get('bathRooms')?.setValue(data);
   }
-  
+
   onBedRoomEmitter(data: any) {
     this.form.get('bedRooms')?.setValue(data);
   }
@@ -88,7 +83,7 @@ export class CreateAccommodationComponent implements OnInit {
   onDrinkAndFoodEmitter(data: any) {
     this.form.get('drinkAndFoods')?.setValue(data);
   }
-  
+
   onReceptionServiceEmitter(data: any) {
     this.form.get('receptionServices')?.setValue(data);
   }
@@ -105,17 +100,8 @@ export class CreateAccommodationComponent implements OnInit {
     this.form.get('others')?.setValue(data);
   }
 
-  ngOnInit(): void {
-    this.initComponentJquery();
-  }
-
-  initComponentJquery() {
-    $('#file-input').fileinput({
-      allowedFileTypes: ['image'],
-      initialPreviewAsData: true,
-      showUpload: false,
-      showCancel: false,
-    });
+  onFileInputEmitter(data: any) {
+    this.selectedImages = data;
   }
 
   buildFormGroup() {
@@ -152,16 +138,14 @@ export class CreateAccommodationComponent implements OnInit {
 
   create() {
     if (this.form.valid) {
-      this.$accommodationService
-        .createNewAccommodation(this.form.value)
-        .subscribe({
-          next: (response) => {
-            this.$alertService.error(response.message);
-          },
-          error: (error) => {
-            this.$alertService.error(error.error.message);
-          },
-        });
+      this.$accommodationService.createNewAccommodation(this.form.value).subscribe({
+        next: (response) => {
+          this.$alertService.error(response.message);
+        },
+        error: (error) => {
+          this.$alertService.error(error.error.message);
+        },
+      });
     }
   }
 }

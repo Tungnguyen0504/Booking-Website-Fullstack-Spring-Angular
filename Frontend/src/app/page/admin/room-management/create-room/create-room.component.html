@@ -33,7 +33,7 @@
                     <mat-list-option
                       *ngFor="let data of listAccommodation; let i = index"
                       [selected]="data && i === 0"
-                      [value]="data.accommodationId"
+                      [value]="data"
                       >{{ data.accommodationName }}</mat-list-option
                     >
                   </mat-selection-list>
@@ -308,6 +308,7 @@
             <div class="col-12 mb-3">
               <label class="control-label">Thêm ảnh phòng</label>
               <app-file-input
+                [multiple]="true"
                 (eventEmitter)="onFileInputEmitter($event)"
               ></app-file-input>
             </div>

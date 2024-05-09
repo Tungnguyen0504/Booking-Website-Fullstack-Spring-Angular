@@ -231,7 +231,7 @@
                 ></app-custom-field-tag-input>
               </div>
               <!-- tag input -->
-              
+
               <div class="col-12 form-group">
                 <mat-divider></mat-divider>
               </div>
@@ -249,16 +249,10 @@
               </div>
               <div class="col-12 mb-3">
                 <label class="control-label">Thêm ảnh chỗ ở</label>
-                <div class="file-loading">
-                  <input
-                    id="file-input"
-                    type="file"
-                    class="file"
-                    data-browse-on-zone-click="true"
-                    multiple
-                    (change)="onFileChange($event)"
-                  />
-                </div>
+                <app-file-input
+                  [multiple]="true"
+                  (eventEmitter)="onFileInputEmitter($event)"
+                ></app-file-input>
               </div>
             </div>
             <div class="d-flex justify-content-end">

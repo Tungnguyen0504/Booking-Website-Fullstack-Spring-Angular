@@ -20,8 +20,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
-import { FormAddressComponent } from 'src/app/shared/generic/form-address/form-address.component';
-import { FormAddressDialogComponent } from 'src/app/shared/generic/form-address/form-address-dialog/form-address-dialog.component';
 import { AdminSidebarComponent } from 'src/app/shared/admin/admin-sidebar/admin-sidebar.component';
 import { CreateRoomComponent } from './room-management/create-room/create-room.component';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
@@ -33,13 +31,12 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { GenericComponentModule } from 'src/app/shared/generic-component.module';
 
 @NgModule({
   declarations: [
     AdminComponent,
     CreateAccommodationComponent,
-    FormAddressComponent,
-    FormAddressDialogComponent,
     CustomFieldTagInputComponent,
     AdminSidebarComponent,
     CreateRoomComponent,
@@ -72,6 +69,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatProgressSpinnerModule,
     NgxMatTimepickerModule,
     RatingModule,
+    GenericComponentModule
   ],
 })
 export class AdminModule {}

@@ -1,9 +1,9 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Observable, of, switchMap } from 'rxjs';
 import { Accommodation } from 'src/app/model/Accommodation.model';
 import { AccommodationService } from 'src/app/service/accommodation.service';
 import { AlertService } from 'src/app/service/alert.service';
-import { FileService } from 'src/app/service/file.service';
 import { RoomService } from 'src/app/service/room.service';
 
 declare var $: any;
@@ -16,7 +16,9 @@ declare var $: any;
 export class CreateRoomComponent implements OnInit {
   selectedAccommodation?: Accommodation;
   listAccommodation: Accommodation[] = [];
-  imageCarousel?: string;
+
+  // test: Observable<Accommodation> = new Observable<Accommodation>();
+
   selectedImages?: FileList;
 
   listViewSeletection: string[] = [];
@@ -31,39 +33,27 @@ export class CreateRoomComponent implements OnInit {
     private $accommodationService: AccommodationService,
     private $roomService: RoomService,
     private $alertService: AlertService
-  ) {
-    this.buildFormGroup();
-
-    // this.listViewSeletection = ['1', '2', '3'];
-  }
-
-  initComponentJquery() {
-    setTimeout(() => {
-      if (this.imageCarousel) {
-        const test = this.imageCarousel[0];
-        $('#file-input').fileinput({
-          allowedFileTypes: ['image'],
-          initialPreviewAsData: true,
-          showUpload: false,
-          showCancel: false,
-          initialPreview: this.imageCarousel,
-        });
-      }
-    }, 500);
-  }
+  ) {}
 
   ngOnInit(): void {
+    this.buildFormGroup();
+
     this.$accommodationService.getAllAccommodation().subscribe({
       next: (response) => {
         this.listAccommodation = response;
-        this.refreshSeletedAccom(response[0]);
+        this.selectedAccommodation = response[0];
       },
       error: (error) => {
         console.log(error);
       },
     });
-
-    this.initComponentJquery();
+    // this.test = this.$accommodationService.getAllAccommodation().pipe(
+    //   switchMap((response) => {
+    //     this.listAccommodation = response;
+    //     this.selectedAccommodation = response[0];
+    //     return of(this.selectedAccommodation);
+    //   })
+    // );
   }
 
   onViewEmitter(data: any) {
@@ -87,18 +77,7 @@ export class CreateRoomComponent implements OnInit {
   }
 
   onSelectedAccom($event: any) {
-    this.$accommodationService.getById($event.options[0]._value).subscribe({
-      next: (response) => {
-        this.refreshSeletedAccom(response);
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
-  }
-
-  refreshSeletedAccom(response: any) {
-    this.selectedAccommodation = response;
+    this.selectedAccommodation = $event.options[0]._value;
   }
 
   create() {

@@ -2,8 +2,8 @@
   <input
     type="file"
     class="file file-input"
+    [attr.multiple]="multiple ? '' : null"
     data-browse-on-zone-click="true"
-    multiple
     (change)="onFileChange($event)"
   />
 </div>
