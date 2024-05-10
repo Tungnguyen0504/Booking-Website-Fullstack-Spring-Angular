@@ -56,6 +56,14 @@ export class CreateAccommodationComponent implements OnInit {
     });
   }
 
+  onAddressEmitter($event: any) {
+    this.form.patchValue({
+      fullAddress: $event.fullAddress,
+      wardId: $event.wardId,
+      specificAddress: $event.specificAddress,
+    });
+  }
+
   onSpecialAroundEmitter(data: any) {
     this.form.get('specialArounds')?.setValue(data);
   }
@@ -108,7 +116,7 @@ export class CreateAccommodationComponent implements OnInit {
     this.form = this.$formBuilder.group({
       accommodationName: new FormControl('', Validators.required),
       wardId: new FormControl(''),
-      address: new FormControl('', Validators.required),
+      fullAddress: new FormControl('', Validators.required),
       specificAddress: new FormControl(''),
       phone: new FormControl('', Validators.required),
       accommodationType: new FormControl('', Validators.required),

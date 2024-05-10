@@ -51,7 +51,7 @@
                       type="text"
                       matInput
                       placeholder="Nhập địa chỉ ..."
-                      formControlName="address"
+                      formControlName="fullAddress"
                       readonly
                     />
                   </mat-form-field>
@@ -59,6 +59,7 @@
                     <app-form-address
                       [form]="this.form"
                       [action]="'create'"
+                      (eventEmitter)="onAddressEmitter($event)"
                     ></app-form-address>
                   </div>
                 </div>

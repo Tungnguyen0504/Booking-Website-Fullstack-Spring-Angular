@@ -93,6 +93,26 @@
                 <mat-datepicker #picker></mat-datepicker>
               </mat-form-field>
             </div>
+            <div class="col-md-12 form-group" style="position: relative">
+              <div class="d-flex align-items-center">
+                <mat-form-field class="w-100">
+                  <mat-label>Địa chỉ</mat-label>
+                  <input
+                    type="text"
+                    matInput
+                    placeholder="Nhập địa chỉ ..."
+                    formControlName="address"
+                    readonly
+                  />
+                </mat-form-field>
+                <div class="btn-address w-100">
+                  <app-form-address
+                    [form]="this.form"
+                    [action]="'create'"
+                  ></app-form-address>
+                </div>
+              </div>
+            </div>
             <div class="col-md-12 mb-3">
               <span class="control-label">Ảnh đại diện</span>
               <input

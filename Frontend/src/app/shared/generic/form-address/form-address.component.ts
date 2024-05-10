@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import {
@@ -14,6 +14,7 @@ import {
 export class FormAddressComponent {
   @Input() form: FormGroup = {} as FormGroup;
   @Input() action: string = '';
+  @Output() eventEmitter: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(private dialog: MatDialog) {}
 
@@ -28,16 +29,15 @@ export class FormAddressComponent {
         top: '8%',
       },
       width: '50%',
+      disableClose: true,
     });
 
     dialogRef.afterClosed().subscribe((result: DialogData) => {
-      if (result && result.isCompleted) {
-        this.form.patchValue({
-          wardId: result.wardId,
-          address: result.address,
-          specificAddress: result.specificAddress,
-        });
-      }
+      this.eventEmitter.emit({
+        wardId: result.wardId,
+        specificAddress: result.specificAddress,
+        fullAddress: result.fullAddress,
+      });
     });
   }
 }

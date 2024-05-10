@@ -1,10 +1,5 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatStepper } from '@angular/material/stepper';
 import { AddressService } from 'src/app/service/address.service';
@@ -13,12 +8,9 @@ declare var $: any;
 
 export interface DialogData {
   action: string;
-  address: string;
+  fullAddress: string;
   specificAddress: string;
-  provinceId: number;
-  districtId: number;
   wardId: number;
-  isCompleted: boolean;
 }
 
 @Component({
@@ -82,62 +74,51 @@ export class FormAddressDialogComponent implements OnInit {
   onProvinceChanged(selectedValue: string) {
     this.stepper.next();
 
-    const provinceName = this.listProvince.filter(
-      (p) => p.provinceId == selectedValue
-    )[0].provinceName;
+    const provinceName = this.listProvince.filter((p) => p.provinceId == selectedValue)[0]
+      .provinceName;
     const oldAddressValue = this.dialogForm.get('address')?.value;
     const newAddressValue =
-      oldAddressValue == ''
-        ? `${provinceName}`
-        : `${oldAddressValue}, ${provinceName}`;
+      oldAddressValue == '' ? `${provinceName}` : `${oldAddressValue}, ${provinceName}`;
     this.dialogForm.get('address')?.setValue(newAddressValue);
 
     const selectedProvince = this.provinceForm.get('selectedProvince')?.value;
     if (selectedProvince) {
-      this.$addressService
-        .getDistrictsByProvince(parseInt(selectedProvince))
-        .subscribe({
-          next: (response) => {
-            this.listDistrict = response;
-          },
-          error: (error) => {
-            console.log(error);
-          },
-        });
+      this.$addressService.getDistrictsByProvince(parseInt(selectedProvince)).subscribe({
+        next: (response) => {
+          this.listDistrict = response;
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
     }
   }
 
   onDistrictChanged(selectedValue: string) {
     this.stepper.next();
 
-    const districtName = this.listDistrict.filter(
-      (p) => p.districtId == selectedValue
-    )[0].districtName;
+    const districtName = this.listDistrict.filter((p) => p.districtId == selectedValue)[0]
+      .districtName;
     const oldAddressValue = this.dialogForm.get('address')?.value;
     const newAddressValue =
-      oldAddressValue == ''
-        ? `${districtName}`
-        : `${oldAddressValue}, ${districtName}`;
+      oldAddressValue == '' ? `${districtName}` : `${oldAddressValue}, ${districtName}`;
     this.dialogForm.get('address')?.setValue(newAddressValue);
 
     const selectedDistrict = this.districtForm.get('selectedDistrict')?.value;
     if (selectedDistrict) {
-      this.$addressService
-        .getWardsByDistrict(parseInt(selectedDistrict))
-        .subscribe({
-          next: (response) => {
-            this.listWard = response;
-          },
-          error: (error) => {
-            console.log(error);
-          },
-        });
+      this.$addressService.getWardsByDistrict(parseInt(selectedDistrict)).subscribe({
+        next: (response) => {
+          this.listWard = response;
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
     }
   }
 
   onWardChanged(selectedValue: string) {
-    const wardName = this.listWard.filter((p) => p.wardId == selectedValue)[0]
-      .wardName;
+    const wardName = this.listWard.filter((p) => p.wardId == selectedValue)[0].wardName;
     const oldAddressValue = this.dialogForm.get('address')?.value;
     const newAddressValue =
       oldAddressValue == '' ? `${wardName}` : `${oldAddressValue}, ${wardName}`;
@@ -160,9 +141,7 @@ export class FormAddressDialogComponent implements OnInit {
 
       this.data.specificAddress = this.dialogForm.get('specificAddress')?.value;
       this.data.wardId = this.wardForm.get('selectedWard')?.value;
-      this.data.address = `${this.data.specificAddress}, ${wardName}, ${districtName}, ${provinceName}`;
-      this.data.isCompleted = true;
-      console.log(this.data);
+      this.data.fullAddress = `${this.data.specificAddress}, ${wardName}, ${districtName}, ${provinceName}`;
 
       this.dialogRef.close(this.data);
     }

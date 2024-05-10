@@ -39,6 +39,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CssLoadingComponent } from 'src/app/shared/user/css-loading/css-loading.component';
 import { UserInformationComponent } from './user-information/user-information.component';
+import { GenericComponentModule } from 'src/app/shared/generic-component.module';
 
 @NgModule({
   declarations: [
@@ -84,6 +85,7 @@ import { UserInformationComponent } from './user-information/user-information.co
     MatTabsModule,
     LightgalleryModule,
     CarouselModule,
+    GenericComponentModule,
   ],
 })
 export class UserModule {}
