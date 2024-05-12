@@ -45,7 +45,7 @@
               </div>
               <div class="col-md-6 form-group" style="position: relative">
                 <div class="d-flex align-items-center">
-                  <mat-form-field class="w-100">
+                  <mat-form-field class="form-address-field w-100">
                     <mat-label>Địa chỉ</mat-label>
                     <input
                       type="text"
@@ -57,7 +57,6 @@
                   </mat-form-field>
                   <div class="btn-address w-100">
                     <app-form-address
-                      [form]="this.form"
                       [action]="'create'"
                       (eventEmitter)="onAddressEmitter($event)"
                     ></app-form-address>

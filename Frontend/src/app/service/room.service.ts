@@ -12,11 +12,8 @@ export class RoomService {
 
   constructor(private httpClient: HttpClient) {}
 
-  createNewRoom(files: FileList, data: any): Observable<any> {
+  createNewRoom(data: any): Observable<any> {
     const formData: FormData = new FormData();
-    for (let i = 0; i < files.length; i++) {
-      formData.append('files', files[i]);
-    }
     formData.append('accommodationId', data.accommodationId);
     formData.append('roomType', data.roomType);
     formData.append('roomArea', data.roomArea);
@@ -38,6 +35,9 @@ export class RoomService {
     for (let i = 0; i < data.views.length; i++) {
       formData.append('views', data.views[i]);
     }
+    for (let i = 0; i < data.images.length; i++) {
+      formData.append('files', data.images[i]);
+    }
 
     return this.httpClient.post(this.URL + '/save', formData);
   }
@@ -47,8 +47,6 @@ export class RoomService {
   }
 
   getByAccommodationId(accommodationId: number) {
-    return this.httpClient.get(
-      `${this.URL}/get-by-accommodation-id/${accommodationId}`
-    );
+    return this.httpClient.get(`${this.URL}/get-by-accommodation-id/${accommodationId}`);
   }
 }

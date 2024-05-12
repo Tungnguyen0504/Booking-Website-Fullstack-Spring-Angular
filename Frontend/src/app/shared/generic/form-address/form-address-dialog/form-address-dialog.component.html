@@ -1,105 +1,98 @@
-<form [formGroup]="dialogForm" (ngSubmit)="update()" novalidate>
+<form
+  class="form-address"
+  [formGroup]="dialogForm"
+  (ngSubmit)="update()"
+  novalidate
+>
   <h2 mat-dialog-title>
-    {{ data.action === "create" ? "Tạo mới" : "Cập nhật" }} địa chỉ
+    {{ dialogData.action === "create" ? "Tạo mới" : "Cập nhật" }} địa chỉ
   </h2>
   <mat-dialog-content class="mat-typography">
-    <div>
-      <mat-form-field
-        class="w-100"
-        data-toggle="collapse"
-        href="#collapseAddress"
-        role="button"
-        aria-expanded="true"
-        aria-controls="collapseAddress"
-      >
-        <mat-label>Tỉnh/Thành phố, Quận/Huyện, Phường/Xã</mat-label>
-        <input type="text" matInput formControlName="address" readonly />
-      </mat-form-field>
-
-      <div class="collapse show" id="collapseAddress">
-        <mat-stepper linear #stepper>
-          <mat-step [stepControl]="provinceForm">
-            <form [formGroup]="provinceForm">
-              <ng-template matStepLabel>Tỉnh/Thành phố</ng-template>
-              <mat-form-field class="w-100">
-                <mat-label>Vui lòng chọn</mat-label>
-                <mat-select
-                  #provinceSelect
-                  class="show"
-                  (selectionChange)="onProvinceChanged(provinceSelect.value)"
-                  formControlName="selectedProvince"
-                  required
-                >
-                  <mat-option>None</mat-option>
-                  <mat-option
-                    *ngFor="let data of listProvince"
-                    value="{{ data.provinceId }}"
-                    >{{ data.provinceName }}</mat-option
+    <div class="mb-3">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-form-field class="w-100">
+            <input
+              #matInputRef
+              type="text"
+              matInput
+              formControlName="fullAddress"
+              placeholder="Tỉnh/Thành phố, Quận/Huyện, Phường/Xã"
+              readonly
+            />
+          </mat-form-field>
+        </mat-expansion-panel-header>
+        <div>
+          <mat-stepper linear #stepper>
+            <mat-step [stepControl]="firstForm">
+              <form [formGroup]="firstForm">
+                <ng-template matStepLabel>Tỉnh/Thành phố</ng-template>
+                <mat-form-field class="w-100">
+                  <mat-label>Vui lòng chọn</mat-label>
+                  <mat-select
+                    #provinceSelect
+                    (selectionChange)="onProvinceChanged($event)"
+                    formControlName="provinceId"
+                    required
                   >
-                </mat-select>
-              </mat-form-field>
-            </form>
-          </mat-step>
-          <mat-step [stepControl]="districtForm">
-            <form [formGroup]="districtForm">
-              <ng-template matStepLabel>Quận/Huyện</ng-template>
-              <mat-form-field class="w-100">
-                <mat-label>Vui lòng chọn</mat-label>
-                <mat-select
-                  #districtSelect
-                  (selectionChange)="onDistrictChanged(districtSelect.value)"
-                  formControlName="selectedDistrict"
-                >
-                  <mat-option>None</mat-option>
-                  <mat-option
-                    *ngFor="let data of listDistrict"
-                    value="{{ data.districtId }}"
-                    >{{ data.districtName }}</mat-option
+                    <mat-option>None</mat-option>
+                    <mat-option
+                      *ngFor="let data of listProvince"
+                      value="{{ data.provinceId }}"
+                      >{{ data.provinceName }}</mat-option
+                    >
+                  </mat-select>
+                </mat-form-field>
+              </form>
+            </mat-step>
+            <mat-step [stepControl]="secondForm">
+              <form [formGroup]="secondForm">
+                <ng-template matStepLabel>Quận/Huyện</ng-template>
+                <mat-form-field class="w-100">
+                  <mat-label>Vui lòng chọn</mat-label>
+                  <mat-select
+                    #districtSelect
+                    (selectionChange)="onDistrictChanged($event)"
+                    formControlName="districtId"
                   >
-                </mat-select>
-              </mat-form-field>
-            </form>
-          </mat-step>
-          <mat-step [stepControl]="wardForm">
-            <form [formGroup]="wardForm">
-              <ng-template matStepLabel>Phường/Xã</ng-template>
-              <mat-form-field class="w-100">
-                <mat-label>Vui lòng chọn</mat-label>
-                <mat-select
-                  #wardSelect
-                  formControlName="selectedWard"
-                  (selectionChange)="onWardChanged(wardSelect.value)"
-                >
-                  <mat-option>None</mat-option>
-                  <mat-option
-                    *ngFor="let data of listWard"
-                    value="{{ data.wardId }}"
-                    >{{ data.wardName }}</mat-option
+                    <mat-option>None</mat-option>
+                    <mat-option
+                      *ngFor="let data of listDistrict"
+                      value="{{ data.districtId }}"
+                      >{{ data.districtName }}</mat-option
+                    >
+                  </mat-select>
+                </mat-form-field>
+              </form>
+            </mat-step>
+            <mat-step [stepControl]="thirdForm">
+              <form [formGroup]="thirdForm">
+                <ng-template matStepLabel>Phường/Xã</ng-template>
+                <mat-form-field class="w-100">
+                  <mat-label>Vui lòng chọn</mat-label>
+                  <mat-select
+                    #wardSelect
+                    formControlName="wardId"
+                    (selectionChange)="onWardChanged($event)"
                   >
-                </mat-select>
-              </mat-form-field>
-            </form>
-          </mat-step>
-        </mat-stepper>
-      </div>
+                    <mat-option>None</mat-option>
+                    <mat-option
+                      *ngFor="let data of listWard"
+                      value="{{ data.wardId }}"
+                      >{{ data.wardName }}</mat-option
+                    >
+                  </mat-select>
+                </mat-form-field>
+              </form>
+            </mat-step>
+          </mat-stepper>
+        </div>
+      </mat-expansion-panel>
     </div>
     <div>
       <mat-form-field class="w-100">
         <mat-label>Địa chỉ cụ thể</mat-label>
         <textarea matInput formControlName="specificAddress"></textarea>
-        <!-- <mat-error
-          *ngIf="
-            emailFormControl.hasError('email') &&
-            !emailFormControl.hasError('required')
-          "
-        >
-          Please enter a valid email address
-        </mat-error> -->
-        <!-- <mat-error
-          *ngIf="dialogForm.get('emailFormControl')!.hasError('required')"
-        >
-          Email is <strong>required</strong>
-        </mat-error> -->
       </mat-form-field>
     </div>
   </mat-dialog-content>

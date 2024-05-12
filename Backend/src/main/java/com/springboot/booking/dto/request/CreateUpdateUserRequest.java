@@ -3,16 +3,17 @@ package com.springboot.booking.dto.request;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @Data
-public class UserRequest {
+public class CreateUpdateUserRequest {
     private Long id;
     private String firstName;
     private String lastName;
     private String email;
-    private String password;
-    private String wardId;
-    private String specificAddress;
     private String phoneNumber;
     private String dateOfBirth;
-    private MultipartFile file;
+    private String wardId;
+    private String specificAddress;
+    private List<MultipartFile> files;
 }

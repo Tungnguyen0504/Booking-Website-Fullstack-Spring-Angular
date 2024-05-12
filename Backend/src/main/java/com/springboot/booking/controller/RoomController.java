@@ -2,7 +2,7 @@ package com.springboot.booking.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.springboot.booking.common.SuccessResult;
-import com.springboot.booking.dto.request.CreateRoomRequest;
+import com.springboot.booking.dto.request.CreateUpdateRoomRequest;
 import com.springboot.booking.dto.response.RoomResponse;
 import com.springboot.booking.model.BSuccess;
 import com.springboot.booking.service.RoomService;
@@ -22,7 +22,7 @@ public class RoomController {
     private final RoomService roomService;
 
     @PostMapping("/save")
-    public ResponseEntity<BSuccess> createRoom(@ModelAttribute CreateRoomRequest request) throws JsonProcessingException {
+    public ResponseEntity<BSuccess> createRoom(@ModelAttribute CreateUpdateRoomRequest request) throws JsonProcessingException {
         roomService.createRoom(request);
         return ResponseEntity.ok(new BSuccess(SuccessResult.CREATED));
     }

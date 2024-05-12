@@ -16,7 +16,6 @@ export class CreateAccommodationComponent implements OnInit {
   form: FormGroup = {} as FormGroup;
 
   listAccommodationType: AccommodationType[] = [];
-  selectedImages!: FileList;
 
   specialArounds: string[] = [];
   specialAroundOptions: string[] = [];
@@ -57,11 +56,13 @@ export class CreateAccommodationComponent implements OnInit {
   }
 
   onAddressEmitter($event: any) {
-    this.form.patchValue({
-      fullAddress: $event.fullAddress,
-      wardId: $event.wardId,
-      specificAddress: $event.specificAddress,
-    });
+    if ($event) {
+      this.form.patchValue({
+        fullAddress: $event.fullAddress,
+        wardId: $event.wardId,
+        specificAddress: $event.specificAddress,
+      });
+    }
   }
 
   onSpecialAroundEmitter(data: any) {
@@ -108,8 +109,8 @@ export class CreateAccommodationComponent implements OnInit {
     this.form.get('others')?.setValue(data);
   }
 
-  onFileInputEmitter(data: any) {
-    this.selectedImages = data;
+  onFileInputEmitter($event: any) {
+    this.form.get('images')?.setValue($event);
   }
 
   buildFormGroup() {
@@ -138,10 +139,6 @@ export class CreateAccommodationComponent implements OnInit {
       others: new FormControl([]),
       images: new FormControl([]),
     });
-  }
-
-  onFileChange(event: any) {
-    this.form.get('images')?.setValue(event.target.files);
   }
 
   create() {

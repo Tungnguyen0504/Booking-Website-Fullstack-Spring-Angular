@@ -25,7 +25,6 @@ import { CreateRoomComponent } from './room-management/create-room/create-room.c
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { CustomFieldTagInputComponent } from 'src/app/shared/admin/custom-field-tag-input/custom-field-tag-input.component';
-import { FileInputComponent } from 'src/app/shared/generic/file-input/file-input.component';
 import { AccommmodationListComponent } from './accommodation-management/accommmodation-list/accommmodation-list.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
@@ -40,7 +39,6 @@ import { GenericComponentModule } from 'src/app/shared/generic-component.module'
     CustomFieldTagInputComponent,
     AdminSidebarComponent,
     CreateRoomComponent,
-    FileInputComponent,
     AccommmodationListComponent,
   ],
   imports: [
@@ -69,7 +67,7 @@ import { GenericComponentModule } from 'src/app/shared/generic-component.module'
     MatProgressSpinnerModule,
     NgxMatTimepickerModule,
     RatingModule,
-    GenericComponentModule
+    GenericComponentModule,
   ],
 })
 export class AdminModule {}

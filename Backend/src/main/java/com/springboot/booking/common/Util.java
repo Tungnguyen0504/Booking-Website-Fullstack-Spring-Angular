@@ -1,15 +1,15 @@
 package com.springboot.booking.common;
 
+import com.springboot.booking.model.entity.File;
 import jakarta.persistence.Table;
 import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Root;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Log4j2

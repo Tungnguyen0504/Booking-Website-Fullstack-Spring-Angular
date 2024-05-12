@@ -6,7 +6,7 @@ import com.springboot.booking.common.Constant;
 import com.springboot.booking.common.ExceptionResult;
 import com.springboot.booking.common.Util;
 import com.springboot.booking.common.paging.BasePagingResponse;
-import com.springboot.booking.dto.request.CreateAccommodationRequest;
+import com.springboot.booking.dto.request.CreateUpdateAccommodationRequest;
 import com.springboot.booking.dto.request.SearchAccommodationRequest;
 import com.springboot.booking.dto.response.AccommodationResponse;
 import com.springboot.booking.dto.response.AccommodationTypeResponse;
@@ -25,8 +25,10 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -92,7 +94,7 @@ public class AccommodationService {
     }
 
     @Transactional
-    public void createAccommodation(CreateAccommodationRequest request) throws JsonProcessingException {
+    public void createAccommodation(CreateUpdateAccommodationRequest request) throws JsonProcessingException {
         AccommodationType accommodationType = accommodationTypeRepository.findById(Long.valueOf(request.getAccommodationTypeId()))
                 .orElseThrow(() -> new GlobalException(ExceptionResult.CUSTOM_FIELD_NOT_FOUND, "loại chỗ ở"));
         List<Accommodation> checkAccommodations = accommodationRepository.getByAccommodationName(request.getAccommodationName());
@@ -132,6 +134,18 @@ public class AccommodationService {
                 .address(address)
                 .build();
         accommodationRepository.save(accommodation);
+
+//        List<File> currentFiles = fileRepository.findByEntityIdAndEntityName(Constant.FILE_PREFIX_ACCOMMODATION, String.valueOf(accommodation.getId()));
+//        Set<String> existingFilePaths = currentFiles
+//                .stream()
+//                .map(File::getFilePath)
+//                .collect(Collectors.toSet());
+//
+//        for (MultipartFile file: request.getFiles()) {
+//            if (!existingFilePaths.contains()) {
+//
+//            }
+//        }
 
         request.getFiles().removeIf(file ->
                 fileRepository.findByFilePath(Constant.FILE_PREFIX_ACCOMMODATION + "/" + file.getOriginalFilename())

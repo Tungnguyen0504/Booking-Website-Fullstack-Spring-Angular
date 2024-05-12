@@ -19,8 +19,6 @@ export class CreateRoomComponent implements OnInit {
 
   // test: Observable<Accommodation> = new Observable<Accommodation>();
 
-  selectedImages?: FileList;
-
   listViewSeletection: string[] = [];
   listDinningRoomSeletection: string[] = [];
   listBathRoomSeletection: string[] = [];
@@ -73,7 +71,7 @@ export class CreateRoomComponent implements OnInit {
   }
 
   onFileInputEmitter(data: any) {
-    this.selectedImages = data;
+    this.form.get('images')?.setValue(data);
   }
 
   onSelectedAccom($event: any) {
@@ -82,8 +80,8 @@ export class CreateRoomComponent implements OnInit {
 
   create() {
     this.form.get('accommodationId')?.setValue(this.selectedAccommodation?.accommodationId);
-    if (this.form.valid && this.selectedImages) {
-      this.$roomService.createNewRoom(this.selectedImages, this.form.value).subscribe({
+    if (this.form.valid) {
+      this.$roomService.createNewRoom(this.form.value).subscribe({
         next: (response) => {
           this.$alertService.success(response.message);
           this.form.reset();
@@ -110,6 +108,7 @@ export class CreateRoomComponent implements OnInit {
       bathRooms: new FormControl(''),
       roomServices: new FormControl(''),
       views: new FormControl(''),
+      images: new FormControl([]),
     });
   }
 }

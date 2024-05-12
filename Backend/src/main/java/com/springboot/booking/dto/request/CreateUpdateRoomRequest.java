@@ -11,7 +11,8 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
-public class CreateRoomRequest {
+public class CreateUpdateRoomRequest {
+    private String roomId;
     private String accommodationId;
     private String roomType;
     private String roomArea;

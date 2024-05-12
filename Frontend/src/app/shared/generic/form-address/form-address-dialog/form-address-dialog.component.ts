@@ -1,16 +1,17 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatSelect } from '@angular/material/select';
 import { MatStepper } from '@angular/material/stepper';
 import { AddressService } from 'src/app/service/address.service';
-
-declare var $: any;
+import { AlertService } from 'src/app/service/alert.service';
 
 export interface DialogData {
   action: string;
   fullAddress: string;
   specificAddress: string;
   wardId: number;
+  isComplete: boolean;
 }
 
 @Component({
@@ -20,18 +21,26 @@ export interface DialogData {
 })
 export class FormAddressDialogComponent implements OnInit {
   @ViewChild('stepper') private stepper!: MatStepper;
+  @ViewChild('districtSelect') private districtSelect!: MatSelect;
+  @ViewChild('wardSelect') private wardSelect!: MatSelect;
 
   listProvince: any[] = [];
   listDistrict: any[] = [];
   listWard: any[] = [];
+
+  selectedProvince: string = '';
+  selectedDistrict: string = '';
+  selectedWard: string = '';
+
   dialogForm: FormGroup = {} as FormGroup;
-  provinceForm: FormGroup = {} as FormGroup;
-  districtForm: FormGroup = {} as FormGroup;
-  wardForm: FormGroup = {} as FormGroup;
+  firstForm: FormGroup = {} as FormGroup;
+  secondForm: FormGroup = {} as FormGroup;
+  thirdForm: FormGroup = {} as FormGroup;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    @Inject(MAT_DIALOG_DATA) public dialogData: DialogData,
     private dialogRef: MatDialogRef<FormAddressDialogComponent>,
+    private $alertService: AlertService,
     private $formBuilder: FormBuilder,
     private $addressService: AddressService
   ) {}
@@ -42,21 +51,21 @@ export class FormAddressDialogComponent implements OnInit {
   }
 
   buildDialogForm() {
-    this.provinceForm = this.$formBuilder.group({
-      selectedProvince: ['', Validators.required],
+    this.firstForm = this.$formBuilder.group({
+      provinceId: ['', Validators.required],
     });
-    this.districtForm = this.$formBuilder.group({
-      selectedDistrict: ['', Validators.required],
+    this.secondForm = this.$formBuilder.group({
+      districtId: ['', Validators.required],
     });
-    this.wardForm = this.$formBuilder.group({
-      selectedWard: ['', Validators.required],
+    this.thirdForm = this.$formBuilder.group({
+      wardId: ['', Validators.required],
     });
     this.dialogForm = this.$formBuilder.group({
-      address: new FormControl('', [Validators.required]),
+      fullAddress: new FormControl('', [Validators.required]),
       specificAddress: new FormControl('', [Validators.required]),
-      provinceForm: this.provinceForm,
-      districtForm: this.districtForm,
-      wardForm: this.wardForm,
+      firstForm: this.firstForm,
+      secondForm: this.secondForm,
+      thirdForm: this.thirdForm,
     });
   }
 
@@ -71,79 +80,76 @@ export class FormAddressDialogComponent implements OnInit {
     });
   }
 
-  onProvinceChanged(selectedValue: string) {
+  onProvinceChanged($event: any) {
+    this.listDistrict = [];
+    this.listWard = [];
+    this.selectedDistrict = '';
+    this.selectedWard = '';
+    this.districtSelect.value = null;
+    this.wardSelect.value = null;
+
+    this.selectedProvince = `${
+      this.listProvince.find((p) => p.provinceId == $event.value).provinceName
+    }, `;
+    this.dialogForm.get('fullAddress')?.setValue(this.fullAddress);
+
+    this.$addressService.getDistrictsByProvince($event.value).subscribe({
+      next: (response) => {
+        this.listDistrict = response;
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+
     this.stepper.next();
-
-    const provinceName = this.listProvince.filter((p) => p.provinceId == selectedValue)[0]
-      .provinceName;
-    const oldAddressValue = this.dialogForm.get('address')?.value;
-    const newAddressValue =
-      oldAddressValue == '' ? `${provinceName}` : `${oldAddressValue}, ${provinceName}`;
-    this.dialogForm.get('address')?.setValue(newAddressValue);
-
-    const selectedProvince = this.provinceForm.get('selectedProvince')?.value;
-    if (selectedProvince) {
-      this.$addressService.getDistrictsByProvince(parseInt(selectedProvince)).subscribe({
-        next: (response) => {
-          this.listDistrict = response;
-        },
-        error: (error) => {
-          console.log(error);
-        },
-      });
-    }
   }
 
-  onDistrictChanged(selectedValue: string) {
+  onDistrictChanged($event: any) {
+    this.listWard = [];
+    this.selectedWard = '';
+    this.wardSelect.value = null;
+
+    this.selectedDistrict = `${
+      this.listDistrict.find((p) => p.districtId == $event.value).districtName
+    }, `;
+    this.dialogForm.get('fullAddress')?.setValue(this.fullAddress);
+
+    this.$addressService.getWardsByDistrict($event.value).subscribe({
+      next: (response) => {
+        this.listWard = response;
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+
     this.stepper.next();
-
-    const districtName = this.listDistrict.filter((p) => p.districtId == selectedValue)[0]
-      .districtName;
-    const oldAddressValue = this.dialogForm.get('address')?.value;
-    const newAddressValue =
-      oldAddressValue == '' ? `${districtName}` : `${oldAddressValue}, ${districtName}`;
-    this.dialogForm.get('address')?.setValue(newAddressValue);
-
-    const selectedDistrict = this.districtForm.get('selectedDistrict')?.value;
-    if (selectedDistrict) {
-      this.$addressService.getWardsByDistrict(parseInt(selectedDistrict)).subscribe({
-        next: (response) => {
-          this.listWard = response;
-        },
-        error: (error) => {
-          console.log(error);
-        },
-      });
-    }
   }
 
-  onWardChanged(selectedValue: string) {
-    const wardName = this.listWard.filter((p) => p.wardId == selectedValue)[0].wardName;
-    const oldAddressValue = this.dialogForm.get('address')?.value;
-    const newAddressValue =
-      oldAddressValue == '' ? `${wardName}` : `${oldAddressValue}, ${wardName}`;
-    this.dialogForm.get('address')?.setValue(newAddressValue);
+  onWardChanged($event: any) {
+    this.selectedWard = `${this.listWard.find((p) => p.wardId == $event.value).wardName}`;
+    this.dialogForm.get('fullAddress')?.setValue(this.fullAddress);
 
-    $('#collapseAddress').removeClass('show');
+    this.stepper.next();
+  }
+
+  get fullAddress() {
+    return `${this.selectedProvince}${this.selectedDistrict}${this.selectedWard}`;
   }
 
   update() {
     if (this.dialogForm.valid) {
-      const provinceName = this.listProvince.filter(
-        (p) => p.provinceId == this.provinceForm.get('selectedProvince')?.value
-      )[0].provinceName;
-      const districtName = this.listDistrict.filter(
-        (p) => p.districtId == this.districtForm.get('selectedDistrict')?.value
-      )[0].districtName;
-      const wardName = this.listWard.filter(
-        (p) => p.wardId == this.wardForm.get('selectedWard')?.value
-      )[0].wardName;
+      this.dialogData.specificAddress = this.dialogForm.get('specificAddress')?.value;
+      this.dialogData.wardId = this.thirdForm.get('wardId')?.value;
+      this.dialogData.fullAddress = `${this.dialogForm.get('specificAddress')?.value}, ${
+        this.fullAddress
+      }`;
+      this.dialogData.isComplete = true;
 
-      this.data.specificAddress = this.dialogForm.get('specificAddress')?.value;
-      this.data.wardId = this.wardForm.get('selectedWard')?.value;
-      this.data.fullAddress = `${this.data.specificAddress}, ${wardName}, ${districtName}, ${provinceName}`;
-
-      this.dialogRef.close(this.data);
+      this.dialogRef.close(this.dialogData);
+    } else {
+      this.$alertService.warning('Địa chỉ không hợp lệ');
     }
   }
 }

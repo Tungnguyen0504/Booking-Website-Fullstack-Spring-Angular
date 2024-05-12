@@ -9,9 +9,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { FileInputComponent } from './generic/file-input/file-input.component';
 
 @NgModule({
-  declarations: [FormAddressComponent, FormAddressDialogComponent],
+  declarations: [FormAddressComponent, FormAddressDialogComponent, FileInputComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -21,8 +23,9 @@ import { MatInputModule } from '@angular/material/input';
     MatSelectModule,
     MatStepperModule,
     MatButtonModule,
-    MatInputModule
+    MatInputModule,
+    MatExpansionModule,
   ],
-  exports: [FormAddressComponent, FormAddressDialogComponent],
+  exports: [FormAddressComponent, FormAddressDialogComponent, FileInputComponent],
 })
 export class GenericComponentModule {}

@@ -2,9 +2,8 @@ package com.springboot.booking.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.springboot.booking.common.SuccessResult;
-import com.springboot.booking.common.paging.BasePagingRequest;
 import com.springboot.booking.common.paging.BasePagingResponse;
-import com.springboot.booking.dto.request.CreateAccommodationRequest;
+import com.springboot.booking.dto.request.CreateUpdateAccommodationRequest;
 import com.springboot.booking.dto.request.SearchAccommodationRequest;
 import com.springboot.booking.dto.response.AccommodationResponse;
 import com.springboot.booking.model.BSuccess;
@@ -26,7 +25,7 @@ public class AccommodationController {
     private final AccommodationService accommodationService;
 
     @PostMapping("/save")
-    public ResponseEntity<BSuccess> createAccommodation(@ModelAttribute CreateAccommodationRequest request) throws JsonProcessingException {
+    public ResponseEntity<BSuccess> createAccommodation(@ModelAttribute CreateUpdateAccommodationRequest request) throws JsonProcessingException {
         accommodationService.createAccommodation(request);
         return ResponseEntity.ok(new BSuccess(SuccessResult.CREATED));
     }

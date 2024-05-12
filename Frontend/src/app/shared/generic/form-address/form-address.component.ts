@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import {
   DialogData,
@@ -12,7 +11,6 @@ import {
   styleUrls: ['./form-address.component.css'],
 })
 export class FormAddressComponent {
-  @Input() form: FormGroup = {} as FormGroup;
   @Input() action: string = '';
   @Output() eventEmitter: EventEmitter<any> = new EventEmitter<any>();
 
@@ -33,11 +31,13 @@ export class FormAddressComponent {
     });
 
     dialogRef.afterClosed().subscribe((result: DialogData) => {
-      this.eventEmitter.emit({
-        wardId: result.wardId,
-        specificAddress: result.specificAddress,
-        fullAddress: result.fullAddress,
-      });
+      if (result && result.isComplete) {
+        this.eventEmitter.emit({
+          wardId: result.wardId,
+          specificAddress: result.specificAddress,
+          fullAddress: result.fullAddress,
+        });
+      }
     });
   }
 }

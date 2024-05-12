@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springboot.booking.common.Constant;
 import com.springboot.booking.common.ExceptionResult;
 import com.springboot.booking.common.Util;
-import com.springboot.booking.dto.request.CreateRoomRequest;
+import com.springboot.booking.dto.request.CreateUpdateRoomRequest;
 import com.springboot.booking.dto.response.RoomResponse;
 import com.springboot.booking.exeption.GlobalException;
 import com.springboot.booking.model.entity.Accommodation;
@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -35,7 +34,7 @@ public class RoomService {
     private final ObjectMapper mapper;
 
     @Transactional
-    public void createRoom(CreateRoomRequest request) throws JsonProcessingException {
+    public void createRoom(CreateUpdateRoomRequest request) throws JsonProcessingException {
         Accommodation accommodation = accommodationRepository.findById(Long.valueOf(request.getAccommodationId()))
                 .orElseThrow(() -> new GlobalException(ExceptionResult.RESOURCE_NOT_FOUND,
                         String.format("File %s", Util.extractTableName(Accommodation.class))));

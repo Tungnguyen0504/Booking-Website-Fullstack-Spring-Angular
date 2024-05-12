@@ -10,7 +10,8 @@ import java.util.Set;
 
 @Getter
 @Setter
-public class CreateAccommodationRequest {
+public class CreateUpdateAccommodationRequest {
+    private String accommodationId;
     private String accommodationName;
     private String accommodationTypeId;
     private String phone;

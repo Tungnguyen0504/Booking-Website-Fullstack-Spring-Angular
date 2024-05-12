@@ -2624,10 +2624,31 @@ img {
   font-family: unset !important;
 }
 
-/* btn-address */
+/* form-address */
 .btn-address {
   position: absolute;
   top: 10px;
   right: 25px;
   width: fit-content !important;
+}
+
+.form-address .mat-expansion-panel-header {
+  padding: 0;
+}
+
+.form-address .mat-expansion-indicator {
+  position: absolute;
+  right: 15px;
+}
+
+.form-address .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
+
+.form-address .mat-expansion-panel {
+  border-radius: unset;
+}
+
+.form-address .mat-expansion-panel-header.mat-expanded {
+  height: var(--mat-expansion-header-collapsed-state-height);
 }
