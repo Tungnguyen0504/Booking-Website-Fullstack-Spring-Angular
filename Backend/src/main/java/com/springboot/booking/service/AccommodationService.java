@@ -27,10 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -67,7 +64,7 @@ public class AccommodationService {
         Sort sort = pagingService.buildOrders(request);
         List<Specification<Accommodation>> specifications = pagingService.buildSpecifications(request);
 
-        if(StringUtils.isNotEmpty(request.getCustomSortOption())) {
+        if (StringUtils.isNotEmpty(request.getCustomSortOption())) {
             switch (request.getCustomSortOption()) {
                 case "option1":
                     specifications.add(pagingService.sortByRoomPrice("ASC"));
@@ -135,32 +132,30 @@ public class AccommodationService {
                 .build();
         accommodationRepository.save(accommodation);
 
-//        List<File> currentFiles = fileRepository.findByEntityIdAndEntityName(Constant.FILE_PREFIX_ACCOMMODATION, String.valueOf(accommodation.getId()));
-//        Set<String> existingFilePaths = currentFiles
-//                .stream()
-//                .map(File::getFilePath)
-//                .collect(Collectors.toSet());
-//
-//        for (MultipartFile file: request.getFiles()) {
-//            if (!existingFilePaths.contains()) {
-//
-//            }
-//        }
-
-        request.getFiles().removeIf(file ->
-                fileRepository.findByFilePath(Constant.FILE_PREFIX_ACCOMMODATION + "/" + file.getOriginalFilename())
-                        .isPresent()
-        );
-        fileService.saveMultiple(request.getFiles(), Constant.FILE_PREFIX_ACCOMMODATION);
-        List<File> files = request.getFiles()
+        List<File> currentFiles = fileRepository.findByEntityIdAndEntityName(Constant.FILE_PREFIX_ACCOMMODATION, String.valueOf(accommodation.getId()));
+        Set<String> checkExistedFilePaths = request.getFiles()
                 .stream()
-                .map(file -> File.builder()
+                .map(file -> Constant.FILE_PREFIX_ACCOMMODATION + "/" + file.getOriginalFilename())
+                .collect(Collectors.toSet());
+
+        Iterator<File> iterator = currentFiles.iterator();
+        while (iterator.hasNext()) {
+            File file = iterator.next();
+            if (checkExistedFilePaths.contains(file.getFilePath())) {
+                checkExistedFilePaths.remove(file.getFilePath());
+            } else {
+                fileRepository.delete(file);
+                currentFiles.remove(file);
+            }
+        }
+
+        fileRepository.saveAll(checkExistedFilePaths.stream()
+                .map(filePath -> File.builder()
                         .entityId(String.valueOf(accommodation.getId()))
                         .entityName(Util.extractTableName(Accommodation.class))
-                        .filePath(Constant.FILE_PREFIX_ACCOMMODATION + "/" + file.getOriginalFilename())
+                        .filePath(filePath)
                         .build())
-                .collect(Collectors.toList());
-        fileRepository.saveAll(files);
+                .collect(Collectors.toList()));
     }
 
     public void inactive(Long id) {
