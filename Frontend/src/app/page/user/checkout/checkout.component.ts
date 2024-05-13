@@ -216,7 +216,7 @@ export class CheckoutComponent implements OnInit {
             lastName: this.user.lastName,
             email: this.user.email,
             phoneNumber: this.user.phoneNumber,
-            address: this.user.fullAddress,
+            address: this.user.address.fullAddress,
           });
         }
       },

@@ -1,11 +1,8 @@
 package com.springboot.booking.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.springboot.booking.common.Constant;
 import com.springboot.booking.common.ExceptionResult;
-import com.springboot.booking.common.Util;
 import com.springboot.booking.exeption.GlobalException;
-import com.springboot.booking.model.entity.Accommodation;
 import com.springboot.booking.model.entity.File;
 import com.springboot.booking.repository.FileRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,12 +10,16 @@ import lombok.SneakyThrows;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -104,6 +105,11 @@ public class FileService {
         }
     }
 
+    @SneakyThrows(IOException.class)
+    public String encodeFileToString(String fileName) {
+        return "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(this.load(fileName).getContentAsByteArray());
+    }
+
     public List<File> getFilesByEntityIdAndEntityName(String entityId, String entityName) {
         return fileRepository.findByEntityIdAndEntityName(entityId, entityName);
     }
@@ -114,8 +120,34 @@ public class FileService {
                         String.format("File %s", entityName)));
     }
 
-    @SneakyThrows(IOException.class)
-    public String encodeFileToString(String fileName) {
-        return "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(this.load(fileName).getContentAsByteArray());
+    @Transactional
+    public void executeSaveFiles(List<MultipartFile> fileRequests, String prefixPath, String entityId, String entityName) {
+        Set<String> checkExistedFilePaths = fileRequests
+                .stream()
+                .map(file -> prefixPath + "/" + file.getOriginalFilename())
+                .collect(Collectors.toSet());
+
+        List<File> files = fileRepository.findByEntityIdAndEntityName(entityId, entityName);
+        ListIterator<File> iterator = files.listIterator();
+        while (iterator.hasNext()) {
+            File file = iterator.next();
+            if (checkExistedFilePaths.contains(file.getFilePath())) {
+                checkExistedFilePaths.remove(file.getFilePath());
+            } else {
+                fileRepository.delete(file);
+                iterator.remove();
+            }
+        }
+
+        files.addAll(checkExistedFilePaths.stream()
+                .map(filePath -> File.builder()
+                        .entityId(entityId)
+                        .entityName(entityName)
+                        .filePath(filePath)
+                        .build())
+                .toList());
+        fileRepository.saveAll(files);
+
+        saveMultiple(fileRequests, prefixPath);
     }
 }

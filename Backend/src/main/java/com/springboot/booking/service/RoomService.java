@@ -63,19 +63,10 @@ public class RoomService {
         roomRepository.save(room);
         accommodationRepository.save(accommodation);
 
-        request.getFiles().removeIf(file ->
-                fileRepository.findByFilePath(Constant.FILE_PREFIX_ROOM + "/" + file.getOriginalFilename()).isPresent()
-        );
-        fileService.saveMultiple(request.getFiles(), Constant.FILE_PREFIX_ROOM);
-        List<File> files = request.getFiles()
-                .stream()
-                .map(file -> File.builder()
-                        .entityId(String.valueOf(room.getId()))
-                        .entityName(Util.extractTableName(Room.class))
-                        .filePath(Constant.FILE_PREFIX_ROOM + "/" + file.getOriginalFilename())
-                        .build())
-                .collect(Collectors.toList());
-        fileRepository.saveAll(files);
+        fileService.executeSaveFiles(request.getFiles()
+                , Constant.FILE_PREFIX_ROOM
+                , String.valueOf(room.getId())
+                , Util.extractTableName(Room.class));
     }
 
     public RoomResponse getById(Long id) {

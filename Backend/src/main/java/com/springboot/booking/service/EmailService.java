@@ -26,35 +26,24 @@ public class EmailService {
     private String sender;
 
     public void sendSimpleMail(EmailDetail details) {
-        try {
-            SimpleMailMessage mailMessage = new SimpleMailMessage();
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
 
-            mailMessage.setFrom(sender);
-            mailMessage.setTo(details.getRecipient());
-            mailMessage.setText(details.getMsgBody());
-            mailMessage.setSubject(details.getSubject());
+        mailMessage.setFrom(sender);
+        mailMessage.setTo(details.getRecipient());
+        mailMessage.setText(details.getMsgBody());
+        mailMessage.setSubject(details.getSubject());
 
-            javaMailSender.send(mailMessage);
-        } catch (MailException e) {
-            throw new GlobalException(ExceptionResult.SEND_EMAIL_ERROR, e);
-        }
+        javaMailSender.send(mailMessage);
     }
 
-    public boolean sendHtmlEmail(EmailDetail emailDetail) {
-        try {
-            MimeMessage message = javaMailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+    public void sendHtmlEmail(EmailDetail emailDetail) throws MessagingException {
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-            helper.setTo(emailDetail.getRecipient());
-            helper.setSubject(emailDetail.getSubject());
-            helper.setText(emailDetail.getMsgBody(), true);
+        helper.setTo(emailDetail.getRecipient());
+        helper.setSubject(emailDetail.getSubject());
+        helper.setText(emailDetail.getMsgBody(), true);
 
-            javaMailSender.send(message);
-            return true;
-        } catch (MailException | MessagingException e) {
-            log.error("[SERVICE] => sendSimpleMail: {}", e.getMessage());
-            e.printStackTrace();
-            return false;
-        }
+        javaMailSender.send(message);
     }
 }

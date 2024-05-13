@@ -132,30 +132,10 @@ public class AccommodationService {
                 .build();
         accommodationRepository.save(accommodation);
 
-        List<File> currentFiles = fileRepository.findByEntityIdAndEntityName(Constant.FILE_PREFIX_ACCOMMODATION, String.valueOf(accommodation.getId()));
-        Set<String> checkExistedFilePaths = request.getFiles()
-                .stream()
-                .map(file -> Constant.FILE_PREFIX_ACCOMMODATION + "/" + file.getOriginalFilename())
-                .collect(Collectors.toSet());
-
-        Iterator<File> iterator = currentFiles.iterator();
-        while (iterator.hasNext()) {
-            File file = iterator.next();
-            if (checkExistedFilePaths.contains(file.getFilePath())) {
-                checkExistedFilePaths.remove(file.getFilePath());
-            } else {
-                fileRepository.delete(file);
-                currentFiles.remove(file);
-            }
-        }
-
-        fileRepository.saveAll(checkExistedFilePaths.stream()
-                .map(filePath -> File.builder()
-                        .entityId(String.valueOf(accommodation.getId()))
-                        .entityName(Util.extractTableName(Accommodation.class))
-                        .filePath(filePath)
-                        .build())
-                .collect(Collectors.toList()));
+        fileService.executeSaveFiles(request.getFiles()
+                , Constant.FILE_PREFIX_ACCOMMODATION
+                , String.valueOf(accommodation.getId())
+                , Util.extractTableName(Accommodation.class));
     }
 
     public void inactive(Long id) {

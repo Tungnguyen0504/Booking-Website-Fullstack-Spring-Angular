@@ -142,6 +142,7 @@ export class CreateAccommodationComponent implements OnInit {
   }
 
   create() {
+    console.log(this.form.valid);
     if (this.form.valid) {
       this.$accommodationService.createNewAccommodation(this.form.value).subscribe({
         next: (response) => {

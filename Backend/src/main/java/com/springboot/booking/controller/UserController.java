@@ -5,6 +5,7 @@ import com.springboot.booking.dto.request.CreateUpdateUserRequest;
 import com.springboot.booking.dto.response.UserResponse;
 import com.springboot.booking.model.BSuccess;
 import com.springboot.booking.service.UserService;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,5 +29,11 @@ public class UserController {
     public ResponseEntity<BSuccess> update(@ModelAttribute CreateUpdateUserRequest request) {
         userService.update(request);
         return ResponseEntity.ok(new BSuccess(SuccessResult.MODIFIED));
+    }
+
+    @GetMapping("/send-email-change-password")
+    public ResponseEntity<BSuccess> sendEmailChangePassword() throws MessagingException {
+        userService.sendEmailChangePassword();
+        return ResponseEntity.ok(new BSuccess(SuccessResult.SEND_EMAIL_COMPLETED));
     }
 }

@@ -15,6 +15,7 @@ import com.springboot.booking.model.entity.Token;
 import com.springboot.booking.model.entity.User;
 import com.springboot.booking.repository.TokenRepository;
 import com.springboot.booking.repository.UserRepository;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -41,7 +42,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final AuthenticationFacade authenticationFacade;
 
-    public String verifyRegister(RegisterRequest request) {
+    public String verifyRegister(RegisterRequest request) throws MessagingException {
         User user = userRepository.findByEmail(request.getEmail()).orElse(null);
         if (Objects.nonNull(user)) {
             throw new GlobalException(ExceptionResult.EXISTED_EMAIL);
@@ -53,14 +54,11 @@ public class AuthenticationService {
         }
 
         String verifyCode = Util.generateVerificationCode();
-        boolean result = emailService.sendHtmlEmail(EmailDetail.builder()
+        emailService.sendHtmlEmail(EmailDetail.builder()
                 .recipient(request.getEmail())
                 .subject(Constant.MAIL_DETAIL_SUBJECT)
-                .msgBody(Constant.getMsgBodySimple(verifyCode))
+                .msgBody(Constant.MSG_VERIFY_CODE + verifyCode)
                 .build());
-        if (!result) {
-            throw new GlobalException(ExceptionResult.SEND_EMAIL_ERROR);
-        }
 
         return verifyCode;
     }
@@ -75,7 +73,7 @@ public class AuthenticationService {
                 .build());
     }
 
-    public String verifyLogin(LoginRequest request) {
+    public String verifyLogin(LoginRequest request) throws MessagingException {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -88,15 +86,11 @@ public class AuthenticationService {
         }
 
         String verifyCode = Util.generateVerificationCode();
-        boolean result = emailService.sendHtmlEmail(EmailDetail.builder()
+        emailService.sendHtmlEmail(EmailDetail.builder()
                 .recipient(request.getEmail())
                 .subject(Constant.MAIL_DETAIL_SUBJECT)
-                .msgBody(Constant.getMsgBodySimple(verifyCode))
+                .msgBody(Constant.MSG_VERIFY_CODE + verifyCode)
                 .build());
-        if (!result) {
-            throw new GlobalException(ExceptionResult.SEND_EMAIL_ERROR);
-        }
-
         return verifyCode;
     }
 

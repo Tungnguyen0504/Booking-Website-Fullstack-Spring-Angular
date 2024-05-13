@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
@@ -17,7 +17,7 @@ declare var $: any;
   templateUrl: './book-now.component.html',
   styleUrls: ['./book-now.component.css'],
 })
-export class BookNowComponent {
+export class BookNowComponent implements OnInit {
   formSearch: FormGroup = {} as FormGroup;
 
   constructor(
@@ -25,7 +25,9 @@ export class BookNowComponent {
     private formBuilder: FormBuilder,
     private $alertService: AlertService,
     private $bookingService: BookingService
-  ) {
+  ) {}
+
+  ngOnInit(): void {
     this.buildFormGroup();
     this.initData();
   }

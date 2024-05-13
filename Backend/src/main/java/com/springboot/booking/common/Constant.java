@@ -26,7 +26,7 @@ public class Constant {
     public static final String STATUS_ACTIVE = "ACTIVE";
     public static final String STATUS_INACTIVE = "INACTIVE";
 
-    public static String getMsgBodySimple(String code) {
-        return "Mã xác thực Thepalatin.com của bạn là: " + code;
-    }
+    //email
+    public static final String MSG_VERIFY_CODE = "Mã xác thực Thepalatin.com của bạn là: ";
+    public static final String MSG_CHANGE_PASSWORD = "Xác thực email thành công, nhấn vào đường link để thay đổi mật khẩu: ";
 }

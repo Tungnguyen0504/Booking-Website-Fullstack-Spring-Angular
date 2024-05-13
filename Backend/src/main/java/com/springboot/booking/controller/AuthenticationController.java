@@ -9,9 +9,9 @@ import com.springboot.booking.dto.request.RegisterRequest;
 import com.springboot.booking.dto.response.AuthenticationResponse;
 import com.springboot.booking.model.BSuccess;
 import com.springboot.booking.service.AuthenticationService;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +25,7 @@ public class AuthenticationController {
     private final AuthenticationService service;
 
     @PostMapping("/verification/register")
-    public ResponseEntity<String> verifyRegister(@RequestBody RegisterRequest request) {
+    public ResponseEntity<String> verifyRegister(@RequestBody RegisterRequest request) throws MessagingException {
         return ResponseEntity.ok(service.verifyRegister(request));
     }
 
@@ -36,7 +36,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/verification/login")
-    public ResponseEntity<String> verifyLogin(@RequestBody LoginRequest request) {
+    public ResponseEntity<String> verifyLogin(@RequestBody LoginRequest request) throws MessagingException {
         return ResponseEntity.ok(service.verifyLogin(request));
     }
 

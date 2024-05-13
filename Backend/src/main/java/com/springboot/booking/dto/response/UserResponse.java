@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -18,9 +19,9 @@ public class UserResponse {
     private String lastName;
     private String email;
     private String password;
-    private String fullAddress;
+    private Map<String, Object> address;
     private String phoneNumber;
-    @JsonFormat(pattern = Constant.DATETIME_FORMAT2)
+    @JsonFormat(pattern = Constant.DATE_FORMAT1)
     private LocalDate dateOfBirth;
     private String status;
     private String role;
