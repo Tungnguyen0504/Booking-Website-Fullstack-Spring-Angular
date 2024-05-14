@@ -22,6 +22,9 @@ public class File extends BaseEntity {
     @Column(name = "entity_name")
     private String entityName;
 
+    @Column(name = "file_type")
+    private String fileType;
+
     @Column(name = "file_path")
     private String filePath;
 }

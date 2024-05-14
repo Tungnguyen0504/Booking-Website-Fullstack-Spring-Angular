@@ -62,4 +62,23 @@ export class Util {
       fieldType: 'STRING',
     };
   }
+
+  //check file type
+  public static convertBase64ToFileList(base64DataList: string[], fileName: string): File[] {
+    var fileList = [];
+    for (let i = 0; i < base64DataList.length; i++) {
+      const base64Data = base64DataList[i];
+      const byteString = base64Data.replace('data:image/jpeg;base64,', '');
+      const byteCharacters = atob(byteString);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: 'image/jpeg' });
+      const file = new File([blob], fileName);
+      fileList.push(file);
+    }
+    return fileList;
+  }
 }

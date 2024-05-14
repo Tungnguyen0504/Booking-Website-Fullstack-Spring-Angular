@@ -11,7 +11,7 @@ export interface User {
   dateOfBirth: string;
   status: string;
   role: string;
-  filePath: string;
+  filePaths: string[];
   createdAt: string;
   modifiedAt: string;
 }

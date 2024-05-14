@@ -16,10 +16,12 @@ import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -94,14 +96,13 @@ public class UserService {
 
     private UserResponse transferToObject(User user) {
         Map<String, Object> addressMap = new HashMap<>();
-        if(Objects.nonNull(user.getAddress())) {
+        if (Objects.nonNull(user.getAddress())) {
             addressMap.put("wardId", user.getAddress().getWard().getId());
             addressMap.put("specificAddress", user.getAddress().getSpecificAddress());
             addressMap.put("fullAddress", addressService.getFullAddress(user.getAddress().getId()));
         }
 
-        File file = fileService.getFilesByEntityIdAndEntityNameDesc(String.valueOf(user.getId()), Util.extractTableName(User.class));
-        String fileByte = fileService.encodeFileToString(file.getFilePath());
+        File file = fileService.getFiles(String.valueOf(user.getId()), Util.extractTableName(User.class), MediaType.IMAGE_JPEG_VALUE);
 
         return UserResponse.builder()
                 .id(user.getId())
@@ -114,7 +115,10 @@ public class UserService {
                 .dateOfBirth(user.getDateOfBirth())
                 .status(user.getStatus())
                 .role(user.getRole().name())
-                .filePath(fileByte)
+                .files(Collections.singletonList(UserResponse.FileResponse.builder()
+                        .fileType(file.getFileType())
+                        .base64String(fileService.encodeFileToString(file.getFilePath()))
+                        .build()))
                 .createdAt(user.getCreatedAt())
                 .modifiedAt(user.getModifiedAt())
                 .build();

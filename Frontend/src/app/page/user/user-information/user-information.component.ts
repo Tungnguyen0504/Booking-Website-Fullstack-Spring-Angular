@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Observable, filter, of, switchMap } from 'rxjs';
 import { User } from 'src/app/model/User.model';
 import { AlertService } from 'src/app/service/alert.service';
 import { UserService } from 'src/app/service/user.service';
+import { Util } from 'src/app/util/util';
 
 @Component({
   selector: 'app-user-information',
@@ -12,6 +14,7 @@ import { UserService } from 'src/app/service/user.service';
 export class UserInformationComponent implements OnInit {
   form: FormGroup = {} as FormGroup;
   user?: User;
+  filePaths$: Observable<string[]> = of([]);
 
   constructor(
     private $formBuilder: FormBuilder,
@@ -40,25 +43,26 @@ export class UserInformationComponent implements OnInit {
   }
 
   initApi() {
-    this.$userService.getCurrentUser().subscribe({
-      next: (response) => {
-        if (response) {
-          this.form.patchValue({
-            id: response.id,
-            firstName: response.firstName,
-            lastName: response.lastName,
-            email: response.email,
-            phoneNumber: response.phoneNumber,
-            dateOfBirth: response.dateOfBirth,
-            // fullAddress: response.address?.fullAddress,
-            // wardId: response.address?.wardId,
-            // specificAddress: response.address?.specificAddress,
-            images: response.filePath,
-          });
-          console.log(this.form.value);
-        }
-      },
-    });
+    this.filePaths$ = this.$userService.getCurrentUser().pipe(
+      filter((response) => response !== null),
+      switchMap((response) => {
+        this.form.patchValue({
+          id: response!.id,
+          firstName: response!.firstName,
+          lastName: response!.lastName,
+          email: response!.email,
+          phoneNumber: response!.phoneNumber,
+          dateOfBirth: response!.dateOfBirth,
+          fullAddress: response!.address?.fullAddress,
+          wardId: response!.address?.wardId,
+          specificAddress: response!.address?.specificAddress,
+          images: response!.filePaths,
+        });
+        console.log(Util.convertBase64ToFileList(response!.filePaths, '36.jpg'));
+        return of(response!);
+      }),
+      switchMap((response) => of(response.filePaths))
+    );
   }
 
   onAddressEmitter($event: any) {

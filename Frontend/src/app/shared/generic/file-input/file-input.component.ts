@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Observable } from 'rxjs';
 
 declare var $: any;
 
@@ -9,7 +10,8 @@ declare var $: any;
 })
 export class FileInputComponent implements OnInit {
   @Input() multiple: boolean = false;
-  @Output() eventEmitter: EventEmitter<FileList> = new EventEmitter<FileList>();
+  @Input() filePaths: string[] = [];
+  @Output() eventEmitter: EventEmitter<File[]> = new EventEmitter<File[]>();
 
   ngOnInit(): void {
     $('.file-input').fileinput({
@@ -17,10 +19,15 @@ export class FileInputComponent implements OnInit {
       initialPreviewAsData: true,
       showUpload: false,
       showCancel: false,
+      initialPreview: this.filePaths,
     });
   }
 
-  onFileChange(event: any) {
-    this.eventEmitter.emit(event.target.files);
+  onFileChange($event: any) {
+    var fileList = [];
+    for (let i = 0; i < $event.target.files.length; i++) {
+      fileList.push($event.target.files[i]);
+    }
+    this.eventEmitter.emit(fileList);
   }
 }

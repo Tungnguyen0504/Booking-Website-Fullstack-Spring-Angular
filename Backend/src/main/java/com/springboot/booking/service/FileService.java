@@ -120,6 +120,12 @@ public class FileService {
                         String.format("File %s", entityName)));
     }
 
+    public File getFiles(String entityId, String entityName, String fileType) {
+        return fileRepository.findByEntityIdAndEntityNameAndFileType(entityId, entityName, fileType)
+                .orElseThrow(() -> new GlobalException(ExceptionResult.RESOURCE_NOT_FOUND,
+                        String.format("File %s", entityName)));
+    }
+
     @Transactional
     public void executeSaveFiles(List<MultipartFile> fileRequests, String prefixPath, String entityId, String entityName) {
         Set<String> checkExistedFilePaths = fileRequests
