@@ -45,30 +45,20 @@ export class UserHomeComponent implements OnInit {
   }
 
   initApi() {
-    this.$accommodationTypeService
-      .getAllAccommodationType()
-      .subscribe((response) => {
-        this.lstAccommodationType = response;
-      });
+    this.$accommodationTypeService.getAllAccommodationType().subscribe((response) => {
+      this.lstAccommodationType = response;
+    });
   }
 
   getImageCity() {
-    const listCityName = [
-      'Hà Nội',
-      'Hồ Chí Minh',
-      'Hội An',
-      'Huế',
-      'Nha Trang',
-    ];
-    const listImagePath = listCityName.map(
-      (name: string) => `city/${name}.jpg`
-    );
+    const listCityName = ['Hà Nội', 'Hồ Chí Minh', 'Hội An', 'Huế', 'Nha Trang'];
+    const listImagePath = listCityName.map((name: string) => `city/${name}.jpg`);
     this.$fileService.getMultipleImages(listImagePath).subscribe({
       next: (response: any) => {
         for (let i = 0; i < 5; i++) {
           const city: City = {
             name: listCityName[i],
-            image: 'data:image/jpeg;base64,' + response[i].fileByte,
+            image: response[i].base64String,
           };
           this.cityList?.push(city);
         }

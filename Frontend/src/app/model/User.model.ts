@@ -1,4 +1,5 @@
 import { Address } from './Address.model';
+import { FileDto } from './FileDto.model';
 
 export interface User {
   id: number;
@@ -11,7 +12,7 @@ export interface User {
   dateOfBirth: string;
   status: string;
   role: string;
-  filePaths: string[];
+  files: FileDto[];
   createdAt: string;
   modifiedAt: string;
 }

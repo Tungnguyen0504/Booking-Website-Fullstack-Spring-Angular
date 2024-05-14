@@ -6,6 +6,7 @@ import com.springboot.booking.common.ExceptionResult;
 import com.springboot.booking.common.Util;
 import com.springboot.booking.config.AuthenticationFacade;
 import com.springboot.booking.dto.request.CreateUpdateUserRequest;
+import com.springboot.booking.dto.response.FileResponse;
 import com.springboot.booking.dto.response.UserResponse;
 import com.springboot.booking.exeption.GlobalException;
 import com.springboot.booking.model.EmailDetail;
@@ -20,11 +21,10 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -102,23 +102,27 @@ public class UserService {
             addressMap.put("fullAddress", addressService.getFullAddress(user.getAddress().getId()));
         }
 
-        File file = fileService.getFiles(String.valueOf(user.getId()), Util.extractTableName(User.class), MediaType.IMAGE_JPEG_VALUE);
+        List<File> files = fileService.getFiles(String.valueOf(user.getId()), Util.extractTableName(User.class), MediaType.IMAGE_JPEG_VALUE);
+        List<FileResponse> fileResponses = files
+                .stream()
+                .map(file -> FileResponse.builder()
+                        .fileName(file.getFileName())
+                        .fileType(file.getFileType())
+                        .base64String(fileService.encodeFileToString(file.getFilePath()))
+                        .build())
+                .toList();
 
         return UserResponse.builder()
                 .id(user.getId())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .email(user.getEmail())
-                .password(user.getPassword())
                 .address(addressMap)
                 .phoneNumber(user.getPhoneNumber())
                 .dateOfBirth(user.getDateOfBirth())
                 .status(user.getStatus())
                 .role(user.getRole().name())
-                .files(Collections.singletonList(UserResponse.FileResponse.builder()
-                        .fileType(file.getFileType())
-                        .base64String(fileService.encodeFileToString(file.getFilePath()))
-                        .build()))
+                .files(fileResponses)
                 .createdAt(user.getCreatedAt())
                 .modifiedAt(user.getModifiedAt())
                 .build();

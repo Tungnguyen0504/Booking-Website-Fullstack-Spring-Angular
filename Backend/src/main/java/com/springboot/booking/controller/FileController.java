@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 
 import static com.springboot.booking.common.Constant.PATH_V1;
@@ -27,9 +28,9 @@ public class FileController {
                 .map(file -> {
                     try {
                         return FileResponse.builder()
-                                .name(file.getFilename())
-                                .type(MediaType.IMAGE_JPEG_VALUE)
-                                .fileByte(file.getContentAsByteArray())
+                                .fileName(file.getFilename())
+                                .fileType(MediaType.IMAGE_JPEG_VALUE)
+                                .base64String("data:image/jpeg;base64," + Base64.getEncoder().encodeToString(file.getContentAsByteArray()))
                                 .build();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
@@ -43,9 +44,9 @@ public class FileController {
     public ResponseEntity<FileResponse> getFile(@RequestParam String filename) throws IOException {
         Resource file = fileService.load(filename);
         return ResponseEntity.ok(FileResponse.builder()
-                .name(file.getFilename())
-                .type(MediaType.IMAGE_JPEG_VALUE)
-                .fileByte(file.getContentAsByteArray())
+                .fileName(file.getFilename())
+                .fileType(MediaType.IMAGE_JPEG_VALUE)
+                .base64String("data:image/jpeg;base64," + Base64.getEncoder().encodeToString(file.getContentAsByteArray()))
                 .build());
     }
 }

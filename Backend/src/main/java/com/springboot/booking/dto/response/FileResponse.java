@@ -1,14 +1,14 @@
 package com.springboot.booking.dto.response;
 
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 @Builder
 public class FileResponse {
-    private String name;
-    private String type;
-    private byte[] fileByte;
+    private String fileName;
+    private String fileType;
+    private String base64String;
 }

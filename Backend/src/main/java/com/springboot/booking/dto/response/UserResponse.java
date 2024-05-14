@@ -20,7 +20,6 @@ public class UserResponse {
     private String firstName;
     private String lastName;
     private String email;
-    private String password;
     private Map<String, Object> address;
     private String phoneNumber;
     @JsonFormat(pattern = Constant.DATE_FORMAT1)
@@ -32,11 +31,4 @@ public class UserResponse {
     private LocalDateTime createdAt;
     @JsonFormat(pattern = Constant.DATETIME_FORMAT2)
     private LocalDateTime modifiedAt;
-
-    @Data
-    @Builder
-    public static class FileResponse {
-        private String fileType;
-        private String base64String;
-    }
 }

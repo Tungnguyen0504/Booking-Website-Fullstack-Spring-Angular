@@ -106,8 +106,8 @@ public class FileService {
     }
 
     @SneakyThrows(IOException.class)
-    public String encodeFileToString(String fileName) {
-        return "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(this.load(fileName).getContentAsByteArray());
+    public String encodeFileToString(String filePath) {
+        return "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(this.load(filePath).getContentAsByteArray());
     }
 
     public List<File> getFilesByEntityIdAndEntityName(String entityId, String entityName) {
@@ -120,10 +120,8 @@ public class FileService {
                         String.format("File %s", entityName)));
     }
 
-    public File getFiles(String entityId, String entityName, String fileType) {
-        return fileRepository.findByEntityIdAndEntityNameAndFileType(entityId, entityName, fileType)
-                .orElseThrow(() -> new GlobalException(ExceptionResult.RESOURCE_NOT_FOUND,
-                        String.format("File %s", entityName)));
+    public List<File> getFiles(String entityId, String entityName, String fileType) {
+        return fileRepository.findByEntityIdAndEntityNameAndFileType(entityId, entityName, fileType);
     }
 
     @Transactional

@@ -22,5 +22,5 @@ public interface FileRepository extends JpaRepository<File, Long> {
 
     @Query(value = "select f from File f " +
             "where f.entityId = :entityId and f.entityName = :entityName and f.fileType = :fileType")
-    Optional<File> findByEntityIdAndEntityNameAndFileType(String entityId, String entityName, String fileType);
+    List<File> findByEntityIdAndEntityNameAndFileType(String entityId, String entityName, String fileType);
 }

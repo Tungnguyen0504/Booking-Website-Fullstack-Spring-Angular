@@ -1,5 +1,5 @@
 import * as moment from 'moment';
-import { DATETIME_FORMAT1, TIME_EXPIRED } from '../constant/Abstract.constant';
+import { DATETIME_FORMAT1 } from '../constant/Abstract.constant';
 
 export class Util {
   public static setLocal(key: string, value: any, expiredTime: number) {
@@ -61,6 +61,12 @@ export class Util {
       operator: 'EQUAL',
       fieldType: 'STRING',
     };
+  }
+
+  public static getFileImages(obj: any) {
+    return obj.files
+      .filter((file: any) => file.fileType === 'image/jpeg')
+      .map((file: any) => file.base64String);
   }
 
   //check file type

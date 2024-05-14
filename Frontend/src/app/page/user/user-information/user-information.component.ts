@@ -46,6 +46,7 @@ export class UserInformationComponent implements OnInit {
     this.filePaths$ = this.$userService.getCurrentUser().pipe(
       filter((response) => response !== null),
       switchMap((response) => {
+        const fileImages = Util.getFileImages(response);
         this.form.patchValue({
           id: response!.id,
           firstName: response!.firstName,
@@ -56,12 +57,15 @@ export class UserInformationComponent implements OnInit {
           fullAddress: response!.address?.fullAddress,
           wardId: response!.address?.wardId,
           specificAddress: response!.address?.specificAddress,
-          images: response!.filePaths,
+          // images: response!.filePaths,
         });
-        console.log(Util.convertBase64ToFileList(response!.filePaths, '36.jpg'));
+        console.log(Util.convertBase64ToFileList(fileImages, '36.jpg'));
         return of(response!);
       }),
-      switchMap((response) => of(response.filePaths))
+      switchMap((response) => {
+        const fileImages = Util.getFileImages(response);
+        return of(fileImages);
+      })
     );
   }
 
