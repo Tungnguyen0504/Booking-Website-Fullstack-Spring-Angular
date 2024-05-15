@@ -40,6 +40,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CssLoadingComponent } from 'src/app/shared/user/css-loading/css-loading.component';
 import { UserInformationComponent } from './user-information/user-information.component';
 import { GenericComponentModule } from 'src/app/shared/generic-component.module';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { GenericComponentModule } from 'src/app/shared/generic-component.module'
     InputSpinnerComponent,
     CssLoadingComponent,
     UserInformationComponent,
+    ChangePasswordComponent,
   ],
   imports: [
     CommonModule,

@@ -25,7 +25,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -132,7 +131,7 @@ public class AccommodationService {
                 .build();
         accommodationRepository.save(accommodation);
 
-        fileService.executeSaveFiles(request.getFiles()
+        fileService.executeSaveImages(request.getFiles()
                 , Constant.FILE_PREFIX_ACCOMMODATION
                 , String.valueOf(accommodation.getId())
                 , Util.extractTableName(Accommodation.class));
@@ -149,7 +148,7 @@ public class AccommodationService {
     private AccommodationResponse transferToDto(Accommodation accommodation) {
         List<File> files = fileService.getFilesByEntityIdAndEntityName(String.valueOf(accommodation.getId()), Util.extractTableName(Accommodation.class));
         List<String> fileBytes = files.stream()
-                .map(file -> fileService.encodeFileToString(file.getFilePath()))
+                .map(file -> fileService.encodeImageFileToString(file.getFilePath()))
                 .toList();
 
         AccommodationResponse response = AutoMapper.MAPPER.mapToAccommodationResponse(accommodation);

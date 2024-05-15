@@ -2652,3 +2652,21 @@ img {
 .form-address .mat-expansion-panel-header.mat-expanded {
   height: var(--mat-expansion-header-collapsed-state-height);
 }
+
+/* user-info-page */
+.user-page .nav .nav-item a {
+  height: 50px;
+  border-radius: 0;
+  font-size: 16px;
+  padding-left: 2rem;
+}
+
+.user-page .nav .nav-item a i {
+  margin-bottom: 2px;
+  font-size: 18px;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  background-color: darkgray;
+}

@@ -63,7 +63,7 @@ public class RoomService {
         roomRepository.save(room);
         accommodationRepository.save(accommodation);
 
-        fileService.executeSaveFiles(request.getFiles()
+        fileService.executeSaveImages(request.getFiles()
                 , Constant.FILE_PREFIX_ROOM
                 , String.valueOf(room.getId())
                 , Util.extractTableName(Room.class));
@@ -87,7 +87,7 @@ public class RoomService {
     public RoomResponse transferToObject(Room room) {
         List<File> files = fileService.getFilesByEntityIdAndEntityName(String.valueOf(room.getId()), Util.extractTableName(Room.class));
         List<String> fileBytes = files.stream()
-                .map(file -> fileService.encodeFileToString(file.getFilePath()))
+                .map(file -> fileService.encodeImageFileToString(file.getFilePath()))
                 .toList();
         return RoomResponse.builder()
                 .roomId(room.getId())

@@ -11,9 +11,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { FileInputComponent } from './generic/file-input/file-input.component';
+import { UserTabListComponent } from './generic/user-tab/user-tab.component';
 
 @NgModule({
-  declarations: [FormAddressComponent, FormAddressDialogComponent, FileInputComponent],
+  declarations: [
+    FormAddressComponent,
+    FormAddressDialogComponent,
+    FileInputComponent,
+    UserTabListComponent,
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -26,6 +32,11 @@ import { FileInputComponent } from './generic/file-input/file-input.component';
     MatInputModule,
     MatExpansionModule,
   ],
-  exports: [FormAddressComponent, FormAddressDialogComponent, FileInputComponent],
+  exports: [
+    FormAddressComponent,
+    FormAddressDialogComponent,
+    FileInputComponent,
+    UserTabListComponent,
+  ],
 })
 export class GenericComponentModule {}

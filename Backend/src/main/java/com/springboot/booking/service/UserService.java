@@ -21,10 +21,8 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -74,7 +72,7 @@ public class UserService {
         user.setAddress(addressService.createAddress(Long.valueOf(request.getWardId()), request.getSpecificAddress()));
         userRepository.save(user);
 
-        fileService.executeSaveFiles(request.getFiles()
+        fileService.executeSaveImages(request.getFiles()
                 , Constant.FILE_PREFIX_USER
                 , String.valueOf(user.getId())
                 , Util.extractTableName(User.class));
@@ -108,7 +106,7 @@ public class UserService {
                 .map(file -> FileResponse.builder()
                         .fileName(file.getFileName())
                         .fileType(file.getFileType())
-                        .base64String(fileService.encodeFileToString(file.getFilePath()))
+                        .base64String(fileService.encodeImageFileToString(file.getFilePath()))
                         .build())
                 .toList();
 

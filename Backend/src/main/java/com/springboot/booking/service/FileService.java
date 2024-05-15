@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.FileSystemUtils;
@@ -106,7 +107,7 @@ public class FileService {
     }
 
     @SneakyThrows(IOException.class)
-    public String encodeFileToString(String filePath) {
+    public String encodeImageFileToString(String filePath) {
         return "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(this.load(filePath).getContentAsByteArray());
     }
 
@@ -125,29 +126,38 @@ public class FileService {
     }
 
     @Transactional
-    public void executeSaveFiles(List<MultipartFile> fileRequests, String prefixPath, String entityId, String entityName) {
-        Set<String> checkExistedFilePaths = fileRequests
+    public void executeSaveImages(List<MultipartFile> fileRequests, String prefixPath, String entityId, String entityName) {
+        Set<Map<String, String>> existedFilePaths = fileRequests
                 .stream()
-                .map(file -> prefixPath + "/" + file.getOriginalFilename())
+                .map(file -> {
+                    Map<String, String> map = new HashMap<>();
+                    map.put("fileName", file.getOriginalFilename());
+                    map.put("filePath", prefixPath + "/" + file.getOriginalFilename());
+                    return map;
+                })
                 .collect(Collectors.toSet());
 
         List<File> files = fileRepository.findByEntityIdAndEntityName(entityId, entityName);
         ListIterator<File> iterator = files.listIterator();
         while (iterator.hasNext()) {
             File file = iterator.next();
-            if (checkExistedFilePaths.contains(file.getFilePath())) {
-                checkExistedFilePaths.remove(file.getFilePath());
-            } else {
-                fileRepository.delete(file);
-                iterator.remove();
+            for (Map<String, String> map : existedFilePaths) {
+                if (map.get("filePath").equals(file.getFilePath())) {
+                    existedFilePaths.remove(map);
+                } else {
+                    fileRepository.delete(file);
+                    iterator.remove();
+                }
             }
         }
 
-        files.addAll(checkExistedFilePaths.stream()
+        files.addAll(existedFilePaths.stream()
                 .map(filePath -> File.builder()
                         .entityId(entityId)
                         .entityName(entityName)
-                        .filePath(filePath)
+                        .fileName(filePath.get("fileName"))
+                        .fileType(MediaType.IMAGE_JPEG_VALUE)
+                        .filePath(filePath.get("filePath"))
                         .build())
                 .toList());
         fileRepository.saveAll(files);

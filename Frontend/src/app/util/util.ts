@@ -1,5 +1,6 @@
 import * as moment from 'moment';
 import { DATETIME_FORMAT1 } from '../constant/Abstract.constant';
+import { FileDto } from '../model/FileDto.model';
 
 export class Util {
   public static setLocal(key: string, value: any, expiredTime: number) {
@@ -69,11 +70,10 @@ export class Util {
       .map((file: any) => file.base64String);
   }
 
-  //check file type
-  public static convertBase64ToFileList(base64DataList: string[], fileName: string): File[] {
+  public static convertBase64ToFileList(files: FileDto[]): File[] {
     var fileList = [];
-    for (let i = 0; i < base64DataList.length; i++) {
-      const base64Data = base64DataList[i];
+    for (let i = 0; i < files.length; i++) {
+      const base64Data = files[i].base64String;
       const byteString = base64Data.replace('data:image/jpeg;base64,', '');
       const byteCharacters = atob(byteString);
       const byteNumbers = new Array(byteCharacters.length);
@@ -82,7 +82,7 @@ export class Util {
       }
       const byteArray = new Uint8Array(byteNumbers);
       const blob = new Blob([byteArray], { type: 'image/jpeg' });
-      const file = new File([blob], fileName);
+      const file = new File([blob], files[i].fileName);
       fileList.push(file);
     }
     return fileList;
