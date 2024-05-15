@@ -1,28 +1,10 @@
 <section class="user-page pb-5" style="padding-top: 175px">
   <div class="container shadow bg-white pb-4 pt-5 rounded">
     <div class="row">
-      <div class="col-3 border-right px-0">
-        <ul class="nav flex-column nav-pills">
-          <li class="nav-item">
-            <a class="nav-link active d-flex align-items-center" href="">
-              <i class="fa-solid fa-user mr-2"></i>
-              <span>Thông tin cá nhân</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link d-flex align-items-center" href="">
-              <i class="fa-solid fa-lock mr-2"></i>
-              <span>Đổi mật khẩu</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link d-flex align-items-center" href="">
-              <i class="fa-solid fa-clock mr-2"></i>
-              <span>Lịch sử đặt phòng</span>
-            </a>
-          </li>
-        </ul>
-      </div>
+      <app-user-tab
+        class="col-3 border-right px-0 w-100"
+        [tabActive]="0"
+      ></app-user-tab>
 
       <div class="col-9 pl-5">
         <div class="w-100 mb-5">

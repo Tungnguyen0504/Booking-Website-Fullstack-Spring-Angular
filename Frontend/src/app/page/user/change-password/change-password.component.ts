@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { AlertService } from 'src/app/service/alert.service';
+import { UserService } from 'src/app/service/user.service';
 
 @Component({
   selector: 'app-change-password',
@@ -6,19 +8,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./change-password.component.css'],
 })
 export class ChangePasswordComponent {
-  tabList: any[] = [
-    {
-      icon: 'fa-solid fa-user',
-      title: 'Thông tin cá nhân',
-    },
-    {
-      icon: 'fa-solid fa-lock',
-      title: 'Đổi mật khẩu',
-    },
-    {
-      icon: 'fa-solid fa-clock',
-      title: 'Lịch sử đặt phòng',
-    },
-  ];
-  selectedTabChange($event: any) {}
+  constructor(private $alertService: AlertService, private $userService: UserService) {}
+
+  sendEmail() {
+    this.$userService.sendEmailChangePassword().subscribe({
+      next: (res) => this.$alertService.success(res.message),
+    });
+  }
 }

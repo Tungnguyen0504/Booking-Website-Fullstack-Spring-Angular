@@ -59,7 +59,6 @@ public class AuthenticationService {
                 .subject(Constant.MAIL_DETAIL_SUBJECT)
                 .msgBody(Constant.MSG_VERIFY_CODE + verifyCode)
                 .build());
-
         return verifyCode;
     }
 
