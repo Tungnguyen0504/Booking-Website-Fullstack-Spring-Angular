@@ -44,6 +44,10 @@ export class UserService {
   }
 
   sendEmailChangePassword() {
-    return this.$baseApiService.getWithUrl(`${URL}/send-email-change-password`);
+    return this.$baseApiService.postWithRequestBody(`${URL}/send-email-change-password`, null);
+  }
+
+  VerifyEmail(email: string) {
+    return this.$baseApiService.postWithRequestBody(`${URL}/verify-email`, { email: email });
   }
 }

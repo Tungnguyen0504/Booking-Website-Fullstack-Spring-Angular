@@ -1,11 +1,9 @@
 package com.springboot.booking.service;
 
-import com.springboot.booking.common.Constant;
-import com.springboot.booking.common.DatetimeUtil;
-import com.springboot.booking.common.ExceptionResult;
-import com.springboot.booking.common.Util;
+import com.springboot.booking.common.*;
 import com.springboot.booking.config.AuthenticationFacade;
 import com.springboot.booking.dto.request.CreateUpdateUserRequest;
+import com.springboot.booking.dto.request.VerifyEmailRequest;
 import com.springboot.booking.dto.response.FileResponse;
 import com.springboot.booking.dto.response.UserResponse;
 import com.springboot.booking.exeption.GlobalException;
@@ -76,6 +74,26 @@ public class UserService {
                 , Constant.FILE_PREFIX_USER
                 , String.valueOf(user.getId())
                 , Util.extractTableName(User.class));
+    }
+
+    public Map<String, String> verifyEmail(VerifyEmailRequest request) throws MessagingException {
+        String email = "";
+        if (Objects.nonNull(request) && StringUtils.isNotEmpty(request.getEmail())) {
+            email = request.getEmail();
+        } else {
+            email = getCurrentUser().getEmail();
+        }
+        String verifyCode = Util.generateVerificationCode();
+        emailService.sendHtmlEmail(EmailDetail.builder()
+                .recipient(email)
+                .subject(Constant.MAIL_DETAIL_SUBJECT)
+                .msgBody(Constant.MSG_VERIFY_CODE + verifyCode)
+                .build());
+
+        Map<String, String> response = new HashMap<>();
+        response.put("verifyCode", verifyCode);
+        response.put("message", SuccessResult.SEND_EMAIL_COMPLETED.getMessage());
+        return response;
     }
 
     public void sendEmailChangePassword() throws MessagingException {

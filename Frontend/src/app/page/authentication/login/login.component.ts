@@ -42,29 +42,34 @@ export class LoginComponent implements AfterViewInit {
     return !!this.form?.invalid;
   }
 
+  verifyCodeEmitter($event: any) {
+    console.log($event);
+  }
+
   verifiy() {
-    const loginRequest = {
-      email: this.form.value.email,
-      password: this.form.value.password,
-    };
-    this.authService.verifyLogin(loginRequest).subscribe({
-      next: (response) => {
-        this.verificationCode = response;
-        this.openModal();
-        console.log(this.verificationCode);
-      },
-      error: (error) => {
-        console.log(error);
-        this.alertService.error(error.error.message);
-      },
-    });
+    // const loginRequest = {
+    //   email: this.form.value.email,
+    //   password: this.form.value.password,
+    // };
+    // this.authService.verifyLogin(loginRequest).subscribe({
+    //   next: (response) => {
+    //     this.verificationCode = response;
+    //     this.openModal();
+    //     console.log(this.verificationCode);
+    //   },
+    //   error: (error) => {
+    //     console.log(error);
+    //     this.alertService.error(error.error.message);
+    //   },
+    // });
+    this.openModal();
   }
 
   openModal(): void {
-    $('#verifyCodeModal').modal('show');
+    $('#verifyModal').modal('show');
   }
 
   closeModal(): void {
-    $('#verifyCodeModal').modal('hide');
+    $('#verifyModal').modal('hide');
   }
 }

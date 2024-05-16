@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import {
-  DialogData,
+  FormAddressDialogData,
   FormAddressDialogComponent,
 } from './form-address-dialog/form-address-dialog.component';
 
@@ -30,7 +30,7 @@ export class FormAddressComponent {
       disableClose: true,
     });
 
-    dialogRef.afterClosed().subscribe((result: DialogData) => {
+    dialogRef.afterClosed().subscribe((result: FormAddressDialogData) => {
       if (result && result.isComplete) {
         this.eventEmitter.emit({
           wardId: result.wardId,

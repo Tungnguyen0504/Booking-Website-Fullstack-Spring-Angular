@@ -1,6 +1,6 @@
 <div
   class="modal fade"
-  id="verifyCodeModal"
+  id="verifyModal"
   tabindex="-1"
   role="dialog"
   aria-hidden="true"
@@ -15,7 +15,7 @@
           Vui lòng nhập mã xác nhận để tiếp tục.
         </div>
 
-        <form #formVerifyCode="ngForm" (ngSubmit)="verifyCodeAction()">
+        <form [formGroup]="formVerify" (ngSubmit)="submit()" novalidate>
           <div
             class="form-group d-flex justify-content-center align-items-start"
           >
@@ -23,24 +23,20 @@
               <input
                 type="text"
                 class="form-control d-inline w-100"
-                name="verificationCode"
-                id="verificationCode"
+                formControlName="verifyCode"
                 placeholder="Nhập mã xác nhận ..."
                 ngModel
               />
               <div
                 *ngIf="
-                  formVerifyCode.controls['verificationCode']?.invalid &&
-                  (formVerifyCode.controls['verificationCode']?.dirty ||
-                    formVerifyCode.controls['verificationCode']?.touched)
+                  formVerify.invalid &&
+                  (formVerify.dirty || formVerify.touched)
                 "
                 class="d-flex align-item-center"
               >
                 <div
                   *ngIf="
-                    formVerifyCode.controls['verificationCode'].hasError(
-                      'required'
-                    )
+                  formVerify.errors?.['required']
                   "
                 >
                   <i
@@ -51,12 +47,7 @@
                 </div>
                 <div
                   *ngIf="
-                    formVerifyCode.controls['verificationCode'].hasError(
-                      'minlength'
-                    ) ||
-                    formVerifyCode.controls['verificationCode'].hasError(
-                      'maxlength'
-                    )
+                    formVerify.errors?.['invalidLengthCode']
                   "
                 >
                   <i
@@ -67,15 +58,28 @@
                     >Mã xác nhận phải bao gồm 6 ký tự.</small
                   >
                 </div>
+                <div
+                  *ngIf="
+                    formVerify.errors?.['incorrectCode']
+                  "
+                >
+                  <i
+                    class="fa-solid fa-circle-exclamation text-danger mr-2"
+                    style="padding-top: 2px"
+                  ></i>
+                  <small class="text-danger">Mã xác nhận không đúng.</small>
+                </div>
               </div>
             </div>
 
-            <input
+            <button
               type="submit"
               class="btn-2 palatin-btn btn-block col-md-3 p-0"
               style="height: 38px; line-height: 43px"
-              value="Xác nhận"
-            />
+              value=""
+            >
+              Xác nhận
+            </button>
           </div>
         </form>
       </div>

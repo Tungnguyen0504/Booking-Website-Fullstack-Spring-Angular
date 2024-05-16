@@ -1,5 +1,22 @@
-import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
-import { NgForm, Validators } from '@angular/forms';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  NgForm,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import {
   ACTION_LOGIN,
@@ -9,6 +26,7 @@ import {
 } from 'src/app/constant/Abstract.constant';
 import { AlertService } from 'src/app/service/alert.service';
 import { AuthenticationService } from 'src/app/service/authentication.service';
+import { UserService } from 'src/app/service/user.service';
 import { Util } from 'src/app/util/util';
 
 declare var $: any;
@@ -18,60 +36,66 @@ declare var $: any;
   templateUrl: './verification-code.component.html',
   styleUrls: ['./verification-code.component.css'],
 })
-export class VerificationCodeComponent implements AfterViewInit {
-  @ViewChild('formVerifyCode', { static: false }) formVerifyCode!: NgForm;
-  @Input() formLogin: NgForm = {} as NgForm;
-  @Input() formRegister: NgForm = {} as NgForm;
-  @Input() verifyCode: string = '';
+export class VerificationCodeComponent implements OnInit {
   @Input() email: string = '';
-  @Input() action: string = '';
+  @Output() eventEmitter: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  readonly VERIFICATION_CODE = 'VERIFICATION_CODE';
+  formVerify: FormGroup = {} as FormGroup;
+
+  verifyCode: string = '';
 
   constructor(
     private router: Router,
+    private formBuilder: FormBuilder,
     private alertService: AlertService,
-    private authService: AuthenticationService
+    private $userService: UserService
   ) {}
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     setTimeout(() => {
-      this.formVerifyCode.controls['verificationCode'].addValidators([
+      console.log(this.email);
+      this.$userService.VerifyEmail(this.email).subscribe({
+        next: (response) => {
+          this.verifyCode = response.verifyCode;
+        },
+      });
+    }, 3000);
+  }
+
+  buildFormGroup() {
+    this.formVerify = this.formBuilder.group({
+      verificationCode: new FormControl('', [
         Validators.required,
-        Validators.minLength(6),
-        Validators.maxLength(6),
-      ]);
-      this.formVerifyCode.controls['verificationCode'].updateValueAndValidity();
+        this.lengthCodeValidator(),
+        this.checkCorrectCodeValidator(),
+      ]),
     });
   }
 
-  verifyCodeAction() {
-    if (this.verifyCode != this.formVerifyCode.value.verificationCode) {
-      this.alertService.error('Mã xác nhận không đúng');
-      return;
-    }
+  lengthCodeValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      return control.value && control.value !== 6
+        ? { invalidLengthCode: { value: control.value } }
+        : null;
+    };
+  }
 
-    if (this.action === ACTION_LOGIN) {
-      this.authService.login(this.formLogin.value).subscribe({
-        next: (response) => {
-          Util.setLocal(JWT_TOKEN_STORAGE, response.accessToken, TIME_EXPIRED);
-          this.navigateToHomePage();
-        },
-        error: (error) => {
-          this.alertService.error(error.error.message);
-        },
-      });
-    } else if (this.action === ACTION_REGISTER) {
-      this.authService.register(this.formRegister.value).subscribe(
-        () => {
-          this.alertRegisterSuccess();
-        },
-        (error) => {
-          console.log(error);
-          this.alertService.error(error.error.message);
-        }
-      );
-    }
+  checkCorrectCodeValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      return control.value && control.value === this.verifyCode
+        ? { incorrectCode: { value: control.value } }
+        : null;
+    };
+  }
+
+  submit() {
+    // if (this.verifyCode != this.formVerify.get('verifyCode')?.value) {
+    //   this.alertService.error('Mã xác nhận không đúng');
+    //   return;
+    // }
+    this.eventEmitter.emit(true);
+    // this.closeModal();
+    console.log(this.formVerify.valid);
   }
 
   navigateToHomePage() {
@@ -82,5 +106,13 @@ export class VerificationCodeComponent implements AfterViewInit {
   alertRegisterSuccess() {
     $('#verifyCodeModal').modal('hide');
     this.alertService.success('Đăng ký thành công.');
+  }
+
+  openModal(): void {
+    $('#verifyCodeModal').modal('show');
+  }
+
+  closeModal(): void {
+    $('#verifyCodeModal').modal('hide');
   }
 }

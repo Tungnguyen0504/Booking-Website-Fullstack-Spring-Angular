@@ -113,7 +113,7 @@ export class AccommodationDetailComponent implements AfterViewInit {
       autoFocus: false,
     });
 
-    // dialogRef.afterClosed().subscribe((result: DialogData) => {
+    // dialogRef.afterClosed().subscribe((result: FormAddressDialogData) => {
     //   if (result && result.isCompleted) {
     //     this.form.patchValue({
     //       wardId: result.wardId,

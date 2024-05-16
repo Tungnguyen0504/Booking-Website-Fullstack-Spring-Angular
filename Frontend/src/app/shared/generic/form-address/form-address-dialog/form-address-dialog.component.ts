@@ -6,7 +6,7 @@ import { MatStepper } from '@angular/material/stepper';
 import { AddressService } from 'src/app/service/address.service';
 import { AlertService } from 'src/app/service/alert.service';
 
-export interface DialogData {
+export interface FormAddressDialogData {
   action: string;
   fullAddress: string;
   specificAddress: string;
@@ -38,7 +38,7 @@ export class FormAddressDialogComponent implements OnInit {
   thirdForm: FormGroup = {} as FormGroup;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public dialogData: DialogData,
+    @Inject(MAT_DIALOG_DATA) public dialogData: FormAddressDialogData,
     private dialogRef: MatDialogRef<FormAddressDialogComponent>,
     private $alertService: AlertService,
     private $formBuilder: FormBuilder,

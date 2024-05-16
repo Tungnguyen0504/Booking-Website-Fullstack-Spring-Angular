@@ -6,7 +6,7 @@ import { AlertService } from 'src/app/service/alert.service';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { BookingService, CartItem } from 'src/app/service/booking.service';
 
-interface DialogData {
+interface FormAddressDialogData {
   room: Room;
 }
 
@@ -17,7 +17,7 @@ interface DialogData {
 })
 export class RoomDetailDialogComponent implements OnInit {
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    @Inject(MAT_DIALOG_DATA) public data: FormAddressDialogData,
     private dialogRef: MatDialogRef<RoomDetailDialogComponent>,
     private router: Router,
     private $alertService: AlertService,
