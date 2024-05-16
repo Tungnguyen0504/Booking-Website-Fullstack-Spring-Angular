@@ -25,19 +25,16 @@
                 class="form-control d-inline w-100"
                 formControlName="verifyCode"
                 placeholder="Nhập mã xác nhận ..."
-                ngModel
               />
+              {{ formVerify.controls['verifyCode'].errors?.['invalidLengthCode'] }}
               <div
                 *ngIf="
-                  formVerify.invalid &&
-                  (formVerify.dirty || formVerify.touched)
+                  formVerify.invalid && (formVerify.dirty || formVerify.touched)
                 "
-                class="d-flex align-item-center"
+                class="d-flex align-item-center mt-1"
               >
                 <div
-                  *ngIf="
-                  formVerify.errors?.['required']
-                  "
+                  *ngIf="formVerify.controls['verifyCode'].errors?.['required']"
                 >
                   <i
                     class="fa-solid fa-circle-exclamation text-danger mr-2"
@@ -47,7 +44,7 @@
                 </div>
                 <div
                   *ngIf="
-                    formVerify.errors?.['invalidLengthCode']
+                  formVerify.controls['verifyCode'].errors?.['invalidLengthCode']
                   "
                 >
                   <i
@@ -57,17 +54,6 @@
                   <small class="text-danger"
                     >Mã xác nhận phải bao gồm 6 ký tự.</small
                   >
-                </div>
-                <div
-                  *ngIf="
-                    formVerify.errors?.['incorrectCode']
-                  "
-                >
-                  <i
-                    class="fa-solid fa-circle-exclamation text-danger mr-2"
-                    style="padding-top: 2px"
-                  ></i>
-                  <small class="text-danger">Mã xác nhận không đúng.</small>
                 </div>
               </div>
             </div>

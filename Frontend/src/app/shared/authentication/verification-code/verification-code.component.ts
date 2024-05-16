@@ -1,33 +1,16 @@
-import {
-  AfterViewInit,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
   FormControl,
   FormGroup,
-  NgForm,
   ValidationErrors,
   ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import {
-  ACTION_LOGIN,
-  ACTION_REGISTER,
-  JWT_TOKEN_STORAGE,
-  TIME_EXPIRED,
-} from 'src/app/constant/Abstract.constant';
 import { AlertService } from 'src/app/service/alert.service';
-import { AuthenticationService } from 'src/app/service/authentication.service';
 import { UserService } from 'src/app/service/user.service';
-import { Util } from 'src/app/util/util';
 
 declare var $: any;
 
@@ -42,7 +25,7 @@ export class VerificationCodeComponent implements OnInit {
 
   formVerify: FormGroup = {} as FormGroup;
 
-  verifyCode: string = '';
+  test: string = '';
 
   constructor(
     private router: Router,
@@ -52,50 +35,35 @@ export class VerificationCodeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    setTimeout(() => {
-      console.log(this.email);
-      this.$userService.VerifyEmail(this.email).subscribe({
-        next: (response) => {
-          this.verifyCode = response.verifyCode;
-        },
-      });
-    }, 3000);
+    // console.log(this.email);
+    // this.$userService.VerifyEmail(this.email).subscribe({
+    //   next: (response) => {
+    //     this.test = response.verifyCode;
+    //   },
+    // });
+    this.buildFormGroup();
   }
 
   buildFormGroup() {
     this.formVerify = this.formBuilder.group({
-      verificationCode: new FormControl('', [
-        Validators.required,
-        this.lengthCodeValidator(),
-        this.checkCorrectCodeValidator(),
-      ]),
+      verifyCode: new FormControl('', [Validators.required, this.lengthCodeValidator()]),
     });
   }
 
   lengthCodeValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      return control.value && control.value !== 6
-        ? { invalidLengthCode: { value: control.value } }
-        : null;
-    };
-  }
-
-  checkCorrectCodeValidator(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      return control.value && control.value === this.verifyCode
-        ? { incorrectCode: { value: control.value } }
-        : null;
+      return control.value && control.value.length !== 6 ? { invalidLengthCode: true } : null;
     };
   }
 
   submit() {
-    // if (this.verifyCode != this.formVerify.get('verifyCode')?.value) {
+    // if (111111 != this.formVerify.get('verifyCode')?.value) {
     //   this.alertService.error('Mã xác nhận không đúng');
     //   return;
     // }
     this.eventEmitter.emit(true);
     // this.closeModal();
-    console.log(this.formVerify.valid);
+    console.log(this.formVerify.controls['verifyCode'].errors?.['invalidLengthCode']);
   }
 
   navigateToHomePage() {
