@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { FileInputComponent } from './generic/file-input/file-input.component';
 import { UserTabListComponent } from './generic/user-tab/user-tab.component';
+import { FormVerificationDialogComponent } from './generic/form-verification-dialog/form-verification-dialog.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { UserTabListComponent } from './generic/user-tab/user-tab.component';
     FormAddressDialogComponent,
     FileInputComponent,
     UserTabListComponent,
+    FormVerificationDialogComponent
   ],
   imports: [
     CommonModule,
@@ -37,6 +39,7 @@ import { UserTabListComponent } from './generic/user-tab/user-tab.component';
     FormAddressDialogComponent,
     FileInputComponent,
     UserTabListComponent,
+    FormVerificationDialogComponent,
   ],
 })
 export class GenericComponentModule {}

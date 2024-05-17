@@ -1,8 +1,13 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { NgForm, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ACTION_LOGIN } from 'src/app/constant/Abstract.constant';
 import { AlertService } from 'src/app/service/alert.service';
 import { AuthenticationService } from 'src/app/service/authentication.service';
+import {
+  FormVerificationDialogComponent,
+  VerificationDialogData,
+} from 'src/app/shared/generic/form-verification-dialog/form-verification-dialog.component';
 
 declare var $: any;
 
@@ -18,7 +23,11 @@ export class LoginComponent implements AfterViewInit {
   verificationCode: string = '';
   action: string = '';
 
-  constructor(private alertService: AlertService, private authService: AuthenticationService) {}
+  constructor(
+    private dialog: MatDialog,
+    private alertService: AlertService,
+    private authService: AuthenticationService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -62,7 +71,19 @@ export class LoginComponent implements AfterViewInit {
     //     this.alertService.error(error.error.message);
     //   },
     // });
-    this.openModal();
+    const dialogRef = this.dialog.open(FormVerificationDialogComponent, {
+      data: {
+        email: 'tungnguyenn050499@gmail.com',
+      },
+      // position: {
+      //   top: '8%',
+      // },
+      width: '576px',
+    });
+
+    dialogRef.afterClosed().subscribe((result: VerificationDialogData) => {
+      console.log(result);
+    });
   }
 
   openModal(): void {

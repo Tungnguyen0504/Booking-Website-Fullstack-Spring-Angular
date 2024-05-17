@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -8,26 +8,30 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AlertService } from 'src/app/service/alert.service';
 import { UserService } from 'src/app/service/user.service';
 
-declare var $: any;
+export interface VerificationDialogData {
+  email: string;
+}
 
 @Component({
-  selector: 'app-verification-code',
-  templateUrl: './verification-code.component.html',
-  styleUrls: ['./verification-code.component.css'],
+  selector: 'app-form-verification-dialog',
+  templateUrl: './form-verification-dialog.component.html',
+  styleUrls: ['./form-verification-dialog.component.css'],
 })
-export class VerificationCodeComponent implements OnInit {
+export class FormVerificationDialogComponent implements OnInit {
   @Input() email: string = '';
-  @Output() eventEmitter: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   formVerify: FormGroup = {} as FormGroup;
 
   test: string = '';
 
   constructor(
+    @Inject(MAT_DIALOG_DATA) public dialogData: VerificationDialogData,
+    private dialogRef: MatDialogRef<FormVerificationDialogComponent>,
     private router: Router,
     private formBuilder: FormBuilder,
     private alertService: AlertService,
@@ -61,26 +65,10 @@ export class VerificationCodeComponent implements OnInit {
     //   this.alertService.error('Mã xác nhận không đúng');
     //   return;
     // }
-    this.eventEmitter.emit(true);
     // this.closeModal();
+    if (this.formVerify.invalid) {
+      return;
+    }
     console.log(this.formVerify.controls['verifyCode'].errors?.['invalidLengthCode']);
-  }
-
-  navigateToHomePage() {
-    $('#verifyCodeModal').modal('hide');
-    this.router.navigate(['/home']).then(() => window.location.reload());
-  }
-
-  alertRegisterSuccess() {
-    $('#verifyCodeModal').modal('hide');
-    this.alertService.success('Đăng ký thành công.');
-  }
-
-  openModal(): void {
-    $('#verifyCodeModal').modal('show');
-  }
-
-  closeModal(): void {
-    $('#verifyCodeModal').modal('hide');
   }
 }
