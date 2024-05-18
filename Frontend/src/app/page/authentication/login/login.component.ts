@@ -73,24 +73,20 @@ export class LoginComponent implements AfterViewInit {
     // });
     const dialogRef = this.dialog.open(FormVerificationDialogComponent, {
       data: {
-        email: 'tungnguyenn050499@gmail.com',
+        email: this.form.controls['email'].value,
       },
-      // position: {
-      //   top: '8%',
-      // },
+      position: {
+        top: '200px',
+      },
       width: '576px',
+      // disableClose: true,
+      autoFocus: false,
     });
 
-    dialogRef.afterClosed().subscribe((result: VerificationDialogData) => {
-      console.log(result);
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result && result.isComplete) {
+        console.log('oke');
+      }
     });
-  }
-
-  openModal(): void {
-    $('#verifyModal').modal('show');
-  }
-
-  closeModal(): void {
-    $('#verifyModal').modal('hide');
   }
 }

@@ -9,6 +9,10 @@
   </h2>
   <mat-dialog-content class="mat-typography">
     <div class="mb-3">
+      <mat-form-field class="w-100">
+        <mat-label>Địa chỉ cụ thể</mat-label>
+        <textarea matInput formControlName="specificAddress"></textarea>
+      </mat-form-field>
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-form-field class="w-100">
@@ -18,7 +22,6 @@
               matInput
               formControlName="fullAddress"
               placeholder="Tỉnh/Thành phố, Quận/Huyện, Phường/Xã"
-              readonly
             />
           </mat-form-field>
         </mat-expansion-panel-header>
@@ -89,12 +92,7 @@
         </div>
       </mat-expansion-panel>
     </div>
-    <div>
-      <mat-form-field class="w-100">
-        <mat-label>Địa chỉ cụ thể</mat-label>
-        <textarea matInput formControlName="specificAddress"></textarea>
-      </mat-form-field>
-    </div>
+
   </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>Hủy bỏ</button>

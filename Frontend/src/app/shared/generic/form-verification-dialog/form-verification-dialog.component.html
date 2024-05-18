@@ -1,26 +1,26 @@
-<mat-dialog-content class="mat-typography">
+<mat-dialog-content
+  class="mat-typography form-verification-dialog"
+  style="padding: 35px 24px 35px 24px"
+>
   <form [formGroup]="formVerify" (ngSubmit)="submit()" novalidate>
-    <div class="d-flex flex-column justify-content-center p-4">
+    <div class="d-flex flex-column justify-content-center">
       <div class="text-center mb-3">
         <h4 class="text-center text-bold">Kiểm tra hộp thư email</h4>
         Chúng tôi đã gửi một mã xác nhận tới địa chỉ email
-        {{ email }}. <br />
+        {{ dialogData.email }}. <br />
         Vui lòng nhập mã xác nhận để tiếp tục.
       </div>
 
       <div class="form-group d-flex justify-content-center align-items-start">
-        <div class="input-group flex-column col-md-8 mr-3">
+        <div class="input-group flex-column col-8 mr-3">
           <input
             type="text"
             class="form-control d-inline w-100"
             formControlName="verifyCode"
             placeholder="Nhập mã xác nhận ..."
           />
-          {{ formVerify.controls['verifyCode'].errors?.['invalidLengthCode'] }}
-          <!-- <div
-            *ngIf="
-              formVerify.invalid && (formVerify.dirty || formVerify.touched)
-            "
+          <div
+            *ngIf="formVerify.dirty || formVerify.touched"
             class="d-flex align-item-center mt-1"
           >
             <div *ngIf="formVerify.controls['verifyCode'].errors?.['required']">
@@ -43,14 +43,13 @@
                 >Mã xác nhận phải bao gồm 6 ký tự.</small
               >
             </div>
-          </div> -->
+          </div>
         </div>
 
         <button
           type="submit"
-          class="btn-2 palatin-btn btn-block col-md-3 p-0"
+          class="btn-2 palatin-btn btn-block col-3 p-0"
           style="height: 38px; line-height: 43px"
-          value=""
         >
           Xác nhận
         </button>
@@ -58,7 +57,3 @@
     </div>
   </form>
 </mat-dialog-content>
-<!-- <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Hủy bỏ</button>
-    <button type="submit" mat-button>Cập nhật</button>
-  </mat-dialog-actions> -->

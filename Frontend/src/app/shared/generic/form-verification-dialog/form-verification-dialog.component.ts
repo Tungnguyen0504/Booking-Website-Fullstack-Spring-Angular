@@ -23,11 +23,8 @@ export interface VerificationDialogData {
   styleUrls: ['./form-verification-dialog.component.css'],
 })
 export class FormVerificationDialogComponent implements OnInit {
-  @Input() email: string = '';
-
   formVerify: FormGroup = {} as FormGroup;
-
-  test: string = '';
+  verifyCode: string = '';
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public dialogData: VerificationDialogData,
@@ -39,13 +36,16 @@ export class FormVerificationDialogComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // console.log(this.email);
-    // this.$userService.VerifyEmail(this.email).subscribe({
-    //   next: (response) => {
-    //     this.test = response.verifyCode;
-    //   },
-    // });
     this.buildFormGroup();
+    // this.initApi();
+  }
+
+  initApi() {
+    this.$userService.VerifyEmail(this.dialogData.email).subscribe({
+      next: (response) => {
+        this.verifyCode = response.verifyCode;
+      },
+    });
   }
 
   buildFormGroup() {
@@ -66,6 +66,7 @@ export class FormVerificationDialogComponent implements OnInit {
     //   return;
     // }
     // this.closeModal();
+    // this.dialogRef.close(this.dialogData);
     if (this.formVerify.invalid) {
       return;
     }
