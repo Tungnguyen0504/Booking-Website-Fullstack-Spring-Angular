@@ -30,6 +30,13 @@ export class BaseApiService {
     );
   }
 
+  public putWithRequestBody(url: string, requestBody: any): Observable<any> {
+    return this.$httpClient.put(url, requestBody).pipe(
+      switchMap((response) => this.handleResponse(response)),
+      catchError((error) => this.handleError(error))
+    );
+  }
+
   private handleResponse(response: any): Observable<any> {
     if (response) {
       return of(response);

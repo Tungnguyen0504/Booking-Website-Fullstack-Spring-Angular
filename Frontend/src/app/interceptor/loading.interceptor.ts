@@ -10,7 +10,10 @@ export class LoadingInterceptor implements HttpInterceptor {
   constructor(private $loaderService: LoaderService) {}
 
   private skip(request: HttpRequest<unknown>): boolean {
-    if (request.url.match('api/v1/user/verify-email') && request.method === 'POST') {
+    if (
+      (request.url.match('api/v1/user/verify-email') && request.method === 'POST') ||
+      (request.url.match('api/v1/user/get-current-user') && request.method === 'GET')
+    ) {
       return false;
     }
     return true;

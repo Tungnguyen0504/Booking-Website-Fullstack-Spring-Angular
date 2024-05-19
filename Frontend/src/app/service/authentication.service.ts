@@ -25,16 +25,8 @@ export class AuthenticationService {
     private $userService: UserService
   ) {}
 
-  verifyRegister(registerRequest: RegisterRequest): Observable<any> {
-    return this.httpClient.post(URL + '/verification/register', registerRequest);
-  }
-
   register(registerRequest: RegisterRequest) {
     return this.$baseApiService.postWithRequestBody(URL + '/register', registerRequest);
-  }
-
-  verifyLogin(loginRequest: LoginRequest): Observable<any> {
-    return this.httpClient.post(URL + '/verification/login', loginRequest);
   }
 
   login(loginRequest: LoginRequest): Observable<any> {

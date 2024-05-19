@@ -2,6 +2,7 @@ package com.springboot.booking.service;
 
 import com.springboot.booking.common.*;
 import com.springboot.booking.config.AuthenticationFacade;
+import com.springboot.booking.dto.request.ResetPasswordRequest;
 import com.springboot.booking.dto.request.CreateUpdateUserRequest;
 import com.springboot.booking.dto.request.VerifyEmailRequest;
 import com.springboot.booking.dto.response.FileResponse;
@@ -14,9 +15,9 @@ import com.springboot.booking.repository.UserRepository;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,10 +27,8 @@ import java.util.*;
 @RequiredArgsConstructor
 public class UserService {
 
-    @Value("${environment.local.base-url}")
-    private String baseUrl;
-
     private final AuthenticationFacade authenticationFacade;
+    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final JwtService jwtService;
     private final FileService fileService;
@@ -76,6 +75,13 @@ public class UserService {
                 , Util.extractTableName(User.class));
     }
 
+    public void resetPassword(ResetPasswordRequest request) {
+        User user = userRepository.findById(request.getId())
+                .orElseThrow(() -> new GlobalException(ExceptionResult.CUSTOM_FIELD_NOT_FOUND, "người dùng"));
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        userRepository.save(user);
+    }
+
     public Map<String, String> verifyEmail(VerifyEmailRequest request) throws MessagingException {
         String email = "";
         if (Objects.nonNull(request) && StringUtils.isNotEmpty(request.getEmail())) {
@@ -94,20 +100,6 @@ public class UserService {
         response.put("verifyCode", verifyCode);
         response.put("message", SuccessResult.SEND_EMAIL_COMPLETED.getMessage());
         return response;
-    }
-
-    public void sendEmailChangePassword() throws MessagingException {
-        UserResponse user = getCurrentUser();
-
-        StringBuilder body = new StringBuilder();
-        body.append(Constant.MSG_CHANGE_PASSWORD);
-        body.append(String.format("<a href=\"%s/user-information\">click</a>", baseUrl));
-
-        emailService.sendHtmlEmail(EmailDetail.builder()
-                .recipient(user.getEmail())
-                .subject(Constant.MAIL_DETAIL_SUBJECT)
-                .msgBody(body.toString())
-                .build());
     }
 
     private UserResponse transferToObject(User user) {

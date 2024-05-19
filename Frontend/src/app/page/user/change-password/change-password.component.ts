@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { User } from 'src/app/model/User.model';
 import { AlertService } from 'src/app/service/alert.service';
 import { UserService } from 'src/app/service/user.service';
@@ -12,8 +13,10 @@ import { FormVerificationDialogComponent } from 'src/app/shared/generic/form-ver
 })
 export class ChangePasswordComponent implements OnInit {
   user?: User;
+
   constructor(
     private dialog: MatDialog,
+    private router: Router,
     private $alertService: AlertService,
     private $userService: UserService
   ) {}
@@ -39,7 +42,9 @@ export class ChangePasswordComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result && result.isComplete) {
-        this.$alertService.success('verified.');
+        this.router
+          .navigateByUrl('reset-password')
+          .then(() => this.$alertService.success('Xác nhận email thành công'));
       }
     });
   }

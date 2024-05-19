@@ -2364,16 +2364,6 @@ img {
   margin-right: 10px;
 }
 
-/* login */
-
-.login-box {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2), 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
-}
-
 .dropdown-menu .dropdown-item i {
   width: 16px;
 }
@@ -2669,4 +2659,18 @@ img {
 .nav-pills .nav-link.active,
 .nav-pills .show > .nav-link {
   background-color: darkgray;
+}
+
+/* form-authen */
+.form-authen {
+  padding: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2), 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+}
+
+.form-authen .mat-mdc-form-field-subscript-wrapper {
+  height: 0;
 }

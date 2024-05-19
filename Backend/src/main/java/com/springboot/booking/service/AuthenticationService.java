@@ -42,26 +42,6 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final AuthenticationFacade authenticationFacade;
 
-    public String verifyRegister(RegisterRequest request) throws MessagingException {
-        User user = userRepository.findByEmail(request.getEmail()).orElse(null);
-        if (Objects.nonNull(user)) {
-            throw new GlobalException(ExceptionResult.EXISTED_EMAIL);
-        }
-
-        user = userRepository.findByPhoneNumber(request.getPhoneNumber()).orElse(null);
-        if (Objects.nonNull(user)) {
-            throw new GlobalException(ExceptionResult.EXISTED_PHONE_NUMBER);
-        }
-
-        String verifyCode = Util.generateVerificationCode();
-        emailService.sendHtmlEmail(EmailDetail.builder()
-                .recipient(request.getEmail())
-                .subject(Constant.MAIL_DETAIL_SUBJECT)
-                .msgBody(Constant.MSG_VERIFY_CODE + verifyCode)
-                .build());
-        return verifyCode;
-    }
-
     public void register(RegisterRequest request) {
         userRepository.save(User.builder()
                 .phoneNumber(request.getPhoneNumber())
@@ -70,27 +50,6 @@ public class AuthenticationService {
                 .role(ERole.USER)
                 .status(Constant.STATUS_ACTIVE)
                 .build());
-    }
-
-    public String verifyLogin(LoginRequest request) throws MessagingException {
-        try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            request.getEmail(),
-                            request.getPassword()
-                    )
-            );
-        } catch (AuthenticationException e) {
-            throw new GlobalException(ExceptionResult.WRONG_LOGIN_INFORMATION);
-        }
-
-        String verifyCode = Util.generateVerificationCode();
-        emailService.sendHtmlEmail(EmailDetail.builder()
-                .recipient(request.getEmail())
-                .subject(Constant.MAIL_DETAIL_SUBJECT)
-                .msgBody(Constant.MSG_VERIFY_CODE + verifyCode)
-                .build());
-        return verifyCode;
     }
 
     public AuthenticationResponse login(LoginRequest loginRequest) {

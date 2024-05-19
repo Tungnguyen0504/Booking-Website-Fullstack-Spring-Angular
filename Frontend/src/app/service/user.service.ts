@@ -40,7 +40,11 @@ export class UserService {
     formData.append('wardId', data.wardId);
     formData.append('specificAddress', data.specificAddress);
     formData.append('files', data.images[0]);
-    return this.$baseApiService.postWithRequestBody(`${URL}/update`, formData);
+    return this.$baseApiService.putWithRequestBody(`${URL}/update`, formData);
+  }
+
+  resetPassword(request: any) {
+    return this.$baseApiService.putWithRequestBody(`${URL}/reset-password`, request);
   }
 
   VerifyEmail(email: string) {

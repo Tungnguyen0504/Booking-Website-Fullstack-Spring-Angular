@@ -11,9 +11,17 @@ import { MatButtonModule } from '@angular/material/button';
 import { AlertComponent } from 'src/app/shared/generic/alert/alert.component';
 import { MatIconModule } from '@angular/material/icon';
 import { GenericComponentModule } from 'src/app/shared/generic-component.module';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
-  declarations: [AuthenticationComponent, RegisterComponent, LoginComponent, AlertComponent],
+  declarations: [
+    AuthenticationComponent,
+    RegisterComponent,
+    LoginComponent,
+    AlertComponent,
+    ResetPasswordComponent,
+  ],
   imports: [
     CommonModule,
     AuthenticationRoutingModule,
@@ -22,6 +30,7 @@ import { GenericComponentModule } from 'src/app/shared/generic-component.module'
     MatSnackBarModule,
     MatButtonModule,
     MatIconModule,
+    MatInputModule,
     GenericComponentModule,
   ],
 })

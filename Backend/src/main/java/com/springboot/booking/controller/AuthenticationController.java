@@ -24,20 +24,10 @@ public class AuthenticationController {
 
     private final AuthenticationService service;
 
-    @PostMapping("/verification/register")
-    public ResponseEntity<String> verifyRegister(@RequestBody RegisterRequest request) throws MessagingException {
-        return ResponseEntity.ok(service.verifyRegister(request));
-    }
-
     @PostMapping("/register")
     public ResponseEntity<BSuccess> register(@RequestBody RegisterRequest request) {
         service.register(request);
         return ResponseEntity.ok(new BSuccess(SuccessResult.CREATED));
-    }
-
-    @PostMapping("/verification/login")
-    public ResponseEntity<String> verifyLogin(@RequestBody LoginRequest request) throws MessagingException {
-        return ResponseEntity.ok(service.verifyLogin(request));
     }
 
     @PostMapping("/login")

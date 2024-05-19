@@ -15,7 +15,7 @@
 
 <div class="bg-wrapper"></div>
 
-<div class="col-12 col-md-6 col-xl-4 login-box">
+<div class="col-12 col-md-6 col-xl-4 login-box form-authen">
   <div class="card">
     <div class="card-body">
       <div class="card-title m-0">
@@ -25,168 +25,145 @@
       </div>
 
       <form #form="ngForm" (ngSubmit)="verifiy()">
-        <div>
-          <div class="mb-3 input-group flex-column">
-            <input
-              type="text"
-              class="form-control w-100 mb-2"
-              name="phoneNumber"
-              id="phoneNumber"
-              placeholder="Số điện thoại ..."
-              ngModel
-            />
-            <div
-              *ngIf="
-                invalidForm ||
-                form.controls['phoneNumber']?.dirty ||
-                form.controls['phoneNumber']?.touched
-              "
-              class="d-flex align-item-center"
-            >
-              <div *ngIf="form.controls['phoneNumber'].hasError('required')">
-                <i
-                  class="fa-solid fa-circle-exclamation text-danger mr-2"
-                  style="padding-top: 2px"
-                ></i>
-                <small class="text-danger">Vui lòng nhập số điện thoại.</small>
-              </div>
-              <div *ngIf="form.controls['phoneNumber'].hasError('pattern')">
-                <i
-                  class="fa-solid fa-circle-exclamation text-danger mr-2"
-                  style="padding-top: 2px"
-                ></i>
-                <small class="text-danger">Số điện thoại không hợp lệ.</small>
-              </div>
+        <div class="mb-4">
+          <mat-form-field class="w-100">
+            <mat-label>Số điện thoại</mat-label>
+            <input matInput type="text" name="phoneNumber" ngModel />
+          </mat-form-field>
+          <div
+            *ngIf="
+              invalidForm ||
+              form.controls['phoneNumber']?.dirty ||
+              form.controls['phoneNumber']?.touched
+            "
+            class="d-flex align-item-center"
+          >
+            <div *ngIf="form.controls['phoneNumber'].hasError('required')">
+              <i
+                class="fa-solid fa-circle-exclamation text-danger mr-2"
+                style="padding-top: 2px"
+              ></i>
+              <small class="text-danger">Vui lòng nhập số điện thoại.</small>
+            </div>
+            <div *ngIf="form.controls['phoneNumber'].hasError('pattern')">
+              <i
+                class="fa-solid fa-circle-exclamation text-danger mr-2"
+                style="padding-top: 2px"
+              ></i>
+              <small class="text-danger">Số điện thoại không hợp lệ.</small>
             </div>
           </div>
-
-          <div class="mb-3 input-group flex-column">
-            <input
-              type="email"
-              class="form-control w-100 mb-2"
-              name="email"
-              id="email"
-              placeholder="Địa chỉ e-mail ..."
-              ngModel
-            />
-            <div
-              *ngIf="
-                invalidForm ||
-                form.controls['email']?.dirty ||
-                form.controls['email']?.touched
-              "
-              class="d-flex align-item-center"
-            >
-              <div *ngIf="form.controls['email'].hasError('required')">
-                <i
-                  class="fa-solid fa-circle-exclamation text-danger mr-2"
-                  style="padding-top: 2px"
-                ></i>
-                <small class="text-danger">Vui lòng nhập địa chỉ email.</small>
-              </div>
-              <div *ngIf="form.controls['email'].hasError('email')">
-                <i
-                  class="fa-solid fa-circle-exclamation text-danger mr-2"
-                  style="padding-top: 2px"
-                ></i>
-                <small class="text-danger">Địa chỉ email không hợp lệ.</small>
-              </div>
+        </div>
+        <div class="mb-4">
+          <mat-form-field class="w-100">
+            <mat-label>Địa chỉ e-mail</mat-label>
+            <input matInput type="email" name="email" ngModel />
+          </mat-form-field>
+          <div
+            *ngIf="
+              invalidForm ||
+              form.controls['email']?.dirty ||
+              form.controls['email']?.touched
+            "
+            class="d-flex align-item-center"
+          >
+            <div *ngIf="form.controls['email'].hasError('required')">
+              <i
+                class="fa-solid fa-circle-exclamation text-danger mr-2"
+                style="padding-top: 2px"
+              ></i>
+              <small class="text-danger">Vui lòng nhập địa chỉ email.</small>
+            </div>
+            <div *ngIf="form.controls['email'].hasError('email')">
+              <i
+                class="fa-solid fa-circle-exclamation text-danger mr-2"
+                style="padding-top: 2px"
+              ></i>
+              <small class="text-danger">Địa chỉ email không hợp lệ.</small>
             </div>
           </div>
-
-          <div class="mb-3 input-group">
-            <input
-              type="password"
-              class="form-control w-100 mb-2"
-              name="password"
-              id="password"
-              placeholder="Mật khẩu ..."
-              ngModel
-            />
-            <div
-              *ngIf="
-                invalidForm ||
-                form.controls['password']?.dirty ||
-                form.controls['password']?.touched
-              "
-              class="d-flex align-item-center"
-            >
-              <div *ngIf="form.controls['password'].hasError('required')">
-                <i
-                  class="fa-solid fa-circle-exclamation text-danger mr-2"
-                  style="padding-top: 2px"
-                ></i>
-                <small class="text-danger">Vui lòng nhập mật khẩu.</small>
-              </div>
-              <div *ngIf="form.controls['password'].hasError('minlength')">
-                <i
-                  class="fa-solid fa-circle-exclamation text-danger mr-2"
-                  style="padding-top: 2px"
-                ></i>
-                <small class="text-danger"
-                  >Mật khẩu yêu cầu ít nhất 8 ký tự.</small
-                >
-              </div>
-              <div *ngIf="form.controls['password'].hasError('maxlength')">
-                <i
-                  class="fa-solid fa-circle-exclamation text-danger mr-2"
-                  style="padding-top: 2px"
-                ></i>
-                <small class="text-danger"
-                  >Mật khẩu yêu cầu không vượt quá 16 ký tự.</small
-                >
-              </div>
+        </div>
+        <div class="mb-4">
+          <mat-form-field class="w-100">
+            <mat-label>Mật khẩu</mat-label>
+            <input matInput type="text" name="password" ngModel />
+          </mat-form-field>
+          <div
+            *ngIf="
+              invalidForm ||
+              form.controls['password']?.dirty ||
+              form.controls['password']?.touched
+            "
+            class="d-flex align-item-center"
+          >
+            <div *ngIf="form.controls['password'].hasError('required')">
+              <i
+                class="fa-solid fa-circle-exclamation text-danger mr-2"
+                style="padding-top: 2px"
+              ></i>
+              <small class="text-danger">Vui lòng nhập mật khẩu.</small>
             </div>
-          </div>
-
-          <div class="mb-3 input-group">
-            <input
-              type="password"
-              class="form-control w-100 mb-2"
-              name="rePassword"
-              id="rePassword"
-              placeholder="Nhập lại mật khẩu ..."
-              ngModel
-            />
-            <div
-              *ngIf="
-                invalidForm ||
-                form.controls['rePassword']?.dirty ||
-                form.controls['rePassword']?.touched
-              "
-              class="d-flex align-item-center"
-            >
-              <div *ngIf="form.controls['rePassword'].hasError('required')">
-                <i
-                  class="fa-solid fa-circle-exclamation text-danger mr-2"
-                  style="padding-top: 2px"
-                ></i>
-                <small class="text-danger"
-                  >Vui lòng nhập mật khẩu xác nhận.</small
-                >
-              </div>
-              <div
-                *ngIf="form.controls['rePassword'].hasError('passwordMismatch')"
+            <div *ngIf="form.controls['password'].hasError('minlength')">
+              <i
+                class="fa-solid fa-circle-exclamation text-danger mr-2"
+                style="padding-top: 2px"
+              ></i>
+              <small class="text-danger"
+                >Mật khẩu yêu cầu ít nhất 8 ký tự.</small
               >
-                <i
-                  class="fa-solid fa-circle-exclamation text-danger mr-2"
-                  style="padding-top: 2px"
-                ></i>
-                <small class="text-danger">Mật khẩu xác nhận không khớp.</small>
-              </div>
+            </div>
+            <div *ngIf="form.controls['password'].hasError('maxlength')">
+              <i
+                class="fa-solid fa-circle-exclamation text-danger mr-2"
+                style="padding-top: 2px"
+              ></i>
+              <small class="text-danger"
+                >Mật khẩu yêu cầu không vượt quá 16 ký tự.</small
+              >
             </div>
           </div>
-
-          <div class="mb-3 text-center">
-            <button
-              type="submit"
-              class="btn palatin-btn btn-block w-100"
-              style="height: 48px; line-height: 48px"
-              data-toggle="modal"
+        </div>
+        <div class="mb-4">
+          <mat-form-field class="w-100">
+            <mat-label>Nhập lại mật khẩu</mat-label>
+            <input matInput type="text" name="rePassword" ngModel />
+          </mat-form-field>
+          <div
+            *ngIf="
+              invalidForm ||
+              form.controls['rePassword']?.dirty ||
+              form.controls['rePassword']?.touched
+            "
+            class="d-flex align-item-center"
+          >
+            <div *ngIf="form.controls['rePassword'].hasError('required')">
+              <i
+                class="fa-solid fa-circle-exclamation text-danger mr-2"
+                style="padding-top: 2px"
+              ></i>
+              <small class="text-danger"
+                >Vui lòng nhập mật khẩu xác nhận.</small
+              >
+            </div>
+            <div
+              *ngIf="form.controls['rePassword'].hasError('passwordMismatch')"
             >
-              Đăng ký
-            </button>
+              <i
+                class="fa-solid fa-circle-exclamation text-danger mr-2"
+                style="padding-top: 2px"
+              ></i>
+              <small class="text-danger">Mật khẩu xác nhận không khớp.</small>
+            </div>
           </div>
+        </div>
+        <div class="mb-3 text-center">
+          <button
+            type="submit"
+            class="btn palatin-btn btn-block w-100"
+            style="height: 48px; line-height: 48px"
+          >
+            Đăng ký
+          </button>
         </div>
       </form>
     </div>

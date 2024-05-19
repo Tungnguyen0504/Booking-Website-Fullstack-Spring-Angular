@@ -1,6 +1,7 @@
 package com.springboot.booking.controller;
 
 import com.springboot.booking.common.SuccessResult;
+import com.springboot.booking.dto.request.ResetPasswordRequest;
 import com.springboot.booking.dto.request.CreateUpdateUserRequest;
 import com.springboot.booking.dto.request.VerifyEmailRequest;
 import com.springboot.booking.dto.response.UserResponse;
@@ -28,16 +29,16 @@ public class UserController {
         return ResponseEntity.ok(userService.getCurrentUser(jwt));
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ResponseEntity<BSuccess> update(@ModelAttribute CreateUpdateUserRequest request) {
         userService.update(request);
         return ResponseEntity.ok(new BSuccess(SuccessResult.MODIFIED));
     }
 
-    @PostMapping("/send-email-change-password")
-    public ResponseEntity<BSuccess> sendEmailChangePassword() throws MessagingException {
-        userService.sendEmailChangePassword();
-        return ResponseEntity.ok(new BSuccess(SuccessResult.SEND_EMAIL_COMPLETED));
+    @PutMapping("/reset-password")
+    public ResponseEntity<BSuccess> resetPassword(@RequestBody ResetPasswordRequest request) {
+        userService.resetPassword(request);
+        return ResponseEntity.ok(new BSuccess(SuccessResult.MODIFIED));
     }
 
     @PostMapping("/verify-email")
