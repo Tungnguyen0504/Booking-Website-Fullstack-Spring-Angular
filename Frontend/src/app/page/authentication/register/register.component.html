@@ -37,9 +37,9 @@
             />
             <div
               *ngIf="
-                form.controls['phoneNumber']?.invalid &&
-                (form.controls['phoneNumber']?.dirty ||
-                  form.controls['phoneNumber']?.touched)
+                invalidForm ||
+                form.controls['phoneNumber']?.dirty ||
+                form.controls['phoneNumber']?.touched
               "
               class="d-flex align-item-center"
             >
@@ -71,9 +71,9 @@
             />
             <div
               *ngIf="
-                form.controls['email']?.invalid &&
-                (form.controls['email']?.dirty ||
-                  form.controls['email']?.touched)
+                invalidForm ||
+                form.controls['email']?.dirty ||
+                form.controls['email']?.touched
               "
               class="d-flex align-item-center"
             >
@@ -105,9 +105,9 @@
             />
             <div
               *ngIf="
-                form.controls['password']?.invalid &&
-                (form.controls['password']?.dirty ||
-                  form.controls['password']?.touched)
+                invalidForm ||
+                form.controls['password']?.dirty ||
+                form.controls['password']?.touched
               "
               class="d-flex align-item-center"
             >
@@ -150,18 +150,13 @@
             />
             <div
               *ngIf="
-                form.controls['rePassword']?.invalid &&
-                (form.controls['rePassword']?.dirty ||
-                  form.controls['rePassword']?.touched)
+                invalidForm ||
+                form.controls['rePassword']?.dirty ||
+                form.controls['rePassword']?.touched
               "
               class="d-flex align-item-center"
             >
-              <div
-                *ngIf="
-                  form.controls['rePassword'].hasError('required');
-                  else checkPasswordMismatch
-                "
-              >
+              <div *ngIf="form.controls['rePassword'].hasError('required')">
                 <i
                   class="fa-solid fa-circle-exclamation text-danger mr-2"
                   style="padding-top: 2px"
@@ -170,21 +165,15 @@
                   >Vui lòng nhập mật khẩu xác nhận.</small
                 >
               </div>
-              <ng-template #checkPasswordMismatch>
-                <div
-                  *ngIf="
-                    form.controls['rePassword'].hasError('passwordMismatch')
-                  "
-                >
-                  <i
-                    class="fa-solid fa-circle-exclamation text-danger mr-2"
-                    style="padding-top: 2px"
-                  ></i>
-                  <small class="text-danger"
-                    >Mật khẩu xác nhận không khớp.</small
-                  >
-                </div>
-              </ng-template>
+              <div
+                *ngIf="form.controls['rePassword'].hasError('passwordMismatch')"
+              >
+                <i
+                  class="fa-solid fa-circle-exclamation text-danger mr-2"
+                  style="padding-top: 2px"
+                ></i>
+                <small class="text-danger">Mật khẩu xác nhận không khớp.</small>
+              </div>
             </div>
           </div>
 
@@ -194,7 +183,6 @@
               class="btn palatin-btn btn-block w-100"
               style="height: 48px; line-height: 48px"
               data-toggle="modal"
-              [disabled]="loginOrRegisterButtonDisable"
             >
               Đăng ký
             </button>
@@ -204,10 +192,3 @@
     </div>
   </div>
 </div>
-
-<!-- <app-verification-code
-  [formRegister]="this.form"
-  [verifyCode]="verificationCode"
-  [email]="this.form.value.email"
-  [action]="action"
-></app-verification-code> -->

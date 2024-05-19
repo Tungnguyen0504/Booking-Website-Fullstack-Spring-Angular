@@ -1,15 +1,12 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { NgForm, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ACTION_LOGIN } from 'src/app/constant/Abstract.constant';
+import { Router } from '@angular/router';
+import { JWT_TOKEN_STORAGE, TIME_EXPIRED } from 'src/app/constant/Abstract.constant';
 import { AlertService } from 'src/app/service/alert.service';
 import { AuthenticationService } from 'src/app/service/authentication.service';
-import {
-  FormVerificationDialogComponent,
-  VerificationDialogData,
-} from 'src/app/shared/generic/form-verification-dialog/form-verification-dialog.component';
-
-declare var $: any;
+import { FormVerificationDialogComponent } from 'src/app/shared/generic/form-verification-dialog/form-verification-dialog.component';
+import { Util } from 'src/app/util/util';
 
 @Component({
   selector: 'app-login',
@@ -19,11 +16,10 @@ declare var $: any;
 export class LoginComponent implements AfterViewInit {
   @ViewChild('form', { static: false }) form!: NgForm;
 
-  emailSent: boolean = false;
-  verificationCode: string = '';
-  action: string = '';
+  invalidForm: boolean = false;
 
   constructor(
+    private router: Router,
     private dialog: MatDialog,
     private alertService: AlertService,
     private authService: AuthenticationService
@@ -43,34 +39,13 @@ export class LoginComponent implements AfterViewInit {
       ]);
       this.form.controls['password'].updateValueAndValidity();
     });
-
-    this.action = ACTION_LOGIN;
-  }
-
-  get loginOrRegisterButtonDisable(): boolean {
-    return !!this.form?.invalid;
-  }
-
-  verifyCodeEmitter($event: any) {
-    console.log($event);
   }
 
   verifiy() {
-    // const loginRequest = {
-    //   email: this.form.value.email,
-    //   password: this.form.value.password,
-    // };
-    // this.authService.verifyLogin(loginRequest).subscribe({
-    //   next: (response) => {
-    //     this.verificationCode = response;
-    //     this.openModal();
-    //     console.log(this.verificationCode);
-    //   },
-    //   error: (error) => {
-    //     console.log(error);
-    //     this.alertService.error(error.error.message);
-    //   },
-    // });
+    if (this.form.invalid) {
+      this.invalidForm = true;
+    }
+    
     const dialogRef = this.dialog.open(FormVerificationDialogComponent, {
       data: {
         email: this.form.controls['email'].value,
@@ -79,13 +54,18 @@ export class LoginComponent implements AfterViewInit {
         top: '200px',
       },
       width: '576px',
-      // disableClose: true,
+      disableClose: true,
       autoFocus: false,
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result && result.isComplete) {
-        console.log('oke');
+        this.authService.login(this.form.value).subscribe({
+          next: (response) => {
+            Util.setLocal(JWT_TOKEN_STORAGE, response.accessToken, TIME_EXPIRED);
+            this.router.navigateByUrl('/home');
+          },
+        });
       }
     });
   }

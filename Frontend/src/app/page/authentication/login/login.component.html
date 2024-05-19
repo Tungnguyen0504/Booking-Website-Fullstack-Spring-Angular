@@ -37,9 +37,8 @@
             />
             <div
               *ngIf="
-                form.controls['email']?.invalid &&
-                (form.controls['email']?.dirty ||
-                  form.controls['email']?.touched)
+                invalidForm ||
+                form.controls['email']?.dirty || form.controls['email']?.touched
               "
               class="d-flex align-item-center"
             >
@@ -71,9 +70,9 @@
             />
             <div
               *ngIf="
-                form.controls['password']?.invalid &&
-                (form.controls['password']?.dirty ||
-                  form.controls['password']?.touched)
+                invalidForm ||
+                form.controls['password']?.dirty ||
+                  form.controls['password']?.touched
               "
               class="d-flex align-item-center"
             >

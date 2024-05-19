@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment';
 import { UserService } from './user.service';
 import { AlertService } from './alert.service';
 import { Util } from '../util/util';
+import { BaseApiService } from './base-api.service';
 
 const URL = environment.apiUrl + PATH_V1 + PATH_AUTH;
 
@@ -18,6 +19,7 @@ const URL = environment.apiUrl + PATH_V1 + PATH_AUTH;
 export class AuthenticationService {
   constructor(
     private httpClient: HttpClient,
+    private $baseApiService: BaseApiService,
     private router: Router,
     private $alertService: AlertService,
     private $userService: UserService
@@ -28,7 +30,7 @@ export class AuthenticationService {
   }
 
   register(registerRequest: RegisterRequest) {
-    return this.httpClient.post(URL + '/register', registerRequest);
+    return this.$baseApiService.postWithRequestBody(URL + '/register', registerRequest);
   }
 
   verifyLogin(loginRequest: LoginRequest): Observable<any> {
@@ -36,7 +38,7 @@ export class AuthenticationService {
   }
 
   login(loginRequest: LoginRequest): Observable<any> {
-    return this.httpClient.post(URL + '/login', loginRequest);
+    return this.$baseApiService.postWithRequestBody(URL + '/login', loginRequest);
   }
 
   logout() {

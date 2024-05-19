@@ -9,7 +9,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { AlertService } from 'src/app/service/alert.service';
 import { UserService } from 'src/app/service/user.service';
 
@@ -24,12 +23,12 @@ export interface VerificationDialogData {
 })
 export class FormVerificationDialogComponent implements OnInit {
   formVerify: FormGroup = {} as FormGroup;
-  verifyCode: string = '';
+  code: string = '';
+  invalidForm: boolean = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public dialogData: VerificationDialogData,
     private dialogRef: MatDialogRef<FormVerificationDialogComponent>,
-    private router: Router,
     private formBuilder: FormBuilder,
     private alertService: AlertService,
     private $userService: UserService
@@ -37,13 +36,14 @@ export class FormVerificationDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.buildFormGroup();
-    // this.initApi();
+    this.initApi();
   }
 
   initApi() {
     this.$userService.VerifyEmail(this.dialogData.email).subscribe({
       next: (response) => {
-        this.verifyCode = response.verifyCode;
+        this.code = response.verifyCode;
+        console.log(this.code);
       },
     });
   }
@@ -61,15 +61,14 @@ export class FormVerificationDialogComponent implements OnInit {
   }
 
   submit() {
-    // if (111111 != this.formVerify.get('verifyCode')?.value) {
-    //   this.alertService.error('Mã xác nhận không đúng');
-    //   return;
-    // }
-    // this.closeModal();
-    // this.dialogRef.close(this.dialogData);
     if (this.formVerify.invalid) {
+      this.invalidForm = true;
       return;
     }
-    console.log(this.formVerify.controls['verifyCode'].errors?.['invalidLengthCode']);
+    if (this.code != this.formVerify.get('verifyCode')?.value) {
+      this.alertService.error('Mã xác nhận không đúng');
+      return;
+    }
+    this.dialogRef.close({ isComplete: true });
   }
 }

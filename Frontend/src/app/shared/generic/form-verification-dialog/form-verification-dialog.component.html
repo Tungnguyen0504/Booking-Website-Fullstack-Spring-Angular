@@ -1,6 +1,6 @@
 <mat-dialog-content
   class="mat-typography form-verification-dialog"
-  style="padding: 35px 24px 35px 24px"
+  style="padding: 30px 24px 5px 24px"
 >
   <form [formGroup]="formVerify" (ngSubmit)="submit()" novalidate>
     <div class="d-flex flex-column justify-content-center">
@@ -11,37 +11,43 @@
         Vui lòng nhập mã xác nhận để tiếp tục.
       </div>
 
-      <div class="form-group d-flex justify-content-center align-items-start">
+      <div
+        class="form-group d-flex justify-content-center align-items-start mb-0"
+      >
         <div class="input-group flex-column col-8 mr-3">
           <input
             type="text"
-            class="form-control d-inline w-100"
+            class="form-control rounded-0 d-inline w-100"
             formControlName="verifyCode"
             placeholder="Nhập mã xác nhận ..."
           />
-          <div
-            *ngIf="formVerify.dirty || formVerify.touched"
-            class="d-flex align-item-center mt-1"
-          >
-            <div *ngIf="formVerify.controls['verifyCode'].errors?.['required']">
-              <i
-                class="fa-solid fa-circle-exclamation text-danger mr-2"
-                style="padding-top: 2px"
-              ></i>
-              <small class="text-danger">Vui lòng nhập mã xác nhận.</small>
-            </div>
+          <div style="height: 25px">
             <div
-              *ngIf="
+              *ngIf="formVerify.dirty || formVerify.touched || invalidForm"
+              class="d-flex align-item-center mt-1"
+            >
+              <div
+                *ngIf="formVerify.controls['verifyCode'].errors?.['required']"
+              >
+                <i
+                  class="fa-solid fa-circle-exclamation text-danger mr-2"
+                  style="padding-top: 2px"
+                ></i>
+                <small class="text-danger">Vui lòng nhập mã xác nhận.</small>
+              </div>
+              <div
+                *ngIf="
                   formVerify.controls['verifyCode'].errors?.['invalidLengthCode']
                   "
-            >
-              <i
-                class="fa-solid fa-circle-exclamation text-danger mr-2"
-                style="padding-top: 2px"
-              ></i>
-              <small class="text-danger"
-                >Mã xác nhận phải bao gồm 6 ký tự.</small
               >
+                <i
+                  class="fa-solid fa-circle-exclamation text-danger mr-2"
+                  style="padding-top: 2px"
+                ></i>
+                <small class="text-danger"
+                  >Mã xác nhận phải bao gồm 6 ký tự.</small
+                >
+              </div>
             </div>
           </div>
         </div>
@@ -57,3 +63,6 @@
     </div>
   </form>
 </mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Hủy bỏ</button>
+</mat-dialog-actions>
