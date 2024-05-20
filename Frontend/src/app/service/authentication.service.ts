@@ -61,10 +61,6 @@ export class AuthenticationService {
           return of(true);
         }
         return of(false);
-      }),
-      catchError((error) => {
-        console.log(error.error);
-        return of(false);
       })
     );
   }

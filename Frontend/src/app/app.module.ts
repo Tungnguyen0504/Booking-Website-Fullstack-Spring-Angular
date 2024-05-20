@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { TokenInterceptor } from './interceptor/token.interceptor';
+import { TokenInterceptor } from './config/interceptor/token.interceptor';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatSelectModule } from '@angular/material/select';
@@ -22,7 +22,7 @@ import { AdminModule } from './page/admin/admin.module';
 import { AuthenticationModule } from './page/authentication/authentication.module';
 import { UserModule } from './page/user/user.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { LoadingInterceptor } from './interceptor/loading.interceptor';
+import { LoadingInterceptor } from './config/interceptor/loading.interceptor';
 import { SpinnerComponent } from './shared/generic/spinner/spinner.component';
 
 @NgModule({

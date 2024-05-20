@@ -8,6 +8,7 @@ import { CheckoutComponent } from './checkout/checkout.component';
 import { BookingSuccessComponent } from './booking-success/booking-success.component';
 import { UserInformationComponent } from './user-information/user-information.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { AuthenGuard } from 'src/app/config/access-guard';
 
 const routes: Routes = [
   {
@@ -24,7 +25,7 @@ const routes: Routes = [
       { path: 'booking/checkout', component: CheckoutComponent },
       { path: 'booking/success', component: BookingSuccessComponent },
       { path: 'user-information', component: UserInformationComponent },
-      { path: 'change-password', component: ChangePasswordComponent },
+      { path: 'change-password', component: ChangePasswordComponent, canActivate: [AuthenGuard] },
     ],
   },
 ];

@@ -45,7 +45,7 @@ export class LoginComponent implements AfterViewInit {
     if (this.form.invalid) {
       this.invalidForm = true;
     }
-    
+
     const dialogRef = this.dialog.open(FormVerificationDialogComponent, {
       data: {
         email: this.form.controls['email'].value,
@@ -62,8 +62,10 @@ export class LoginComponent implements AfterViewInit {
       if (result && result.isComplete) {
         this.authService.login(this.form.value).subscribe({
           next: (response) => {
-            Util.setLocal(JWT_TOKEN_STORAGE, response.accessToken, TIME_EXPIRED);
-            this.router.navigateByUrl('/home');
+            if (response) {
+              Util.setLocal(JWT_TOKEN_STORAGE, response.accessToken, TIME_EXPIRED);
+              this.router.navigateByUrl('/home');
+            }
           },
         });
       }

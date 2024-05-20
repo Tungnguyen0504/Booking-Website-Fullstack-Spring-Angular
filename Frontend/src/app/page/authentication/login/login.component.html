@@ -25,22 +25,11 @@
       </div>
 
       <form #form="ngForm" (ngSubmit)="verifiy()">
-        <!-- <div class="mb-4">
+        <div class="mb-4">
           <mat-form-field class="w-100">
-            <mat-label>Mật khẩu</mat-label>
-            <input matInput type="password" name="password" ngModel />
+            <mat-label>Địa chỉ email</mat-label>
+            <input matInput type="email" name="email" ngModel />
           </mat-form-field>
-        </div> -->
-
-        <div class="mb-3 input-group flex-column">
-          <input
-            type="email"
-            class="form-control w-100 mb-2"
-            name="email"
-            id="email"
-            placeholder="Địa chỉ e-mail ..."
-            ngModel
-          />
           <div
             *ngIf="
               invalidForm ||
@@ -65,16 +54,11 @@
             </div>
           </div>
         </div>
-
-        <div class="mb-3 input-group">
-          <input
-            type="password"
-            class="form-control w-100 mb-2"
-            name="password"
-            id="password"
-            placeholder="Mật khẩu ..."
-            ngModel
-          />
+        <div class="mb-4">
+          <mat-form-field class="w-100">
+            <mat-label>Mật khẩu</mat-label>
+            <input matInput type="password" name="password" ngModel />
+          </mat-form-field>
           <div
             *ngIf="
               invalidForm ||
@@ -110,7 +94,6 @@
             </div>
           </div>
         </div>
-
         <div class="mb-3 text-center">
           <button
             type="submit"
