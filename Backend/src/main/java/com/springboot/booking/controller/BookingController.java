@@ -2,6 +2,8 @@ package com.springboot.booking.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.springboot.booking.common.SuccessResult;
+import com.springboot.booking.common.paging.BasePagingRequest;
+import com.springboot.booking.common.paging.BasePagingResponse;
 import com.springboot.booking.dto.request.BookingCaptureRequest;
 import com.springboot.booking.dto.request.BookingRequest;
 import com.springboot.booking.model.BSuccess;
@@ -37,5 +39,10 @@ public class BookingController {
     public ResponseEntity<BSuccess> create(@RequestBody BookingRequest request) {
         bookingService.createBookingInfo(request);
         return ResponseEntity.ok(new BSuccess(SuccessResult.CREATED));
+    }
+
+    @GetMapping("/get-bookings")
+    public ResponseEntity<BasePagingResponse> getBookings(@RequestBody BasePagingRequest request) {
+        return ResponseEntity.ok(bookingService.getBookings(request));
     }
 }

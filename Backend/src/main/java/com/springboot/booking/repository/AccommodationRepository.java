@@ -20,9 +20,4 @@ public interface AccommodationRepository extends JpaRepository<Accommodation, Lo
 
     @Query(value = "SELECT a FROM Accommodation a WHERE a.status = 'ACTIVE'")
     List<Accommodation> getAll();
-
-    @Query(value = "SELECT acc.* FROM :query",
-    countQuery = "SELECT COUNT(*) FROM :query",
-    nativeQuery = true)
-    Page<Accommodation> pagingAccommodations(@Param("query") String query, Pageable pageable);
 }
