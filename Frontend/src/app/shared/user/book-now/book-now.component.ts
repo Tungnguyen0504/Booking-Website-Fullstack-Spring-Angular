@@ -19,6 +19,7 @@ declare var $: any;
 })
 export class BookNowComponent implements OnInit {
   formSearch: FormGroup = {} as FormGroup;
+  minDate: Date = new Date();
 
   constructor(
     private router: Router,

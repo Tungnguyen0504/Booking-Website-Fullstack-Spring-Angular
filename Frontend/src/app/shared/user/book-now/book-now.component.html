@@ -27,7 +27,7 @@
         <div class="d-flex flex-column w-100">
           <label class="lbl-form-field">Ngày nhận/trả phòng:</label>
           <mat-form-field>
-            <mat-date-range-input [rangePicker]="picker">
+            <mat-date-range-input [rangePicker]="picker" [min]="minDate">
               <input
                 matStartDate
                 formControlName="fromDate"

@@ -4,6 +4,7 @@ import { AdminComponent } from './admin.component';
 import { CreateAccommodationComponent } from './accommodation-management/create-accommodation/create-accommodation.component';
 import { CreateRoomComponent } from './room-management/create-room/create-room.component';
 import { AccommmodationListComponent } from './accommodation-management/accommmodation-list/accommmodation-list.component';
+import { AdminGuard } from 'src/app/config/access-guard';
 
 const routes: Routes = [
   {
@@ -23,6 +24,7 @@ const routes: Routes = [
         component: CreateRoomComponent,
       },
     ],
+    canActivate: [AdminGuard],
   },
 ];
 
