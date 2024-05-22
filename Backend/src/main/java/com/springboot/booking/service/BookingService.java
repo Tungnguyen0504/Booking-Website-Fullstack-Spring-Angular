@@ -5,6 +5,7 @@ import com.springboot.booking.common.ExceptionResult;
 import com.springboot.booking.common.paging.BasePagingRequest;
 import com.springboot.booking.common.paging.BasePagingResponse;
 import com.springboot.booking.dto.request.BookingRequest;
+import com.springboot.booking.dto.request.ChangeBookingStatusRequest;
 import com.springboot.booking.dto.request.SearchAccommodationRequest;
 import com.springboot.booking.dto.response.BookingDetailResponse;
 import com.springboot.booking.dto.response.BookingResponse;
@@ -105,6 +106,13 @@ public class BookingService {
                 .totalItem(bookingPage.getTotalElements())
                 .totalPage(bookingPage.getPageable().getPageSize())
                 .build();
+    }
+
+    public void changeStatus(ChangeBookingStatusRequest request) {
+        Booking booking = bookingRepository.findById(request.getBookingId())
+                .orElseThrow(() -> new GlobalException(ExceptionResult.CUSTOM_FIELD_NOT_FOUND, "đơn đặt hàng"));
+        booking.setStatus(request.getStatus());
+        bookingRepository.save(booking);
     }
 
     public double calculateTotalAmount(BookingRequest request) {

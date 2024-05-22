@@ -6,6 +6,7 @@ import com.springboot.booking.common.paging.BasePagingRequest;
 import com.springboot.booking.common.paging.BasePagingResponse;
 import com.springboot.booking.dto.request.BookingCaptureRequest;
 import com.springboot.booking.dto.request.BookingRequest;
+import com.springboot.booking.dto.request.ChangeBookingStatusRequest;
 import com.springboot.booking.model.BSuccess;
 import com.springboot.booking.service.BookingService;
 import com.springboot.booking.service.PaymentService;
@@ -41,8 +42,14 @@ public class BookingController {
         return ResponseEntity.ok(new BSuccess(SuccessResult.CREATED));
     }
 
-    @GetMapping("/get-bookings")
+    @PostMapping("/get-bookings")
     public ResponseEntity<BasePagingResponse> getBookings(@RequestBody BasePagingRequest request) {
         return ResponseEntity.ok(bookingService.getBookings(request));
+    }
+
+    @PutMapping("/change-status")
+    public ResponseEntity<BSuccess> changeStatus(@RequestBody ChangeBookingStatusRequest request) {
+        bookingService.changeStatus(request);
+        return ResponseEntity.ok(new BSuccess(SuccessResult.MODIFIED));
     }
 }

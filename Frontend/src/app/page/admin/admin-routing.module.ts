@@ -5,6 +5,7 @@ import { CreateAccommodationComponent } from './accommodation-management/create-
 import { CreateRoomComponent } from './room-management/create-room/create-room.component';
 import { AccommmodationListComponent } from './accommodation-management/accommmodation-list/accommmodation-list.component';
 import { AdminGuard } from 'src/app/config/access-guard';
+import { BookingListComponent } from './booking-management/booking-list/booking-list.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,10 @@ const routes: Routes = [
       {
         path: 'create-room',
         component: CreateRoomComponent,
+      },
+      {
+        path: 'booking-management',
+        component: BookingListComponent,
       },
     ],
     canActivate: [AdminGuard],

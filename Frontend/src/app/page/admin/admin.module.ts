@@ -31,6 +31,8 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { GenericComponentModule } from 'src/app/shared/generic-component.module';
+import { BookingListComponent } from './booking-management/booking-list/booking-list.component';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,7 @@ import { GenericComponentModule } from 'src/app/shared/generic-component.module'
     AdminSidebarComponent,
     CreateRoomComponent,
     AccommmodationListComponent,
+    BookingListComponent,
   ],
   imports: [
     CommonModule,
@@ -65,6 +68,7 @@ import { GenericComponentModule } from 'src/app/shared/generic-component.module'
     MatSortModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
+    MatMenuModule,
     NgxMatTimepickerModule,
     RatingModule,
     GenericComponentModule,

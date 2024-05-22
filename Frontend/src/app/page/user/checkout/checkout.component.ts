@@ -136,11 +136,10 @@ export class CheckoutComponent implements OnInit {
                 .then((response) => {
                   this.$bookingService.createBooking(this.bookingInfo).subscribe({
                     next: (res) => {
-                      this.$bookingService.clearCart();
-                      this.router.navigate(['booking/success']);
-                    },
-                    error: (error) => {
-                      this.$alertService.error(error.error.message);
+                      if (res) {
+                        this.$bookingService.clearCart();
+                        this.router.navigate(['booking/success']);
+                      }
                     },
                   });
                 });

@@ -6,6 +6,9 @@ import { UserService } from './user.service';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Util } from '../util/util';
+import { BasePagingRequest } from '../model/request/BasePagingRequest.model';
+import { BasePagingResponse } from '../model/response/BasePagingRequest.model';
+import { BaseApiService } from './base-api.service';
 
 declare global {
   interface Window {
@@ -39,7 +42,7 @@ export class BookingService {
   };
   private cartSubject = new BehaviorSubject<CartItem[]>([]);
 
-  constructor(private httpClient: HttpClient, private $userService: UserService) {
+  constructor(private $baseApiService: BaseApiService, private $userService: UserService) {
     this.loadCartFromLocalStorage().subscribe({
       next: (res) => {
         this.cartStorage = res;
@@ -127,6 +130,17 @@ export class BookingService {
   }
 
   createBooking(request: any) {
-    return this.httpClient.post(URL + '/booking/create', request);
+    return this.$baseApiService.postWithRequestBody(URL + '/booking/create', request);
+  }
+
+  getBookings(request: BasePagingRequest): Observable<BasePagingResponse> {
+    return this.$baseApiService.postWithRequestBody(`${URL}/booking/get-bookings`, request);
+  }
+
+  changeStatus(bookingId: number, status: string) {
+    return this.$baseApiService.postWithRequestBody(`${URL}/booking/change-status`, {
+      bookingId: bookingId,
+      status: status,
+    });
   }
 }
