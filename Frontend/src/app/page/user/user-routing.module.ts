@@ -15,7 +15,6 @@ const routes: Routes = [
     path: '',
     component: UserComponent,
     children: [
-      { path: '', component: UserHomeComponent },
       { path: 'home', component: UserHomeComponent },
       { path: 'search-accommodation', component: SearchAccommodationComponent },
       {

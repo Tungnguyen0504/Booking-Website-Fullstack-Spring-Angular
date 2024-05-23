@@ -68,7 +68,7 @@
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="changeStatusPopup()">
+          <button mat-menu-item (click)="changeStatusPopup(row.id)">
             <mat-icon>dialpad</mat-icon>
             <span>Redial</span>
           </button>

@@ -58,6 +58,9 @@ public class Booking extends BaseEntity {
     @Column(name = "status")
     private EBookingStatus status;
 
+    @Column(name = "reason")
+    private String reason;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SidebarService {
   toggled = false;
@@ -9,7 +9,7 @@ export class SidebarService {
   menus = [
     {
       title: 'general',
-      type: 'header'
+      type: 'header',
     },
     {
       title: 'Dashboard',
@@ -18,23 +18,25 @@ export class SidebarService {
       type: 'dropdown',
       badge: {
         text: 'New ',
-        class: 'badge-warning'
+        class: 'badge-warning',
       },
       submenus: [
         {
-          title: 'Dashboard 1',
+          title: 'Đơn đặt hàng',
           badge: {
             text: 'Pro ',
-            class: 'badge-success'
-          }
+            class: 'badge-success',
+          },
+          link: 'dashboard/booking-management',
         },
         {
-          title: 'Dashboard 2'
+          title: 'Quản lý chỗ ở',
+          link: 'dashboard/accommodation-management',
         },
         {
-          title: 'Dashboard 3'
-        }
-      ]
+          title: 'Dashboard 3',
+        },
+      ],
     },
     {
       title: 'E-commerce',
@@ -43,19 +45,19 @@ export class SidebarService {
       type: 'dropdown',
       badge: {
         text: '3',
-        class: 'badge-danger'
+        class: 'badge-danger',
       },
       submenus: [
         {
           title: 'Products',
         },
         {
-          title: 'Orders'
+          title: 'Orders',
         },
         {
-          title: 'Credit cart'
-        }
-      ]
+          title: 'Credit cart',
+        },
+      ],
     },
     {
       title: 'Components',
@@ -67,18 +69,18 @@ export class SidebarService {
           title: 'General',
         },
         {
-          title: 'Panels'
+          title: 'Panels',
         },
         {
-          title: 'Tables'
+          title: 'Tables',
         },
         {
-          title: 'Icons'
+          title: 'Icons',
         },
         {
-          title: 'Forms'
-        }
-      ]
+          title: 'Forms',
+        },
+      ],
     },
     {
       title: 'Charts',
@@ -90,15 +92,15 @@ export class SidebarService {
           title: 'Pie chart',
         },
         {
-          title: 'Line chart'
+          title: 'Line chart',
         },
         {
-          title: 'Bar chart'
+          title: 'Bar chart',
         },
         {
-          title: 'Histogram'
-        }
-      ]
+          title: 'Histogram',
+        },
+      ],
     },
     {
       title: 'Maps',
@@ -110,13 +112,13 @@ export class SidebarService {
           title: 'Google maps',
         },
         {
-          title: 'Open street map'
-        }
-      ]
+          title: 'Open street map',
+        },
+      ],
     },
     {
       title: 'Extra',
-      type: 'header'
+      type: 'header',
     },
     {
       title: 'Documentation',
@@ -125,26 +127,26 @@ export class SidebarService {
       type: 'simple',
       badge: {
         text: 'Beta',
-        class: 'badge-primary'
+        class: 'badge-primary',
       },
     },
     {
       title: 'Calendar',
       icon: 'fa fa-calendar',
       active: false,
-      type: 'simple'
+      type: 'simple',
     },
     {
       title: 'Examples',
       icon: 'fa fa-folder',
       active: false,
-      type: 'simple'
-    }
+      type: 'simple',
+    },
   ];
-  constructor() { }
+  constructor() {}
 
   toggle() {
-    this.toggled = ! this.toggled;
+    this.toggled = !this.toggled;
   }
 
   getSidebarState() {

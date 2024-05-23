@@ -38,11 +38,16 @@ public class AuthenticationService {
     private final TokenRepository tokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
-    private final EmailService emailService;
     private final AuthenticationManager authenticationManager;
     private final AuthenticationFacade authenticationFacade;
 
     public void register(RegisterRequest request) {
+        userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new GlobalException(ExceptionResult.EXISTED_EMAIL));
+
+        userRepository.findByPhoneNumber(request.getPhoneNumber())
+                .orElseThrow(() -> new GlobalException(ExceptionResult.EXISTED_PHONE_NUMBER));
+
         userRepository.save(User.builder()
                 .phoneNumber(request.getPhoneNumber())
                 .email(request.getEmail())

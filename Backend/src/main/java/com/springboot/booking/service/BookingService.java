@@ -112,6 +112,7 @@ public class BookingService {
         Booking booking = bookingRepository.findById(request.getBookingId())
                 .orElseThrow(() -> new GlobalException(ExceptionResult.CUSTOM_FIELD_NOT_FOUND, "đơn đặt hàng"));
         booking.setStatus(request.getStatus());
+        booking.setReason(request.getReason());
         bookingRepository.save(booking);
     }
 

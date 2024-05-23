@@ -14,6 +14,7 @@ import { FileInputComponent } from './generic/file-input/file-input.component';
 import { UserTabListComponent } from './generic/user-tab/user-tab.component';
 import { FormVerificationDialogComponent } from './generic/form-verification-dialog/form-verification-dialog.component';
 import { ErrorComponent } from './generic/error/error.component';
+import { UserHeaderComponent } from './user/user-header/user-header.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ErrorComponent } from './generic/error/error.component';
     FileInputComponent,
     UserTabListComponent,
     FormVerificationDialogComponent,
-    ErrorComponent
+    ErrorComponent,
+    UserHeaderComponent
   ],
   imports: [
     CommonModule,
@@ -42,6 +44,7 @@ import { ErrorComponent } from './generic/error/error.component';
     FileInputComponent,
     UserTabListComponent,
     FormVerificationDialogComponent,
+    UserHeaderComponent
   ],
 })
 export class GenericComponentModule {}

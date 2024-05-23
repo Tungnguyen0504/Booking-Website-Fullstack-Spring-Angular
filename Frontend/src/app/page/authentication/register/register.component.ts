@@ -78,10 +78,12 @@ export class RegisterComponent implements AfterViewInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result && result.isComplete) {
         this.authService.register(this.form.value).subscribe({
-          next: () => {
-            this.router
-              .navigateByUrl('/login')
-              .then(() => this.alertService.success('Đăng ký thành công.'));
+          next: (res) => {
+            if (res) {
+              this.router
+                .navigateByUrl('/login')
+                .then(() => this.alertService.success('Đăng ký thành công.'));
+            }
           },
         });
       }

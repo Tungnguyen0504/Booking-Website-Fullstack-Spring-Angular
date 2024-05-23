@@ -45,7 +45,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 @NgModule({
   declarations: [
     UserComponent,
-    UserHeaderComponent,
+    // UserHeaderComponent,
     CityBlockComponent,
     BookNowComponent,
     SearchAccommodationComponent,

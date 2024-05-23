@@ -1,6 +1,8 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { User } from 'src/app/model/User.model';
 import { SidebarService } from 'src/app/service/sidebar.service';
+import { UserService } from 'src/app/service/user.service';
 
 @Component({
   selector: 'app-admin-sidebar',
@@ -10,24 +12,34 @@ import { SidebarService } from 'src/app/service/sidebar.service';
     trigger('slide', [
       state('up', style({ height: 0 })),
       state('down', style({ height: '*' })),
-      transition('up <=> down', animate(200))
-    ])
-  ]
+      transition('up <=> down', animate(200)),
+    ]),
+  ],
 })
-export class AdminSidebarComponent {
-  title = 'angular-pro-sidebar';
+export class AdminSidebarComponent implements OnInit {
+  user?: User;
+
   menus: any[] = [];
 
-  constructor(public sidebarservice: SidebarService) {
+  constructor(public sidebarservice: SidebarService, private $userService: UserService) {
     this.menus = sidebarservice.getMenuList();
+  }
+
+  ngOnInit(): void {
+    this.$userService.getCurrentUser().subscribe({
+      next: (res: User | null) => {
+        if (res) {
+          this.user = res;
+        }
+      },
+    });
   }
 
   toggleSidebar() {
     this.sidebarservice.setSidebarState(!this.sidebarservice.getSidebarState());
   }
   toggleBackgroundImage() {
-    this.sidebarservice.hasBackgroundImage =
-      !this.sidebarservice.hasBackgroundImage;
+    this.sidebarservice.hasBackgroundImage = !this.sidebarservice.hasBackgroundImage;
   }
   getSideBarState() {
     return this.sidebarservice.getSidebarState();

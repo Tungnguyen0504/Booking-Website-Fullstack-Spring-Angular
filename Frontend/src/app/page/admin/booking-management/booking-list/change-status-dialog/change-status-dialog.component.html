@@ -1,19 +1,23 @@
-<h1 mat-dialog-title>Thay đổi trạng thái đặt phòng</h1>
-<div mat-dialog-content class="d-flex flex-column">
-  <form>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+  <h1 mat-dialog-title>Thay đổi trạng thái đặt phòng</h1>
+  <div mat-dialog-content class="d-flex flex-column">
     <mat-form-field>
       <mat-label>Vui lòng chọn</mat-label>
-      <mat-select>
-        <mat-option>Hoàn thành</mat-option>
-        <mat-option>Hủy bỏ</mat-option>
+      <mat-select
+        formControlName="status"
+        (selectionChange)="selectionChange($event)"
+      >
+        <mat-option value="FINISHED">Hoàn thành</mat-option>
+        <mat-option value="CANCELED">Hủy bỏ</mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field *ngIf="form.get('status')?.value === 'CANCELED'">
       <mat-label>Lý do</mat-label>
-      <textarea matInput></textarea>
+      <textarea matInput formControlName="reason"></textarea>
     </mat-form-field>
-  </form>
-</div>
-<div mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>Đóng</button>
-</div>
+  </div>
+  <div mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Đóng</button>
+    <button type="submit" mat-button>Cập nhật</button>
+  </div>
+</form>

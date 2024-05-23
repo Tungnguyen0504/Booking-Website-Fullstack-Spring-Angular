@@ -7,4 +7,5 @@ import lombok.Data;
 public class ChangeBookingStatusRequest {
     private long bookingId;
     private EBookingStatus status;
+    private String reason;
 }

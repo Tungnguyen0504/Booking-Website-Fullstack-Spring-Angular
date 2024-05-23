@@ -105,9 +105,12 @@ export class BookingListComponent implements AfterViewInit {
     this.getBookings();
   }
 
-  changeStatusPopup() {
+  changeStatusPopup(bookingId: number) {
+    console.log(bookingId);
     const dialogRef = this.dialog.open(ChangeStatusDialogComponent, {
-      data: {},
+      data: {
+        bookingId: bookingId,
+      },
       position: {
         top: '200px',
       },
@@ -117,9 +120,9 @@ export class BookingListComponent implements AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      // if (result && result.isComplete) {
-      // }
-      window.location.reload();
+      if (result && result.isComplete) {
+        this.getBookings();
+      }
     });
   }
 }

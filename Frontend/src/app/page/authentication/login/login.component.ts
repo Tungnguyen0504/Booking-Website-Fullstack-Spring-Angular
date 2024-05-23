@@ -61,9 +61,9 @@ export class LoginComponent implements AfterViewInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result && result.isComplete) {
         this.authService.login(this.form.value).subscribe({
-          next: (response) => {
-            if (response) {
-              Util.setLocal(JWT_TOKEN_STORAGE, response.accessToken, TIME_EXPIRED);
+          next: (res) => {
+            if (res) {
+              Util.setLocal(JWT_TOKEN_STORAGE, res.accessToken, TIME_EXPIRED);
               this.router.navigateByUrl('/home');
             }
           },

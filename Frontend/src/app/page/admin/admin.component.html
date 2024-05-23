@@ -3,8 +3,31 @@
   <!-- navbar -->
   <header
     class="navbar navbar-expand-lg navbar-light"
-    style="margin-left: 260px; background-color: #181a1c; height: 60px"
-  ></header>
+    style="background-color: #1d1d1d; height: 60px; position: sticky; top: 0"
+  >
+    <div class="menu-btn ml-auto">
+      <div class="dropdown">
+        <a
+          class="btn btn-secondary dropdown-toggle bg-transparent d-flex align-items-center border-0"
+          href="#"
+          role="button"
+          id="ddl-account"
+          data-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <i class="fa-solid fa-user"></i>
+        </a>
+        <div
+          class="dropdown-menu dropdown-menu-right"
+          aria-labelledby="ddl-account"
+        >
+          <a class="dropdown-item text-dark" href="user-information">Thông tin cá nhân</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item text-dark" href="logout">Logout</a>
+        </div>
+      </div>
+    </div>
+  </header>
   <!-- navbar -->
 
   <!-- sidebar -->

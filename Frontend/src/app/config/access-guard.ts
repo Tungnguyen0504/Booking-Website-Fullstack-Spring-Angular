@@ -36,7 +36,23 @@ export class AccessGuard {
   isAdmin(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     return this.$userService.getCurrentUser().pipe(
       switchMap((res) => {
+        console.log('admin')
+
         if (res && res.role == 'ADMIN') {
+          return of(true);
+        }
+        this.route.navigateByUrl('error');
+        return of(false);
+      })
+    );
+  }
+
+  isSeller(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+    return this.$userService.getCurrentUser().pipe(
+      switchMap((res) => {
+        console.log('seller')
+
+        if (res && res.role == 'SELLER') {
           return of(true);
         }
         this.route.navigateByUrl('error');
@@ -58,4 +74,11 @@ export const AdminGuard: CanActivateFn = (
   state: RouterStateSnapshot
 ): Observable<boolean> => {
   return inject(AccessGuard).isAdmin(route, state);
+};
+
+export const SellerGuard: CanActivateFn = (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot
+): Observable<boolean> => {
+  return inject(AccessGuard).isSeller(route, state);
 };

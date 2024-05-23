@@ -21,7 +21,7 @@
             </div>
 
             <div class="classynav">
-              <ul>
+              <ul *ngIf="user && user.role !== 'ADMIN'">
                 <li class="active"><a href="home">Trang chủ</a></li>
                 <li><a href="search-accommodation">Lưu trú</a></li>
                 <li><a href="">Về chúng tôi</a></li>
@@ -41,140 +41,57 @@
                   >Đăng nhập</a
                 >
               </div>
-              <ng-container *ngIf="user">
-                <div class="menu-btn">
-                  <div class="dropdown">
-                    <a
-                      class="btn btn-secondary dropdown-toggle bg-transparent d-flex align-items-center border-0"
-                      href="#"
-                      role="button"
-                      id="ddl-account"
-                      data-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      <img
-                        class="rounded-circle"
-                        width="45"
-                        height="45"
-                        [src]="user.files[0].base64String"
-                      />
-                      <div class="ml-3">
-                        <span class="text-truncate">Nguyen Van A</span><br />
-                        <small class="float-left text-warning font-weight-light"
-                          >Xem chi tiết</small
-                        >
-                      </div>
-                    </a>
-                    <div
-                      class="dropdown-menu dropdown-menu-right"
-                      aria-labelledby="ddl-account"
-                    >
-                      <a class="dropdown-item text-dark" href=""
-                        >Thông tin cá nhân</a
-                      >
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item text-dark" href="logout"
-                        >Logout</a
+              <div *ngIf="user" class="menu-btn">
+                <div class="dropdown">
+                  <a
+                    class="btn btn-secondary dropdown-toggle bg-transparent d-flex align-items-center border-0"
+                    href="#"
+                    role="button"
+                    id="ddl-account"
+                    data-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <img
+                      class="rounded-circle"
+                      width="45"
+                      height="45"
+                      [src]="user.files[0].base64String"
+                    />
+                    <div class="ml-3">
+                      <span class="text-truncate">{{ user!.lastName }} {{ user!.firstName }}</span><br />
+                      <small class="float-left text-warning font-weight-light"
+                        >Xem chi tiết</small
                       >
                     </div>
+                  </a>
+                  <div
+                    class="dropdown-menu dropdown-menu-right"
+                    aria-labelledby="ddl-account"
+                  >
+                    <a class="dropdown-item text-dark" href="user-information"
+                      >Thông tin cá nhân</a
+                    >
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item text-dark" href="logout">Logout</a>
                   </div>
                 </div>
-                <div class="ml-3">
-                  <a
-                    type="button"
-                    class="cart js-menu-toggle menu-toggle text-white position-relative"
-                    (click)="toggleCart()"
-                    style="cursor: pointer"
-                  >
-                    <i
-                      class="fa-solid fa-cart-shopping"
-                      style="font-size: 24px"
-                    ></i>
-                    <span class="count-cart">{{
-                      cartStorage?.cartItems?.length
-                    }}</span>
-                  </a>
-                </div>
-
-                <!-- $(".cart").on("click", function () {
-                    $.ajax({
-                      url: "booking-cart",
-                      type: "get",
-                      dataType: "json",
-                      data: {
-                        action: "openCart",
-                      },
-                      success: function (result) {
-                        $("#list-cart").html(result);
-                        $('#list-cart input[type="number"]').inputSpinner({
-                          buttonsOnly: true,
-                          autoInterval: undefined,
-                        });
-                      },
-                    });
-                  });
-
-                  $(document).on("click", ".btn-remove-cart", function () {
-                    var roomId = $(this)
-                      .closest(".list-cart")
-                      .find('input[name="roomId"]')
-                      .val();
-
-                    $.ajax({
-                      url: "booking-cart",
-                      type: "get",
-                      dataType: "json",
-                      data: {
-                        action: "removeCart",
-                        roomId: roomId,
-                      },
-                      success: function (result) {
-                        if (result == "0") {
-                          swal("Failed!", "", "error");
-                        } else {
-                          $("#list-cart").html(result);
-                          $('#list-cart input[type="number"]').inputSpinner({
-                            buttonsOnly: true,
-                            autoInterval: undefined,
-                          });
-                          const a = $(".count-cart").text();
-                          $(".count-cart").html(a - 1);
-                        }
-                      },
-                    });
-                  });
-
-                  $(document).on("change", ".qty-room-cart", function (e) {
-                    var roomId = $(this)
-                      .closest(".list-cart")
-                      .find('input[name="roomId"]')
-                      .val();
-                    console.log(roomId);
-                    var qtyRoom = $(e.target).val();
-
-                    $.ajax({
-                      url: "booking-cart",
-                      type: "get",
-                      dataType: "json",
-                      data: {
-                        action: "changeQtyOfRoom",
-                        roomId: roomId,
-                        qtyRoom: qtyRoom,
-                      },
-                      success: function (result) {
-                        if (result == "0") {
-                          swal("Failed!", "", "error");
-                        } else {
-                          $("#list-cart").html(result);
-                          $('#list-cart input[type="number"]').inputSpinner({
-                            buttonsOnly: true,
-                            autoInterval: undefined,
-                          });
-                        }
-                      },
-                    });
-                  }); -->
-              </ng-container>
+              </div>
+              <div *ngIf="user && user?.role !== 'ADMIN'" class="ml-3">
+                <a
+                  type="button"
+                  class="cart js-menu-toggle menu-toggle text-white position-relative"
+                  (click)="toggleCart()"
+                  style="cursor: pointer"
+                >
+                  <i
+                    class="fa-solid fa-cart-shopping"
+                    style="font-size: 24px"
+                  ></i>
+                  <span class="count-cart">{{
+                    cartStorage?.cartItems?.length
+                  }}</span>
+                </a>
+              </div>
             </div>
           </div>
         </nav>

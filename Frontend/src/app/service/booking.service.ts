@@ -137,10 +137,7 @@ export class BookingService {
     return this.$baseApiService.postWithRequestBody(`${URL}/booking/get-bookings`, request);
   }
 
-  changeStatus(bookingId: number, status: string) {
-    return this.$baseApiService.postWithRequestBody(`${URL}/booking/change-status`, {
-      bookingId: bookingId,
-      status: status,
-    });
+  changeStatus(request: any) {
+    return this.$baseApiService.putWithRequestBody(`${URL}/booking/change-status`, request);
   }
 }

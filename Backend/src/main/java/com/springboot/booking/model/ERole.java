@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 public enum ERole {
     GUEST(Collections.emptySet()),
     USER(Collections.emptySet()),
+    SELLER(Collections.emptySet()),
     ADMIN(
 //            Set.of(
 //                    Permission.ADMIN_READ,
