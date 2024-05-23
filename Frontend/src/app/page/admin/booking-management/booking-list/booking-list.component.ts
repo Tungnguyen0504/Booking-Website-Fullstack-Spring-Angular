@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -8,6 +9,7 @@ import { SortRequest } from 'src/app/model/request/SortRequest.model';
 import { BasePagingResponse } from 'src/app/model/response/BasePagingRequest.model';
 import { BasePagingService } from 'src/app/service/base-paging.service';
 import { BookingService } from 'src/app/service/booking.service';
+import { ChangeStatusDialogComponent } from './change-status-dialog/change-status-dialog.component';
 
 @Component({
   selector: 'app-booking-list',
@@ -31,7 +33,7 @@ export class BookingListComponent implements AfterViewInit {
     'fromDate',
     'toDate',
     'status',
-    'action'
+    'action',
   ];
   dataSource: MatTableDataSource<any> = new MatTableDataSource();
 
@@ -44,6 +46,7 @@ export class BookingListComponent implements AfterViewInit {
   totalPages: number[] = [3, 5, 10, 25, 50];
 
   constructor(
+    private dialog: MatDialog,
     private $bookingService: BookingService,
     private $basePagingService: BasePagingService
   ) {
@@ -100,5 +103,23 @@ export class BookingListComponent implements AfterViewInit {
     this.currentPage = $event.pageIndex;
     this.totalPage = $event.pageSize;
     this.getBookings();
+  }
+
+  changeStatusPopup() {
+    const dialogRef = this.dialog.open(ChangeStatusDialogComponent, {
+      data: {},
+      position: {
+        top: '200px',
+      },
+      width: '576px',
+      disableClose: true,
+      autoFocus: false,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      // if (result && result.isComplete) {
+      // }
+      window.location.reload();
+    });
   }
 }

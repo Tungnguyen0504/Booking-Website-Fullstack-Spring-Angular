@@ -33,6 +33,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { GenericComponentModule } from 'src/app/shared/generic-component.module';
 import { BookingListComponent } from './booking-management/booking-list/booking-list.component';
 import { MatMenuModule } from '@angular/material/menu';
+import { ChangeStatusDialogComponent } from './booking-management/booking-list/change-status-dialog/change-status-dialog.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { MatMenuModule } from '@angular/material/menu';
     CreateRoomComponent,
     AccommmodationListComponent,
     BookingListComponent,
+    ChangeStatusDialogComponent,
   ],
   imports: [
     CommonModule,
