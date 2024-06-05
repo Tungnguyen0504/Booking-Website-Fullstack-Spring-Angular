@@ -41,7 +41,6 @@ public class AccommodationService {
     private final AccommodationTypeRepository accommodationTypeRepository;
     private final WardRepository wardRepository;
     private final AddressRepository addressRepository;
-    private final FileRepository fileRepository;
 
     private final ObjectMapper mapper;
 

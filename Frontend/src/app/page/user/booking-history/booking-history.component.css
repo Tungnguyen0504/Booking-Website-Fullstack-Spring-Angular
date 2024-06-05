@@ -1,0 +1,43 @@
+.booking-card .booking-card-img img {
+  object-fit: cover;
+  max-height: 164px;
+}
+
+.booking-card .booking-btn a {
+  height: 40px;
+  line-height: 40px;
+  padding: 0;
+}
+
+.confirmed,
+.waiting,
+.refunded,
+.canceled,
+.finished {
+  padding: 2px 10px;
+}
+
+.confirmed,
+.finished {
+  background: rgba(46, 204, 113, 0.2);
+  border-color: #c4f1d7;
+  color: #2ecc71;
+}
+
+.waiting {
+  color: #7d6608;
+  background-color: #fcf3cf;
+  border-color: #fbeebc;
+}
+
+.refunded {
+  color: #1b1e21;
+  background-color: #d6d8d9;
+  border-color: #c6c8ca;
+}
+
+.canceled {
+  color: #78281f;
+  background-color: #fadbd8;
+  border-color: #f8cdc8;
+}

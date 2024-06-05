@@ -115,12 +115,6 @@ public class FileService {
         return fileRepository.findByEntityIdAndEntityName(entityId, entityName);
     }
 
-    public File getFilesByEntityIdAndEntityNameDesc(String entityId, String entityName) {
-        return fileRepository.findByEntityIdAndEntityNameDesc(entityId, entityName)
-                .orElseThrow(() -> new GlobalException(ExceptionResult.RESOURCE_NOT_FOUND,
-                        String.format("File %s", entityName)));
-    }
-
     public List<File> getFiles(String entityId, String entityName, String fileType) {
         return fileRepository.findByEntityIdAndEntityNameAndFileType(entityId, entityName, fileType);
     }
@@ -155,7 +149,6 @@ public class FileService {
                 .map(filePath -> File.builder()
                         .entityId(entityId)
                         .entityName(entityName)
-                        .fileName(filePath.get("fileName"))
                         .fileType(MediaType.IMAGE_JPEG_VALUE)
                         .filePath(filePath.get("filePath"))
                         .build())

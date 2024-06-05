@@ -1,5 +1,5 @@
 export interface BasePagingResponse {
-  data: any[];
+  data: any;
   currentPage: number;
   totalPage: number;
   totalItem: number;

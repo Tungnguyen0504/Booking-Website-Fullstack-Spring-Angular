@@ -4,7 +4,7 @@
       class="nav-link {{
         i === tabActive ? 'active' : ''
       }} d-flex align-items-center"
-      href=""
+      [href]="tab.link"
     >
       <i class="{{ tab.icon }} mr-2"></i>
       <span>{{ tab.title }}</span>

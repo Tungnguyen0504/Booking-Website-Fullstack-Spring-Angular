@@ -35,20 +35,25 @@ public class UserService {
     private final AddressService addressService;
     private final EmailService emailService;
 
-    public UserResponse getCurrentUser() {
-        return getUserInformation("");
-    }
-
-    public UserResponse getCurrentUser(String jwt) {
-        return getUserInformation(jwt);
-    }
-
-    private UserResponse getUserInformation(String jwt) {
+    public User getCurrentUser() {
         Authentication authentication = authenticationFacade.getAuthentication();
         if (authentication == null) {
+            return null;
+        }
+        String email = authentication.getName();
+        if (!authentication.isAuthenticated() || StringUtils.isEmpty(email)) {
             throw new GlobalException(ExceptionResult.USER_NOT_FOUND);
         }
-        String email = StringUtils.isEmpty(jwt) ? authentication.getName() : jwtService.extractUsername(jwt);
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new GlobalException(ExceptionResult.USER_NOT_FOUND));
+    }
+
+    public UserResponse getCurrentUserDtoByToken(String jwt) {
+        Authentication authentication = authenticationFacade.getAuthentication();
+        if (authentication == null) {
+            return null;
+        }
+        String email = jwtService.extractUsername(jwt);
         if (!authentication.isAuthenticated() || StringUtils.isEmpty(email)) {
             throw new GlobalException(ExceptionResult.USER_NOT_FOUND);
         }
@@ -102,7 +107,7 @@ public class UserService {
         return response;
     }
 
-    private UserResponse transferToObject(User user) {
+    public UserResponse transferToObject(User user) {
         Map<String, Object> addressMap = new HashMap<>();
         if (Objects.nonNull(user.getAddress())) {
             addressMap.put("wardId", user.getAddress().getWard().getId());
@@ -114,7 +119,7 @@ public class UserService {
         List<FileResponse> fileResponses = files
                 .stream()
                 .map(file -> FileResponse.builder()
-                        .fileName(file.getFileName())
+                        .fileName(Util.getFileName(file.getFilePath()))
                         .fileType(file.getFileType())
                         .base64String(fileService.encodeImageFileToString(file.getFilePath()))
                         .build())

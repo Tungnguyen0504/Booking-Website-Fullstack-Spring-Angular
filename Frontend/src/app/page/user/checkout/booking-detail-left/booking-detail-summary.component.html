@@ -36,14 +36,14 @@
     <i class="fa-solid fa-circle-exclamation mr-2"></i>
     <p class="text-warning mb-0">
       Chỉ còn
-      {{ subtractDate(cartStorage?.toDate!, cartStorage?.fromDate!) }} ngày nữa!
+      {{ subtractDate1(cartStorage?.toDate!, cartStorage?.fromDate!) }} ngày nữa!
     </p>
   </div>
   <div class="border-bottom mb-3">
     <p>
       Tổng thời gian lưu trú: <br /><strong
         >{{
-          subtractDate(cartStorage?.toDate!, cartStorage?.fromDate!)
+          subtractDate1(cartStorage?.toDate!, cartStorage?.fromDate!)
         }}
         đêm</strong
       >
@@ -100,7 +100,7 @@
       <p class="font-weight-bold mb-0">Tổng cộng</p>
       <p class="mb-0 text-muted" style="font-size: 12px">
         (cho {{ roomGuestQty.guestQty }} khách và
-        {{ subtractDate(cartStorage?.toDate!, cartStorage?.fromDate!) }} đêm
+        {{ subtractDate1(cartStorage?.toDate!, cartStorage?.fromDate!) }} đêm
         nghỉ)
       </p>
     </div>

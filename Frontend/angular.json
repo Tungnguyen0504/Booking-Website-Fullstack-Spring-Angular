@@ -36,6 +36,8 @@
               "./node_modules/bootstrap-fileinput/js/fileinput.min.js",
               "./node_modules/bootstrap-fileinput/js/plugins/piexif.min.js",
               "./node_modules/bootstrap-fileinput/js/plugins/sortable.min.js",
+              "src/assets/js/sockjs.min.js",
+              "node_modules/stompjs/lib/stomp.min.js",
               "src/assets/js/plugins/plugins.js",
               "src/assets/js/active.js"
             ]

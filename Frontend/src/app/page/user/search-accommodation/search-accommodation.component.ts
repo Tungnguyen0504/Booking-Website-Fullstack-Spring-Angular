@@ -40,8 +40,6 @@ export class SearchAccommodationComponent implements OnInit {
     totalPage: 3,
   };
 
-  currentPage: number = 0;
-  totalPage: number = 3;
   totalItem: number = 0;
   pageOptions: number[] = [3, 5, 10, 25, 50];
 

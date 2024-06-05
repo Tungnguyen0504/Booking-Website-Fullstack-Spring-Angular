@@ -106,35 +106,19 @@ export class CheckoutComponent implements OnInit {
               label: 'paypal',
             },
             createOrder: () => {
-              return fetch(`${URL}/booking/payment/create`, {
-                method: 'post',
-                headers: {
-                  Accept: 'application/json, text/plain, */*',
-                  'Content-Type': 'application/json',
-                  Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify(this.bookingInfo),
-              })
-                .then((response) => response.json())
-                .then((response) => {
-                  return response.id;
-                });
+              return this.$bookingService.createBookingInfo(this.bookingInfo).then((response) => {
+                this.bookingInfo.bookingId = response.bookingId;
+                return response.id;
+              });
             },
             onApprove: (data: any) => {
-              return fetch(`${URL}/booking/payment/capture`, {
-                method: 'post',
-                headers: {
-                  Accept: 'application/json, text/plain, */*',
-                  'Content-Type': 'application/json',
-                  Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify({
-                  paymentId: data.paymentID,
-                }),
-              })
-                .then((response) => response.json())
-                .then((response) => {
-                  this.$bookingService.createBooking(this.bookingInfo).subscribe({
+              return this.$bookingService.capturePaymentOrder(data).then(() => {
+                this.$bookingService
+                  .changeStatus({
+                    bookingId: this.bookingInfo.bookingId,
+                    status: 'CONFIRMED',
+                  })
+                  .subscribe({
                     next: (res) => {
                       if (res) {
                         this.$bookingService.clearCart();
@@ -142,7 +126,7 @@ export class CheckoutComponent implements OnInit {
                       }
                     },
                   });
-                });
+              });
             },
             onError: (error: any) => {
               this.$alertService.error(error);

@@ -16,11 +16,6 @@ public interface FileRepository extends JpaRepository<File, Long> {
     List<File> findByEntityIdAndEntityName(String entityId, String entityName);
 
     @Query(value = "select f from File f " +
-            "where f.entityId = :entityId and f.entityName = :entityName " +
-            "order by STR_TO_DATE(f.modifiedAt, '%Y-%m-%d %H:%i:%s.%f') desc limit 1")
-    Optional<File> findByEntityIdAndEntityNameDesc(String entityId, String entityName);
-
-    @Query(value = "select f from File f " +
             "where f.entityId = :entityId and f.entityName = :entityName and f.fileType = :fileType")
     List<File> findByEntityIdAndEntityNameAndFileType(String entityId, String entityName, String fileType);
 }

@@ -3,12 +3,15 @@ package com.springboot.booking.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springboot.booking.common.DatetimeUtil;
+import com.springboot.booking.common.ExceptionResult;
 import com.springboot.booking.common.Util;
 import com.springboot.booking.dto.request.BookingCaptureRequest;
 import com.springboot.booking.dto.request.BookingDetailRequest;
 import com.springboot.booking.dto.request.BookingRequest;
-import com.springboot.booking.dto.response.RoomResponse;
-import com.springboot.booking.dto.response.UserResponse;
+import com.springboot.booking.exeption.GlobalException;
+import com.springboot.booking.model.entity.Room;
+import com.springboot.booking.model.entity.User;
+import com.springboot.booking.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -36,46 +39,26 @@ public class PaymentService {
     @Value("${paypal.secret}")
     private String secret;
 
+    private final RoomRepository roomRepository;
     private final UserService userService;
-    private final RoomService roomService;
 
     private final ObjectMapper mapper;
 
-    private Map<String, Object> generateTokenPaypal() throws JsonProcessingException {
-        WebClient webClient = WebClient.create();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        headers.set("Authorization", Util.getBasicAuth(clientId, secret));
-
-        MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
-        requestBody.add("grant_type", "client_credentials");
-
-        String response = webClient.post()
-                .uri("https://api-m.sandbox.paypal.com/v1/oauth2/token")
-                .headers(httpHeaders -> httpHeaders.addAll(headers))
-                .body(BodyInserters.fromFormData(requestBody))
-                .retrieve()
-                .bodyToMono(String.class)
-                .block();
-        return mapper.readValue(response, Map.class);
-    }
-
     public Map<String, Object> createOrder(BookingRequest request) throws JsonProcessingException {
-        Map<String, Object> token = generateTokenPaypal();
-
         Map<String, Object> requestBody = new HashMap<>();
         requestBody.put("purchase_units", getPurchaseUnits(request));
         requestBody.put("intent", "CAPTURE");
         requestBody.put("payer", getPayer());
         requestBody.put("payment_source", getPaymentSource());
 
-        WebClient webClient = WebClient.create();
+        Map<String, Object> token = generateTokenPaypal();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Authorization", String.format("%s %s", token.get("token_type"), token.get("access_token")));
 
-        String response = webClient.post()
+        String response = WebClient
+                .create()
+                .post()
                 .uri("https://api-m.sandbox.paypal.com/v2/checkout/orders")
                 .headers(httpHeaders -> httpHeaders.addAll(headers))
                 .body(BodyInserters.fromValue(mapper.writeValueAsString(requestBody)))
@@ -102,8 +85,29 @@ public class PaymentService {
         return mapper.readValue(response, Map.class);
     }
 
+    private Map<String, Object> generateTokenPaypal() throws JsonProcessingException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.set("Authorization", Util.getBasicAuth(clientId, secret));
+
+        MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
+        requestBody.add("grant_type", "client_credentials");
+
+        String response = WebClient
+                .create()
+                .post()
+                .uri("https://api-m.sandbox.paypal.com/v1/oauth2/token")
+                .headers(httpHeaders -> httpHeaders.addAll(headers))
+                .body(BodyInserters.fromFormData(requestBody))
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+        return mapper.readValue(response, Map.class);
+    }
+
     private Map<String, Object> getPayer() {
-        UserResponse user = userService.getCurrentUser();
+        User user = userService.getCurrentUser();
+
         Map<String, Object> name = new HashMap<>();
         name.put("given_name", user.getFirstName());
         name.put("surname", user.getLastName());
@@ -125,7 +129,8 @@ public class PaymentService {
         double totalPrice = 0.0;
 
         for (BookingDetailRequest bookingDetail : request.getCartItems()) {
-            RoomResponse room = roomService.getById(bookingDetail.getRoomId());
+            Room room = roomRepository.findById(bookingDetail.getRoomId())
+                    .orElseThrow(() -> new GlobalException(ExceptionResult.CUSTOM_FIELD_NOT_FOUND, "phòng"));
             double price = calculateBookingDetailPrice(room.getPrice(), room.getDiscountPercent(), subDate);
             totalPrice += price * bookingDetail.getQuantity();
 

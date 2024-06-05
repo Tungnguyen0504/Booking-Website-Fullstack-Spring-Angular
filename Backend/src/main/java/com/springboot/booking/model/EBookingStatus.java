@@ -1,9 +1,10 @@
 package com.springboot.booking.model;
 
 public enum EBookingStatus {
-    WAITING,
+    WAITING_PAYMENT,
     CONFIRMED,
     FINISHED,
+    PAYMENT_EXPIRED,
     WAITING_REFUND,
     CANCELED
 }

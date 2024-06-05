@@ -20,7 +20,7 @@ export class BookingDetailSummaryComponent {
     return Util.formatDate(date, DATETIME_FORMAT2);
   }
 
-  subtractDate(var1: Date, var2: Date) {
-    return Util.subtractDate(var1, var2);
+  subtractDate1(var1: Date, var2: Date) {
+    return Util.subtractDate1(var1, var2);
   }
 }

@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Room } from '../model/Room.model';
-import { CART_STORAGE, PATH_V1, TIME_EXPIRED } from '../constant/Abstract.constant';
+import {
+  CART_STORAGE,
+  JWT_TOKEN_STORAGE,
+  PATH_V1,
+  TIME_EXPIRED,
+} from '../constant/Abstract.constant';
 import { BehaviorSubject, Observable, of, switchMap } from 'rxjs';
 import { UserService } from './user.service';
 import { environment } from 'src/environments/environment';
@@ -129,15 +134,52 @@ export class BookingService {
     });
   }
 
-  createBooking(request: any) {
-    return this.$baseApiService.postWithRequestBody(URL + '/booking/create', request);
+  createBookingInfo(bookingInfo: any): Promise<any> {
+    const token = Util.getLocal(JWT_TOKEN_STORAGE);
+    return fetch(`${URL}/booking/create`, {
+      method: 'post',
+      headers: {
+        Accept: 'application/json, text/plain, */*',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(bookingInfo),
+    }).then((response) => response.json());
   }
 
-  getBookings(request: BasePagingRequest): Observable<BasePagingResponse> {
-    return this.$baseApiService.postWithRequestBody(`${URL}/booking/get-bookings`, request);
+  createPaymentOrder(bookingInfo: any): Promise<any> {
+    const token = Util.getLocal(JWT_TOKEN_STORAGE);
+    return fetch(`${URL}/booking/payment/create`, {
+      method: 'post',
+      headers: {
+        Accept: 'application/json, text/plain, */*',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(bookingInfo),
+    }).then((response) => response.json());
+  }
+
+  capturePaymentOrder(data: any): Promise<any> {
+    const token = Util.getLocal(JWT_TOKEN_STORAGE);
+    return fetch(`${URL}/booking/payment/capture`, {
+      method: 'post',
+      headers: {
+        Accept: 'application/json, text/plain, */*',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        paymentId: data.paymentID,
+      }),
+    }).then((response) => response.json());
   }
 
   changeStatus(request: any) {
     return this.$baseApiService.putWithRequestBody(`${URL}/booking/change-status`, request);
+  }
+
+  getBookings(request: BasePagingRequest): Observable<BasePagingResponse> {
+    return this.$baseApiService.postWithRequestBody(`${URL}/booking/get-bookings`, request);
   }
 }

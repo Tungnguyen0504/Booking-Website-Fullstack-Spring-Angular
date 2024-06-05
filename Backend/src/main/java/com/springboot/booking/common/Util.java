@@ -52,4 +52,8 @@ public class Util {
         }
         return path.get();
     }
+
+    public static String getFileName(String filePath) {
+        return filePath.substring(filePath.lastIndexOf('/') + 1);
+    }
 }

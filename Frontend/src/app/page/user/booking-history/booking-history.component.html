@@ -1,0 +1,137 @@
+<section class="user-page pb-5" style="padding-top: 175px">
+  <div class="container shadow bg-white pb-4 pt-5 rounded">
+    <div class="row">
+      <app-user-tab
+        class="col-3 border-right px-0 w-100"
+        [tabActive]="2"
+      ></app-user-tab>
+
+      <div class="col-9 pl-5">
+        <div class="w-100 mb-3">
+          <span
+            class="h4 font-weight-bold"
+            style="border-bottom: 2px solid #ff8917"
+            >Lịch sử đặt phòng</span
+          >
+        </div>
+        <div *ngFor="let data of listBooking" class="card mb-3 booking-card">
+          <div *ngIf="getAccommodation(data.accommodationId)" class="row g-0">
+            <div class="col-md-4 pr-0">
+              <div
+                class="booking-card-img w-100 h-100"
+                style="padding: 1.25rem"
+              >
+                <a
+                  type="button"
+                  class="booking-history-btn text-primary font-weight-bold"
+                >
+                  <img
+                    class="rounded w-100 h-100"
+                    [src]="getAccommodation(data.accommodationId).filePaths[0]"
+                    class="img-fluid rounded-start"
+                  />
+                </a>
+              </div>
+            </div>
+            <div class="col-md-5 pl-0">
+              <div class="card-body px-0">
+                <div>
+                  <a
+                    type="button"
+                    class="booking-history-btn text-primary font-weight-bold"
+                  >
+                    <h5
+                      class="hide-col text-primary card-title font-weight-bold mb-1 w-100"
+                    >
+                      {{
+                        getAccommodation(data.accommodationId).accommodationName
+                      }}
+                    </h5>
+                  </a>
+                </div>
+                <p class="card-text mb-1">
+                  Đặt từ
+                  <span class="text-success">{{
+                    formatDate(data.fromDate)
+                  }}</span>
+                  đến
+                  <span class="text-success">{{
+                    formatDate(data.toDate)
+                  }}</span>
+                </p>
+                <p class="card-text mb-2">
+                  Tổng giá tiền:
+                  <span class="font-weight-bold text-danger">
+                    {{ data.totalAmount | number : "1.0-0" }} VND</span
+                  >
+                </p>
+                <p class="card-text mb-1">
+                  Trạng thái:
+                  <span
+                    *ngIf="data.status === 'WAITING_PAYMENT'"
+                    class="waiting"
+                  >
+                    Chưa thanh toán
+                  </span>
+                  <span
+                    *ngIf="data.status === 'PAYMENT_EXPIRED'"
+                    class="canceled"
+                  >
+                    Đã quá hạn thanh toán
+                  </span>
+                  <span *ngIf="data.status === 'CONFIRMED'" class="confirmed">
+                    Đã xác nhận
+                  </span>
+                  <span *ngIf="data.status === 'FINISHED'" class="finished">
+                    Đã hoàn thành
+                  </span>
+                  <span *ngIf="data.status === 'CANCELED'" class="canceled">
+                    Đã hủy
+                  </span>
+                </p>
+                <small
+                  *ngIf="
+                    data.status === 'CONFIRMED' &&
+                    subtractDateToNow(data.fromDate) >= 2
+                  "
+                  class="text-muted"
+                  >Miễn phí hủy đến
+                  {{ subtract2DaysFromNow() }}
+                </small>
+                <!-- <c:if test="${dateDiff[loop.index] >= 0 && dateDiff[loop.index] <= 2}">
+                                    <small class="text-muted">
+                                        Đã qua thời gian hủy đặt phòng
+                                    </small> -->
+              </div>
+            </div>
+            <div class="col-md-3 booking-btn">
+              <div class="px-3 py-4">
+                <a
+                  *ngIf="data.status === 'WAITING_PAYMENT'"
+                  href=""
+                  class="btn palatin-btn bg-info w-100 mb-1"
+                >
+                  Thanh toán
+                </a>
+                <a
+                  *ngIf="data.status === 'FINISHED'"
+                  class="rating-btn btn palatin-btn bg-warning w-100 mb-1"
+                >
+                  Đánh giá
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <mat-paginator
+          [length]="totalItem"
+          [pageIndex]="searchRequest.currentPage"
+          [pageSizeOptions]="pageOptions"
+          (page)="onPageChange($event)"
+          style="background-color: unset"
+        >
+        </mat-paginator>
+      </div>
+    </div>
+  </div>
+</section>

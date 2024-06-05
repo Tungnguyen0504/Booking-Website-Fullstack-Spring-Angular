@@ -49,10 +49,14 @@ export class Util {
     return moment(date).valueOf();
   }
 
-  public static subtractDate(var1: Date, var2: Date) {
+  public static subtractDate1(var1: Date, var2: Date) {
     const momentDate1 = moment(var1);
     const momentDate2 = moment(var2);
     return momentDate1.diff(momentDate2, 'days');
+  }
+
+  public static subtractDate2(var1: Date, num: number) {
+    return moment(var1).subtract(2, 'days');;
   }
 
   public static filterActive() {

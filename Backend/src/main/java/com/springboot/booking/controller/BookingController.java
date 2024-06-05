@@ -37,9 +37,8 @@ public class BookingController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<BSuccess> create(@RequestBody BookingRequest request) {
-        bookingService.createBookingInfo(request);
-        return ResponseEntity.ok(new BSuccess(SuccessResult.CREATED));
+    public ResponseEntity<Map<String, Object>> create(@RequestBody BookingRequest request) throws JsonProcessingException {
+        return ResponseEntity.ok(bookingService.createBookingInfo(request));
     }
 
     @PostMapping("/get-bookings")

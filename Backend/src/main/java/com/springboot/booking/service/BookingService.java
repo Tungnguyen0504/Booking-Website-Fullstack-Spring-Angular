@@ -1,5 +1,6 @@
 package com.springboot.booking.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.springboot.booking.common.DatetimeUtil;
 import com.springboot.booking.common.ExceptionResult;
 import com.springboot.booking.common.paging.BasePagingRequest;
@@ -9,16 +10,15 @@ import com.springboot.booking.dto.request.ChangeBookingStatusRequest;
 import com.springboot.booking.dto.response.BookingDetailResponse;
 import com.springboot.booking.dto.response.BookingResponse;
 import com.springboot.booking.dto.response.RoomResponse;
-import com.springboot.booking.dto.response.UserResponse;
 import com.springboot.booking.exeption.GlobalException;
 import com.springboot.booking.model.EBookingStatus;
 import com.springboot.booking.model.entity.Booking;
 import com.springboot.booking.model.entity.BookingDetail;
 import com.springboot.booking.model.entity.Room;
+import com.springboot.booking.model.entity.User;
 import com.springboot.booking.repository.BookingDetailRepository;
 import com.springboot.booking.repository.BookingRepository;
 import com.springboot.booking.repository.RoomRepository;
-import com.springboot.booking.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,6 +31,8 @@ import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,15 +46,18 @@ public class BookingService {
 
     private final RoomService roomService;
     private final UserService userService;
-    private final UserRepository userRepository;
     private final RoomRepository roomRepository;
     private final BookingRepository bookingRepository;
     private final BookingDetailRepository bookingDetailRepository;
     private final PagingService pagingService;
+    private final PaymentService paymentService;
 
     @Transactional
-    public void createBookingInfo(BookingRequest request) {
-        UserResponse user = userService.getCurrentUser();
+    public Map<String, Object> createBookingInfo(BookingRequest request) throws JsonProcessingException {
+        User user = userService.getCurrentUser();
+
+        Optional<Booking> lastBooking = bookingRepository.findLastBookingAwaitingPayment(user.getId());
+        lastBooking.ifPresent(bookingRepository::delete);
 
         Booking booking = Booking.builder()
                 .firstName(request.getFirstName())
@@ -66,11 +71,9 @@ public class BookingService {
                 .totalAmount(calculateTotalAmount(request))
                 .fromDate(DatetimeUtil.parseDateDefault(request.getFromDate()))
                 .toDate(DatetimeUtil.parseDateDefault(request.getToDate()))
-                .status(EBookingStatus.CONFIRMED)
-                .user(userRepository.findByEmail(user.getEmail())
-                        .orElseThrow(() -> new GlobalException(ExceptionResult.CUSTOM_FIELD_NOT_FOUND, "người dùng")))
+                .status(EBookingStatus.WAITING_PAYMENT)
+                .user(user)
                 .build();
-
         List<BookingDetail> bookingDetails = request.getCartItems()
                 .stream()
                 .map(cart -> {
@@ -87,9 +90,15 @@ public class BookingService {
                         }
                 )
                 .toList();
-
         bookingDetailRepository.saveAll(bookingDetails);
+
+        booking.setBookingDetails(bookingDetails);
         bookingRepository.save(booking);
+
+        Map<String, Object> response = paymentService.createOrder(request);
+        response.put("bookingId", booking.getId());
+
+        return response;
     }
 
     public BasePagingResponse getBookings(BasePagingRequest request) {
@@ -122,15 +131,16 @@ public class BookingService {
                 .stream()
                 .map(req -> {
                     RoomResponse room = roomService.getById(req.getRoomId());
-                    double subPrice = ((room.getPrice() * ((100 - room.getDiscountPercent()) / 100) * req.getQuantity() * subDate) / Double.parseDouble(currencyRate));
+                    double subPrice = room.getPrice() * ((100 - room.getDiscountPercent()) / 100) * req.getQuantity() * subDate;
                     return Double.parseDouble(decimalFormat.format(subPrice));
                 })
                 .reduce(0.0, Double::sum);
     }
 
-    private BookingResponse transferToDto(Booking booking) {
+    public BookingResponse transferToDto(Booking booking) {
         return BookingResponse.builder()
                 .id(booking.getId())
+                .accommodationId(booking.getBookingDetails().get(0).getRoom().getAccommodation().getId())
                 .firstName(booking.getFirstName())
                 .lastName(booking.getLastName())
                 .email(booking.getEmail())

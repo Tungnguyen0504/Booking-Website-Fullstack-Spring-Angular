@@ -13,6 +13,7 @@ import java.util.List;
 @Builder
 public class BookingResponse {
     private long id;
+    private long accommodationId;
     private String firstName;
     private String lastName;
     private String email;

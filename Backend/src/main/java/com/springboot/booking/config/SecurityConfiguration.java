@@ -29,13 +29,13 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-
                 .csrf()
                 .disable()
 
                 .authorizeHttpRequests()
                 .requestMatchers(
-                        "/rest/api/v1/**"
+                        "/rest/api/v1/**",
+                        "/socket/**"
 //                        "/v1/api/auth/**",
 //                        "/v1/api/user/**",
 //                        "/v1/api/admin/**",

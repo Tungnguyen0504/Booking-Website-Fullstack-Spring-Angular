@@ -26,7 +26,7 @@ public class UserController {
 
     @GetMapping("/get-current-user")
     public ResponseEntity<UserResponse> getCurrentUser(@RequestParam String jwt) {
-        return ResponseEntity.ok(userService.getCurrentUser(jwt));
+        return ResponseEntity.ok(userService.getCurrentUserDtoByToken(jwt));
     }
 
     @PutMapping("/update")

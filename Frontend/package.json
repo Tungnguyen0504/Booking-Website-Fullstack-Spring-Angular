@@ -30,6 +30,7 @@
     "ngx-bootstrap": "^11.0.2",
     "ngx-mat-timepicker": "^16.1.2",
     "ngx-owl-carousel-o": "^16.0.0",
+    "stompjs": "^2.3.3",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"

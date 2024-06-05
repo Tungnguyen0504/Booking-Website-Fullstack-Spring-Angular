@@ -2,10 +2,7 @@ package com.springboot.booking.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.springboot.booking.common.Constant;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,6 +12,7 @@ import java.util.Map;
 @Getter
 @Setter
 @Builder
+@ToString
 public class UserResponse {
     private Long id;
     private String firstName;

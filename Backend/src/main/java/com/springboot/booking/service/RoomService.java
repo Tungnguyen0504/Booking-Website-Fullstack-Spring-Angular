@@ -12,7 +12,6 @@ import com.springboot.booking.model.entity.Accommodation;
 import com.springboot.booking.model.entity.File;
 import com.springboot.booking.model.entity.Room;
 import com.springboot.booking.repository.AccommodationRepository;
-import com.springboot.booking.repository.FileRepository;
 import com.springboot.booking.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -28,7 +27,6 @@ import java.util.stream.Collectors;
 public class RoomService {
     private final RoomRepository roomRepository;
     private final AccommodationRepository accommodationRepository;
-    private final FileRepository fileRepository;
     private final FileService fileService;
 
     private final ObjectMapper mapper;

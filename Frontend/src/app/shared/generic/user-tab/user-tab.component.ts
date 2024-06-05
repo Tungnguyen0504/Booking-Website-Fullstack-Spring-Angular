@@ -12,14 +12,17 @@ export class UserTabListComponent {
     {
       icon: 'fa-solid fa-user',
       title: 'Thông tin cá nhân',
+      link: 'user-information',
     },
     {
       icon: 'fa-solid fa-lock',
       title: 'Đổi mật khẩu',
+      link: 'change-password',
     },
     {
       icon: 'fa-solid fa-clock',
       title: 'Lịch sử đặt phòng',
+      link: 'booking-history',
     },
   ];
 }

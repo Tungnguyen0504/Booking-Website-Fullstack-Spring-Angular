@@ -41,6 +41,7 @@ import { CssLoadingComponent } from 'src/app/shared/user/css-loading/css-loading
 import { UserInformationComponent } from './user-information/user-information.component';
 import { GenericComponentModule } from 'src/app/shared/generic-component.module';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { BookingHistoryComponent } from './booking-history/booking-history.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     CssLoadingComponent,
     UserInformationComponent,
     ChangePasswordComponent,
+    BookingHistoryComponent,
   ],
   imports: [
     CommonModule,
