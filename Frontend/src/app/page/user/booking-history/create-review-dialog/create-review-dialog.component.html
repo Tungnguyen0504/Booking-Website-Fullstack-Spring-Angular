@@ -1,0 +1,46 @@
+<form class="review-dialog" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+  <div mat-dialog-content class="d-flex flex-column">
+    <h5 class="text-center mb-3">Hãy đánh giá trải nghiệm của bạn?</h5>
+    <div class="d-flex justify-content-center align-items-center mb-3">
+      <label class="label-star mb-0">Sạch sẽ</label><br />
+      <rating
+        class="star-acc"
+        [max]="5"
+        formControlName="clean"
+        [readonly]="!!reviewInBooking"
+      ></rating>
+    </div>
+    <div class="d-flex justify-content-center align-items-center mb-3">
+      <label class="label-star mb-0">Tiện ích</label><br />
+      <rating
+        class="star-acc"
+        [max]="5"
+        formControlName="amenity"
+        [readonly]="!!reviewInBooking"
+      ></rating>
+    </div>
+    <div class="d-flex justify-content-center align-items-center mb-3">
+      <label class="label-star mb-0">Dịch vụ</label><br />
+      <rating
+        class="star-acc"
+        [max]="5"
+        formControlName="service"
+        [readonly]="!!reviewInBooking"
+      ></rating>
+    </div>
+    <mat-form-field>
+      <mat-label>Cảm nghĩ của bạn về khách sạn</mat-label>
+      <textarea
+        matInput
+        formControlName="description"
+        [readonly]="!!reviewInBooking"
+      ></textarea>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Đóng</button>
+    <button *ngIf="!!!reviewInBooking" type="submit" mat-button>
+      Cập nhật
+    </button>
+  </div>
+</form>

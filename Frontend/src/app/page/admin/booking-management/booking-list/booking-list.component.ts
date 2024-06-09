@@ -106,7 +106,6 @@ export class BookingListComponent implements AfterViewInit {
   }
 
   changeStatusPopup(bookingId: number) {
-    console.log(bookingId);
     const dialogRef = this.dialog.open(ChangeStatusDialogComponent, {
       data: {
         bookingId: bookingId,

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { Observable, delay, forkJoin, of, switchMap } from 'rxjs';
 import { DATETIME_FORMAT2, DATETIME_FORMAT3 } from 'src/app/constant/Abstract.constant';
@@ -9,6 +10,8 @@ import { BasePagingService } from 'src/app/service/base-paging.service';
 import { BookingService } from 'src/app/service/booking.service';
 import { RoomService } from 'src/app/service/room.service';
 import { Util } from 'src/app/util/util';
+import { CancelBookingDialogComponent } from './cancel-booking-dialog/cancel-booking-dialog.component';
+import { CreateReviewDialogComponent } from './create-review-dialog/create-review-dialog.component';
 
 @Component({
   selector: 'app-booking-history',
@@ -30,6 +33,7 @@ export class BookingHistoryComponent implements OnInit {
   pageOptions: number[] = [3, 5, 10, 25, 50];
 
   constructor(
+    private dialog: MatDialog,
     private $basePagingService: BasePagingService,
     private $bookingService: BookingService,
     private $roomService: RoomService,
@@ -70,6 +74,46 @@ export class BookingHistoryComponent implements OnInit {
     return this.listAccommodation.find((acc) => acc.accommodationId === accommodationId)!;
   }
 
+  cancel(bookingId: number) {
+    const dialogRef = this.dialog.open(CancelBookingDialogComponent, {
+      data: {
+        bookingId: bookingId,
+      },
+      position: {
+        top: '200px',
+      },
+      width: '576px',
+      disableClose: true,
+      autoFocus: false,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result && result.isComplete) {
+        this.getBookings();
+      }
+    });
+  }
+
+  review(bookingId: number) {
+    const dialogRef = this.dialog.open(CreateReviewDialogComponent, {
+      data: {
+        bookingId: bookingId,
+      },
+      position: {
+        top: '200px',
+      },
+      width: '576px',
+      disableClose: true,
+      autoFocus: false,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result && result.isComplete) {
+        this.getBookings();
+      }
+    });
+  }
+
   formatDate(param: string) {
     const date = Util.parseDate2(param, DATETIME_FORMAT3);
     return Util.formatDate(date, DATETIME_FORMAT2);
@@ -80,7 +124,7 @@ export class BookingHistoryComponent implements OnInit {
     return Util.subtractDate1(date1, new Date());
   }
 
-  subtract2DaysFromNow() {
-    return Util.formatDate(moment().subtract(2, 'days').toDate(), DATETIME_FORMAT2);
+  subtractDaysFromNow(num: number) {
+    return Util.formatDate(moment().subtract(num, 'days').toDate(), DATETIME_FORMAT2);
   }
 }

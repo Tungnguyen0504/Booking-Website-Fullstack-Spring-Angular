@@ -2643,6 +2643,10 @@ img {
   height: var(--mat-expansion-header-collapsed-state-height);
 }
 
+.form-address .mat-expansion-panel:not([class*="mat-elevation-z"]) {
+  box-shadow: unset;
+}
+
 /* user-info-page */
 .user-page .nav .nav-item a {
   height: 50px;
@@ -2673,4 +2677,19 @@ img {
 
 .form-authen .mat-mdc-form-field-subscript-wrapper {
   height: 0;
+}
+
+/* star-review */
+.star-acc {
+  font-size: 2rem;
+  color: #ffc107 !important;
+}
+
+/* review-dialog */
+.review-dialog .mat-mdc-form-field-subscript-wrapper {
+  height: 0;
+}
+
+.dropdown-menu {
+  z-index: 9000;
 }

@@ -36,7 +36,7 @@ export class AccessGuard {
   isAdmin(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     return this.$userService.getCurrentUser().pipe(
       switchMap((res) => {
-        console.log('admin')
+        console.log('role: admin');
 
         if (res && res.role == 'ADMIN') {
           return of(true);
@@ -50,7 +50,7 @@ export class AccessGuard {
   isSeller(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     return this.$userService.getCurrentUser().pipe(
       switchMap((res) => {
-        console.log('seller')
+        console.log('role: seller');
 
         if (res && res.role == 'SELLER') {
           return of(true);

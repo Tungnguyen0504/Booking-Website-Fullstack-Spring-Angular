@@ -21,9 +21,7 @@ export class LoadingInterceptor implements HttpInterceptor {
         finalize(() => {
           this.totalRequests--;
           if (this.totalRequests == 0) {
-            setTimeout(() => {
-              this.$loaderService.setLoading(false);
-            }, 200);
+            this.$loaderService.setLoading(false);
           }
         })
       );

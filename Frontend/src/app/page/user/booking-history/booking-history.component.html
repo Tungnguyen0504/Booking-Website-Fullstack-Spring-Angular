@@ -92,16 +92,12 @@
                 <small
                   *ngIf="
                     data.status === 'CONFIRMED' &&
-                    subtractDateToNow(data.fromDate) >= 2
+                    subtractDateToNow(data.fromDate) >= 1
                   "
                   class="text-muted"
                   >Miễn phí hủy đến
-                  {{ subtract2DaysFromNow() }}
+                  {{ subtractDaysFromNow(1) }}
                 </small>
-                <!-- <c:if test="${dateDiff[loop.index] >= 0 && dateDiff[loop.index] <= 2}">
-                                    <small class="text-muted">
-                                        Đã qua thời gian hủy đặt phòng
-                                    </small> -->
               </div>
             </div>
             <div class="col-md-3 booking-btn">
@@ -114,8 +110,20 @@
                   Thanh toán
                 </a>
                 <a
+                  *ngIf="
+                    data.status === 'CONFIRMED' &&
+                    subtractDateToNow(data.fromDate) >= 1
+                  "
+                  type="button"
+                  class="btn palatin-btn bg-secondary w-100 mb-1"
+                  (click)="cancel(data.id)"
+                >
+                  Huỷ đặt
+                </a>
+                <a
                   *ngIf="data.status === 'FINISHED'"
-                  class="rating-btn btn palatin-btn bg-warning w-100 mb-1"
+                  class="review-btn btn palatin-btn bg-warning w-100 mb-1"
+                  (click)="review(data.id)"
                 >
                   Đánh giá
                 </a>

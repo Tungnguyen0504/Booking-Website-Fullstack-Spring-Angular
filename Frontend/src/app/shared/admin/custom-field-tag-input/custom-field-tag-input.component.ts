@@ -10,15 +10,11 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { Observable, map, startWith } from 'rxjs';
+import { Observable, map, of, startWith } from 'rxjs';
+import { PropertyConfigService } from 'src/app/service/property-config.service';
 
 @Component({
   selector: 'app-custom-field-tag-input',
@@ -27,7 +23,7 @@ import { Observable, map, startWith } from 'rxjs';
 })
 export class CustomFieldTagInputComponent implements OnInit {
   @Input() requestForm!: FormGroup;
-  @Input() requestList: string[] = [];
+  @Input() property: string = '';
   @Input() txtLabel?: string;
   @Input() txtPlaceHolder?: string;
   @Input() isRequired?: boolean;
@@ -43,35 +39,27 @@ export class CustomFieldTagInputComponent implements OnInit {
 
   announcer = inject(LiveAnnouncer);
 
-  constructor(private $formBuilder: FormBuilder) {
-    setTimeout(() => {
-      this.filteredResponse = this.form?.get('tagInputCtrl')?.valueChanges.pipe(
-        startWith(null),
-        map((fruit: string | null) =>
-          fruit ? this._filter(fruit) : this.requestList.slice()
-        )
-      );
-    }, 500);
-  }
+  constructor(
+    private $formBuilder: FormBuilder,
+    private $propertyConfigService: PropertyConfigService
+  ) {}
 
   ngOnInit(): void {
     this.buildFormGroup();
+    this.filteredResponse = this.$propertyConfigService.getContents(this.property);
   }
 
   buildFormGroup() {
     this.form = this.$formBuilder.group({
       tagInputCtrl: new FormControl(''),
-      responseList: new FormControl(
-        [],
-        this.isRequired ? Validators.required : null
-      ),
+      responseList: new FormControl([], this.isRequired ? Validators.required : null),
     });
   }
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim().split('|');
     for (let i = 0; i < value.length; i++) {
-      const strTemp = value[i].trim(); 
+      const strTemp = value[i].trim();
       if (strTemp && !this.responseList.includes(strTemp)) {
         this.responseList.push(strTemp);
         this.eventEmitter.emit(this.responseList);
@@ -96,13 +84,5 @@ export class CustomFieldTagInputComponent implements OnInit {
     }
     this.tagInput.nativeElement.value = '';
     this.form?.get('tagInputCtrl')!.setValue(null);
-  }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.requestList.filter((fruit) =>
-      fruit.toLowerCase().includes(filterValue)
-    );
   }
 }

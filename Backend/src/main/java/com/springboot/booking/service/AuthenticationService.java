@@ -10,20 +10,22 @@ import com.springboot.booking.dto.response.AuthenticationResponse;
 import com.springboot.booking.exeption.GlobalException;
 import com.springboot.booking.model.ERole;
 import com.springboot.booking.model.ETokenType;
-import com.springboot.booking.model.EmailDetail;
+import com.springboot.booking.model.entity.File;
 import com.springboot.booking.model.entity.Token;
 import com.springboot.booking.model.entity.User;
+import com.springboot.booking.repository.FileRepository;
 import com.springboot.booking.repository.TokenRepository;
 import com.springboot.booking.repository.UserRepository;
-import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 
@@ -36,24 +38,38 @@ public class AuthenticationService {
 
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
+    private final FileRepository fileRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final AuthenticationFacade authenticationFacade;
 
+    @Transactional
     public void register(RegisterRequest request) {
-        userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new GlobalException(ExceptionResult.EXISTED_EMAIL));
+        User checkEmail = userRepository.findByEmail(request.getEmail()).orElse(null);
+        if(Objects.nonNull(checkEmail)) {
+            throw new GlobalException(ExceptionResult.EXISTED_EMAIL);
+        }
 
-        userRepository.findByPhoneNumber(request.getPhoneNumber())
-                .orElseThrow(() -> new GlobalException(ExceptionResult.EXISTED_PHONE_NUMBER));
+        User checkPhoneNumber = userRepository.findByPhoneNumber(request.getPhoneNumber()).orElse(null);
+        if(Objects.nonNull(checkPhoneNumber)) {
+            throw new GlobalException(ExceptionResult.EXISTED_PHONE_NUMBER);
+        }
 
-        userRepository.save(User.builder()
+        User user = User.builder()
                 .phoneNumber(request.getPhoneNumber())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(ERole.USER)
                 .status(Constant.STATUS_ACTIVE)
+                .build();
+        userRepository.save(user);
+
+        fileRepository.save(File.builder()
+                .entityId(String.valueOf(user.getId()))
+                .entityName(Util.extractTableName(User.class))
+                .fileType(MediaType.IMAGE_JPEG_VALUE)
+                .filePath("user/user-default.jpg")
                 .build());
     }
 

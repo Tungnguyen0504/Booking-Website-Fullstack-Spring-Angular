@@ -275,7 +275,7 @@
             </div>
             <div class="col-md-12 form-group">
               <app-custom-field-tag-input
-                [requestList]="listViewSeletection"
+                [property]="'view'"
                 [txtLabel]="'Mô tả tầm nhìn của phòng'"
                 [txtPlaceHolder]="'Nhập mô tả tầm nhìn của phòng ...'"
                 (eventEmitter)="onViewEmitter($event)"
@@ -283,7 +283,7 @@
             </div>
             <div class="col-md-12 form-group">
               <app-custom-field-tag-input
-                [requestList]="listDinningRoomSeletection"
+                [property]="'dinningroom'"
                 [txtLabel]="'Mô tả phòng bếp'"
                 [txtPlaceHolder]="'Nhập mô tả phòng bếp ...'"
                 (eventEmitter)="onDinningRoomEmitter($event)"
@@ -291,7 +291,7 @@
             </div>
             <div class="col-md-12 form-group">
               <app-custom-field-tag-input
-                [requestList]="listBathRoomSeletection"
+                [property]="'bathroom'"
                 [txtLabel]="'Mô tả phòng tắm'"
                 [txtPlaceHolder]="'Nhập mô tả phòng tắm ...'"
                 (eventEmitter)="onBathRoomEmitter($event)"
@@ -299,7 +299,7 @@
             </div>
             <div class="col-md-12 form-group">
               <app-custom-field-tag-input
-                [requestList]="listRoomServiceSeletection"
+                [property]="'roomService'"
                 [txtLabel]="'Mô tả dịch vụ phòng'"
                 [txtPlaceHolder]="'Nhập mô tả dịch vụ phòng ...'"
                 (eventEmitter)="onRoomServiceEmitter($event)"

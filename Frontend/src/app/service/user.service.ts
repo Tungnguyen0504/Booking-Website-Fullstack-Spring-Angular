@@ -47,7 +47,7 @@ export class UserService {
     return this.$baseApiService.putWithRequestBody(`${URL}/reset-password`, request);
   }
 
-  VerifyEmail(email: string) {
+  verifyEmail(email: string) {
     return this.$baseApiService.postWithRequestBody(`${URL}/verify-email`, { email: email });
   }
 }

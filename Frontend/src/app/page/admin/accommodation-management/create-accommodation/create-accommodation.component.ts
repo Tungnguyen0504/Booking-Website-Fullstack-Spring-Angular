@@ -17,29 +17,6 @@ export class CreateAccommodationComponent implements OnInit {
 
   listAccommodationType: AccommodationType[] = [];
 
-  specialArounds: string[] = [];
-  specialAroundOptions: string[] = [];
-  bathRooms: string[] = [];
-  bathRoomOptions: string[] = [];
-  bedRooms: string[] = [];
-  bedRoomOptions: string[] = [];
-  dinningRooms: string[] = [];
-  dinningRoomOptions: string[] = [];
-  languages: string[] = [];
-  languageOptions: string[] = [];
-  internets: string[] = [];
-  internetOptions: string[] = [];
-  drinkAndFoods: string[] = [];
-  drinkAndFoodOptions: string[] = [];
-  receptionServices: string[] = [];
-  receptionServiceOptions: string[] = [];
-  cleaningServices: string[] = [];
-  cleaningServiceOptions: string[] = [];
-  pools: string[] = [];
-  poolOptions: string[] = [];
-  others: string[] = [];
-  otherOptions: string[] = [];
-
   constructor(
     private $formBuilder: FormBuilder,
     private $accommodationService: AccommodationService,
@@ -142,14 +119,12 @@ export class CreateAccommodationComponent implements OnInit {
   }
 
   create() {
-    console.log(this.form.valid);
     if (this.form.valid) {
       this.$accommodationService.createNewAccommodation(this.form.value).subscribe({
         next: (response) => {
-          this.$alertService.error(response.message);
-        },
-        error: (error) => {
-          this.$alertService.error(error.error.message);
+          if (response) {
+            this.$alertService.success(response.message);
+          }
         },
       });
     }

@@ -2,9 +2,3 @@
 .date-input[readonly] {
   background-color: transparent;
 }
-
-/*star-rating*/
-.star-acc {
-  font-size: 1.7rem;
-  color: #ffc107 !important;
-}

@@ -19,11 +19,6 @@ export class CreateRoomComponent implements OnInit {
 
   // test: Observable<Accommodation> = new Observable<Accommodation>();
 
-  listViewSeletection: string[] = [];
-  listDinningRoomSeletection: string[] = [];
-  listBathRoomSeletection: string[] = [];
-  listRoomServiceSeletection: string[] = [];
-
   form: FormGroup = {} as FormGroup;
 
   constructor(

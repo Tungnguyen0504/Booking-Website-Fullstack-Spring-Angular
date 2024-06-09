@@ -1,0 +1,13 @@
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+  <h1 mat-dialog-title>Lý do hủy đặt phòng</h1>
+  <div mat-dialog-content class="d-flex flex-column">
+    <mat-form-field>
+      <mat-label>Lý do</mat-label>
+      <textarea matInput formControlName="reason"></textarea>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Đóng</button>
+    <button type="submit" mat-button>Cập nhật</button>
+  </div>
+</form>

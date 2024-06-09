@@ -5,7 +5,6 @@ import { UserRoutingModule } from './user-routing.module';
 import { UserComponent } from './user.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SearchAccommodationComponent } from './search-accommodation/search-accommodation.component';
-import { UserHeaderComponent } from 'src/app/shared/user/user-header/user-header.component';
 import { UserHomeComponent } from './user-home/user-home.component';
 import { CityBlockComponent } from 'src/app/shared/user/city-block/city-block.component';
 import { BookNowComponent } from 'src/app/shared/user/book-now/book-now.component';
@@ -42,11 +41,13 @@ import { UserInformationComponent } from './user-information/user-information.co
 import { GenericComponentModule } from 'src/app/shared/generic-component.module';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { BookingHistoryComponent } from './booking-history/booking-history.component';
+import { CancelBookingDialogComponent } from './booking-history/cancel-booking-dialog/cancel-booking-dialog.component';
+import { RatingModule } from 'ngx-bootstrap/rating';
+import { CreateReviewDialogComponent } from './booking-history/create-review-dialog/create-review-dialog.component';
 
 @NgModule({
   declarations: [
     UserComponent,
-    // UserHeaderComponent,
     CityBlockComponent,
     BookNowComponent,
     SearchAccommodationComponent,
@@ -63,6 +64,8 @@ import { BookingHistoryComponent } from './booking-history/booking-history.compo
     UserInformationComponent,
     ChangePasswordComponent,
     BookingHistoryComponent,
+    CancelBookingDialogComponent,
+    CreateReviewDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -89,6 +92,7 @@ import { BookingHistoryComponent } from './booking-history/booking-history.compo
     MatTabsModule,
     LightgalleryModule,
     CarouselModule,
+    RatingModule,
     GenericComponentModule,
   ],
 })

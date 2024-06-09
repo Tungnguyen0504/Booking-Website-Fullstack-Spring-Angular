@@ -65,6 +65,9 @@ public class Booking extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @OneToOne(mappedBy = "booking")
+    private Review review;
+
     @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL)
     private List<BookingDetail> bookingDetails = new ArrayList<>();
 }

@@ -23,4 +23,8 @@ export class BookingDetailSummaryComponent {
   subtractDate1(var1: Date, var2: Date) {
     return Util.subtractDate1(var1, var2);
   }
+
+  get currentDate() {
+    return new Date();
+  }
 }

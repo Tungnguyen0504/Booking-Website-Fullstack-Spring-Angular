@@ -15,6 +15,7 @@ import { UserTabListComponent } from './generic/user-tab/user-tab.component';
 import { FormVerificationDialogComponent } from './generic/form-verification-dialog/form-verification-dialog.component';
 import { ErrorComponent } from './generic/error/error.component';
 import { UserHeaderComponent } from './user/user-header/user-header.component';
+import { UserFooterComponent } from './generic/user-footer/user-footer.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { UserHeaderComponent } from './user/user-header/user-header.component';
     UserTabListComponent,
     FormVerificationDialogComponent,
     ErrorComponent,
-    UserHeaderComponent
+    UserHeaderComponent,
+    UserFooterComponent,
   ],
   imports: [
     CommonModule,
@@ -44,7 +46,8 @@ import { UserHeaderComponent } from './user/user-header/user-header.component';
     FileInputComponent,
     UserTabListComponent,
     FormVerificationDialogComponent,
-    UserHeaderComponent
+    UserHeaderComponent,
+    UserFooterComponent,
   ],
 })
 export class GenericComponentModule {}

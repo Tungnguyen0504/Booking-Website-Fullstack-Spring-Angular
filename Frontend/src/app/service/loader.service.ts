@@ -9,7 +9,9 @@ export class LoaderService {
   constructor() {}
 
   setLoading(loading: boolean) {
-    this.loading = loading;
+    setTimeout(() => {
+      this.loading = loading;
+    });
   }
 
   getLoading(): boolean {

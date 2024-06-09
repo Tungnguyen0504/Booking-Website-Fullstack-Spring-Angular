@@ -12,7 +12,10 @@ npm-debug.log
 yarn-error.log
 
 # IDEs and editors
-.idea/
+*.iws
+*.iml
+*.ipr
+/Backend/.idea/
 .project
 .classpath
 .c9/
@@ -55,12 +58,6 @@ target/
 .settings
 .springBeans
 .sts4-cache
-
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
 
 ### NetBeans ###
 /nbproject/private/

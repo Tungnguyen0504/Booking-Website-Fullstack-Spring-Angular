@@ -71,8 +71,9 @@ public class UserService {
         user.setEmail(request.getEmail());
         user.setPhoneNumber(request.getPhoneNumber());
         user.setDateOfBirth(DatetimeUtil.parseDateDefault(request.getDateOfBirth()));
-        user.setAddress(addressService.createAddress(Long.valueOf(request.getWardId()), request.getSpecificAddress()));
         userRepository.save(user);
+
+        addressService.update(user.getAddress().getId(), Long.valueOf(request.getWardId()), request.getSpecificAddress());
 
         fileService.executeSaveImages(request.getFiles()
                 , Constant.FILE_PREFIX_USER

@@ -53,12 +53,13 @@
                   >
                     <img
                       class="rounded-circle"
-                      width="45"
-                      height="45"
                       [src]="user.files[0].base64String"
+                      style="object-fit: cover; height: 45px; width: 45px"
                     />
                     <div class="ml-3">
-                      <span class="text-truncate">{{ user!.lastName }} {{ user!.firstName }}</span><br />
+                      <span class="text-truncate"
+                        >{{ user!.lastName }} {{ user!.firstName }}</span
+                      ><br />
                       <small class="float-left text-warning font-weight-light"
                         >Xem chi tiết</small
                       >

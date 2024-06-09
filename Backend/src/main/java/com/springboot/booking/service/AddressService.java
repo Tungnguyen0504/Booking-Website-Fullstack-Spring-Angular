@@ -85,4 +85,14 @@ public class AddressService {
                 .ward(ward)
                 .build());
     }
+
+    public void update(Long id, Long wardId, String specificAddress) {
+        Address address = addressRepository.findById(id)
+                .orElseThrow(() -> new GlobalException(ExceptionResult.CUSTOM_FIELD_NOT_FOUND, "địa chỉ"));
+        Ward ward = wardRepository.findById(wardId)
+                .orElseThrow(() -> new GlobalException(ExceptionResult.CUSTOM_FIELD_NOT_FOUND, "phường/xã"));
+        address.setWard(ward);
+        address.setSpecificAddress(specificAddress);
+        addressRepository.save(address);
+    }
 }

@@ -40,7 +40,7 @@ export class FormVerificationDialogComponent implements OnInit {
   }
 
   initApi() {
-    this.$userService.VerifyEmail(this.dialogData.email).subscribe({
+    this.$userService.verifyEmail(this.dialogData.email).subscribe({
       next: (response) => {
         this.code = response.verifyCode;
         console.log(this.code);
