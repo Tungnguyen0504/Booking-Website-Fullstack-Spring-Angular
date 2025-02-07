@@ -1,11 +1,6 @@
 package com.springboot.booking.service;
 
-import com.springboot.booking.common.Constant;
-import com.springboot.booking.common.Util;
 import com.springboot.booking.common.paging.BasePagingRequest;
-import com.springboot.booking.common.paging.FilterRequest;
-import com.springboot.booking.model.FieldType;
-import com.springboot.booking.model.Operator;
 import com.springboot.booking.model.entity.Accommodation;
 import com.springboot.booking.model.entity.Room;
 import jakarta.persistence.criteria.*;
@@ -15,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 

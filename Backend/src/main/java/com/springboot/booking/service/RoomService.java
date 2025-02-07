@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springboot.booking.common.Constant;
 import com.springboot.booking.common.ExceptionResult;
-import com.springboot.booking.common.Util;
+import com.springboot.booking.utils.Util;
 import com.springboot.booking.dto.request.CreateUpdateRoomRequest;
 import com.springboot.booking.dto.response.RoomResponse;
 import com.springboot.booking.exeption.GlobalException;

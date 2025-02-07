@@ -12,6 +12,7 @@ import com.springboot.booking.model.EmailDetail;
 import com.springboot.booking.model.entity.File;
 import com.springboot.booking.model.entity.User;
 import com.springboot.booking.repository.UserRepository;
+import com.springboot.booking.utils.Util;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -22,6 +23,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+
+import static com.springboot.booking.utils.Util.generateVerificationCode;
 
 @Service
 @RequiredArgsConstructor
@@ -95,7 +98,7 @@ public class UserService {
         } else {
             email = getCurrentUser().getEmail();
         }
-        String verifyCode = Util.generateVerificationCode();
+        String verifyCode = generateVerificationCode();
         emailService.sendHtmlEmail(EmailDetail.builder()
                 .recipient(email)
                 .subject(Constant.MAIL_DETAIL_SUBJECT)

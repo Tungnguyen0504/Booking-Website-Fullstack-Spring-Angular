@@ -2,7 +2,7 @@ package com.springboot.booking.service;
 
 import com.springboot.booking.common.Constant;
 import com.springboot.booking.common.ExceptionResult;
-import com.springboot.booking.common.Util;
+import com.springboot.booking.utils.Util;
 import com.springboot.booking.config.AuthenticationFacade;
 import com.springboot.booking.dto.request.LoginRequest;
 import com.springboot.booking.dto.request.RegisterRequest;

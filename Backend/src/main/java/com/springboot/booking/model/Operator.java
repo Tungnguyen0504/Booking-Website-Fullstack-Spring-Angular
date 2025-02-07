@@ -1,7 +1,7 @@
 package com.springboot.booking.model;
 
 import com.springboot.booking.common.ExceptionResult;
-import com.springboot.booking.common.Util;
+import com.springboot.booking.utils.Util;
 import com.springboot.booking.exeption.GlobalException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.domain.Specification;

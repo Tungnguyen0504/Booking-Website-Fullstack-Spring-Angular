@@ -4,7 +4,6 @@ import com.springboot.booking.dto.response.AccommodationTypeResponse;
 import com.springboot.booking.service.AccommodationTypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,10 +17,10 @@ import static com.springboot.booking.common.Constant.PATH_V1;
 @RequiredArgsConstructor
 public class AccommodationTypeController {
 
-    private final AccommodationTypeService accommodationTypeSerive;
+    private final AccommodationTypeService accommodationTypeService;
 
     @GetMapping("/get-all-accommodation-type")
     public ResponseEntity<List<AccommodationTypeResponse>> getAllAccommodationType() {
-        return ResponseEntity.ok(accommodationTypeSerive.getAllAccommodationType());
+        return ResponseEntity.ok(accommodationTypeService.getAllAccommodationType());
     }
 }
