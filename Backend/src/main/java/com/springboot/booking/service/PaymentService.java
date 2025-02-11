@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springboot.booking.common.DatetimeUtil;
 import com.springboot.booking.common.ExceptionResult;
-import com.springboot.booking.utils.Util;
+import com.springboot.booking.utils.ObjectUtils;
 import com.springboot.booking.dto.request.BookingCaptureRequest;
 import com.springboot.booking.dto.request.BookingDetailRequest;
 import com.springboot.booking.dto.request.BookingRequest;
@@ -88,7 +88,7 @@ public class PaymentService {
     private Map<String, Object> generateTokenPaypal() throws JsonProcessingException {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        headers.set("Authorization", Util.getBasicAuth(clientId, secret));
+        headers.set("Authorization", ObjectUtils.getBasicAuth(clientId, secret));
 
         MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
         requestBody.add("grant_type", "client_credentials");

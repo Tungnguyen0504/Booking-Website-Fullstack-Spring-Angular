@@ -1,7 +1,7 @@
 package com.springboot.booking.model;
 
 import com.springboot.booking.common.ExceptionResult;
-import com.springboot.booking.utils.Util;
+import com.springboot.booking.utils.ObjectUtils;
 import com.springboot.booking.exeption.GlobalException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.domain.Specification;
@@ -17,7 +17,7 @@ public enum Operator {
             String[] keyArr = key.split("\\.");
             return values.stream()
                     .map(value -> (Specification<T>) (root, query, criteriaBuilder)
-                            -> criteriaBuilder.equal(Util.getPath(root, key), value)
+                            -> criteriaBuilder.equal(ObjectUtils.getPath(root, key), value)
                     )
                     .reduce(Specification::or)
                     .orElse(null);
@@ -29,7 +29,7 @@ public enum Operator {
                 throw new GlobalException(ExceptionResult.PARAMETER_INVALID);
             }
             return (root, query, criteriaBuilder)
-                    -> criteriaBuilder.equal(Util.getPath(root, key), values.get(0));
+                    -> criteriaBuilder.equal(ObjectUtils.getPath(root, key), values.get(0));
         }
     },
     BETWEEN {
@@ -38,7 +38,7 @@ public enum Operator {
                 throw new GlobalException(ExceptionResult.PARAMETER_INVALID);
             }
             return (root, query, criteriaBuilder)
-                    -> criteriaBuilder.between(Util.getPath(root, key), values.get(0), values.get(1));
+                    -> criteriaBuilder.between(ObjectUtils.getPath(root, key), values.get(0), values.get(1));
         }
     },
     LIKE {
@@ -47,7 +47,7 @@ public enum Operator {
                 throw new GlobalException(ExceptionResult.PARAMETER_INVALID);
             }
             return (root, query, criteriaBuilder)
-                    -> criteriaBuilder.like(Util.getPath(root, key), ("%" + values.get(0) + "%"));
+                    -> criteriaBuilder.like(ObjectUtils.getPath(root, key), ("%" + values.get(0) + "%"));
         }
     };
 

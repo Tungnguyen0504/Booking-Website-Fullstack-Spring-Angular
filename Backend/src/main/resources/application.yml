@@ -1,0 +1,146 @@
+spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
+  data:
+    redis:
+      #      host: 10.50.2.111
+#      host: 10.50.2.167
+#      port: 6379
+      #      password: 1
+#      password: redis@1234
+  datasource:
+    url: jdbc:postgresql://10.1.61.130:5432/bpm_assets_management?currentSchema=bpm_dev&autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&nullCatalogMeansCurrent=true
+    driver-class-name: org.postgresql.Driver
+    username: bpm
+    password: Bpm@2024
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        default_schema: bpm_dev
+        format_sql: true
+        use_sql_comments: true
+    show-sql: true
+  flyway:
+    schemas: bpm_dev
+  kafka:
+    bootstrap-servers: 10.1.61.130:9092
+    consumer:
+      topics:
+        fund-transfer:
+          topic: bpm-ams-trigger-create-fund-transfer-local
+        app-action:
+          topic: bpm-ams-trigger-action-local
+camunda:
+  bpm:
+    client:
+      name: ENGINE_REST
+      base-url: http://10.1.62.17:8080/engine-rest
+  process:
+    tenant-id: BPM
+    version-tag: BPM-DEV
+feign:
+  client:
+    camunda:
+      process-engine:
+        name: process-engine-client
+        correlate: /process-definition
+      process-instance:
+        name: process-instance-client
+        correlate: /process-instance
+      task-engine:
+        name: task-engine-client
+        correlate: /task
+    esb:
+      name: esb-service
+      url: https://ibmbdev.ncb-bank.vn/esbuat7801
+      endpoints:
+        fund-transfer: /funds-transfer-service/v1/funds-transfer-depreciation
+server:
+  port: 8080
+  servlet:
+    context-path: /ams
+  url: http://localhost:${server.port}${server.servlet.context-path}
+  allowed-file-types:
+    - extension: .xls
+      mimeType: application/vnd.ms-excel
+    - extension: .xlsx
+      mimeType: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+microservice:
+  wcs:
+    name: bpm-workflow-common
+    host: https://bpm-api.dev.ncb-bank.vn/wcs
+    path:
+      correlate: /api/v1
+  bis:
+    name: bpm-integration
+    host: https://bpm-api.dev.ncb-bank.vn/bis
+    path:
+      correlate: /api/v1
+  bns:
+    name: bpm-notification
+    host: https://bpm-api.dev.ncb-bank.vn/bns
+    path:
+      correlate: /api/v1
+pre-authorize:
+  enabled: false
+logging:
+  level:
+    root: INFO
+application:
+  default-day-ft: 27
+  narrative: NCB HT PHAN BO
+  app-code-prefix: AMS
+  workflow:
+    code: AMS_DPC
+    init:
+      process-step: init
+      process-model: initMakerModel
+      activity: KT_KHOI_TAO
+    checker:
+      process-step: next
+      process-model: initCheckerModel
+      activity: KT_DUYET
+  task:
+    default-assignee: camunda
+    assignee: assignee
+  notification:
+    front-end-url: https://bpm-dev.ncb-bank.vn/assets
+    alert:
+      success-template: NCB15
+      error-template: NCB16
+      view-application: /view-lot/
+      view-asset: /view/
+    final-email:
+      template-code: NCB17
+      variable:
+        current-term: currentTerm
+        total-quantity: totalQuantity
+        done-quantity: doneQuantity
+        error-quantity: errorQuantity
+        url: url
+        url-end-point: "${application.notification.front-end-url}/list-schedule?fundTransferStatuses=DONE&fundTransferStatuses=ERROR&recordStatus=APPROVED&valueDate={0}"
+  esb:
+    service-version: 1
+    source-id: MB
+    target-id: T24
+    user-id: MB
+    password: RUJBTksxMjM=
+    function-code: PAYMENT-FUNDS-TRANSFER-DEPRECIATION-T24
+    fund-transfer-channel: KHTS
+    transaction-type: AC
+    ordering-cust: NCB
+  bis-code:
+    company: AMS_GET_INFO_COM_ODS
+    dao: AMS_GET_INFO_DAO_ODS
+    holi-day: AMS_GET_INFO_HOLIDAY_ODS
+    account: AMS_GET_INFO_ACCOUNT_ODS
+    category: AMS_GET_INFO_CATEGORY_ODS
+  upload:
+    size: 100
+mybatis:
+  config-location: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath:mybatis/mapper/*.xml
+  type-aliases-package: vn.ncb.bpm.bam.entities
+  lazy-initialization: true

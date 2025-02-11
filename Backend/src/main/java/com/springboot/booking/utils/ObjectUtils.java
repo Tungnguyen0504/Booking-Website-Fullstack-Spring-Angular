@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 @Log4j2
 @UtilityClass
-public class Util {
+public class ObjectUtils {
   public static final Random RANDOM = new Random();
 
   public static String generateVerificationCode() {

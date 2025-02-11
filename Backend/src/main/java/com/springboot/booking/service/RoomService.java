@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springboot.booking.common.Constant;
 import com.springboot.booking.common.ExceptionResult;
-import com.springboot.booking.utils.Util;
+import com.springboot.booking.utils.ObjectUtils;
 import com.springboot.booking.dto.request.CreateUpdateRoomRequest;
 import com.springboot.booking.dto.response.RoomResponse;
 import com.springboot.booking.exeption.GlobalException;
@@ -35,7 +35,7 @@ public class RoomService {
     public void createRoom(CreateUpdateRoomRequest request) throws JsonProcessingException {
         Accommodation accommodation = accommodationRepository.findById(Long.valueOf(request.getAccommodationId()))
                 .orElseThrow(() -> new GlobalException(ExceptionResult.RESOURCE_NOT_FOUND,
-                        String.format("File %s", Util.extractTableName(Accommodation.class))));
+                        String.format("File %s", ObjectUtils.extractTableName(Accommodation.class))));
 
         List<Room> checkRooms = roomRepository.findByAccommodationIdAndRoomType(Long.valueOf(request.getAccommodationId()), request.getRoomType());
         if (!CollectionUtils.isEmpty(checkRooms)) {
@@ -64,7 +64,7 @@ public class RoomService {
         fileService.executeSaveImages(request.getFiles()
                 , Constant.FILE_PREFIX_ROOM
                 , String.valueOf(room.getId())
-                , Util.extractTableName(Room.class));
+                , ObjectUtils.extractTableName(Room.class));
     }
 
     public RoomResponse getById(Long id) {
@@ -83,7 +83,7 @@ public class RoomService {
 
     @SneakyThrows(JsonProcessingException.class)
     public RoomResponse transferToObject(Room room) {
-        List<File> files = fileService.getFilesByEntityIdAndEntityName(String.valueOf(room.getId()), Util.extractTableName(Room.class));
+        List<File> files = fileService.getFilesByEntityIdAndEntityName(String.valueOf(room.getId()), ObjectUtils.extractTableName(Room.class));
         List<String> fileBytes = files.stream()
                 .map(file -> fileService.encodeImageFileToString(file.getFilePath()))
                 .toList();

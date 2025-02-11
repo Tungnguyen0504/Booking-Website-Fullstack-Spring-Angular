@@ -2,7 +2,7 @@ package com.springboot.booking.service;
 
 import com.springboot.booking.common.Constant;
 import com.springboot.booking.common.ExceptionResult;
-import com.springboot.booking.utils.Util;
+import com.springboot.booking.utils.ObjectUtils;
 import com.springboot.booking.config.AuthenticationFacade;
 import com.springboot.booking.dto.request.LoginRequest;
 import com.springboot.booking.dto.request.RegisterRequest;
@@ -67,7 +67,7 @@ public class AuthenticationService {
 
         fileRepository.save(File.builder()
                 .entityId(String.valueOf(user.getId()))
-                .entityName(Util.extractTableName(User.class))
+                .entityName(ObjectUtils.extractTableName(User.class))
                 .fileType(MediaType.IMAGE_JPEG_VALUE)
                 .filePath("user/user-default.jpg")
                 .build());

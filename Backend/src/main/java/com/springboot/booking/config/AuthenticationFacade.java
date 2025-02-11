@@ -7,15 +7,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuthenticationFacade {
 
-    public Authentication getAuthentication() {
-        return SecurityContextHolder.getContext().getAuthentication();
-    }
+  public Authentication getAuthentication() {
+    return SecurityContextHolder.getContext().getAuthentication();
+  }
 
-    public void setAuthentication(Authentication authentication) {
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-    }
+  public void setAuthentication(Authentication authentication) {
+    SecurityContextHolder.getContext().setAuthentication(authentication);
+  }
 
-    public void clearContext() {
-        SecurityContextHolder.clearContext();
-    }
+  public void clearContext() {
+    SecurityContextHolder.clearContext();
+  }
 }

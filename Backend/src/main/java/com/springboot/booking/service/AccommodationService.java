@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springboot.booking.common.Constant;
 import com.springboot.booking.common.ExceptionResult;
-import com.springboot.booking.utils.Util;
+import com.springboot.booking.utils.ObjectUtils;
 import com.springboot.booking.common.paging.BasePagingResponse;
 import com.springboot.booking.dto.request.CreateUpdateAccommodationRequest;
 import com.springboot.booking.dto.request.SearchAccommodationRequest;
@@ -133,7 +133,7 @@ public class AccommodationService {
         fileService.executeSaveImages(request.getFiles()
                 , Constant.FILE_PREFIX_ACCOMMODATION
                 , String.valueOf(accommodation.getId())
-                , Util.extractTableName(Accommodation.class));
+                , ObjectUtils.extractTableName(Accommodation.class));
     }
 
     public void inactive(Long id) {
@@ -145,7 +145,7 @@ public class AccommodationService {
 
     @SneakyThrows(JsonProcessingException.class)
     private AccommodationResponse transferToDto(Accommodation accommodation) {
-        List<File> files = fileService.getFilesByEntityIdAndEntityName(String.valueOf(accommodation.getId()), Util.extractTableName(Accommodation.class));
+        List<File> files = fileService.getFilesByEntityIdAndEntityName(String.valueOf(accommodation.getId()), ObjectUtils.extractTableName(Accommodation.class));
         List<String> fileBytes = files.stream()
                 .map(file -> fileService.encodeImageFileToString(file.getFilePath()))
                 .toList();

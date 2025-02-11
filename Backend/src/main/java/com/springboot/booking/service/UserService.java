@@ -12,7 +12,7 @@ import com.springboot.booking.model.EmailDetail;
 import com.springboot.booking.model.entity.File;
 import com.springboot.booking.model.entity.User;
 import com.springboot.booking.repository.UserRepository;
-import com.springboot.booking.utils.Util;
+import com.springboot.booking.utils.ObjectUtils;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -24,12 +24,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
-import static com.springboot.booking.utils.Util.generateVerificationCode;
+import static com.springboot.booking.utils.ObjectUtils.generateVerificationCode;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
-
     private final AuthenticationFacade authenticationFacade;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
@@ -81,7 +80,7 @@ public class UserService {
         fileService.executeSaveImages(request.getFiles()
                 , Constant.FILE_PREFIX_USER
                 , String.valueOf(user.getId())
-                , Util.extractTableName(User.class));
+                , ObjectUtils.extractTableName(User.class));
     }
 
     public void resetPassword(ResetPasswordRequest request) {
@@ -119,11 +118,11 @@ public class UserService {
             addressMap.put("fullAddress", addressService.getFullAddress(user.getAddress().getId()));
         }
 
-        List<File> files = fileService.getFiles(String.valueOf(user.getId()), Util.extractTableName(User.class), MediaType.IMAGE_JPEG_VALUE);
+        List<File> files = fileService.getFiles(String.valueOf(user.getId()), ObjectUtils.extractTableName(User.class), MediaType.IMAGE_JPEG_VALUE);
         List<FileResponse> fileResponses = files
                 .stream()
                 .map(file -> FileResponse.builder()
-                        .fileName(Util.getFileName(file.getFilePath()))
+                        .fileName(ObjectUtils.getFileName(file.getFilePath()))
                         .fileType(file.getFileType())
                         .base64String(fileService.encodeImageFileToString(file.getFilePath()))
                         .build())
