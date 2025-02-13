@@ -5,20 +5,17 @@ import com.springboot.booking.dto.response.DistrictResponse;
 import com.springboot.booking.dto.response.ProvinceResponse;
 import com.springboot.booking.dto.response.WardResponse;
 import com.springboot.booking.exeption.GlobalException;
-import com.springboot.booking.model.entity.Address;
-import com.springboot.booking.model.entity.Province;
-import com.springboot.booking.model.entity.Ward;
+import com.springboot.booking.entities.Address;
+import com.springboot.booking.entities.Province;
+import com.springboot.booking.entities.Ward;
 import com.springboot.booking.repository.AddressRepository;
 import com.springboot.booking.repository.DistrictRepository;
 import com.springboot.booking.repository.ProvinceRepository;
 import com.springboot.booking.repository.WardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor

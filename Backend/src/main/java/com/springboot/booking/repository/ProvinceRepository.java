@@ -1,6 +1,6 @@
 package com.springboot.booking.repository;
 
-import com.springboot.booking.model.entity.Province;
+import com.springboot.booking.entities.Province;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

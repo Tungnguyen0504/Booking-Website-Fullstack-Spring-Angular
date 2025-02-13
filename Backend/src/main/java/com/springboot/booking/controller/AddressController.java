@@ -3,7 +3,7 @@ package com.springboot.booking.controller;
 import com.springboot.booking.dto.response.DistrictResponse;
 import com.springboot.booking.dto.response.ProvinceResponse;
 import com.springboot.booking.dto.response.WardResponse;
-import com.springboot.booking.model.entity.Province;
+import com.springboot.booking.entities.Province;
 import com.springboot.booking.service.AddressService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

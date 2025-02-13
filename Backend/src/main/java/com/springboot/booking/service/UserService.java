@@ -9,9 +9,10 @@ import com.springboot.booking.dto.response.FileResponse;
 import com.springboot.booking.dto.response.UserResponse;
 import com.springboot.booking.exeption.GlobalException;
 import com.springboot.booking.model.EmailDetail;
-import com.springboot.booking.model.entity.File;
-import com.springboot.booking.model.entity.User;
+import com.springboot.booking.entities.File;
+import com.springboot.booking.entities.User;
 import com.springboot.booking.repository.UserRepository;
+import com.springboot.booking.utils.FileUtil;
 import com.springboot.booking.utils.ObjectUtils;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
@@ -122,7 +123,7 @@ public class UserService {
         List<FileResponse> fileResponses = files
                 .stream()
                 .map(file -> FileResponse.builder()
-                        .fileName(ObjectUtils.getFileName(file.getFilePath()))
+                        .fileName(FileUtil.getFileName(file.getFilePath()))
                         .fileType(file.getFileType())
                         .base64String(fileService.encodeImageFileToString(file.getFilePath()))
                         .build())

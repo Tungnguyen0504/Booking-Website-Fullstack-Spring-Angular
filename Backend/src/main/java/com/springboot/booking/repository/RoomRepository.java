@@ -1,13 +1,11 @@
 package com.springboot.booking.repository;
 
-import com.springboot.booking.model.entity.Accommodation;
-import com.springboot.booking.model.entity.Room;
+import com.springboot.booking.entities.Room;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Long> {

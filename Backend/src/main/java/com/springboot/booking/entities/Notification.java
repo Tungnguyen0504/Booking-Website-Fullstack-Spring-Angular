@@ -1,10 +1,8 @@
-package com.springboot.booking.model.entity;
+package com.springboot.booking.entities;
 
 import com.springboot.booking.model.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.List;
 
 @Data
 @Entity

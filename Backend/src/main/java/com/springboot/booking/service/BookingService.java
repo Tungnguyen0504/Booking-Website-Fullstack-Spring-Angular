@@ -11,11 +11,11 @@ import com.springboot.booking.dto.response.BookingDetailResponse;
 import com.springboot.booking.dto.response.BookingResponse;
 import com.springboot.booking.dto.response.RoomResponse;
 import com.springboot.booking.exeption.GlobalException;
-import com.springboot.booking.model.EBookingStatus;
-import com.springboot.booking.model.entity.Booking;
-import com.springboot.booking.model.entity.BookingDetail;
-import com.springboot.booking.model.entity.Room;
-import com.springboot.booking.model.entity.User;
+import com.springboot.booking.constant.enums.BookingStatus;
+import com.springboot.booking.entities.Booking;
+import com.springboot.booking.entities.BookingDetail;
+import com.springboot.booking.entities.Room;
+import com.springboot.booking.entities.User;
 import com.springboot.booking.repository.BookingDetailRepository;
 import com.springboot.booking.repository.BookingRepository;
 import com.springboot.booking.repository.RoomRepository;
@@ -71,7 +71,7 @@ public class BookingService {
                 .totalAmount(calculateTotalAmount(request))
                 .fromDate(DatetimeUtil.parseDateDefault(request.getFromDate()))
                 .toDate(DatetimeUtil.parseDateDefault(request.getToDate()))
-                .status(EBookingStatus.WAITING_PAYMENT)
+                .status(BookingStatus.WAITING_PAYMENT)
                 .user(user)
                 .build();
         List<BookingDetail> bookingDetails = request.getCartItems()

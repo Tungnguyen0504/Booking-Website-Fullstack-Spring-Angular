@@ -2,7 +2,7 @@ package com.springboot.booking.mapper;
 
 
 import com.springboot.booking.dto.response.AccommodationResponse;
-import com.springboot.booking.model.entity.Accommodation;
+import com.springboot.booking.entities.Accommodation;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

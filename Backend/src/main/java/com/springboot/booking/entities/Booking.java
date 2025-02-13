@@ -1,7 +1,7 @@
-package com.springboot.booking.model.entity;
+package com.springboot.booking.entities;
 
 import com.springboot.booking.model.BaseEntity;
-import com.springboot.booking.model.EBookingStatus;
+import com.springboot.booking.constant.enums.BookingStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -56,7 +56,7 @@ public class Booking extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private EBookingStatus status;
+    private BookingStatus status;
 
     @Column(name = "reason")
     private String reason;

@@ -12,7 +12,7 @@ import com.springboot.booking.dto.response.AccommodationResponse;
 import com.springboot.booking.dto.response.AccommodationTypeResponse;
 import com.springboot.booking.exeption.GlobalException;
 import com.springboot.booking.mapper.AutoMapper;
-import com.springboot.booking.model.entity.*;
+import com.springboot.booking.entities.*;
 import com.springboot.booking.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;

@@ -1,6 +1,6 @@
 package com.springboot.booking.repository;
 
-import com.springboot.booking.model.entity.Token;
+import com.springboot.booking.entities.Token;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

@@ -2,7 +2,7 @@ package com.springboot.booking.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.springboot.booking.common.Constant;
-import com.springboot.booking.model.EBookingStatus;
+import com.springboot.booking.constant.enums.BookingStatus;
 import lombok.Builder;
 import lombok.Data;
 
@@ -27,7 +27,7 @@ public class BookingResponse {
     private LocalDate fromDate;
     @JsonFormat(pattern = Constant.DATE_FORMAT1)
     private LocalDate toDate;
-    private EBookingStatus status;
+    private BookingStatus status;
     private long userId;
     private List<BookingDetailResponse> bookingDetails;
 }

@@ -5,15 +5,12 @@ import com.springboot.booking.common.ExceptionResult;
 import com.springboot.booking.dto.request.CreateRatingRequest;
 import com.springboot.booking.dto.response.RatingResponse;
 import com.springboot.booking.exeption.GlobalException;
-import com.springboot.booking.model.entity.Booking;
-import com.springboot.booking.model.entity.Review;
+import com.springboot.booking.entities.Booking;
+import com.springboot.booking.entities.Review;
 import com.springboot.booking.repository.BookingRepository;
 import com.springboot.booking.repository.RatingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

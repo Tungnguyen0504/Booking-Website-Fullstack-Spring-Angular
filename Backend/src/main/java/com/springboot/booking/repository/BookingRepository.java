@@ -1,8 +1,6 @@
 package com.springboot.booking.repository;
 
-import com.springboot.booking.model.entity.Accommodation;
-import com.springboot.booking.model.entity.Booking;
-import org.springframework.beans.factory.annotation.Value;
+import com.springboot.booking.entities.Booking;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;

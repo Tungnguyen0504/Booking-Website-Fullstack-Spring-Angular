@@ -9,8 +9,8 @@ import com.springboot.booking.dto.request.BookingCaptureRequest;
 import com.springboot.booking.dto.request.BookingDetailRequest;
 import com.springboot.booking.dto.request.BookingRequest;
 import com.springboot.booking.exeption.GlobalException;
-import com.springboot.booking.model.entity.Room;
-import com.springboot.booking.model.entity.User;
+import com.springboot.booking.entities.Room;
+import com.springboot.booking.entities.User;
 import com.springboot.booking.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,12 +21,15 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import vn.library.common.utils.TokenUtil;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static vn.library.common.utils.TokenUtil.basicToken;
 
 @Service
 @RequiredArgsConstructor
@@ -88,7 +91,7 @@ public class PaymentService {
     private Map<String, Object> generateTokenPaypal() throws JsonProcessingException {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        headers.set("Authorization", ObjectUtils.getBasicAuth(clientId, secret));
+        headers.set("Authorization", basicToken(clientId, secret));
 
         MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
         requestBody.add("grant_type", "client_credentials");

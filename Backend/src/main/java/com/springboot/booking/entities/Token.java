@@ -1,7 +1,7 @@
-package com.springboot.booking.model.entity;
+package com.springboot.booking.entities;
 
 import com.springboot.booking.model.BaseEntity;
-import com.springboot.booking.model.ETokenType;
+import com.springboot.booking.constant.enums.TokenType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,7 +19,7 @@ public class Token extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "token_type")
-    private ETokenType tokenType = ETokenType.BEARER;
+    private TokenType tokenType = TokenType.BEARER;
 
     @Column(name = "revoked")
     private Boolean revoked;

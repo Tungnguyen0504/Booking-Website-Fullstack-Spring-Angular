@@ -2,14 +2,12 @@ package com.springboot.booking.service;
 
 import com.springboot.booking.common.ExceptionResult;
 import com.springboot.booking.dto.response.NotificationResponse;
-import com.springboot.booking.dto.response.UserResponse;
 import com.springboot.booking.exeption.GlobalException;
-import com.springboot.booking.model.entity.Notification;
-import com.springboot.booking.model.entity.User;
+import com.springboot.booking.entities.Notification;
+import com.springboot.booking.entities.User;
 import com.springboot.booking.repository.NotificationRepository;
 import com.springboot.booking.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 

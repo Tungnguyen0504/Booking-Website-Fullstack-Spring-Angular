@@ -1,4 +1,4 @@
-package com.springboot.booking.model;
+package com.springboot.booking.constant.enums;
 
 import com.springboot.booking.common.DatetimeUtil;
 
