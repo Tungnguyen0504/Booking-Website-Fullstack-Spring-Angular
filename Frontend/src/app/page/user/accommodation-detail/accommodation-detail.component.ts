@@ -91,7 +91,7 @@ export class AccommodationDetailComponent implements AfterViewInit {
       next: (response: any) => {
         this.accommodation = response;
         if (this.accommodation) {
-          this.accommodation.createdAt = Util.parseDate2(response.createdAt, DATETIME_FORMAT1);
+          this.accommodation.createdTime = Util.parseDate2(response.createdTime, DATETIME_FORMAT1);
         }
       },
     });

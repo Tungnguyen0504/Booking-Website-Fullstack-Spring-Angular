@@ -1,21 +1,12 @@
 package com.springboot.booking.repository;
 
-import com.springboot.booking.model.entity.File;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
-
+import com.springboot.booking.entities.File;
 import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
+import org.springframework.stereotype.Repository;
+import vn.library.common.repositories.BaseRepository;
 
 @Repository
-public interface FileRepository extends JpaRepository<File, Long> {
-
-    Optional<File> findByFilePath(String filePath);
-
-    List<File> findByEntityIdAndEntityName(String entityId, String entityName);
-
-    @Query(value = "select f from File f " +
-            "where f.entityId = :entityId and f.entityName = :entityName and f.fileType = :fileType")
-    List<File> findByEntityIdAndEntityNameAndFileType(String entityId, String entityName, String fileType);
+public interface FileRepository extends BaseRepository<File, UUID> {
+  List<File> findByEntityIdAndEntityNameAndFileType(String entityId, String entityName, String fileType);
 }

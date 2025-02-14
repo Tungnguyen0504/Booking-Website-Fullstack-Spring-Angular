@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 import static com.springboot.booking.common.Constant.PATH_V1;
 
@@ -28,7 +29,7 @@ public class RoomController {
     }
 
     @GetMapping("/get-by-id/{id}")
-    public ResponseEntity<RoomResponse> getById(@PathVariable Long id) {
+    public ResponseEntity<RoomResponse> getById(@PathVariable UUID id) {
         return ResponseEntity.ok(roomService.getById(id));
     }
 

@@ -1,9 +1,9 @@
 package com.springboot.booking.repository;
 
-import com.springboot.booking.model.entity.Notification;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.springboot.booking.entities.Notification;
+import java.util.UUID;
 import org.springframework.stereotype.Repository;
+import vn.library.common.repositories.BaseRepository;
 
 @Repository
-public interface NotificationRepository extends JpaRepository<Notification, Long> {
-}
+public interface NotificationRepository extends BaseRepository<Notification, UUID> {}

@@ -81,7 +81,7 @@
 //            ResponseException responseException = ResponseException.builder()
 //                    .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
 //                    .message(e.getMessage())
-//                    .createdAt(LocalDateTime.now())
+//                    .createdTime(LocalDateTime.now())
 //                    .build();
 //            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 //            response.setStatus(HttpStatus.BAD_REQUEST.value());
@@ -99,6 +99,6 @@
 //        private int code;
 //        private String message;
 //        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
-//        private LocalDateTime createdAt;
+//        private LocalDateTime createdTime;
 //    }
 //}

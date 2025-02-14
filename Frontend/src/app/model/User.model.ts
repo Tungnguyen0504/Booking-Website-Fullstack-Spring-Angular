@@ -13,6 +13,6 @@ export interface User {
   status: string;
   role: string;
   files: FileDto[];
-  createdAt: string;
-  modifiedAt: string;
+  createdTime: string;
+  updatedTime: string;
 }

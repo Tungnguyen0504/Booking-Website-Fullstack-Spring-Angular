@@ -7,13 +7,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 @Getter
 @Setter
 @ToString
 public class CreateUpdateRoomRequest {
-    private String roomId;
-    private String accommodationId;
+    private UUID roomId;
+    private UUID accommodationId;
     private String roomType;
     private String roomArea;
     private String bed;

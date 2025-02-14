@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.Map;
 
 import static com.springboot.booking.common.Constant.PATH_V1;
@@ -27,8 +28,8 @@ public class BookingController {
     private final BookingService bookingService;
 
     @PostMapping("/payment/create")
-    public ResponseEntity<Map<String, Object>> createPayment(@RequestBody BookingRequest request) throws JsonProcessingException {
-        return ResponseEntity.ok(paymentService.createOrder(request));
+    public ResponseEntity<Map<String, Object>> createPayment(@RequestBody BookingRequest request, Principal principal) throws JsonProcessingException {
+        return ResponseEntity.ok(paymentService.createOrder(request, principal));
     }
 
     @PostMapping("/payment/capture")
@@ -37,8 +38,8 @@ public class BookingController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Map<String, Object>> create(@RequestBody BookingRequest request) throws JsonProcessingException {
-        return ResponseEntity.ok(bookingService.createBookingInfo(request));
+    public ResponseEntity<Map<String, Object>> create(@RequestBody BookingRequest request, Principal principal) throws JsonProcessingException {
+        return ResponseEntity.ok(bookingService.createBookingInfo(request, principal));
     }
 
     @PostMapping("/get-bookings")

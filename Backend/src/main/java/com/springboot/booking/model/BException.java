@@ -17,5 +17,5 @@ public class BException {
     private int code;
     private String message;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
-    private LocalDateTime createdAt;
+    private LocalDateTime createdTime;
 }

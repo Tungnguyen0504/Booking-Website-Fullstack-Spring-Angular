@@ -1,15 +1,14 @@
 package com.springboot.booking.repository;
 
-import com.springboot.booking.model.entity.User;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.springboot.booking.entities.User;
+import java.util.Optional;
+import java.util.UUID;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
+import vn.library.common.repositories.BaseRepository;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
-
+public interface UserRepository extends BaseRepository<User, UUID> {
   @Query(value = "select u from User u where u.email = :email and u.status = 'ACTIVE'")
   Optional<User> findByEmail(String email);
 

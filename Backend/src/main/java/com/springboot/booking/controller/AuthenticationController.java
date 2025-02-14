@@ -8,8 +8,7 @@ import com.springboot.booking.dto.request.LoginRequest;
 import com.springboot.booking.dto.request.RegisterRequest;
 import com.springboot.booking.dto.response.AuthenticationResponse;
 import com.springboot.booking.model.BSuccess;
-import com.springboot.booking.service.AuthenticationService;
-import jakarta.mail.MessagingException;
+import com.springboot.booking.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,27 +16,29 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
+
 @RestController
 @RequestMapping(PATH_V1 + PATH_AUTH)
 @RequiredArgsConstructor
 public class AuthenticationController {
 
-    private final AuthenticationService service;
+    private final AuthService authService;
 
     @PostMapping("/register")
     public ResponseEntity<BSuccess> register(@RequestBody RegisterRequest request) {
-        service.register(request);
+        authService.register(request);
         return ResponseEntity.ok(new BSuccess(SuccessResult.CREATED));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> login(@RequestBody LoginRequest loginRequest) {
-        return ResponseEntity.ok(service.login(loginRequest));
+    public ResponseEntity<Object> login(@RequestBody LoginRequest loginRequest) {
+        return ResponseEntity.ok(authService.login(loginRequest));
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<BSuccess> login(@RequestBody String jwt) {
-        service.logout(jwt);
+    public ResponseEntity<BSuccess> login(Principal principal) {
+        authService.logout(principal);
         return ResponseEntity.ok(new BSuccess(SuccessResult.LOGOUT_SUCCESS));
     }
 }

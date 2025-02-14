@@ -8,13 +8,14 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Getter
 @Setter
 @Builder
 @ToString
 public class UserResponse {
-    private Long id;
+    private UUID id;
     private String firstName;
     private String lastName;
     private String email;
@@ -26,7 +27,7 @@ public class UserResponse {
     private String role;
     private List<FileResponse> files;
     @JsonFormat(pattern = Constant.DATETIME_FORMAT2)
-    private LocalDateTime createdAt;
+    private LocalDateTime createdTime;
     @JsonFormat(pattern = Constant.DATETIME_FORMAT2)
-    private LocalDateTime modifiedAt;
+    private LocalDateTime updatedTime;
 }

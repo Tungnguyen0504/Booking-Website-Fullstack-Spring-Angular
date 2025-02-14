@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.Map;
 
 import static com.springboot.booking.common.Constant.PATH_USER;
@@ -25,8 +26,8 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/get-current-user")
-    public ResponseEntity<UserResponse> getCurrentUser(@RequestParam String jwt) {
-        return ResponseEntity.ok(userService.getCurrentUserDtoByToken(jwt));
+    public ResponseEntity<Object> getCurrentUser(Principal principal) {
+        return ResponseEntity.ok(userService.getCurrentUser(principal));
     }
 
     @PutMapping("/update")
@@ -42,7 +43,7 @@ public class UserController {
     }
 
     @PostMapping("/verify-email")
-    public ResponseEntity<Map<String, String>> verifyEmail(@RequestBody VerifyEmailRequest request) throws MessagingException {
-        return ResponseEntity.ok(userService.verifyEmail(request));
+    public ResponseEntity<Map<String, String>> verifyEmail(@RequestBody VerifyEmailRequest request, Principal principal) throws MessagingException {
+        return ResponseEntity.ok(userService.verifyEmail(request, principal));
     }
 }

@@ -4,16 +4,14 @@ import com.springboot.booking.common.Constant;
 import com.springboot.booking.common.ExceptionResult;
 import com.springboot.booking.dto.request.CreateRatingRequest;
 import com.springboot.booking.dto.response.RatingResponse;
+import com.springboot.booking.entities.Booking;
+import com.springboot.booking.entities.Review;
 import com.springboot.booking.exeption.GlobalException;
-import com.springboot.booking.model.entity.Booking;
-import com.springboot.booking.model.entity.Review;
 import com.springboot.booking.repository.BookingRepository;
 import com.springboot.booking.repository.RatingRepository;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +20,7 @@ public class RatingService {
     private final RatingRepository ratingRepository;
 
     public void create(CreateRatingRequest request) {
-        Booking booking = bookingRepository.findById(Long.valueOf(request.getBookingId()))
+        Booking booking = bookingRepository.findById(request.getBookingId())
                 .orElseThrow(() -> new GlobalException(ExceptionResult.CUSTOM_FIELD_NOT_FOUND, "đơn đặt hàng"));
         Review review = Review.builder()
                 .clean(Integer.valueOf(request.getClean()))
@@ -35,7 +33,7 @@ public class RatingService {
         ratingRepository.save(review);
     }
 
-    public RatingResponse getByBookingId(Long bookingId) {
+    public RatingResponse getByBookingId(UUID bookingId) {
         return ratingRepository.findByBookingId(bookingId)
                 .map(this::transferToObject)
                 .orElse(null);

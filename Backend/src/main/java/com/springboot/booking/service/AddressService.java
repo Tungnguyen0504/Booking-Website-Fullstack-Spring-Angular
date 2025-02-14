@@ -4,21 +4,18 @@ import com.springboot.booking.common.ExceptionResult;
 import com.springboot.booking.dto.response.DistrictResponse;
 import com.springboot.booking.dto.response.ProvinceResponse;
 import com.springboot.booking.dto.response.WardResponse;
+import com.springboot.booking.entities.Address;
+import com.springboot.booking.entities.Province;
+import com.springboot.booking.entities.Ward;
 import com.springboot.booking.exeption.GlobalException;
-import com.springboot.booking.model.entity.Address;
-import com.springboot.booking.model.entity.Province;
-import com.springboot.booking.model.entity.Ward;
 import com.springboot.booking.repository.AddressRepository;
 import com.springboot.booking.repository.DistrictRepository;
 import com.springboot.booking.repository.ProvinceRepository;
 import com.springboot.booking.repository.WardRepository;
+import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -42,7 +39,7 @@ public class AddressService {
                         .build()).toList();
     }
 
-    public List<DistrictResponse> getDistrictsByProvince(Long provinceId) {
+    public List<DistrictResponse> getDistrictsByProvince(UUID provinceId) {
         return districtRepository.findByProvinceId(provinceId)
                 .stream()
                 .map(d -> DistrictResponse.builder()
@@ -51,7 +48,7 @@ public class AddressService {
                         .build()).toList();
     }
 
-    public List<WardResponse> getWardsByDistrict(Long districtId) {
+    public List<WardResponse> getWardsByDistrict(UUID districtId) {
         return wardRepository.findByDistrictId(districtId)
                 .stream()
                 .map(w -> WardResponse.builder()
@@ -60,7 +57,7 @@ public class AddressService {
                         .build()).toList();
     }
 
-    public String getFullAddress(Long addressId) {
+    public String getFullAddress(UUID addressId) {
         Address address = addressRepository.findById(addressId).orElse(null);
         if(address == null) {
             return "";
@@ -86,7 +83,7 @@ public class AddressService {
                 .build());
     }
 
-    public void update(Long id, Long wardId, String specificAddress) {
+    public void update(UUID id, Long wardId, String specificAddress) {
         Address address = addressRepository.findById(id)
                 .orElseThrow(() -> new GlobalException(ExceptionResult.CUSTOM_FIELD_NOT_FOUND, "địa chỉ"));
         Ward ward = wardRepository.findById(wardId)

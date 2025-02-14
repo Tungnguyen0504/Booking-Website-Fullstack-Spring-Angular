@@ -41,7 +41,7 @@ export class BookingHistoryComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.$basePagingService.pushSortRequest('createdAt', 'DESC', this.searchRequest.sortRequest);
+    this.$basePagingService.pushSortRequest('createdTime', 'DESC', this.searchRequest.sortRequest);
     this.getBookings();
   }
 

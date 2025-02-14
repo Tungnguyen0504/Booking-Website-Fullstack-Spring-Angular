@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 import static com.springboot.booking.common.Constant.PATH_V1;
 
 @RestController
@@ -25,7 +27,7 @@ public class ReviewController {
     }
 
     @RequestMapping("/get-by-booking-id/{bookingId}")
-    public ResponseEntity<RatingResponse> create(@PathVariable Long bookingId) {
+    public ResponseEntity<RatingResponse> create(@PathVariable UUID bookingId) {
         return ResponseEntity.ok(ratingService.getByBookingId(bookingId));
     }
 }

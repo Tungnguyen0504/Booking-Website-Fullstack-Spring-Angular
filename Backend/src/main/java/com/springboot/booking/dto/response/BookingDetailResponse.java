@@ -3,10 +3,12 @@ package com.springboot.booking.dto.response;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.UUID;
+
 @Data
 @Builder
 public class BookingDetailResponse {
-    private long id;
+    private UUID id;
     private int quantity;
-    private long roomId;
+    private UUID roomId;
 }

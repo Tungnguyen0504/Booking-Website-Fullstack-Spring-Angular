@@ -39,7 +39,7 @@ public class AccommodationResponse {
     private List<String> filePaths;
     private List<RoomResponse> rooms;
     @JsonFormat(pattern = Constant.DATETIME_FORMAT2)
-    private LocalDateTime createdAt;
+    private LocalDateTime createdTime;
     @JsonFormat(pattern = Constant.DATETIME_FORMAT2)
-    private LocalDateTime modifiedAt;
+    private LocalDateTime updatedTime;
 }

@@ -1,7 +1,7 @@
 package com.springboot.booking.service;
 
 import com.springboot.booking.dto.request.CreatePropertyConfigRequest;
-import com.springboot.booking.model.entity.PropertyConfig;
+import com.springboot.booking.entities.PropertyConfig;
 import com.springboot.booking.repository.PropertyConfigRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

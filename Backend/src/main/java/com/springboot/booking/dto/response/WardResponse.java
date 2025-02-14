@@ -1,5 +1,6 @@
 package com.springboot.booking.dto.response;
 
+import java.util.UUID;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +9,6 @@ import lombok.Setter;
 @Setter
 @Builder
 public class WardResponse {
-    private Long wardId;
+    private UUID wardId;
     private String wardName;
 }

@@ -1,9 +1,7 @@
 package com.springboot.booking.service;
 
 import com.springboot.booking.common.Constant;
-import com.springboot.booking.common.ExceptionResult;
-import com.springboot.booking.exeption.GlobalException;
-import com.springboot.booking.model.entity.File;
+import com.springboot.booking.entities.File;
 import com.springboot.booking.repository.FileRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;

@@ -1,8 +1,8 @@
 package com.springboot.booking.service;
 
 import com.springboot.booking.common.paging.BasePagingRequest;
-import com.springboot.booking.model.entity.Accommodation;
-import com.springboot.booking.model.entity.Room;
+import com.springboot.booking.entities.Accommodation;
+import com.springboot.booking.entities.Room;
 import jakarta.persistence.criteria.*;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -39,9 +39,9 @@ public class PagingService {
 //
 //    }
 
-//    public Specification<Accommodation> sortByModifiedAt() {
+//    public Specification<Accommodation> sortByupdatedTime() {
 //        return (root, query, criteriaBuilder) -> {
-//            query.orderBy(Sort.Order.desc("modifiedAt"));
+//            query.orderBy(Sort.Order.desc("updatedTime"));
 //            return null;
 //        };
 //    }

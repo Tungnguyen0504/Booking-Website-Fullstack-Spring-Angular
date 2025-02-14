@@ -13,8 +13,8 @@ export interface Accommodation {
   checkout: string;
   status: string;
   fullAddress: string;
-  createdAt: Date;
-  modifiedAt: Date;
+  createdTime: Date;
+  updatedTime: Date;
   specialArounds: string[];
   bathRooms: string[];
   bedRooms: string[];

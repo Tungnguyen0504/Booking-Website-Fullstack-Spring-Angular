@@ -9,10 +9,8 @@ import com.springboot.booking.common.paging.BasePagingResponse;
 import com.springboot.booking.dto.request.CreateUpdateAccommodationRequest;
 import com.springboot.booking.dto.request.SearchAccommodationRequest;
 import com.springboot.booking.dto.response.AccommodationResponse;
-import com.springboot.booking.dto.response.AccommodationTypeResponse;
 import com.springboot.booking.exeption.GlobalException;
-import com.springboot.booking.mapper.AutoMapper;
-import com.springboot.booking.model.entity.*;
+import com.springboot.booking.entities.*;
 import com.springboot.booking.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -149,32 +147,32 @@ public class AccommodationService {
         List<String> fileBytes = files.stream()
                 .map(file -> fileService.encodeImageFileToString(file.getFilePath()))
                 .toList();
-
-        AccommodationResponse response = AutoMapper.MAPPER.mapToAccommodationResponse(accommodation);
-        response.setAccommodationType(
-                AccommodationTypeResponse.builder()
-                        .accommodationTypeId(accommodation.getAccommodationType().getId())
-                        .accommodationTypeName(accommodation.getAccommodationType().getAccommodationTypeName())
-                        .build()
-        );
-        response.setFullAddress(addressService.getFullAddress(accommodation.getAddress().getId()));
-        response.setSpecialArounds(mapper.readValue(accommodation.getSpecialAround(), Set.class));
-        response.setBathRooms(mapper.readValue(accommodation.getBathRoom(), Set.class));
-        response.setBedRooms(mapper.readValue(accommodation.getBedRoom(), Set.class));
-        response.setDinningRooms(mapper.readValue(accommodation.getDinningRoom(), Set.class));
-        response.setLanguages(mapper.readValue(accommodation.getLanguage(), Set.class));
-        response.setInternets(mapper.readValue(accommodation.getInternet(), Set.class));
-        response.setDrinkAndFoods(mapper.readValue(accommodation.getDrinkAndFood(), Set.class));
-        response.setReceptionServices(mapper.readValue(accommodation.getReceptionService(), Set.class));
-        response.setCleaningServices(mapper.readValue(accommodation.getCleaningService(), Set.class));
-        response.setPools(mapper.readValue(accommodation.getPool(), Set.class));
-        response.setOthers(mapper.readValue(accommodation.getOther(), Set.class));
-        response.setFilePaths(fileBytes);
-        response.setRooms(
-                accommodation.getRooms().stream()
-                        .map(roomService::transferToObject)
-                        .collect(Collectors.toList())
-        );
-        return response;
+        return null;
+//        AccommodationResponse response = AutoMapper.MAPPER.mapToAccommodationResponse(accommodation);
+//        response.setAccommodationType(
+//                AccommodationTypeResponse.builder()
+//                        .accommodationTypeId(accommodation.getAccommodationType().getId())
+//                        .accommodationTypeName(accommodation.getAccommodationType().getAccommodationTypeName())
+//                        .build()
+//        );
+//        response.setFullAddress(addressService.getFullAddress(accommodation.getAddress().getId()));
+//        response.setSpecialArounds(mapper.readValue(accommodation.getSpecialAround(), Set.class));
+//        response.setBathRooms(mapper.readValue(accommodation.getBathRoom(), Set.class));
+//        response.setBedRooms(mapper.readValue(accommodation.getBedRoom(), Set.class));
+//        response.setDinningRooms(mapper.readValue(accommodation.getDinningRoom(), Set.class));
+//        response.setLanguages(mapper.readValue(accommodation.getLanguage(), Set.class));
+//        response.setInternets(mapper.readValue(accommodation.getInternet(), Set.class));
+//        response.setDrinkAndFoods(mapper.readValue(accommodation.getDrinkAndFood(), Set.class));
+//        response.setReceptionServices(mapper.readValue(accommodation.getReceptionService(), Set.class));
+//        response.setCleaningServices(mapper.readValue(accommodation.getCleaningService(), Set.class));
+//        response.setPools(mapper.readValue(accommodation.getPool(), Set.class));
+//        response.setOthers(mapper.readValue(accommodation.getOther(), Set.class));
+//        response.setFilePaths(fileBytes);
+//        response.setRooms(
+//                accommodation.getRooms().stream()
+//                        .map(roomService::transferToObject)
+//                        .collect(Collectors.toList())
+//        );
+//        return response;
     }
 }

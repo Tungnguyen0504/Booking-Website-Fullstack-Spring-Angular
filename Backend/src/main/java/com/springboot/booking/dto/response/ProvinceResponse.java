@@ -1,6 +1,6 @@
 package com.springboot.booking.dto.response;
 
-import lombok.AllArgsConstructor;
+import java.util.UUID;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +9,6 @@ import lombok.Setter;
 @Setter
 @Builder
 public class ProvinceResponse {
-
-    private Long provinceId;
+    private UUID provinceId;
     private String provinceName;
 }

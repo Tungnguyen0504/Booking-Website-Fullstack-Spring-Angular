@@ -21,12 +21,7 @@ export class UserService {
   constructor(private $baseApiService: BaseApiService) {}
 
   getCurrentUser(): Observable<User | null> {
-    const data = Util.getLocal(JWT_TOKEN_STORAGE);
-    if (data) {
-      const params = new HttpParams().set('jwt', data);
-      return this.$baseApiService.getWithParams(`${URL}/get-current-user`, params);
-    }
-    return of(null);
+    return this.$baseApiService.getWithUrl(`${URL}/get-current-user`);
   }
 
   update(data: any) {

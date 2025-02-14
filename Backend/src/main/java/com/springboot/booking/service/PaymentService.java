@@ -4,13 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springboot.booking.common.DatetimeUtil;
 import com.springboot.booking.common.ExceptionResult;
-import com.springboot.booking.utils.ObjectUtils;
+import com.springboot.booking.dto.UserDto;
 import com.springboot.booking.dto.request.BookingCaptureRequest;
 import com.springboot.booking.dto.request.BookingDetailRequest;
 import com.springboot.booking.dto.request.BookingRequest;
 import com.springboot.booking.exeption.GlobalException;
-import com.springboot.booking.model.entity.Room;
-import com.springboot.booking.model.entity.User;
+import com.springboot.booking.entities.Room;
 import com.springboot.booking.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,11 +21,14 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.security.Principal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static vn.library.common.utils.TokenUtil.basicToken;
 
 @Service
 @RequiredArgsConstructor
@@ -44,11 +46,11 @@ public class PaymentService {
 
     private final ObjectMapper mapper;
 
-    public Map<String, Object> createOrder(BookingRequest request) throws JsonProcessingException {
+    public Map<String, Object> createOrder(BookingRequest request, Principal principal) throws JsonProcessingException {
         Map<String, Object> requestBody = new HashMap<>();
         requestBody.put("purchase_units", getPurchaseUnits(request));
         requestBody.put("intent", "CAPTURE");
-        requestBody.put("payer", getPayer());
+        requestBody.put("payer", getPayer(principal));
         requestBody.put("payment_source", getPaymentSource());
 
         Map<String, Object> token = generateTokenPaypal();
@@ -88,7 +90,7 @@ public class PaymentService {
     private Map<String, Object> generateTokenPaypal() throws JsonProcessingException {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        headers.set("Authorization", ObjectUtils.getBasicAuth(clientId, secret));
+        headers.set("Authorization", basicToken(clientId, secret));
 
         MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
         requestBody.add("grant_type", "client_credentials");
@@ -105,12 +107,12 @@ public class PaymentService {
         return mapper.readValue(response, Map.class);
     }
 
-    private Map<String, Object> getPayer() {
-        User user = userService.getCurrentUser();
+    private Map<String, Object> getPayer(Principal principal) {
+        UserDto userDto = userService.getCurrentUser(principal);
 
         Map<String, Object> name = new HashMap<>();
-        name.put("given_name", user.getFirstName());
-        name.put("surname", user.getLastName());
+        name.put("given_name", userDto.getFirstName());
+        name.put("surname", userDto.getLastName());
 
         Map<String, Object> payer = new HashMap<>();
         payer.put("name", name);

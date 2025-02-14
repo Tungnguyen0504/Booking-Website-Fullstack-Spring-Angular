@@ -4,10 +4,11 @@ import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.UUID;
 
 @Data
 public class CreateUpdateUserRequest {
-    private Long id;
+    private UUID id;
     private String firstName;
     private String lastName;
     private String email;

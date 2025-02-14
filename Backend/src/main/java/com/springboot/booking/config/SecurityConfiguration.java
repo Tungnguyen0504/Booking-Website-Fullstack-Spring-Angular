@@ -1,7 +1,7 @@
 //package com.springboot.booking.config;
 //
-//import com.springboot.booking.model.ERole;
-//import com.springboot.booking.model.Permission;
+//import com.springboot.booking.constant.enums.UserRole;
+//import com.springboot.booking.constant.enums.Permission;
 //import lombok.RequiredArgsConstructor;
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.Configuration;
@@ -43,7 +43,7 @@
 //                )
 //                .permitAll()
 //
-////                .requestMatchers("/api/v1/admin/**").hasAnyRole(ERole.ADMIN.name())
+////                .requestMatchers("/api/v1/admin/**").hasAnyRole(UserRole.ADMIN.name())
 //
 ////                .requestMatchers(GET, "/api/v1/admin/**").hasAnyAuthority(Permission.ADMIN_READ.name())
 ////                .requestMatchers(POST, "/api/v1/admin/**")

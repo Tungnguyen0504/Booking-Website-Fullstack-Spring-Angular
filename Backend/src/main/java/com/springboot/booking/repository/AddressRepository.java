@@ -1,9 +1,9 @@
 package com.springboot.booking.repository;
 
-import com.springboot.booking.model.entity.Address;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.springboot.booking.entities.Address;
+import java.util.UUID;
 import org.springframework.stereotype.Repository;
+import vn.library.common.repositories.BaseRepository;
 
 @Repository
-public interface AddressRepository extends JpaRepository<Address, Long> {
-}
+public interface AddressRepository extends BaseRepository<Address, UUID> {}
