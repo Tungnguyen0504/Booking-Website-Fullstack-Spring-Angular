@@ -28,7 +28,7 @@ public class ObjectUtils {
       Method method = annotation.annotationType().getMethod("name");
       Object tableName = method.invoke(annotation);
       if (tableName instanceof String val) {
-        return val;
+        return val.toLowerCase();
       }
     }
     return "";

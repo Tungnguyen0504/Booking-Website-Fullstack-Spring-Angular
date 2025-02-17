@@ -1,6 +1,6 @@
 package com.springboot.booking.entities;
 
-import com.springboot.booking.constant.enums.Status;
+import com.springboot.booking.constant.enums.StatusCode;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -45,11 +45,11 @@ public class User extends GenericUUID implements UserDetails {
   @Column(name = "STATUS")
   @ColumnDefault("ACTIVE")
   @Enumerated(EnumType.STRING)
-  private Status status;
+  private StatusCode status;
 
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(
-      name = "user_role",
+      name = "USER_ROLE",
       joinColumns = @JoinColumn(name = "USER_ID"),
       inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
   private Set<Role> roles;

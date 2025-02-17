@@ -13,12 +13,15 @@ import com.springboot.booking.dto.response.UserResponse;
 import com.springboot.booking.entities.File;
 import com.springboot.booking.entities.User;
 import com.springboot.booking.exeption.GlobalException;
+import com.springboot.booking.mapper.FileMapper;
 import com.springboot.booking.mapper.UserMapper;
 import com.springboot.booking.model.EmailDetail;
 import com.springboot.booking.repository.UserRepository;
 import com.springboot.booking.utils.FileUtil;
 import com.springboot.booking.utils.ObjectUtils;
 import jakarta.mail.MessagingException;
+
+import java.io.IOException;
 import java.security.Principal;
 import java.util.*;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +42,7 @@ public class UserService {
   private final AddressService addressService;
   private final EmailService emailService;
   private final UserMapper userMapper;
+  private final FileMapper fileMapper;
 
   public UserDto getCurrentUser(Principal principal) {
     User user =
@@ -63,7 +67,7 @@ public class UserService {
     userRepository.save(user);
 
     addressService.update(
-        user.getAddress().getId(), Long.valueOf(request.getWardId()), request.getSpecificAddress());
+        user.getAddress().getId(), request.getWardId(), request.getSpecificAddress());
 
     fileService.executeSaveImages(
         request.getFiles(),
@@ -111,22 +115,6 @@ public class UserService {
       addressMap.put("fullAddress", addressService.getFullAddress(user.getAddress().getId()));
     }
 
-    List<File> files =
-        fileService.getFiles(
-            String.valueOf(user.getId()),
-            ObjectUtils.extractTableName(User.class),
-            MediaType.IMAGE_JPEG_VALUE);
-    List<FileResponse> fileResponses =
-        files.stream()
-            .map(
-                file ->
-                    FileResponse.builder()
-                        .fileName(FileUtil.getFileName(file.getFilePath()))
-                        .fileType(file.getFileType())
-                        .base64String(fileService.encodeImageFileToString(file.getFilePath()))
-                        .build())
-            .toList();
-
     return UserResponse.builder()
         .id(user.getId())
         .firstName(user.getFirstName())
@@ -137,7 +125,7 @@ public class UserService {
         .dateOfBirth(user.getDateOfBirth())
         .status(user.getStatus())
         .role(user.getRole().name())
-        .files(fileResponses)
+        .files(fileMapper.mapFileResponse(user.getId(), User.class, MediaType.IMAGE_JPEG_VALUE))
         .createdTime(user.getCreatedTime())
         .updatedTime(user.getUpdatedTime())
         .build();

@@ -7,6 +7,8 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import vn.library.common.entities.GenericUUID;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @SuperBuilder
@@ -15,15 +17,18 @@ import vn.library.common.entities.GenericUUID;
 @Entity
 @Table(name = "FILE")
 public class File extends GenericUUID {
-    @Column(name = "ENTITY_ID")
-    private String entityId;
+  @Column(name = "ENTITY_ID")
+  private UUID entityId;
 
-    @Column(name = "ENTITY_NAME")
-    private String entityName;
+  @Column(name = "ENTITY_NAME")
+  private String entityName;
 
-    @Column(name = "FILE_TYPE")
-    private String fileType;
+  @Column(name = "FILE_NAME")
+  private String fileName;
 
-    @Column(name = "FILE_PATH")
-    private String filePath;
+  @Column(name = "FILE_TYPE")
+  private String fileType;
+
+  @Column(name = "FILE_PATH")
+  private String filePath;
 }

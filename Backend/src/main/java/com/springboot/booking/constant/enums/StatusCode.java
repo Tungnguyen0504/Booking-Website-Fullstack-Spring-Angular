@@ -10,14 +10,14 @@ import java.util.Map;
 @Getter
 @AllArgsConstructor
 @JsonFormat(shape = JsonFormat.Shape.STRING)
-public enum Status {
+public enum StatusCode {
   ACTIVE("ACTIVE"),
   INACTIVE("INACTIVE");
 
-  private static final Map<String, Status> dataMap = new HashMap<>();
+  private static final Map<String, StatusCode> dataMap = new HashMap<>();
 
   static {
-    for (Status c : Status.values()) {
+    for (StatusCode c : StatusCode.values()) {
       if (dataMap.put(c.getCode(), c) != null) {
         throw new IllegalArgumentException("error code: " + c.getCode());
       }
@@ -26,7 +26,7 @@ public enum Status {
 
   private final String code;
 
-  public static Status of(String code) {
+  public static StatusCode of(String code) {
     return dataMap.get(code);
   }
 }

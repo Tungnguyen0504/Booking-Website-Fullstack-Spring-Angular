@@ -1,6 +1,6 @@
 package com.springboot.booking.entities;
 
-import com.springboot.booking.constant.enums.Status;
+import com.springboot.booking.constant.enums.StatusCode;
 import jakarta.persistence.*;
 import java.time.LocalTime;
 import java.util.List;
@@ -81,7 +81,7 @@ public class Accommodation extends GenericUUID {
   @Column(name = "STATUS")
   @ColumnDefault("ACTIVE")
   @Enumerated(EnumType.STRING)
-  private Status status;
+  private StatusCode status;
 
   @OneToOne
   @JoinColumn(name = "ADDRESS_ID")

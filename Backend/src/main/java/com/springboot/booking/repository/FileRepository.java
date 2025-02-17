@@ -8,5 +8,7 @@ import vn.library.common.repositories.BaseRepository;
 
 @Repository
 public interface FileRepository extends BaseRepository<File, UUID> {
-  List<File> findByEntityIdAndEntityNameAndFileType(String entityId, String entityName, String fileType);
+  List<File> findByEntityIdAndEntityName(UUID entityId, String entityName);
+
+  List<File> findByEntityIdAndEntityNameAndFileType(UUID entityId, String entityName, String fileType);
 }

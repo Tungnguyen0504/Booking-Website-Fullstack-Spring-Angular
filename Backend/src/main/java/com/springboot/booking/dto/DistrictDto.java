@@ -1,11 +1,11 @@
 package com.springboot.booking.dto;
 
+import java.util.List;
+import java.util.UUID;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 import vn.library.common.dto.BaseUUIDDto;
-
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -13,9 +13,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class FileDto extends BaseUUIDDto {
-  UUID entityId;
-  String entityName;
-  String fileType;
-  String filePath;
+public class DistrictDto extends BaseUUIDDto {
+  UUID provinceId;
+  String districtName;
+  List<WardDto> wards;
 }

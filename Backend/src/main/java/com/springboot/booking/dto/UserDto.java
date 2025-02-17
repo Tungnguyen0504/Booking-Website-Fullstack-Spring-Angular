@@ -1,10 +1,7 @@
 package com.springboot.booking.dto;
 
-import com.springboot.booking.constant.enums.Status;
-import com.springboot.booking.entities.Address;
-import com.springboot.booking.entities.Booking;
+import com.springboot.booking.constant.enums.StatusCode;
 import com.springboot.booking.entities.Notification;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
@@ -26,9 +23,9 @@ public class UserDto extends BaseUUIDDto {
   String password;
   String phoneNumber;
   LocalDate dateOfBirth;
-  Status status;
+  StatusCode status;
   Set<RoleDto> roles;
-  Address address;
-  List<Booking> bookings;
+  AddressDto address;
+  List<BookingDto> bookings;
   List<Notification> notifications;
 }

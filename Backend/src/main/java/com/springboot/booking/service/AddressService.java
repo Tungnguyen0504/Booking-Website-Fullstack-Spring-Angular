@@ -74,7 +74,7 @@ public class AddressService {
         return fullAddressBuilder.toString();
     }
 
-    public Address createAddress(Long wardId, String specificAddress) {
+    public Address createAddress(UUID wardId, String specificAddress) {
         Ward ward = wardRepository.findById(wardId)
                 .orElseThrow(() -> new GlobalException(ExceptionResult.RESOURCE_NOT_FOUND));
         return addressRepository.save(Address.builder()
@@ -83,7 +83,7 @@ public class AddressService {
                 .build());
     }
 
-    public void update(UUID id, Long wardId, String specificAddress) {
+    public void update(UUID id, UUID wardId, String specificAddress) {
         Address address = addressRepository.findById(id)
                 .orElseThrow(() -> new GlobalException(ExceptionResult.CUSTOM_FIELD_NOT_FOUND, "địa chỉ"));
         Ward ward = wardRepository.findById(wardId)

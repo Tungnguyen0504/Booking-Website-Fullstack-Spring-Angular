@@ -2,7 +2,8 @@ package com.springboot.booking.service;
 
 import com.springboot.booking.common.ExceptionResult;
 import com.springboot.booking.constant.enums.ResponseCode;
-import com.springboot.booking.constant.enums.Status;
+import com.springboot.booking.constant.enums.StatusCode;
+import com.springboot.booking.repository.RoleRepository;
 import com.springboot.booking.strategies.LoginStrategies;
 import com.springboot.booking.utils.ObjectUtils;
 import com.springboot.booking.dto.request.LoginRequest;
@@ -31,10 +32,7 @@ import vn.library.common.utils.CryptoUtil;
 import vn.library.common.utils.ObjectUtil;
 
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import static vn.library.common.constants.SecurityConst.*;
 import static vn.library.common.constants.enums.TokenAuthCode.ACCESS_TOKEN;
@@ -45,9 +43,9 @@ import static vn.library.common.constants.enums.TokenAuthCode.REFRESH_TOKEN;
 @Slf4j
 public class AuthService {
   private final UserRepository userRepository;
+  private final RoleRepository roleRepository;
   private final FileRepository fileRepository;
   private final PasswordEncoder passwordEncoder;
-  private final AuthenticationFacade authenticationFacade;
   private final JwtEngine jwtEngine;
   private final RedisCacheEngine cacheEngine;
   private final List<LoginStrategies> loginStrategies;
@@ -67,8 +65,15 @@ public class AuthService {
             .phoneNumber(request.getPhoneNumber())
             .email(request.getEmail())
             .password(passwordEncoder.encode(request.getPassword()))
-            .roles()
-            .status(Status.ACTIVE)
+            .roles(
+                Set.of(
+                    roleRepository
+                        .findByCode(request.getUserRole())
+                        .orElseThrow(
+                            () ->
+                                new BaseException(
+                                    BaseResponseCode.NOT_FOUND, HttpStatus.NOT_FOUND))))
+            .status(StatusCode.ACTIVE)
             .build();
     userRepository.save(user);
 
@@ -90,9 +95,10 @@ public class AuthService {
     log.info(
         "user: {} login with type {}, locked {}",
         request.getEmail(),
-        String.format("[%s]", Strings.arrayToDelimitedString(user.getAuthorities().toArray(),", ")),
+        String.format(
+            "[%s]", Strings.arrayToDelimitedString(user.getAuthorities().toArray(), ", ")),
         user.getStatus());
-    if (Status.INACTIVE.equals(user.getStatus()))
+    if (StatusCode.INACTIVE.equals(user.getStatus()))
       throw new BaseException(ResponseCode.BAD_REQUEST_USER_IS_INACTIVE, HttpStatus.BAD_REQUEST);
 
     boolean isLogin =

@@ -17,7 +17,7 @@ import vn.library.common.entities.GenericUUID;
 @Table(name = "WARD")
 public class Ward extends GenericUUID {
     @Column(name = "DISTRICT_ID")
-    private UUID accommodationId;
+    private UUID districtId;
 
     @Column(name = "WARD_NAME")
     private String wardName;

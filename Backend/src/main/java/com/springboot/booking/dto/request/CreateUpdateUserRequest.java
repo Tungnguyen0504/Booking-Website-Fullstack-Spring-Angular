@@ -14,7 +14,7 @@ public class CreateUpdateUserRequest {
     private String email;
     private String phoneNumber;
     private String dateOfBirth;
-    private String wardId;
+    private UUID wardId;
     private String specificAddress;
     private List<MultipartFile> files;
 }
