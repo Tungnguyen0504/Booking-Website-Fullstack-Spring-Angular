@@ -1,25 +1,30 @@
 package com.springboot.booking.service;
 
+import static vn.library.common.constants.SecurityConst.*;
+import static vn.library.common.constants.enums.TokenAuthCode.ACCESS_TOKEN;
+import static vn.library.common.constants.enums.TokenAuthCode.REFRESH_TOKEN;
+
 import com.springboot.booking.common.ExceptionResult;
 import com.springboot.booking.constant.enums.ResponseCode;
 import com.springboot.booking.constant.enums.StatusCode;
-import com.springboot.booking.repository.RoleRepository;
-import com.springboot.booking.strategies.LoginStrategies;
-import com.springboot.booking.utils.ObjectUtils;
 import com.springboot.booking.dto.request.LoginRequest;
 import com.springboot.booking.dto.request.RegisterRequest;
-import com.springboot.booking.exeption.GlobalException;
 import com.springboot.booking.entities.File;
 import com.springboot.booking.entities.User;
+import com.springboot.booking.exeption.GlobalException;
+import com.springboot.booking.mapper.UserMapper;
 import com.springboot.booking.repository.FileRepository;
 import com.springboot.booking.repository.UserRepository;
+import com.springboot.booking.strategies.LoginStrategies;
+import com.springboot.booking.utils.ObjectUtils;
 import io.jsonwebtoken.lang.Strings;
+import java.security.Principal;
+import java.util.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.library.common.components.JwtEngine;
@@ -31,27 +36,19 @@ import vn.library.common.model.AuthorizationModel;
 import vn.library.common.utils.CryptoUtil;
 import vn.library.common.utils.ObjectUtil;
 
-import java.security.Principal;
-import java.util.*;
-
-import static vn.library.common.constants.SecurityConst.*;
-import static vn.library.common.constants.enums.TokenAuthCode.ACCESS_TOKEN;
-import static vn.library.common.constants.enums.TokenAuthCode.REFRESH_TOKEN;
-
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class AuthService {
   private final UserRepository userRepository;
-  private final RoleRepository roleRepository;
   private final FileRepository fileRepository;
-  private final PasswordEncoder passwordEncoder;
+  private final UserMapper userMapper;
   private final JwtEngine jwtEngine;
   private final RedisCacheEngine cacheEngine;
   private final List<LoginStrategies> loginStrategies;
 
   @Transactional
-  public void register(RegisterRequest request) {
+  public void register(RegisterRequest request, Principal principal) {
     if (userRepository.findByEmail(request.getEmail()).isPresent()) {
       throw new GlobalException(ExceptionResult.EXISTED_EMAIL);
     }
@@ -60,26 +57,11 @@ public class AuthService {
       throw new GlobalException(ExceptionResult.EXISTED_PHONE_NUMBER);
     }
 
-    User user =
-        User.builder()
-            .phoneNumber(request.getPhoneNumber())
-            .email(request.getEmail())
-            .password(passwordEncoder.encode(request.getPassword()))
-            .roles(
-                Set.of(
-                    roleRepository
-                        .findByCode(request.getUserRole())
-                        .orElseThrow(
-                            () ->
-                                new BaseException(
-                                    BaseResponseCode.NOT_FOUND, HttpStatus.NOT_FOUND))))
-            .status(StatusCode.ACTIVE)
-            .build();
-    userRepository.save(user);
+    User user = userRepository.save(userMapper.toEntity(request, principal));
 
     fileRepository.save(
         File.builder()
-            .entityId(String.valueOf(user.getId()))
+            .entityId(user.getId())
             .entityName(ObjectUtils.extractTableName(User.class))
             .fileType(MediaType.IMAGE_JPEG_VALUE)
             .filePath("user/user-default.jpg")

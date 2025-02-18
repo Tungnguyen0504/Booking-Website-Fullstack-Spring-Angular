@@ -1,5 +1,6 @@
 package com.springboot.booking.entities;
 
+import com.springboot.booking.constant.enums.StatusCode;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -31,7 +32,8 @@ public class Review extends GenericUUID {
     private String description;
 
     @Column(name = "STATUS")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private StatusCode status;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "BOOKING_ID")

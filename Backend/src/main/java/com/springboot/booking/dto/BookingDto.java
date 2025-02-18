@@ -1,8 +1,10 @@
 package com.springboot.booking.dto;
 
 import com.springboot.booking.constant.enums.BookingStatus;
+
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
@@ -15,6 +17,7 @@ import vn.library.common.dto.BaseUUIDDto;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class BookingDto extends BaseUUIDDto {
+  UUID userId;
   String firstName;
   String lastName;
   String email;
@@ -28,6 +31,7 @@ public class BookingDto extends BaseUUIDDto {
   LocalDate toDate;
   BookingStatus status;
   String reason;
+  UserDto user;
   ReviewDto review;
   List<BookingDetailDto> bookingDetails;
 }

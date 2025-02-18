@@ -16,6 +16,7 @@ import java.util.UUID;
 public class FileDto extends BaseUUIDDto {
   UUID entityId;
   String entityName;
+  String fileName;
   String fileType;
   String filePath;
 }

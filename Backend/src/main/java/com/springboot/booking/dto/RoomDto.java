@@ -1,6 +1,10 @@
 package com.springboot.booking.dto;
 
 import com.springboot.booking.constant.enums.StatusCode;
+import com.springboot.booking.entities.Accommodation;
+import com.springboot.booking.entities.BookingDetail;
+import jakarta.persistence.*;
+import java.util.List;
 import java.util.UUID;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -28,4 +32,6 @@ public class RoomDto extends BaseUUIDDto {
   Double discountPercent;
   Integer quantity;
   StatusCode status;
+  AccommodationDto accommodation;
+  List<BookingDetailDto> bookingDetails;
 }

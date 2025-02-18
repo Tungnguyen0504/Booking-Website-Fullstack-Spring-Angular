@@ -23,22 +23,23 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class AuthenticationController {
 
-    private final AuthService authService;
+  private final AuthService authService;
 
-    @PostMapping("/register")
-    public ResponseEntity<BSuccess> register(@RequestBody RegisterRequest request) {
-        authService.register(request);
-        return ResponseEntity.ok(new BSuccess(SuccessResult.CREATED));
-    }
+  @PostMapping("/register")
+  public ResponseEntity<BSuccess> register(
+      @RequestBody RegisterRequest request, Principal principal) {
+    authService.register(request, principal);
+    return ResponseEntity.ok(new BSuccess(SuccessResult.CREATED));
+  }
 
-    @PostMapping("/login")
-    public ResponseEntity<Object> login(@RequestBody LoginRequest loginRequest) {
-        return ResponseEntity.ok(authService.login(loginRequest));
-    }
+  @PostMapping("/login")
+  public ResponseEntity<Object> login(@RequestBody LoginRequest loginRequest) {
+    return ResponseEntity.ok(authService.login(loginRequest));
+  }
 
-    @PostMapping("/logout")
-    public ResponseEntity<BSuccess> login(Principal principal) {
-        authService.logout(principal);
-        return ResponseEntity.ok(new BSuccess(SuccessResult.LOGOUT_SUCCESS));
-    }
+  @PostMapping("/logout")
+  public ResponseEntity<BSuccess> login(Principal principal) {
+    authService.logout(principal);
+    return ResponseEntity.ok(new BSuccess(SuccessResult.LOGOUT_SUCCESS));
+  }
 }

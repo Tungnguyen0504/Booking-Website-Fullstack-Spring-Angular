@@ -52,7 +52,7 @@ public class User extends GenericUUID implements UserDetails {
       name = "USER_ROLE",
       joinColumns = @JoinColumn(name = "USER_ID"),
       inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
-  private Set<Role> roles;
+  private List<Role> roles;
 
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "ADDRESS_ID")

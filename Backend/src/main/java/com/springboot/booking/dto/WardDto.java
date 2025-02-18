@@ -1,5 +1,6 @@
 package com.springboot.booking.dto;
 
+import com.springboot.booking.entities.District;
 import java.util.List;
 import java.util.UUID;
 import lombok.*;
@@ -16,5 +17,6 @@ import vn.library.common.dto.BaseUUIDDto;
 public class WardDto extends BaseUUIDDto {
   UUID districtId;
   String wardName;
+  District district;
   List<AddressDto> addresses;
 }

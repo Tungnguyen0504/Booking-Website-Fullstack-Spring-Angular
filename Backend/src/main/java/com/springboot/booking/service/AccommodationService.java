@@ -155,7 +155,7 @@ public class AccommodationService {
       String entityName = extractTableName(Accommodation.class);
       List<File> fileEntities =
           fileRepository.findByEntityIdAndEntityName(accommodation.getId(), entityName);
-
+      
       for (MultipartFile file : request.getFiles()) {
         String fileName = FileUtil.cleanFileName(file);
         var filePath =

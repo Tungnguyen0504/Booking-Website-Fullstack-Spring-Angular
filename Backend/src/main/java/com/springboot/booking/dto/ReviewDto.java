@@ -1,5 +1,7 @@
 package com.springboot.booking.dto;
 
+import com.springboot.booking.constant.enums.StatusCode;
+import com.springboot.booking.entities.Booking;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
@@ -16,5 +18,6 @@ public class ReviewDto extends BaseUUIDDto {
   Integer amenity;
   Integer service;
   String description;
-  String status;
+  StatusCode status;
+  Booking booking;
 }

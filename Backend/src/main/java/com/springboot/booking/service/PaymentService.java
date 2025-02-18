@@ -8,6 +8,7 @@ import com.springboot.booking.dto.UserDto;
 import com.springboot.booking.dto.request.BookingCaptureRequest;
 import com.springboot.booking.dto.request.BookingDetailRequest;
 import com.springboot.booking.dto.request.BookingRequest;
+import com.springboot.booking.dto.response.UserResponse;
 import com.springboot.booking.exeption.GlobalException;
 import com.springboot.booking.entities.Room;
 import com.springboot.booking.repository.RoomRepository;
@@ -108,7 +109,7 @@ public class PaymentService {
     }
 
     private Map<String, Object> getPayer(Principal principal) {
-        UserDto userDto = userService.getCurrentUser(principal);
+        UserResponse userDto = userService.getCurrentUser(principal);
 
         Map<String, Object> name = new HashMap<>();
         name.put("given_name", userDto.getFirstName());

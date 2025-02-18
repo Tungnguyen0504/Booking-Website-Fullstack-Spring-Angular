@@ -4,7 +4,6 @@ import com.springboot.booking.constant.enums.StatusCode;
 import com.springboot.booking.entities.Notification;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
@@ -24,7 +23,7 @@ public class UserDto extends BaseUUIDDto {
   String phoneNumber;
   LocalDate dateOfBirth;
   StatusCode status;
-  Set<RoleDto> roles;
+  List<RoleDto> roles;
   AddressDto address;
   List<BookingDto> bookings;
   List<Notification> notifications;
