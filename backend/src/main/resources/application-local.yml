@@ -1,0 +1,56 @@
+spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
+  data:
+    redis:
+      host: localhost
+      port: 6379
+  datasource:
+    url: jdbc:postgresql://localhost/booking_management_system?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&nullCatalogMeansCurrent=true
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: 123456
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+  flyway:
+    schemas: bpm_dev
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: tungnguyenn0504@gmail.com
+    password: oydntrcsxwzaxqox
+    protocol: smtp
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: false
+            required: false
+server:
+  port: 8080
+  servlet:
+    context-path: /booking
+  url: http://localhost:${server.port}${server.servlet.context-path}
+pre-authorize:
+  enabled: false
+logging:
+  level:
+    root: INFO
+currency:
+  rate:
+    usd: 23810
+paypal:
+  client-id: AROwjV1YtscmT9MoHGwejK2M61GZ7A6sr8z-DZsGVxTMPDgqlqgZvVBCEN36TTBYMGiKNGoHNqiZv92-
+  secret: EEfxQ5HrEALCN4ks_4toO4pSP025Qt5AznR6LuuBBMzXnvIHsMGwMbBprmGd7iaYCKl7T6FfOTYaIHFl
+  mode: sandbox
+environment:
+  local:
+    base-url: http://localhost:4200

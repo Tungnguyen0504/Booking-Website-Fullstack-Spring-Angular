@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: @project.artifactId@
+    version: @project.version@
+  profiles:
+    active: ${ENVIRONMENT}
+  config:
+    import: optional:configserver:${CONFIG_SERVER:http://bpm-centralize-config:8080/ccs}
+  cloud:
+    config:
+      enabled: ${CONFIG_ENABLED:true}
+      username: ${CONFIG_USERNAME}
+      password: ${CONFIG_PASSWORD}
+      fail-fast: ${CONFIG_FF:true}
+logstash:
+  host: ${LOGSTASH_HOST:localhost}
+  port: ${LOGSTASH_PORT:5044}
