@@ -2,16 +2,16 @@ package vn.spring.booking.dto;
 
 import java.util.List;
 import java.util.UUID;
-
-import vn.spring.booking.entities.Province;
-import vn.spring.booking.entities.Ward;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
+import vn.spring.booking.entities.Province;
+import vn.spring.booking.entities.Ward;
 import vn.spring.common.dto.BaseUUIDDto;
 
 @Getter
 @Setter
+@ToString
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor

@@ -1,4 +1,4 @@
-package vn.spring.booking.service;
+package vn.spring.booking.service.impl;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
-public class JwtService {
+public class JwtServiceImpl {
 
     @Value("${application.security.jwt.secret-key}")
     private String secretKey;

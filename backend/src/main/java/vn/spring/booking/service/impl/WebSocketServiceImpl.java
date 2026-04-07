@@ -1,4 +1,4 @@
-package vn.spring.booking.service;
+package vn.spring.booking.service.impl;
 
 import vn.spring.booking.common.ExceptionResult;
 import vn.spring.booking.dto.response.NotificationResponse;
@@ -13,10 +13,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class WebSocketService {
+public class WebSocketServiceImpl {
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final NotificationRepository notificationRepository;
-    private final UserService userService;
+    private final UserServiceImpl userService;
     private final UserRepository userRepository;
 
     public void push(String destination, String message, String url, Long userId) {

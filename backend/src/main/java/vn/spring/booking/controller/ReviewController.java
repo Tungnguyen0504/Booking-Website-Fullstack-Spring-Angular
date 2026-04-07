@@ -4,7 +4,7 @@ import vn.spring.booking.common.SuccessResult;
 import vn.spring.booking.dto.request.CreateRatingRequest;
 import vn.spring.booking.dto.response.RatingResponse;
 import vn.spring.booking.model.BSuccess;
-import vn.spring.booking.service.RatingService;
+import vn.spring.booking.service.impl.RatingServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +18,7 @@ import static vn.spring.booking.common.Constant.PATH_V1;
 @RequiredArgsConstructor
 public class ReviewController {
 
-    private final RatingService ratingService;
+    private final RatingServiceImpl ratingService;
 
     @PostMapping("/create")
     public ResponseEntity<BSuccess> create(@RequestBody CreateRatingRequest request) {

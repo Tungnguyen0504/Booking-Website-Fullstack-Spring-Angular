@@ -1,43 +1,47 @@
 package vn.spring.booking.dto;
 
-import vn.spring.booking.constant.enums.StatusCode;
+import jakarta.persistence.*;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
-import vn.spring.common.dto.BaseUUIDDto;
+import vn.spring.booking.entities.AccommodationType;
+import vn.spring.booking.entities.Address;
+import vn.spring.booking.entities.Room;
+import vn.spring.common.dto.BaseUUIDEnabledDto;
 
 @Getter
 @Setter
+@ToString
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AccommodationDto extends BaseUUIDDto {
-  private UUID addressId;
-  private UUID accommodationTypeId;
-  private String accommodationName;
-  private String phone;
-  private String email;
-  private Integer star;
-  private String description;
-  private LocalTime checkin;
-  private LocalTime checkout;
-  private String specialAround;
-  private String bathRoom;
-  private String bedRoom;
-  private String dinningRoom;
-  private String language;
-  private String internet;
-  private String drinkAndFood;
-  private String receptionService;
-  private String cleaningService;
-  private String pool;
-  private String other;
-  private StatusCode status;
-  private AddressDto address;
-  private AccommodationTypeDto accommodationType;
-  private List<RoomDto> rooms;
+public class AccommodationDto extends BaseUUIDEnabledDto {
+  UUID addressId;
+  UUID accommodationTypeId;
+  String accommodationName;
+  String phone;
+  String email;
+  Integer star;
+  String description;
+  LocalTime checkin;
+  LocalTime checkout;
+  String specialAround;
+  List<String> nearbyAttractions;
+  List<String> bathRooms;
+  List<String> bedRooms;
+  List<String> dinningRooms;
+  List<String> languages;
+  List<String> internets;
+  List<String> drinkAndFoods;
+  List<String> receptionServices;
+  List<String> cleaningServices;
+  List<String> pools;
+  List<String> others;
+  Address address;
+  AccommodationType accommodationType;
+  List<Room> rooms;
 }

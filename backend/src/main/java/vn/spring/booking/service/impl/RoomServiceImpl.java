@@ -1,4 +1,4 @@
-package vn.spring.booking.service;
+package vn.spring.booking.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,10 +26,10 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class RoomService {
+public class RoomServiceImpl {
   private final RoomRepository roomRepository;
   private final AccommodationRepository accommodationRepository;
-  private final FileService fileService;
+  private final FileServiceImpl fileService;
 
   private final ObjectMapper mapper;
 

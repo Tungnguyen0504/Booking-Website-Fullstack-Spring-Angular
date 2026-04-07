@@ -1,4 +1,4 @@
-package vn.spring.booking.service;
+package vn.spring.booking.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,7 +32,7 @@ import static vn.spring.common.utils.TokenUtil.basicToken;
 
 @Service
 @RequiredArgsConstructor
-public class PaymentService {
+public class PaymentServiceImpl {
     DecimalFormat decimalFormat = new DecimalFormat("#0.00");
     @Value("${currency.rate.usd}")
     private String currencyRate;
@@ -42,7 +42,7 @@ public class PaymentService {
     private String secret;
 
     private final RoomRepository roomRepository;
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
     private final ObjectMapper mapper;
 

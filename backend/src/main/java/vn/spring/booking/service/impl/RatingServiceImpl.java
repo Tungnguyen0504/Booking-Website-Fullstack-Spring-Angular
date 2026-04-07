@@ -1,4 +1,4 @@
-package vn.spring.booking.service;
+package vn.spring.booking.service.impl;
 
 import vn.spring.booking.common.Constant;
 import vn.spring.booking.common.ExceptionResult;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class RatingService {
+public class RatingServiceImpl {
     private final BookingRepository bookingRepository;
     private final RatingRepository ratingRepository;
 

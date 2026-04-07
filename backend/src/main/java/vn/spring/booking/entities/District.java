@@ -3,29 +3,30 @@ package vn.spring.booking.entities;
 import jakarta.persistence.*;
 import java.util.List;
 import java.util.UUID;
-
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 import vn.spring.common.entities.GenericUUID;
 
+@Entity
 @Getter
 @Setter
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @Table(name = "DISTRICT")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class District extends GenericUUID {
   @Column(name = "PROVINCE_ID")
-  private UUID provinceId;
+  UUID provinceId;
 
   @Column(name = "DISTRICT_NAME")
-  private String districtName;
+  String districtName;
 
   @ManyToOne
   @JoinColumn(name = "PROVINCE_ID")
-  private Province province;
+  Province province;
 
   @OneToMany(mappedBy = "district")
-  private List<Ward> wards;
+  List<Ward> wards;
 }

@@ -1,4 +1,4 @@
-package vn.spring.booking.service;
+package vn.spring.booking.service.impl;
 
 import vn.spring.booking.model.EmailDetail;
 import jakarta.mail.MessagingException;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Log4j2
 @Service
 @RequiredArgsConstructor
-public class EmailService {
+public class EmailServiceImpl {
 
     private final JavaMailSender javaMailSender;
 

@@ -9,6 +9,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
+@ToString
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor

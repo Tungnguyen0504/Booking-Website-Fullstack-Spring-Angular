@@ -1,96 +1,110 @@
 package vn.spring.booking.entities;
 
-import vn.spring.booking.constant.enums.StatusCode;
 import jakarta.persistence.*;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 import vn.spring.common.entities.GenericUUID;
 
+@Entity
 @Getter
 @Setter
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @Table(name = "ACCOMMODATION")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Accommodation extends GenericUUID {
   @Column(name = "ADDRESS_ID")
-  private UUID addressId;
-  
+  UUID addressId;
+
   @Column(name = "ACCOMMODATION_TYPE_ID")
-  private UUID accommodationTypeId;
-  
+  UUID accommodationTypeId;
+
   @Column(name = "ACCOMMODATION_NAME")
-  private String accommodationName;
+  String accommodationName;
 
   @Column(name = "PHONE")
-  private String phone;
+  String phone;
 
   @Column(name = "EMAIL")
-  private String email;
+  String email;
 
   @Column(name = "STAR")
-  private Integer star;
+  Integer star;
 
   @Column(name = "DESCRIPTION", columnDefinition = "TEXT")
-  private String description;
+  String description;
 
   @Column(name = "CHECKIN")
-  private LocalTime checkin;
+  LocalTime checkin;
 
   @Column(name = "CHECKOUT")
-  private LocalTime checkout;
+  LocalTime checkout;
 
-  @Column(name = "SPECIAL_AROUND", columnDefinition = "TEXT")
-  private String specialAround;
+  @Column(name = "SPECIAL_AROUND")
+  String specialAround;
 
-  @Column(name = "BATH_ROOM", columnDefinition = "TEXT")
-  private String bathRoom;
+  @JdbcTypeCode(SqlTypes.JSON)
+  @Column(name = "NEARBY_ATTRACTIONS")
+  List<String> nearbyAttractions;
 
-  @Column(name = "BED_ROOM", columnDefinition = "TEXT")
-  private String bedRoom;
+  @JdbcTypeCode(SqlTypes.JSON)
+  @Column(name = "BATH_ROOM")
+  List<String> bathRooms;
 
-  @Column(name = "DINNING_ROOM", columnDefinition = "TEXT")
-  private String dinningRoom;
+  @JdbcTypeCode(SqlTypes.JSON)
+  @Column(name = "BED_ROOM")
+  List<String> bedRooms;
 
+  @JdbcTypeCode(SqlTypes.JSON)
+  @Column(name = "DINNING_ROOM")
+  List<String> dinningRooms;
+
+  @JdbcTypeCode(SqlTypes.JSON)
   @Column(name = "LANGUAGE")
-  private String language;
+  List<String> languages;
 
+  @JdbcTypeCode(SqlTypes.JSON)
   @Column(name = "INTERNET")
-  private String internet;
+  List<String> internets;
 
-  @Column(name = "DRINK_AND_FOOD", columnDefinition = "TEXT")
-  private String drinkAndFood;
+  @JdbcTypeCode(SqlTypes.JSON)
+  @Column(name = "DRINK_AND_FOOD")
+  List<String> drinkAndFoods;
 
-  @Column(name = "RECEPTION_SERVICE", columnDefinition = "TEXT")
-  private String receptionService;
+  @JdbcTypeCode(SqlTypes.JSON)
+  @Column(name = "RECEPTION_SERVICE")
+  List<String> receptionServices;
 
-  @Column(name = "CLEANING_SERVICE", columnDefinition = "TEXT")
-  private String cleaningService;
+  @JdbcTypeCode(SqlTypes.JSON)
+  @Column(name = "CLEANING_SERVICE")
+  List<String> cleaningServices;
 
-  @Column(name = "POOL", columnDefinition = "TEXT")
-  private String pool;
+  @JdbcTypeCode(SqlTypes.JSON)
+  @Column(name = "POOL")
+  List<String> pools;
 
-  @Column(name = "OTHER", columnDefinition = "TEXT")
-  private String other;
+  @JdbcTypeCode(SqlTypes.JSON)
+  @Column(name = "OTHER")
+  List<String> others;
 
-  @Column(name = "STATUS")
-  @ColumnDefault("ACTIVE")
-  @Enumerated(EnumType.STRING)
-  private StatusCode status;
+  @Column(name = "ENABLED")
+  Boolean enabled;
 
   @OneToOne
   @JoinColumn(name = "ADDRESS_ID")
-  private Address address;
+  Address address;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "ACCOMMODATION_TYPE_ID")
-  private AccommodationType accommodationType;
+  AccommodationType accommodationType;
 
   @OneToMany(mappedBy = "accommodation")
-  private List<Room> rooms;
+  List<Room> rooms;
 }

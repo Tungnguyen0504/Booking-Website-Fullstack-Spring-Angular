@@ -5,7 +5,7 @@ import vn.spring.booking.dto.request.ResetPasswordRequest;
 import vn.spring.booking.dto.request.UpdateUserRequest;
 import vn.spring.booking.dto.request.VerifyEmailRequest;
 import vn.spring.booking.model.BSuccess;
-import vn.spring.booking.service.UserService;
+import vn.spring.booking.service.impl.UserServiceImpl;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ import static vn.spring.booking.common.Constant.PATH_V1;
 @RequiredArgsConstructor
 public class UserController {
 
-  private final UserService userService;
+  private final UserServiceImpl userService;
 
   @GetMapping("/get-current-user")
   public ResponseEntity<Object> getCurrentUser(Principal principal) {

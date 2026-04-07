@@ -1,45 +1,43 @@
 package vn.spring.booking.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import vn.spring.booking.common.Constant;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-
-import java.time.LocalDateTime;
+import java.sql.Time;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Set;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+import lombok.experimental.SuperBuilder;
+import vn.spring.common.dto.BaseUUIDDto;
 
 @Getter
 @Setter
-@Builder
-public class AccommodationResponse {
-    private Long accommodationId;
-    private String accommodationName;
-    private AccommodationTypeResponse accommodationType;
-    private String phone;
-    private String email;
-    private int star;
-    private String description;
-    private LocalTime checkin;
-    private LocalTime checkout;
-    private String fullAddress;
-    private Set<String> specialArounds;
-    private Set<String> bathRooms;
-    private Set<String> bedRooms;
-    private Set<String> dinningRooms;
-    private Set<String> languages;
-    private Set<String> internets;
-    private Set<String> drinkAndFoods;
-    private Set<String> receptionServices;
-    private Set<String> cleaningServices;
-    private Set<String> pools;
-    private Set<String> others;
-    private List<String> filePaths;
-    private List<RoomResponse> rooms;
-    @JsonFormat(pattern = Constant.DATETIME_FORMAT2)
-    private LocalDateTime createdTime;
-    @JsonFormat(pattern = Constant.DATETIME_FORMAT2)
-    private LocalDateTime updatedTime;
+@ToString
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class AccommodationResponse extends BaseUUIDDto {
+  Long accommodationId;
+  String accommodationName;
+  AccommodationTypeResponse accommodationType;
+  String phone;
+  String email;
+  Integer star;
+  String description;
+  Time checkin;
+  Time checkout;
+  String fullAddress;
+  Set<String> specialArounds;
+  Set<String> bathRooms;
+  Set<String> bedRooms;
+  Set<String> dinningRooms;
+  Set<String> languages;
+  Set<String> internets;
+  Set<String> drinkAndFoods;
+  Set<String> receptionServices;
+  Set<String> cleaningServices;
+  Set<String> pools;
+  Set<String> others;
+  List<String> filePaths;
+  List<RoomResponse> rooms;
 }

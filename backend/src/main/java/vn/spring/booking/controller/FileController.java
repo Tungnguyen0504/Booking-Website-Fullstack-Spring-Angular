@@ -2,7 +2,7 @@ package vn.spring.booking.controller;
 
 import vn.spring.booking.dto.request.LoadMultipleFileRequest;
 import vn.spring.booking.dto.response.FileResponse;
-import vn.spring.booking.service.FileService;
+import vn.spring.booking.service.impl.FileServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
@@ -20,7 +20,7 @@ import static vn.spring.booking.common.Constant.PATH_V1;
 @RequiredArgsConstructor
 public class FileController {
 
-    private final FileService fileService;
+    private final FileServiceImpl fileService;
 
     @PostMapping("/load-multiple")
     public ResponseEntity<List<FileResponse>> getListFiles(@RequestBody LoadMultipleFileRequest request) {

@@ -8,6 +8,7 @@ import vn.spring.common.dto.BaseUUIDDto;
 
 @Getter
 @Setter
+@ToString
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor

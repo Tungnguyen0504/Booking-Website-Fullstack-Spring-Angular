@@ -1,4 +1,4 @@
-package vn.spring.booking.service;
+package vn.spring.booking.service.impl;
 
 import vn.spring.booking.dto.response.AccommodationTypeResponse;
 import vn.spring.booking.repository.AccommodationTypeRepository;
@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class AccommodationTypeService {
+public class AccommodationTypeServiceImpl {
     private final AccommodationTypeRepository accommodationTypeRepository;
 
     public List<AccommodationTypeResponse> getAllAccommodationType() {

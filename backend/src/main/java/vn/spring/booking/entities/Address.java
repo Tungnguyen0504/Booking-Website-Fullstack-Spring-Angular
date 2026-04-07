@@ -1,33 +1,34 @@
 package vn.spring.booking.entities;
 
 import jakarta.persistence.*;
+import java.util.UUID;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 import vn.spring.common.entities.GenericUUID;
 
-import java.util.UUID;
-
+@Entity
 @Getter
 @Setter
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @Table(name = "ADDRESS")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Address extends GenericUUID {
   @Column(name = "WARD_ID")
-  private UUID wardId;
+  UUID wardId;
 
   @Column(name = "SPECIFIC_ADDRESS")
-  private String specificAddress;
+  String specificAddress;
 
   @ManyToOne
   @JoinColumn(name = "WARD_ID")
-  private Ward ward;
+  Ward ward;
 
   @OneToOne(mappedBy = "ADDRESS")
-  private User user;
+  User user;
 
   @OneToOne(mappedBy = "address")
-  private Accommodation accommodation;
+  Accommodation accommodation;
 }

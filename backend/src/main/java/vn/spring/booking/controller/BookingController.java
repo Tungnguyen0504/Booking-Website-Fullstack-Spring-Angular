@@ -8,8 +8,8 @@ import vn.spring.booking.dto.request.BookingCaptureRequest;
 import vn.spring.booking.dto.request.BookingRequest;
 import vn.spring.booking.dto.request.ChangeBookingStatusRequest;
 import vn.spring.booking.model.BSuccess;
-import vn.spring.booking.service.BookingService;
-import vn.spring.booking.service.PaymentService;
+import vn.spring.booking.service.impl.BookingServiceImpl;
+import vn.spring.booking.service.impl.PaymentServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +24,8 @@ import static vn.spring.booking.common.Constant.PATH_V1;
 @RequiredArgsConstructor
 public class BookingController {
 
-    private final PaymentService paymentService;
-    private final BookingService bookingService;
+    private final PaymentServiceImpl paymentService;
+    private final BookingServiceImpl bookingService;
 
     @PostMapping("/payment/create")
     public ResponseEntity<Map<String, Object>> createPayment(@RequestBody BookingRequest request, Principal principal) throws JsonProcessingException {

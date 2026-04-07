@@ -1,7 +1,7 @@
 package vn.spring.booking.controller;
 
 import vn.spring.booking.dto.response.AccommodationTypeResponse;
-import vn.spring.booking.service.AccommodationTypeService;
+import vn.spring.booking.service.impl.AccommodationTypeServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +17,7 @@ import static vn.spring.booking.common.Constant.PATH_V1;
 @RequiredArgsConstructor
 public class AccommodationTypeController {
 
-    private final AccommodationTypeService accommodationTypeService;
+    private final AccommodationTypeServiceImpl accommodationTypeService;
 
     @GetMapping("/get-all-accommodation-type")
     public ResponseEntity<List<AccommodationTypeResponse>> getAllAccommodationType() {

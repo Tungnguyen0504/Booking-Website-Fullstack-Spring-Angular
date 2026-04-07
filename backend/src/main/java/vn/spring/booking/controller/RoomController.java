@@ -5,7 +5,7 @@ import vn.spring.booking.common.SuccessResult;
 import vn.spring.booking.dto.request.CreateUpdateRoomRequest;
 import vn.spring.booking.dto.response.RoomResponse;
 import vn.spring.booking.model.BSuccess;
-import vn.spring.booking.service.RoomService;
+import vn.spring.booking.service.impl.RoomServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +20,7 @@ import static vn.spring.booking.common.Constant.PATH_V1;
 @RequiredArgsConstructor
 public class RoomController {
 
-    private final RoomService roomService;
+    private final RoomServiceImpl roomService;
 
     @PostMapping("/save")
     public ResponseEntity<BSuccess> createRoom(@ModelAttribute CreateUpdateRoomRequest request) throws JsonProcessingException {

@@ -8,7 +8,7 @@ import vn.spring.booking.dto.request.CreateAccommodationRequest;
 import vn.spring.booking.dto.request.SearchAccommodationRequest;
 import vn.spring.booking.dto.response.AccommodationResponse;
 import vn.spring.booking.model.BSuccess;
-import vn.spring.booking.service.AccommodationService;
+import vn.spring.booking.service.impl.AccommodationServiceImpl;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AccommodationController {
 
-  private final AccommodationService accommodationService;
+  private final AccommodationServiceImpl accommodationService;
 
   @PostMapping("/save")
   public ResponseEntity<BSuccess> createAccommodation(

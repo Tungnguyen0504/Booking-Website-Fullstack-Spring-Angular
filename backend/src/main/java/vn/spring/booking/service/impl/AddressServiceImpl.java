@@ -1,4 +1,4 @@
-package vn.spring.booking.service;
+package vn.spring.booking.service.impl;
 
 import vn.spring.booking.common.ExceptionResult;
 import vn.spring.booking.dto.response.DistrictResponse;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AddressService {
+public class AddressServiceImpl {
 
     private final ProvinceRepository provinceRepository;
     private final DistrictRepository districtRepository;

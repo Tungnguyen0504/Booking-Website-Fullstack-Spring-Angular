@@ -1,4 +1,4 @@
-package vn.spring.booking.service;
+package vn.spring.booking.service.impl;
 
 import static vn.spring.common.constants.SecurityConst.*;
 import static vn.spring.common.constants.enums.TokenAuthCode.ACCESS_TOKEN;
@@ -39,7 +39,7 @@ import vn.spring.common.utils.ObjectUtil;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class AuthService {
+public class AuthServiceImpl {
   private final UserRepository userRepository;
   private final FileRepository fileRepository;
   private final UserMapper userMapper;

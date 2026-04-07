@@ -6,7 +6,7 @@ import vn.spring.booking.dto.response.DistrictResponse;
 import vn.spring.booking.dto.response.ProvinceResponse;
 import vn.spring.booking.dto.response.WardResponse;
 import vn.spring.booking.entities.Province;
-import vn.spring.booking.service.AddressService;
+import vn.spring.booking.service.impl.AddressServiceImpl;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AddressController {
 
-  private final AddressService addressService;
+  private final AddressServiceImpl addressService;
 
   @GetMapping("/get-top-province")
   public ResponseEntity<List<Province>> getListProvince(@RequestParam int range) {

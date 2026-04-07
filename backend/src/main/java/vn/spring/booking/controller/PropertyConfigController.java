@@ -3,7 +3,7 @@ package vn.spring.booking.controller;
 import vn.spring.booking.common.SuccessResult;
 import vn.spring.booking.dto.request.CreatePropertyConfigRequest;
 import vn.spring.booking.model.BSuccess;
-import vn.spring.booking.service.PropertyConfigService;
+import vn.spring.booking.service.impl.PropertyConfigServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +17,7 @@ import static vn.spring.booking.common.Constant.PATH_V1;
 @RequiredArgsConstructor
 public class PropertyConfigController {
 
-    private final PropertyConfigService propertyConfigService;
+    private final PropertyConfigServiceImpl propertyConfigService;
 
     @PostMapping("/create")
     public ResponseEntity<BSuccess> create(@RequestBody CreatePropertyConfigRequest request) {

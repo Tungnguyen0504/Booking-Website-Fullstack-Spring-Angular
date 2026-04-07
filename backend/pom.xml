@@ -9,9 +9,8 @@
         <relativePath/>
     </parent>
     <groupId>com.springboot</groupId>
-    <artifactId>backend</artifactId>
+    <artifactId>booking-backend</artifactId>
     <version>1.0.0</version>
-    <name>Booking website fullstack spring angular</name>
     <description>Booking website fullstack spring angular</description>
     <properties>
         <spring-common.version>1.0.0</spring-common.version>

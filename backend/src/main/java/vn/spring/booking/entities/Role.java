@@ -1,19 +1,21 @@
 package vn.spring.booking.entities;
 
-import vn.spring.booking.constant.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
+import vn.spring.booking.constant.enums.UserRole;
 import vn.spring.common.entities.GenericUUID;
 
+@Entity
 @Getter
 @Setter
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @Table(name = "WARD")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Role extends GenericUUID {
   @Column(name = "CODE")
-  private UserRole code;
+  UserRole code;
 }

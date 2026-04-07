@@ -1,4 +1,4 @@
-package vn.spring.booking.service;
+package vn.spring.booking.service.impl;
 
 import vn.spring.booking.common.Constant;
 import vn.spring.booking.entities.File;
@@ -30,7 +30,7 @@ import static vn.spring.booking.utils.ObjectUtils.extractTableName;
 
 @Service
 @RequiredArgsConstructor
-public class FileService {
+public class FileServiceImpl {
 
   private final FileRepository fileRepository;
 

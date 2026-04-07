@@ -1,4 +1,4 @@
-package vn.spring.booking.service;
+package vn.spring.booking.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import vn.spring.booking.common.DatetimeUtil;
@@ -42,20 +42,20 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class BookingService {
+public class BookingServiceImpl {
   @Value("${currency.rate.usd}")
   private String currencyRate;
 
   DecimalFormat decimalFormat = new DecimalFormat("#0.00");
 
-  private final RoomService roomService;
-  private final UserService userService;
+  private final RoomServiceImpl roomService;
+  private final UserServiceImpl userService;
   private final RoomRepository roomRepository;
   private final BookingRepository bookingRepository;
   private final BookingDetailRepository bookingDetailRepository;
   private final UserRepository userRepository;
   private final PagingService pagingService;
-  private final PaymentService paymentService;
+  private final PaymentServiceImpl paymentService;
 
   @Transactional
   public Map<String, Object> createBookingInfo(BookingRequest request, Principal principal)

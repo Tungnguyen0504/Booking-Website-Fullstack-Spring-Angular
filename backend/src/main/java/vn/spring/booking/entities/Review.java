@@ -1,41 +1,40 @@
 package vn.spring.booking.entities;
 
-import vn.spring.booking.constant.enums.StatusCode;
 import jakarta.persistence.*;
+import java.util.UUID;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 import vn.spring.common.entities.GenericUUID;
 
-import java.util.UUID;
-
+@Entity
 @Getter
 @Setter
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @Table(name = "REVIEW")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Review extends GenericUUID {
-    @Column(name = "BOOKING_ID")
-    private UUID bookingId;
+  @Column(name = "BOOKING_ID")
+  UUID bookingId;
 
-    @Column(name = "CLEAN")
-    private Integer clean;
+  @Column(name = "CLEAN")
+  Integer clean;
 
-    @Column(name = "AMENITY")
-    private Integer amenity; //tiện ích
+  @Column(name = "AMENITY")
+  Integer amenity;
 
-    @Column(name = "SERVICE")
-    private Integer service;
+  @Column(name = "SERVICE")
+  Integer service;
 
-    @Column(name = "DESCRIPTION")
-    private String description;
+  @Column(name = "DESCRIPTION")
+  String description;
 
-    @Column(name = "STATUS")
-    @Enumerated(EnumType.STRING)
-    private StatusCode status;
+  @Column(name = "ENABLED")
+  Boolean enabled;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "BOOKING_ID")
-    private Booking booking;
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "BOOKING_ID")
+  Booking booking;
 }

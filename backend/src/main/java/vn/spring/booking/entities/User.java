@@ -1,68 +1,65 @@
 package vn.spring.booking.entities;
 
-import vn.spring.booking.constant.enums.StatusCode;
 import jakarta.persistence.*;
+import java.time.LocalDate;
+import java.util.*;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.ColumnDefault;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import vn.spring.common.entities.GenericUUID;
 
-import java.time.LocalDate;
-import java.util.*;
-
+@Entity
 @Getter
 @Setter
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @Table(name = "USER")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class User extends GenericUUID implements UserDetails {
   @Column(name = "ADDRESS_ID")
-  private UUID addressId;
+  UUID addressId;
 
   @Column(name = "FIRST_NAME")
-  private String firstName;
+  String firstName;
 
   @Column(name = "LAST_NAME")
-  private String lastName;
+  String lastName;
 
   @Column(name = "EMAIL")
-  private String email;
+  String email;
 
   @Column(name = "PASSWORD")
-  private String password;
+  String password;
 
   @Column(name = "PHONE_NUMBER")
-  private String phoneNumber;
+  String phoneNumber;
 
   @Column(name = "DATE_OF_BIRTH")
-  private LocalDate dateOfBirth;
+  LocalDate dateOfBirth;
 
-  @Column(name = "STATUS")
-  @ColumnDefault("ACTIVE")
-  @Enumerated(EnumType.STRING)
-  private StatusCode status;
+  @Column(name = "ENABLED")
+  Boolean enabled;
 
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(
       name = "USER_ROLE",
       joinColumns = @JoinColumn(name = "USER_ID"),
       inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
-  private List<Role> roles;
+  List<Role> roles;
 
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "ADDRESS_ID")
-  private Address address;
+  Address address;
 
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-  private List<Booking> bookings;
+  List<Booking> bookings;
 
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-  private List<Notification> notifications;
+  List<Notification> notifications;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {

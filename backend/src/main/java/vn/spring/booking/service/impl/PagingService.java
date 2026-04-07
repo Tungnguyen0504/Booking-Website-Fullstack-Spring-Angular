@@ -1,4 +1,4 @@
-package vn.spring.booking.service;
+package vn.spring.booking.service.impl;
 
 import vn.spring.booking.common.paging.BasePagingRequest;
 import vn.spring.booking.entities.Accommodation;

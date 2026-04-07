@@ -1,4 +1,4 @@
-package vn.spring.booking.service;
+package vn.spring.booking.service.impl;
 
 import static vn.spring.booking.utils.ObjectUtils.generateVerificationCode;
 
@@ -32,10 +32,10 @@ import vn.spring.common.utils.CryptoUtil;
 
 @Service
 @RequiredArgsConstructor
-public class UserService {
-  private final FileService fileService;
-  private final AddressService addressService;
-  private final EmailService emailService;
+public class UserServiceImpl {
+  private final FileServiceImpl fileService;
+  private final AddressServiceImpl addressService;
+  private final EmailServiceImpl emailService;
   private final UserRepository userRepository;
   private final UserMapper userMapper;
 

@@ -3,7 +3,7 @@ package vn.spring.booking.config;
 import vn.spring.booking.constant.enums.BookingStatus;
 import vn.spring.booking.entities.Booking;
 import vn.spring.booking.repository.BookingRepository;
-import vn.spring.booking.service.WebSocketService;
+import vn.spring.booking.service.impl.WebSocketServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ScheduledTask {
     private final BookingRepository bookingRepository;
-    private final WebSocketService socketService;
+    private final WebSocketServiceImpl socketService;
 
     @Scheduled(fixedRate = 60 * 1000)
     @Transactional

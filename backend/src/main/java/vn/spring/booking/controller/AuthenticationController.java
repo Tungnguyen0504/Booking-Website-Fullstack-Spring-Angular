@@ -7,7 +7,7 @@ import vn.spring.booking.common.SuccessResult;
 import vn.spring.booking.dto.request.LoginRequest;
 import vn.spring.booking.dto.request.RegisterRequest;
 import vn.spring.booking.model.BSuccess;
-import vn.spring.booking.service.AuthService;
+import vn.spring.booking.service.impl.AuthServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +22,7 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class AuthenticationController {
 
-  private final AuthService authService;
+  private final AuthServiceImpl authService;
 
   @PostMapping("/register")
   public ResponseEntity<BSuccess> register(
